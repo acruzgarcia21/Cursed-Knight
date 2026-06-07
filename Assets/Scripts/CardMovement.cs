@@ -9,6 +9,9 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
     private RectTransform _rectTransform;
     private Canvas _canvas; // Looking for parent canvas
     
+    // Cached to save calls
+    private RectTransform _canvasRectTransform;
+    
     // Stores mouse pointer position
     private Vector2 _originalLocalPointerPosition;
     
@@ -16,7 +19,6 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
     private Vector3 _originalPanelLocalPosition;
     private Vector3 _originalScale;
     
-    // TO DO: Convert to enums for better readability
     private enum CardState
     {
         Idle,
@@ -35,12 +37,14 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
     [SerializeField] private Vector3 playPosition;
     [SerializeField] private GameObject glowEffect;
     [SerializeField] private GameObject playArrow; // Enables dynamic arrow where we want to play our card
-    // TO DO: Add a serialized field of a float that will hold a time that it takes for the card to reach its target
+    // Controls how aggressive the play effect moves to target position
+    [SerializeField] private float moveSpeed = 10f;
 
     private void Awake()
     {
         _rectTransform = GetComponent<RectTransform>();
         _canvas = GetComponentInParent<Canvas>();
+        _canvasRectTransform = _canvas.GetComponent<RectTransform>();
         _originalScale = _rectTransform.localScale;
         _originalPosition = _rectTransform.localPosition;
         _originalRotation = _rectTransform.localRotation;
@@ -97,7 +101,7 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
         _currentState = CardState.Dragging; // Drag State
         
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            _canvas.GetComponent<RectTransform>(), // Gets position of mouse on screen
+            _canvasRectTransform,                      // Gets position of mouse on screen
             eventData.position,              // Current mouse position in screen coordinates
             eventData.pressEventCamera,                // The camera that registered the click
             out _originalLocalPointerPosition);        // Stores the calculated mouse position relative to the canvas
@@ -120,7 +124,7 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
         if (_currentState != CardState.Dragging) return;
         
         if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                _canvas.GetComponent<RectTransform>(),
+                _canvasRectTransform,
                 eventData.position,
                 eventData.pressEventCamera,
                 out var localPointerPosition)) return;
@@ -131,14 +135,10 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
         Vector3 offsetToOriginal =  localPointerPosition - _originalLocalPointerPosition;
         _rectTransform.localPosition = _originalPanelLocalPosition + offsetToOriginal;
 
-        // TO DO: Use lerp to make smoother
-        // Vector3.Lerp();
-
         if (!(_rectTransform.localPosition.y > cardPlay.y)) return;
         
         _currentState = CardState.Playing;
         playArrow.SetActive(true);
-        _rectTransform.localPosition = playPosition;
     }
 
     private void HandleHoverState()
@@ -155,8 +155,17 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
 
     private void HandlePlayState()
     {
-        _rectTransform.localPosition = playPosition;
+        _rectTransform.localPosition = Vector3.Lerp(
+            _rectTransform.localPosition, 
+            playPosition, 
+            moveSpeed * Time.deltaTime); // Moves based on elapsed time
+        
         _rectTransform.localRotation = Quaternion.identity;
+        
+        if (Vector3.Distance(_rectTransform.localPosition, playPosition) < 0.1f)
+        {
+            _rectTransform.localPosition = playPosition;
+        }
 
         if (!(Input.mousePosition.y < cardPlay.y)) return;
         
