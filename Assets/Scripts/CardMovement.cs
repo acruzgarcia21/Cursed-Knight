@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
+using CursedKnight;
 
 public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler,
     IPointerExitHandler
@@ -38,16 +40,31 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
     [SerializeField] private GameObject glowEffect;
     [SerializeField] private GameObject playArrow; // Enables dynamic arrow where we want to play our card
     // Controls how aggressive the play effect moves to target position
-    [SerializeField] private float moveSpeed = 10f;
+    [FormerlySerializedAs("moveSpeed")] [SerializeField] private float lerpFactor = 10f;
+
+    private Card _cardData;
+    private CardDisplay _cardDisplay;
+    private HandManager _handManager;
+    private DiscardManager _discardManager;
 
     private void Awake()
     {
         _rectTransform = GetComponent<RectTransform>();
-        _canvas = GetComponentInParent<Canvas>();
+        _canvas        = GetComponentInParent<Canvas>();
+
+        if (_canvas == null) return;
         _canvasRectTransform = _canvas.GetComponent<RectTransform>();
-        _originalScale = _rectTransform.localScale;
+        
+        _originalScale    = _rectTransform.localScale;
         _originalPosition = _rectTransform.localPosition;
         _originalRotation = _rectTransform.localRotation;
+        
+        _handManager    = FindFirstObjectByType<HandManager>();
+        _discardManager = FindFirstObjectByType<DiscardManager>();
+        
+        _cardDisplay    = GetComponent<CardDisplay>();
+
+        _cardData = _cardDisplay.cardData;
     }
 
     private void Update()
@@ -71,12 +88,12 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
 
     private void ReturnToIdleState()
     {
-        _currentState = CardState.Idle;
-        _rectTransform.localScale = _originalScale;       // Reset Scale
-        _rectTransform.localRotation = _originalRotation; // Reset Rotation
-        _rectTransform.localPosition = _originalPosition; // Reset Position
-        glowEffect.SetActive(false);                      // Disable Glow Effect
-        playArrow.SetActive(false);                       // Disable playArrow
+        _currentState                = CardState.Idle;
+        _rectTransform.localScale    = _originalScale;       // Reset Scale
+        _rectTransform.localRotation = _originalRotation;    // Reset Rotation
+        _rectTransform.localPosition = _originalPosition;    // Reset Position
+        glowEffect.SetActive(false);                         // Disable Glow Effect
+        playArrow.SetActive(false);                          // Disable playArrow
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -112,9 +129,11 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        if (_currentState != CardState.Dragging &&
-            _currentState != CardState.Playing)
+        if (_rectTransform.localPosition.y > cardPlay.y)
+        {
+            TryPlayCard();
             return;
+        }
 
         ReturnToIdleState();
     }
@@ -158,7 +177,7 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
         _rectTransform.localPosition = Vector3.Lerp(
             _rectTransform.localPosition, 
             playPosition, 
-            moveSpeed * Time.deltaTime); // Moves based on elapsed time
+            lerpFactor * Time.deltaTime); // Moves based on elapsed time
         
         _rectTransform.localRotation = Quaternion.identity;
         
@@ -171,5 +190,65 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
         
         _currentState = CardState.Dragging;
         playArrow.SetActive(false);
+    }
+
+    private void TryPlayCard()
+    {
+        _cardData = _cardDisplay.cardData;
+
+        Debug.Log($"Trying to play card. State: {_currentState}, Card: {_cardData}");
+
+        if (_cardData == null) return;
+
+        switch (_cardData.cardType)
+        {
+            case Card.CardType.Attack:
+                TryPlayAttack();
+                break;
+            case Card.CardType.Defense:
+                TryPlayDefense();
+                break;
+            case Card.CardType.Utility:
+                TryPlayUtility();
+                break;
+        }
+    }
+
+    private void TryPlayAttack()
+    {
+        var attackCard = _cardData as Attack;
+
+        if (attackCard == null) return;
+        Debug.Log($"Played attack card: {attackCard.cardName}, Damage: {attackCard.cardDamage}");
+        SendCardToDiscard();
+    }
+
+    private void TryPlayDefense()
+    {
+        var defenseCard = _cardData as Defense;
+
+        if (defenseCard == null) return;
+        Debug.Log($"Played defense card: {defenseCard.cardName}, Block: {defenseCard.cardBlock}");
+        SendCardToDiscard();
+    }
+
+    private void TryPlayUtility()
+    {
+        var utilityCard = _cardData as UtilityCard;
+
+        if (utilityCard == null) return;
+        Debug.Log($"Played utility card: " +
+                  $"{utilityCard.cardName}, " +
+                  $"Health: {utilityCard.cardHealthGain}, " +
+                  $"Energy: {utilityCard.cardEnergyGain}, " +
+                  $"Draw Cards: {utilityCard.cardsToDraw}");
+        SendCardToDiscard();
+    }
+
+    private void SendCardToDiscard()
+    {
+        _handManager.cardsInHand.Remove(gameObject);
+        _discardManager.AddToDiscardPile(_cardData);
+        Destroy(gameObject);
     }
 }

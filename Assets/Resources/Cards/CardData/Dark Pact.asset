@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ff015732792c77e4eb49056e964b05b4, type: 3}
-  m_Name: Focus
+  m_Name: Dark Pact
   m_EditorClassIdentifier: Assembly-CSharp::UtilityCard
-  cardName: Focus
-  cardDescription: Gain 1 energy
-  cardType: 2
+  cardName: 
+  cardDescription: 
+  cardType: 0
   cardSprite: {fileID: 0}
   cardEnergyCost: 0
   cardCorruptionGain: 0
   cardHealthGain: 0
-  cardEnergyGain: 1
+  cardEnergyGain: 0
+  cardsToDraw: 0

@@ -9,11 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee63a2c5162e62e439988289d45b4ef5, type: 3}
-  m_Name: BrokenShield
-  m_EditorClassIdentifier: Assembly-CSharp::CursedKnight.Card
-  cardName: Broken Shield
-  cardEnergyCost: 1
-  cardDescription: Gain 5 block
+  m_Script: {fileID: 11500000, guid: 1cd9c383cbbfd24458b3beea015b76c5, type: 3}
+  m_Name: Heav Cleave
+  m_EditorClassIdentifier: Assembly-CSharp::Attack
+  cardName: Heavy Cleave
+  cardDescription: Deal 8 damage
+  cardType: 0
+  cardSprite: {fileID: 0}
+  cardEnergyCost: 2
   cardCorruptionGain: 0
-  cardType: 1
+  cardDamage: 8

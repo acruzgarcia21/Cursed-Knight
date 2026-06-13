@@ -4,7 +4,9 @@ using CursedKnight;
 [CreateAssetMenu(fileName = "New Utility Card", menuName = "Card/UtilityCard")]
 public class UtilityCard : Card
 {
-    public int cardHealth;
+    public int cardHealthGain;
+    public int cardEnergyGain;
+    public int cardsToDraw;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
