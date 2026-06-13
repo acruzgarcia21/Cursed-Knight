@@ -5,19 +5,33 @@ using TMPro;
 
 public class CardDisplay : MonoBehaviour
 {
-    // Fields that will be updated depending on what Card is being drawn
+    
+    // All Card Elements
     public Card cardData;
     
-    // Future Use
-    // public Image cardSprite; 
+    public Image cardSprite; 
     
     public TMP_Text cardName;
     public TMP_Text cardEnergyCost;
     public TMP_Text cardDescription;
     public TMP_Text cardCorruptionGain;
     public TMP_Text cardType;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+
+    public GameObject attackElements;
+    public GameObject defenseElements;
+    public GameObject utilityElements;
+
+    public GameObject attackLabel;
+    public GameObject defenseLabel;
+    public GameObject utilityLabel;
+    
+    // Attack Card Elements
+    
+    // Defense Card Elements
+    
+    // Utility Card Elements
+    
+    private void Start()
     {
         UpdateCardDisplay();
     }

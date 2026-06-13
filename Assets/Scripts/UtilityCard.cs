@@ -1,7 +1,11 @@
 using UnityEngine;
+using CursedKnight;
 
-public class Utility1 : MonoBehaviour
+[CreateAssetMenu(fileName = "New Utility Card", menuName = "Card/UtilityCard")]
+public class UtilityCard : Card
 {
+    public int cardHealth;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

@@ -7,13 +7,13 @@ namespace CursedKnight
     {
         public string cardName;
         public string cardDescription;
+        
         public CardType cardType;
+        
         public Sprite cardSprite;
         
         public int cardEnergyCost;
         public int cardCorruptionGain;
-        public int cardHealth;
-        public int cardBlock;
 
         public enum CardType
         {
