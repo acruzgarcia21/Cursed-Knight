@@ -6,7 +6,7 @@ public class Enemy : MonoBehaviour
     public int currentEnemyHealth;
     public int currentEnemyBlock;
 
-    [SerializeField] private EnemyData enemyData;
+    [SerializeField] public EnemyData enemyData;
 
     private void Awake()
     {

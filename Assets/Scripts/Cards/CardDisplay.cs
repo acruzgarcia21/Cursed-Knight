@@ -16,20 +16,6 @@ public class CardDisplay : MonoBehaviour
     public TMP_Text cardDescription;
     public TMP_Text cardCorruptionGain;
     public TMP_Text cardType;
-
-    public GameObject attackElements;
-    public GameObject defenseElements;
-    public GameObject utilityElements;
-
-    public GameObject attackLabel;
-    public GameObject defenseLabel;
-    public GameObject utilityLabel;
-    
-    // Attack Card Elements
-    
-    // Defense Card Elements
-    
-    // Utility Card Elements
     
     private void Start()
     {
