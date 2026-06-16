@@ -23,6 +23,6 @@ public class EnemyDisplay : MonoBehaviour
         enemyName.text = enemy.enemyData.enemyName;
         enemyHealth.text = enemy.currentEnemyHealth + " / " + enemy.enemyData.enemyMaxHealth;
         enemyAttackDamage.text = enemy.enemyData.enemyAttackDamage.ToString();
-        // enemySprite = enemyData.enemySprite;
+        enemySprite.sprite = enemy.enemyData.enemySprite;
     }
 }

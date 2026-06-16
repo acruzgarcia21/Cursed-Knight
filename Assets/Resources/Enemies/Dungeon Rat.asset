@@ -15,4 +15,4 @@ MonoBehaviour:
   enemyName: Dungeon Rat
   enemyMaxHealth: 25
   enemyAttackDamage: 6
-  enemySprite: {fileID: 0}
+  enemySprite: {fileID: 2486017705933433476, guid: 23e93e110419a6745ad1272b0501457e, type: 3}

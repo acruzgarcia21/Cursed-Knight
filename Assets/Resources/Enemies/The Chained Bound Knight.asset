@@ -15,4 +15,4 @@ MonoBehaviour:
   enemyName: The Chained Bound Knight
   enemyMaxHealth: 85
   enemyAttackDamage: 12
-  enemySprite: {fileID: 0}
+  enemySprite: {fileID: 5753024105725432548, guid: c904491e8718deb439e12fe8d534fb1f, type: 3}

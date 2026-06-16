@@ -15,4 +15,4 @@ MonoBehaviour:
   enemyName: Hollow Brute
   enemyMaxHealth: 45
   enemyAttackDamage: 10
-  enemySprite: {fileID: 0}
+  enemySprite: {fileID: -7169170255583999232, guid: 0dca5bfcca6af5e4bbccd082136ff20d, type: 3}
