@@ -51,24 +51,23 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
 
     private void Awake()
     {
+        _cardDisplay    = GetComponent<CardDisplay>();
         _rectTransform = GetComponent<RectTransform>();
-        _canvas        = GetComponentInParent<Canvas>();
-
+        
+        _canvas = GetComponentInParent<Canvas>();
         if (_canvas == null) return;
+        
         _canvasRectTransform = _canvas.GetComponent<RectTransform>();
         
         _originalScale    = _rectTransform.localScale;
         _originalPosition = _rectTransform.localPosition;
         _originalRotation = _rectTransform.localRotation;
         
-        _handManager    = FindFirstObjectByType<HandManager>();
-        _discardManager = FindFirstObjectByType<DiscardManager>();
-        
-        _cardDisplay    = GetComponent<CardDisplay>();
-
         _cardData = _cardDisplay.cardData;
         
-        _player = FindFirstObjectByType<Player>();
+        _handManager    = FindFirstObjectByType<HandManager>();
+        _discardManager = FindFirstObjectByType<DiscardManager>();
+        _player         = FindFirstObjectByType<Player>();
     }
 
     private void Update()
@@ -230,6 +229,11 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
         {
             _player.GainCorruption(attackCard.cardCorruptionGain);
         }
+
+        if (attackCard.cardEnergyCost > 0)
+        {
+            _player.SpendEnergy(attackCard.cardEnergyCost);
+        }
         
         Debug.Log($"Played attack card: {attackCard.cardName}, Damage: {attackCard.cardDamage}");
         
@@ -248,6 +252,11 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
         if (defenseCard.cardCorruptionGain > 0)
         {
             _player.GainCorruption(defenseCard.cardCorruptionGain);
+        }
+        
+        if (defenseCard.cardEnergyCost > 0)
+        {
+            _player.SpendEnergy(defenseCard.cardEnergyCost);
         }
 
         Debug.Log($"Played defense card: {defenseCard.cardName}, Block: {defenseCard.cardBlock}");
@@ -274,6 +283,11 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
             _player.GainCorruption(utilityCard.cardCorruptionGain);
         }
         
+        if (utilityCard.cardEnergyCost > 0)
+        {
+            _player.SpendEnergy(utilityCard.cardEnergyCost);
+            
+        }
         
         Debug.Log($"Played utility card: " +
                   $"{utilityCard.cardName}, " +

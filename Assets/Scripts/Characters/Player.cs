@@ -17,13 +17,18 @@ public class Player : MonoBehaviour
     public int corruptionDamage = 10;
     
     private PlayerDisplay _playerDisplay;
+    private UIManager _uiManager;
 
     private void Awake()
     {
-        BattleSetup();
-        
         _playerDisplay = GetComponent<PlayerDisplay>();
+        _uiManager = FindFirstObjectByType<UIManager>();
+
+        BattleSetup();
+
         _playerDisplay.UpdatePlayerDisplay();
+        _uiManager.UpdatePlayerEnergyText();
+        _uiManager.UpdatePlayerCorruptionText();
     }
 
     private void BattleSetup()
@@ -55,6 +60,7 @@ public class Player : MonoBehaviour
     {
         playerEnergy -= amount;
         _playerDisplay.UpdatePlayerDisplay();
+        _uiManager.UpdatePlayerEnergyText();
     }
     
     public void GainEnergy(int energy)
@@ -119,11 +125,13 @@ public class Player : MonoBehaviour
     public void GainCorruption(int corruption)
     {
         playerCorruption += corruption;
+        _playerDisplay.UpdatePlayerDisplay();
+        _uiManager.UpdatePlayerCorruptionText();
 
         if (playerCorruption < playerMaxCorruption) return;
+        
         isCorrupted = true;
         TriggerCorruptionOverflow();
-        _playerDisplay.UpdatePlayerDisplay();
     }
 
     private void TriggerCorruptionOverflow()
@@ -132,6 +140,7 @@ public class Player : MonoBehaviour
         playerCorruption      = 0;
         corruptionDebuffTurns = 2;
         _playerDisplay.UpdatePlayerDisplay();
+        _uiManager.UpdatePlayerCorruptionText();
     }
 
     public bool PlayerIsDead()
