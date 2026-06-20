@@ -15,10 +15,15 @@ public class Player : MonoBehaviour
     public int corruptionDebuffTurns;
     public bool isCorrupted = false;
     public int corruptionDamage = 10;
+    
+    private PlayerDisplay _playerDisplay;
 
     private void Awake()
     {
         BattleSetup();
+        
+        _playerDisplay = GetComponent<PlayerDisplay>();
+        _playerDisplay.UpdatePlayerDisplay();
     }
 
     private void BattleSetup()
@@ -49,16 +54,19 @@ public class Player : MonoBehaviour
     public void SpendEnergy(int amount)
     {
         playerEnergy -= amount;
+        _playerDisplay.UpdatePlayerDisplay();
     }
     
     public void GainEnergy(int energy)
     {
         playerEnergy += energy;
+        _playerDisplay.UpdatePlayerDisplay();
     }
 
     public void ResetEnergy()
     {
         playerEnergy = 0;
+        _playerDisplay.UpdatePlayerDisplay();
     }
 
     public void TakeDamage(int damage)
@@ -86,22 +94,26 @@ public class Player : MonoBehaviour
         {
             BattleManager.Instance.LoseBattle();
         }
+        _playerDisplay.UpdatePlayerDisplay();
     }
 
     public void Heal(int heal)
     {
         playerHealth += heal;
         playerHealth = Mathf.Clamp(playerHealth, 0, playerMaxHealth);
+        _playerDisplay.UpdatePlayerDisplay();
     }
     
     public void GainBlock(int block)
     {
         playerBlock += block;
+        _playerDisplay.UpdatePlayerDisplay();
     }
 
     private void ClearBlock()
     {
         playerBlock = 0;
+        _playerDisplay.UpdatePlayerDisplay();
     }
 
     public void GainCorruption(int corruption)
@@ -111,6 +123,7 @@ public class Player : MonoBehaviour
         if (playerCorruption < playerMaxCorruption) return;
         isCorrupted = true;
         TriggerCorruptionOverflow();
+        _playerDisplay.UpdatePlayerDisplay();
     }
 
     private void TriggerCorruptionOverflow()
@@ -118,6 +131,7 @@ public class Player : MonoBehaviour
         TakeDamage(corruptionDamage);
         playerCorruption      = 0;
         corruptionDebuffTurns = 2;
+        _playerDisplay.UpdatePlayerDisplay();
     }
 
     public bool PlayerIsDead()

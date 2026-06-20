@@ -54,7 +54,7 @@ public class DrawPileManager : MonoBehaviour
             RefillDeckFromDiscard();
         }
         
-        
+        if (drawPile.Count == 0) return;
         if (currentHandSize >= maxHandSize) return;
         
         var nextCard = drawPile[_currentIndex];
@@ -66,9 +66,10 @@ public class DrawPileManager : MonoBehaviour
 
     private void RefillDeckFromDiscard()
     {
-        if (_discardManager != null) return;
-        
-        _discardManager = FindFirstObjectByType<DiscardManager>();
+        if (_discardManager == null)
+        {
+            _discardManager = FindFirstObjectByType<DiscardManager>();
+        }
 
         if (_discardManager == null || _discardManager.discardCardsCount <= 0) return;
         

@@ -20,6 +20,8 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
     // Store original card location and scale
     private Vector3 _originalPanelLocalPosition;
     private Vector3 _originalScale;
+
+    private Player _player;
     
     private enum CardState
     {
@@ -65,6 +67,8 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
         _cardDisplay    = GetComponent<CardDisplay>();
 
         _cardData = _cardDisplay.cardData;
+        
+        _player = FindFirstObjectByType<Player>();
     }
 
     private void Update()
@@ -222,6 +226,11 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
         var enemy = BattleManager.Instance.EnemyManager.GetFirstLivingEnemy();
         if (enemy == null) return;
         
+        if (attackCard.cardCorruptionGain > 0)
+        {
+            _player.GainCorruption(attackCard.cardCorruptionGain);
+        }
+        
         Debug.Log($"Played attack card: {attackCard.cardName}, Damage: {attackCard.cardDamage}");
         
         enemy.TakeDamage(attackCard.cardDamage);
@@ -232,8 +241,15 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
     private void TryPlayDefense()
     {
         var defenseCard = _cardData as Defense;
-
         if (defenseCard == null) return;
+
+        _player.GainBlock(defenseCard.cardBlock);
+        
+        if (defenseCard.cardCorruptionGain > 0)
+        {
+            _player.GainCorruption(defenseCard.cardCorruptionGain);
+        }
+
         Debug.Log($"Played defense card: {defenseCard.cardName}, Block: {defenseCard.cardBlock}");
         SendCardToDiscard();
     }
@@ -241,13 +257,31 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
     private void TryPlayUtility()
     {
         var utilityCard = _cardData as UtilityCard;
-
         if (utilityCard == null) return;
+
+        if (utilityCard.cardEnergyGain > 0)
+        {
+            _player.GainEnergy(utilityCard.cardEnergyGain);
+        }
+        
+        if (utilityCard.cardHealthGain > 0)
+        {
+            _player.Heal(utilityCard.cardHealthGain);
+        }
+
+        if (utilityCard.cardCorruptionGain > 0)
+        {
+            _player.GainCorruption(utilityCard.cardCorruptionGain);
+        }
+        
+        
         Debug.Log($"Played utility card: " +
                   $"{utilityCard.cardName}, " +
                   $"Health: {utilityCard.cardHealthGain}, " +
                   $"Energy: {utilityCard.cardEnergyGain}, " +
                   $"Draw Cards: {utilityCard.cardsToDraw}");
+        
+        
         SendCardToDiscard();
     }
 

@@ -2,15 +2,21 @@ using UnityEngine;
 
 public class TurnManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public enum TurnState { Player, Enemy }
+    public TurnState currentState;
+
+    public void EndTurn()
     {
-        
+        if (currentState == TurnState.Player)
+        {
+            currentState = TurnState.Enemy;
+            Debug.Log("Player turn ended, now enemy turn");
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ResetPlayerTurn()
     {
-        
+        currentState = TurnState.Player;
+        Debug.Log("Now player turn");
     }
 }

@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     public OptionsManager OptionsManager { get; private set; }
     public AudioManager AudioManager { get; private set; }
     public DeckManager DeckManager { get; private set; }
+    
+    public UIManager UIManager { get; private set; }
 
     private void Awake()
     {
@@ -71,6 +73,20 @@ public class GameManager : MonoBehaviour
             {
                 Instantiate(prefab, transform.position, Quaternion.identity, transform);
                 DeckManager = GetComponentInChildren<DeckManager>();
+            }
+        }
+        
+        if (UIManager == null) 
+        {
+            var prefab = Resources.Load<GameObject>("Prefabs/UIManager");
+            if (prefab == null)
+            {
+                Debug.Log($"UI Manager prefab not found");
+            }
+            else
+            {
+                Instantiate(prefab, transform.position, Quaternion.identity, transform);
+                UIManager = GetComponentInChildren<UIManager>();
             }
         }
     }
