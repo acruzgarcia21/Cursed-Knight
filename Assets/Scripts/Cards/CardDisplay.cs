@@ -29,6 +29,6 @@ public class CardDisplay : MonoBehaviour
         cardDescription.text = cardData.cardDescription;
         cardCorruptionGain.text = cardData.cardCorruptionGain.ToString();
         cardType.text = cardData.cardType.ToString();
-        cardSprite.sprite = cardData.cardSprite;
+        //cardSprite.sprite = cardData.cardSprite;
     }
 }

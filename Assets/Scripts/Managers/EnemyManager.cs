@@ -5,10 +5,11 @@ using UnityEngine;
 public class EnemyManager : MonoBehaviour
 {
     public GameObject enemyPrefab;
-    public GameObject playerPrefab;
     
     public int enemiesToSpawn = 4;
 
+    public Transform enemyContainer;
+    
     public EnemyData[] enemyStorage;
     
     public List<Transform> enemySpawnPositions = new List<Transform>();
@@ -19,6 +20,11 @@ public class EnemyManager : MonoBehaviour
     private void Start()
     {
         enemyStorage = Resources.LoadAll<EnemyData>("Enemies");
+        Debug.Log($"Loaded {enemyStorage.Length} enemies");
+        foreach (var enemy in enemyStorage)
+        {
+            Debug.Log(enemy.enemyName);
+        }
     }
 
     private void Awake()
@@ -29,7 +35,7 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    private void BattleSetup()
+    public void BattleSetup()
     {
         SpawnEncounter();
     }
@@ -45,8 +51,36 @@ public class EnemyManager : MonoBehaviour
     private void SpawnEnemy(EnemyData enemyData, Transform spawnPositions)
     {
         var enemyObject = Instantiate(enemyPrefab,  spawnPositions.position, spawnPositions.rotation);
+        enemyObject.transform.SetParent(enemyContainer, false);
+        enemyObject.transform.localPosition = spawnPositions.localPosition;
+        enemyObject.transform.localRotation = Quaternion.identity;
+        enemyObject.transform.localScale = Vector3.one;
+        
         var enemy = enemyObject.GetComponent<Enemy>();
+        
         enemy.enemyData = enemyData;
         currentEnemies.Add(enemy);
+        enemy.BattleSetup();
+    }
+
+    public Enemy GetFirstLivingEnemy()
+    {
+        return currentEnemies.Count > 0 ? currentEnemies[0] : null;
+    }
+
+    public void RemoveEnemy(Enemy enemyToRemove)
+    {
+        currentEnemies.Remove(enemyToRemove);
+        Destroy(enemyToRemove.gameObject);
+
+        if (AllEnemiesDead())
+        {
+            BattleManager.Instance.WinBattle();
+        }
+    }
+
+    public bool AllEnemiesDead()
+    {
+        return currentEnemies.Count == 0;
     }
 }

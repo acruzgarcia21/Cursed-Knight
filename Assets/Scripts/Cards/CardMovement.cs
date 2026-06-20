@@ -217,9 +217,15 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
     private void TryPlayAttack()
     {
         var attackCard = _cardData as Attack;
-
         if (attackCard == null) return;
+
+        var enemy = BattleManager.Instance.EnemyManager.GetFirstLivingEnemy();
+        if (enemy == null) return;
+        
         Debug.Log($"Played attack card: {attackCard.cardName}, Damage: {attackCard.cardDamage}");
+        
+        enemy.TakeDamage(attackCard.cardDamage);
+        
         SendCardToDiscard();
     }
 

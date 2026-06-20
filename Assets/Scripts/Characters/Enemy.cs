@@ -1,17 +1,27 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class Enemy : MonoBehaviour
 {
     public int currentEnemyHealth;
     public int currentEnemyBlock;
 
-    [SerializeField] public EnemyData enemyData;
+    public EnemyData enemyData;
+
+    private EnemyDisplay _enemyDisplay;
 
     private void Awake()
     {
-        BattleSetup();
+        _enemyDisplay = GetComponent<EnemyDisplay>();
     }
+
+    public void BattleSetup()
+    {
+        currentEnemyHealth = enemyData.enemyMaxHealth;
+        currentEnemyBlock = 0;
+
+        _enemyDisplay.UpdateEnemyDisplay();
+    }
+
     public void TakeDamage(int damage)
     {
         if (currentEnemyBlock > 0)
@@ -29,19 +39,21 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            currentEnemyHealth -= damage;   
+            currentEnemyHealth -= damage;
         }
+
         currentEnemyHealth = Mathf.Clamp(currentEnemyHealth, 0, enemyData.enemyMaxHealth);
+
+        _enemyDisplay.UpdateEnemyDisplay();
+
+        if (EnemyIsDead())
+        {
+            BattleManager.Instance.EnemyManager.RemoveEnemy(this);
+        }
     }
 
     public bool EnemyIsDead()
     {
         return currentEnemyHealth <= 0;
-    }
-
-    private void BattleSetup()
-    {
-        currentEnemyHealth = enemyData.enemyMaxHealth;
-        currentEnemyBlock = 0;
     }
 }

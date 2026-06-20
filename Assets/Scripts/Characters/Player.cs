@@ -81,6 +81,11 @@ public class Player : MonoBehaviour
             playerHealth -= damage;   
         }
         playerHealth = Mathf.Clamp(playerHealth, 0, playerMaxHealth);
+
+        if (PlayerIsDead())
+        {
+            BattleManager.Instance.LoseBattle();
+        }
     }
 
     public void Heal(int heal)

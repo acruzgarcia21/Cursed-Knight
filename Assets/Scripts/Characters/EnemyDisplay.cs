@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,12 +12,14 @@ public class EnemyDisplay : MonoBehaviour
     public TMP_Text enemyHealth;
     public TMP_Text enemyAttackDamage;
     
-    public Image enemySprite; 
+    public Image enemySprite;
 
-    private void Start()
+    private void Awake()
     {
-        UpdateEnemyDisplay();
+        enemy = GetComponent<Enemy>();
+        enemySprite = transform.Find("EnemyCanvas/EnemyImage").GetComponent<Image>();
     }
+    
     // Updates all card data populated by each card in player's hand/deck
     public void UpdateEnemyDisplay()
     {
