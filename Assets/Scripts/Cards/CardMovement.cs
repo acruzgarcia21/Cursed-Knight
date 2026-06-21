@@ -200,6 +200,13 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
         _cardData = _cardDisplay.cardData;
 
         Debug.Log($"Trying to play card. State: {_currentState}, Card: {_cardData}");
+        
+        if (_player.playerEnergy < _cardData.cardEnergyCost)
+        {
+            ReturnToIdleState();
+            Debug.Log("Not enough energy!");
+            return;
+        }
 
         if (_cardData == null) return;
 

@@ -39,12 +39,12 @@ public class Player : MonoBehaviour
 
     public void StartTurn()
     {
-        playerEnergy = playerMaxEnergy;
+        ClearBlock(); 
+        ResetEnergy();
     }
 
     public void EndTurn()
     {
-        ClearBlock();
         if (isCorrupted && corruptionDebuffTurns > 0)
         {
             corruptionDebuffTurns--;
@@ -70,7 +70,7 @@ public class Player : MonoBehaviour
 
     public void ResetEnergy()
     {
-        playerEnergy = 0;
+        playerEnergy = playerMaxEnergy;
         _playerDisplay.UpdatePlayerDisplay();
     }
 
