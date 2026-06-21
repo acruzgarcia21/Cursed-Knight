@@ -12,8 +12,14 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
-        _turnManager = FindFirstObjectByType<TurnManager>();
         _player      = FindFirstObjectByType<Player>();
+        _turnManager = FindFirstObjectByType<TurnManager>();
+    }
+
+    private void Start()
+    {
+        UpdatePlayerEnergyText();
+        UpdatePlayerCorruptionText();
     }
 
     public void OnEndTurnButtonClicked()
@@ -23,11 +29,21 @@ public class UIManager : MonoBehaviour
 
     public void UpdatePlayerEnergyText()
     {
+        if (_player == null)
+            _player = FindFirstObjectByType<Player>();
+
+        if (_player == null || playerEnergyText == null) return;
+
         playerEnergyText.text = _player.playerEnergy + "/" + _player.playerMaxEnergy;
     }
 
     public void UpdatePlayerCorruptionText()
     {
+        if (_player == null)
+            _player = FindFirstObjectByType<Player>();
+
+        if (_player == null || playerCorruptionText == null || playerCorruptionRoundsText == null) return;
+
         playerCorruptionText.text = _player.playerCorruption + " / " + _player.playerMaxCorruption;
         playerCorruptionRoundsText.text = _player.corruptionDebuffTurns.ToString();
     }

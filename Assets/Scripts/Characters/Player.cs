@@ -27,8 +27,6 @@ public class Player : MonoBehaviour
         BattleSetup();
 
         _playerDisplay.UpdatePlayerDisplay();
-        _uiManager.UpdatePlayerEnergyText();
-        _uiManager.UpdatePlayerCorruptionText();
     }
 
     private void BattleSetup()
@@ -67,6 +65,7 @@ public class Player : MonoBehaviour
     {
         playerEnergy += energy;
         _playerDisplay.UpdatePlayerDisplay();
+        _uiManager.UpdatePlayerEnergyText();
     }
 
     public void ResetEnergy()

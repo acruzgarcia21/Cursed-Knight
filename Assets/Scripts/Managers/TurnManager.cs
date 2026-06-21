@@ -12,7 +12,7 @@ public class TurnManager : MonoBehaviour
     private EnemyManager _enemyManager;
     private HandManager _handManager;
     private DrawPileManager _drawPileManager;
-    private DiscardManager _discardManager;
+    private UIManager _uiManager;
 
     private void Awake()
     {
@@ -20,7 +20,7 @@ public class TurnManager : MonoBehaviour
         _enemyManager    = FindFirstObjectByType<EnemyManager>();
         _handManager     = FindFirstObjectByType<HandManager>();
         _drawPileManager = FindFirstObjectByType<DrawPileManager>();
-        _discardManager  = FindFirstObjectByType<DiscardManager>();
+        _uiManager       = FindFirstObjectByType<UIManager>();
     }
 
     public void EndTurn()
@@ -56,6 +56,8 @@ public class TurnManager : MonoBehaviour
         currentState = TurnState.Player;
         _player.StartTurn();
         _drawPileManager.DrawCards(startingHandSize);
+        _uiManager.UpdatePlayerEnergyText();
+        _uiManager.UpdatePlayerCorruptionText();
         Debug.Log("Now player turn");
     }
 }
