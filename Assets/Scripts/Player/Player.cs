@@ -72,6 +72,7 @@ public class Player : MonoBehaviour
     {
         playerEnergy = playerMaxEnergy;
         _playerDisplay.UpdatePlayerDisplay();
+        _uiManager.UpdatePlayerEnergyText();
     }
 
     public void TakeDamage(int damage)
