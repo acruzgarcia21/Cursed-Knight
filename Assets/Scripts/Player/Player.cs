@@ -41,6 +41,7 @@ public class Player : MonoBehaviour
     {
         ClearBlock(); 
         ResetEnergy();
+        _uiManager.UpdatePlayerCorruptionText();
     }
 
     public void EndTurn()
@@ -71,7 +72,6 @@ public class Player : MonoBehaviour
     public void ResetEnergy()
     {
         playerEnergy = playerMaxEnergy;
-        _playerDisplay.UpdatePlayerDisplay();
         _uiManager.UpdatePlayerEnergyText();
     }
 
