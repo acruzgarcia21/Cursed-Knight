@@ -50,7 +50,7 @@ public class DeckManager : MonoBehaviour
     {
         _handManager.BattleSetup(maxHandSize);
         _drawPileManager.MakeDrawPile(allCards);
-        _drawPileManager.BattleSetup(startingHandSize, maxHandSize);
+        //_drawPileManager.BattleSetup(startingHandSize, maxHandSize);
         _startBattleRun = false;
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class TurnManager : MonoBehaviour
 {
-    public int startingHandSize = 6;
+    public int targetHandSize = 6;
     
     public enum TurnState { Player, Enemy }
     public TurnState currentState;
@@ -11,7 +11,6 @@ public class TurnManager : MonoBehaviour
     private Player _player;
     private EnemyManager _enemyManager;
     private HandManager _handManager;
-    private DrawPileManager _drawPileManager;
     private UIManager _uiManager;
 
     private void Awake()
@@ -19,9 +18,10 @@ public class TurnManager : MonoBehaviour
         _player          = FindFirstObjectByType<Player>();
         _enemyManager    = FindFirstObjectByType<EnemyManager>();
         _handManager     = FindFirstObjectByType<HandManager>();
-        _drawPileManager = FindFirstObjectByType<DrawPileManager>();
         _uiManager       = FindFirstObjectByType<UIManager>();
     }
+
+    
 
     public void EndTurn()
     {
@@ -52,7 +52,7 @@ public class TurnManager : MonoBehaviour
     {
         currentState = TurnState.Player;
         _player.StartTurn();
-        _drawPileManager.DrawCards(startingHandSize);
+        _handManager.PrepareHandForTurn(targetHandSize);
         _uiManager.UpdatePlayerEnergyText();
         _uiManager.UpdatePlayerCorruptionText();
         Debug.Log("Now player turn");

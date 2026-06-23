@@ -4,24 +4,25 @@ using CursedKnight;
 
 public class HandManager : MonoBehaviour
 {
-    // Assign Card Prefab In Inspector
     public GameObject cardPrefab;
-    // Root of the Hand Position
+    
     public Transform handTransform;
-    // Determines how much our hand will be spread out
-    public float fanSpread = 7.5f;
-    // Hold a list of card objects in player's hand
+    
     public List<GameObject> cardsInHand = new List<GameObject>();
+    
     public int maxCardsInHand;
     
-    public float cardSpacing = 100f;
+    public float fanSpread       = 7.5f;
+    public float cardSpacing     = 100f;
     public float verticalSpacing = 100f;
     
     private DiscardManager _discardManager;
+    private DrawPileManager _drawPileManager;
 
     private void Awake()
     {
-        _discardManager = FindFirstObjectByType<DiscardManager>();
+        _discardManager  = FindFirstObjectByType<DiscardManager>();
+        _drawPileManager = FindFirstObjectByType<DrawPileManager>();
     }
     
     public void BattleSetup(int setMaxHandSize)
@@ -48,6 +49,22 @@ public class HandManager : MonoBehaviour
         newCard.GetComponent<CardDisplay>().cardData = cardData;
 
         UpdateHandVisuals();
+    }
+    
+    public void PrepareHandForTurn(int targetHandSize)
+    {
+        var numCardsInHand = cardsInHand.Count;
+        var numCardsToDraw = targetHandSize - numCardsInHand;
+
+        if (numCardsToDraw <= 0) return;
+        
+        for (var i = 0; i < numCardsToDraw; i++)
+        {
+            var cardToDraw = _drawPileManager.DrawCard();
+            
+            if (cardToDraw == null) return;
+            AddCardToHand(cardToDraw);
+        }
     }
 
     public void DiscardHand()
