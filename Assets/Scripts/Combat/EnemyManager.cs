@@ -6,6 +6,7 @@ public class EnemyManager : MonoBehaviour
 {
     public GameObject enemyPrefab;
     
+    // Hardcoded for prototype, will change later
     public int enemiesToSpawn = 4;
 
     public Transform enemyContainer;
@@ -19,6 +20,7 @@ public class EnemyManager : MonoBehaviour
 
     private void Start()
     {
+        // Prototype only
         enemyStorage = Resources.LoadAll<EnemyData>("Enemies");
         Debug.Log($"Loaded {enemyStorage.Length} enemies");
         foreach (var enemy in enemyStorage)
@@ -71,6 +73,7 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
+    // Prototype targeting logic
     public Enemy GetFirstLivingEnemy()
     {
         return currentEnemies.Count > 0 ? currentEnemies[0] : null;
@@ -80,7 +83,8 @@ public class EnemyManager : MonoBehaviour
     {
         currentEnemies.Remove(enemyToRemove);
         Destroy(enemyToRemove.gameObject);
-
+        
+        // Okay for now, will change later
         if (AllEnemiesDead())
         {
             BattleManager.Instance.WinBattle();

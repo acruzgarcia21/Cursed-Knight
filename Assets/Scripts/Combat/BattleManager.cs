@@ -6,6 +6,7 @@ public class BattleManager : MonoBehaviour
     public EnemyManager EnemyManager { get; private set; }
     private TurnManager _turnManager;
     private DeckManager _deckManager;
+    private Player _player;
     
     private void Awake()
     {
@@ -19,6 +20,7 @@ public class BattleManager : MonoBehaviour
 
         _turnManager = FindFirstObjectByType<TurnManager>();
         _deckManager = FindFirstObjectByType<DeckManager>();
+        _player      = FindFirstObjectByType<Player>();
     }
 
     private void Start()
@@ -28,6 +30,7 @@ public class BattleManager : MonoBehaviour
 
     private void StartBattle()
     {
+        _player.BattleSetup();
         _deckManager.BattleSetup();
         EnemyManager.BattleSetup();
         _turnManager.StartPlayerTurn();

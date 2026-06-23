@@ -5,7 +5,7 @@ public class Player : MonoBehaviour
     public int playerMaxHealth = 100;
     
     public int playerEnergy = 3;
-    public int playerMaxEnergy = 3;
+    public int playerEnergyPerTurn = 3;
     
     public int playerBlock;
     
@@ -22,17 +22,16 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         _playerDisplay = GetComponent<PlayerDisplay>();
+        
         _uiManager = FindFirstObjectByType<UIManager>();
-
-        BattleSetup();
-
+        
         _playerDisplay.UpdatePlayerDisplay();
     }
 
-    private void BattleSetup()
+    public void BattleSetup()
     {
         playerHealth = playerMaxHealth;
-        playerEnergy = playerMaxEnergy;
+        playerEnergy = playerEnergyPerTurn;
         playerBlock = 0;
         playerCorruption = 0;
     }
@@ -58,6 +57,7 @@ public class Player : MonoBehaviour
     public void SpendEnergy(int amount)
     {
         playerEnergy -= amount;
+        playerEnergy = Mathf.Clamp(playerEnergy, 0, playerEnergyPerTurn);
         _playerDisplay.UpdatePlayerDisplay();
         _uiManager.UpdatePlayerEnergyText();
     }
@@ -71,7 +71,7 @@ public class Player : MonoBehaviour
 
     public void ResetEnergy()
     {
-        playerEnergy = playerMaxEnergy;
+        playerEnergy = playerEnergyPerTurn;
         _uiManager.UpdatePlayerEnergyText();
     }
 

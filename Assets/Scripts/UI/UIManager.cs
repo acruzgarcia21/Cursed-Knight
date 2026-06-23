@@ -34,7 +34,7 @@ public class UIManager : MonoBehaviour
 
         if (_player == null || playerEnergyText == null) return;
 
-        playerEnergyText.text = _player.playerEnergy + "/" + _player.playerMaxEnergy;
+        playerEnergyText.text = _player.playerEnergy + "/" + _player.playerEnergyPerTurn;
     }
 
     public void UpdatePlayerCorruptionText()
