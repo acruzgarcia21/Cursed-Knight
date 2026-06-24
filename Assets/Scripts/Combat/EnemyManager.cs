@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,11 +21,6 @@ public class EnemyManager : MonoBehaviour
     {
         // Prototype only
         enemyStorage = Resources.LoadAll<EnemyData>("Enemies");
-        Debug.Log($"Loaded {enemyStorage.Length} enemies");
-        foreach (var enemy in enemyStorage)
-        {
-            Debug.Log(enemy.enemyName);
-        }
     }
 
     private void Awake()

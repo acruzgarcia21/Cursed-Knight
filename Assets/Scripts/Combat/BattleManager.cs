@@ -31,6 +31,7 @@ public class BattleManager : MonoBehaviour
     private void StartBattle()
     {
         _player.BattleSetup();
+        
         _deckManager.BattleSetup();
         EnemyManager.BattleSetup();
         _turnManager.StartPlayerTurn();

@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class DeckManager : MonoBehaviour
 {
-    public List<Card> allCards = new List<Card>();
+    public List<Card> playerDeck = new List<Card>();
     
     public int maxHandSize = 10;
     
     private HandManager _handManager;
     private DrawPileManager _drawPileManager;
+
+    [SerializeField] private DeckData startingDeck;
 
     private void Awake()
     {
@@ -23,16 +25,20 @@ public class DeckManager : MonoBehaviour
             _handManager = FindFirstObjectByType<HandManager>();
         }
     }
-    
+         
     public void BattleSetup()
     {
-        // Load all card assets from the Resources folder
-        var cards = Resources.LoadAll<Card>("Cards");
+        if (startingDeck == null) return;
+        
+        playerDeck.Clear();
 
-        // Add the loaded cards to the allCards list
-        allCards.AddRange(cards);
+        foreach (Card card in startingDeck.GetPlayerDeck())
+        {
+            playerDeck.Add(card);
+            Debug.Log($"Added card: {card.cardName}");
+        }
         
         _handManager.BattleSetup(maxHandSize);
-        _drawPileManager.MakeDrawPile(allCards);
+        _drawPileManager.MakeDrawPile(playerDeck);
     }
 }
