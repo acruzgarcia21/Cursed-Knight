@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using CursedKnight;
 using TMPro;
@@ -5,66 +6,57 @@ using UnityEngine;
 
 public class DrawPileManager : MonoBehaviour
 {
-    public List<Card> drawPile = new List<Card>();
+    private List<Card> _drawPile = new List<Card>();
     
     public TextMeshProUGUI drawPileCounter;
     
-    private int _currentIndex = 0;
+    private int _currentIndex;
     
     private DiscardManager _discardManager;
 
+    private void Awake()
+    {
+        _discardManager = FindFirstObjectByType<DiscardManager>();
+    }
+
     public void MakeDrawPile(List<Card> cardsToAdd)
     {
-        drawPile.Clear();
-        drawPile.AddRange(cardsToAdd);
+        _drawPile.Clear();
+        _drawPile.AddRange(cardsToAdd);
 
-        Utility.Shuffle(drawPile);
+        Utility.Shuffle(_drawPile);
         UpdateDrawPileCount();
     }
 
-    /*public void BattleSetup(int numberOfCardsToDraw, int setMaxHandSize)
-    {
-        maxHandSize = setMaxHandSize;
-        for (var i = 0 ; i < numberOfCardsToDraw; i++)
-        {
-            DrawCard();
-        }
-    }*/
-
     public Card DrawCard()
     {
-        if (drawPile.Count == 0)
+        if (_drawPile.Count == 0)
         {
             RefillDeckFromDiscard();
         }
 
-        if (drawPile.Count == 0) return null;
+        if (_drawPile.Count == 0) return null;
         
-        var nextCard = drawPile[_currentIndex];
+        var nextCard = _drawPile[_currentIndex];
         
-        drawPile.RemoveAt(_currentIndex);
+        _drawPile.RemoveAt(_currentIndex);
         
         UpdateDrawPileCount();
-        if (drawPile.Count > 0) _currentIndex %= drawPile.Count;
+        if (_drawPile.Count > 0) _currentIndex %= _drawPile.Count;
         return nextCard;
     }
 
     private void RefillDeckFromDiscard()
     {
-        if (_discardManager == null)
-        {
-            _discardManager = FindFirstObjectByType<DiscardManager>();
-        }
-
         if (_discardManager == null || _discardManager.discardCardsCount <= 0) return;
         
-        drawPile = _discardManager.PullAllFromDiscardPile();
-        Utility.Shuffle(drawPile);
+        _drawPile = _discardManager.PullAllFromDiscardPile();
+        Utility.Shuffle(_drawPile);
         _currentIndex = 0;
     }
 
     private void UpdateDrawPileCount()
     {
-        drawPileCounter.text = drawPile.Count.ToString();
+        drawPileCounter.text = _drawPile.Count.ToString();
     }
 }
