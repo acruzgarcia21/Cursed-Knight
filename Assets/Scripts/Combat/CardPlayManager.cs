@@ -75,7 +75,7 @@ public class CardPlayManager : MonoBehaviour
             player.SpendEnergy(defenseCard.cardEnergyCost);
         }
 
-        Debug.Log($"Played defense card: {defenseCard.cardName}, Block: {defenseCard.cardBlock}");
+        Debug.Log($"Played defense card: {defenseCard.cardName}, Block: {defenseCard.cardBlock}, Energy Spent: {defenseCard.cardEnergyCost}");
         SendCardToDiscard(cardData, cardObject);
         return true;
     }

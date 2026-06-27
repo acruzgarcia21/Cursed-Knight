@@ -21,6 +21,8 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
     private Vector3 _originalScale;
 
     private Player _player;
+
+    private bool _cardHasBeenPlayed;
     
     private enum CardState
     {
@@ -130,14 +132,23 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        if (_cardHasBeenPlayed) return;
+
+        Debug.Log("OnPointerUp");
+
         _cardData = _cardDisplay.cardData;
-        
+
         if (_rectTransform.localPosition.y > cardPlay.y)
         {
-            if (!_cardPlayManager.TryPlayCard(_player, _cardData, gameObject))
+            if (_cardPlayManager.TryPlayCard(_player, _cardData, gameObject))
+            {
+                _cardHasBeenPlayed = true;
+            }
+            else
             {
                 ReturnToIdleState();
             }
+
             return;
         }
 

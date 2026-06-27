@@ -1,16 +1,24 @@
+using TMPro;
 using UnityEngine;
 
 public class UIDisplay : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public TMP_Text playerEnergyText;
+    public TMP_Text playerCorruptionText;
+    public TMP_Text playerCorruptionRoundsText;
+
+    public void UpdatePlayerEnergyText(Player player)
     {
-        
+        if (player == null || playerEnergyText == null) return;
+
+        playerEnergyText.text = player.playerEnergy + "/" + player.playerEnergyPerTurn;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void UpdatePlayerCorruptionText(Player player)
     {
-        
+        if (player == null || playerCorruptionText == null || playerCorruptionRoundsText == null) return;
+
+        playerCorruptionText.text = player.playerCorruption + " / " + player.playerMaxCorruption;
+        playerCorruptionRoundsText.text = player.corruptionDebuffTurns.ToString();
     }
 }

@@ -17,13 +17,13 @@ public class Player : MonoBehaviour
     public int corruptionDamage = 10;
     
     private PlayerDisplay _playerDisplay;
-    private UIManager _uiManager;
+    private UIDisplay _uiDisplay;
 
     private void Awake()
     {
         _playerDisplay = GetComponent<PlayerDisplay>();
         
-        _uiManager = FindFirstObjectByType<UIManager>();
+        _uiDisplay = FindFirstObjectByType<UIDisplay>();
         
         _playerDisplay.UpdatePlayerDisplay();
     }
@@ -40,7 +40,8 @@ public class Player : MonoBehaviour
     {
         ClearBlock(); 
         ResetEnergy();
-        _uiManager.UpdatePlayerCorruptionText();
+        _uiDisplay.UpdatePlayerEnergyText(this);
+        _uiDisplay.UpdatePlayerCorruptionText(this);
     }
 
     public void EndTurn()
@@ -57,22 +58,25 @@ public class Player : MonoBehaviour
     public void SpendEnergy(int amount)
     {
         playerEnergy -= amount;
-        playerEnergy = Mathf.Clamp(playerEnergy, 0, playerEnergyPerTurn);
+        playerEnergy = Mathf.Max(playerEnergy, 0);
+        
         _playerDisplay.UpdatePlayerDisplay();
-        _uiManager.UpdatePlayerEnergyText();
+        _uiDisplay.UpdatePlayerEnergyText(this);
     }
     
     public void GainEnergy(int energy)
     {
         playerEnergy += energy;
         _playerDisplay.UpdatePlayerDisplay();
-        _uiManager.UpdatePlayerEnergyText();
+        
+        _uiDisplay.UpdatePlayerEnergyText(this);
     }
 
     public void ResetEnergy()
     {
         playerEnergy = playerEnergyPerTurn;
-        _uiManager.UpdatePlayerEnergyText();
+        
+        _uiDisplay.UpdatePlayerEnergyText(this);
     }
 
     public void TakeDamage(int damage)
@@ -107,40 +111,47 @@ public class Player : MonoBehaviour
     {
         playerHealth += heal;
         playerHealth = Mathf.Clamp(playerHealth, 0, playerMaxHealth);
+        
         _playerDisplay.UpdatePlayerDisplay();
     }
     
     public void GainBlock(int block)
     {
         playerBlock += block;
+        
         _playerDisplay.UpdatePlayerDisplay();
     }
 
     private void ClearBlock()
     {
         playerBlock = 0;
+        
         _playerDisplay.UpdatePlayerDisplay();
     }
 
     public void GainCorruption(int corruption)
     {
         playerCorruption += corruption;
+        
         _playerDisplay.UpdatePlayerDisplay();
-        _uiManager.UpdatePlayerCorruptionText();
+        _uiDisplay.UpdatePlayerCorruptionText(this);
 
         if (playerCorruption < playerMaxCorruption) return;
         
         isCorrupted = true;
+        
         TriggerCorruptionOverflow();
     }
 
     private void TriggerCorruptionOverflow()
     {
         TakeDamage(corruptionDamage);
+        
         playerCorruption      = 0;
         corruptionDebuffTurns = 2;
+        
         _playerDisplay.UpdatePlayerDisplay();
-        _uiManager.UpdatePlayerCorruptionText();
+        _uiDisplay.UpdatePlayerCorruptionText(this);
     }
 
     public bool PlayerIsDead()

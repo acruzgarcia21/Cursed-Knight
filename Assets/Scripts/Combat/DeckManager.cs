@@ -35,7 +35,6 @@ public class DeckManager : MonoBehaviour
         foreach (Card card in startingDeck.GetPlayerDeck())
         {
             playerDeck.Add(card);
-            Debug.Log($"Added card: {card.cardName}");
         }
         
         _handManager.BattleSetup(maxHandSize);
