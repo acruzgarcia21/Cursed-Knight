@@ -38,19 +38,19 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
     private Card _cardData;
     private CardDisplay _cardDisplay;
     private CardPlayManager _cardPlayManager;
+    private CardVisualEffects _cardVisualEffects;
 
-    [SerializeField] private float selectScale = 1.1f;
     [SerializeField] private Vector2 cardPlay;
     [SerializeField] private Vector3 playPosition;
-    [SerializeField] private GameObject glowEffect;
-    [SerializeField] private GameObject playArrow; // Enables dynamic arrow where we want to play our card
+     
     // Controls how aggressive the play effect moves to target position
     [FormerlySerializedAs("moveSpeed")] [SerializeField] private float lerpFactor = 10f;
 
     private void Awake()
     {
-        _cardDisplay    = GetComponent<CardDisplay>();
-        _rectTransform  = GetComponent<RectTransform>();
+        _cardDisplay       = GetComponent<CardDisplay>();
+        _rectTransform     = GetComponent<RectTransform>();
+        _cardVisualEffects = GetComponent<CardVisualEffects>();
         
         _canvas = GetComponentInParent<Canvas>();
         if (_canvas == null) return;
@@ -63,8 +63,8 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
         
         _cardData = _cardDisplay.cardData;
         
-        _player          = FindFirstObjectByType<Player>();
-        _cardPlayManager = FindFirstObjectByType<CardPlayManager>();
+        _player            = FindFirstObjectByType<Player>();
+        _cardPlayManager   = FindFirstObjectByType<CardPlayManager>();
     }
 
     private void Update()
@@ -72,7 +72,7 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
         switch (_currentState)
         {
             case CardState.Hovering:
-                HandleHoverState();
+                _cardVisualEffects.HandleHoverState(_rectTransform, _originalScale);
                 break;
             case CardState.Dragging:
                 HandleDragState();
@@ -92,8 +92,9 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
         _rectTransform.localScale    = _originalScale;       // Reset Scale
         _rectTransform.localRotation = _originalRotation;    // Reset Rotation
         _rectTransform.localPosition = _originalPosition;    // Reset Position
-        glowEffect.SetActive(false);                         // Disable Glow Effect
-        playArrow.SetActive(false);                          // Disable playArrow
+        
+        _cardVisualEffects.HandleGlowEffect(false);          // Disable Glow Effect
+        _cardVisualEffects.HandlePlayArrow(false);           // Disable playArrow
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -162,13 +163,7 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
         if (!(_rectTransform.localPosition.y > cardPlay.y)) return;
         
         _currentState = CardState.Playing;
-        playArrow.SetActive(true);
-    }
-
-    private void HandleHoverState()
-    {
-        glowEffect.SetActive(true);
-        _rectTransform.localScale = _originalScale * selectScale;
+        _cardVisualEffects.HandlePlayArrow(true);
     }
 
     private void HandleDragState()
@@ -194,6 +189,6 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
         if (!(Input.mousePosition.y < cardPlay.y)) return;
         
         _currentState = CardState.Dragging;
-        playArrow.SetActive(false);
+        _cardVisualEffects.HandlePlayArrow(false);
     }
 }
