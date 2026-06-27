@@ -653,9 +653,9 @@ MonoBehaviour:
   arrowPrefab: {fileID: 1709683359735935955, guid: cef9aaf77389a7643a50f6e4321e4b27, type: 3}
   dotPrefab: {fileID: 4557116941173656431, guid: 3ffbee31dd3639f4a9b41bcea97e42eb, type: 3}
   poolSize: 50
-  spacing: 40
+  spacing: 50
   arrowAngleAdjustment: 180
-  dotsToSkip: 2
+  dotsToSkip: 4
 --- !u!1 &4650561461479942123
 GameObject:
   m_ObjectHideFlags: 0
@@ -905,6 +905,7 @@ GameObject:
   - component: {fileID: 8466570765797799925}
   - component: {fileID: 1831136174208554609}
   - component: {fileID: 2652880791080674668}
+  - component: {fileID: -1304797705736605461}
   m_Layer: 0
   m_Name: CardPrefab
   m_TagString: Untagged
@@ -945,6 +946,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardDisplay
   cardData: {fileID: 11400000, guid: ef39f6255d9b6854794ee8cb09f67e20, type: 2}
+  cardSprite: {fileID: 0}
   cardName: {fileID: 8730886251862115523}
   cardEnergyCost: {fileID: 7062302301614616358}
   cardDescription: {fileID: 6966163884086727236}
@@ -1008,12 +1010,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13bdf477e84b89f4999b7d85a855ec14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardMovement
-  selectScale: 1.1
   cardPlay: {x: 0, y: 400}
   playPosition: {x: -400, y: 400, z: 0}
+  lerpFactor: 10
+--- !u!114 &-1304797705736605461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6768943529909351548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f735b6814914ca40825d628eb00fabf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CardVisualEffects
+  selectScale: 1.1
   glowEffect: {fileID: 3775796030281368749}
   playArrow: {fileID: 4465909117950649025}
-  moveSpeed: 10
 --- !u!1 &7182899804292988232
 GameObject:
   m_ObjectHideFlags: 0

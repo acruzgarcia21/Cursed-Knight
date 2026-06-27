@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
@@ -22,6 +21,8 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
     private Vector3 _originalScale;
 
     private Player _player;
+
+    private bool _cardHasBeenPlayed;
     
     private enum CardState
     {
@@ -35,24 +36,23 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
     
     private Quaternion _originalRotation;
     private Vector3 _originalPosition;
+    
+    private Card _cardData;
+    private CardDisplay _cardDisplay;
+    private CardPlayManager _cardPlayManager;
+    private CardVisualEffects _cardVisualEffects;
 
-    [SerializeField] private float selectScale = 1.1f;
     [SerializeField] private Vector2 cardPlay;
     [SerializeField] private Vector3 playPosition;
-    [SerializeField] private GameObject glowEffect;
-    [SerializeField] private GameObject playArrow; // Enables dynamic arrow where we want to play our card
+     
     // Controls how aggressive the play effect moves to target position
     [FormerlySerializedAs("moveSpeed")] [SerializeField] private float lerpFactor = 10f;
 
-    private Card _cardData;
-    private CardDisplay _cardDisplay;
-    private HandManager _handManager;
-    private DiscardManager _discardManager;
-
     private void Awake()
     {
-        _cardDisplay    = GetComponent<CardDisplay>();
-        _rectTransform = GetComponent<RectTransform>();
+        _cardDisplay       = GetComponent<CardDisplay>();
+        _rectTransform     = GetComponent<RectTransform>();
+        _cardVisualEffects = GetComponent<CardVisualEffects>();
         
         _canvas = GetComponentInParent<Canvas>();
         if (_canvas == null) return;
@@ -65,9 +65,8 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
         
         _cardData = _cardDisplay.cardData;
         
-        _handManager    = FindFirstObjectByType<HandManager>();
-        _discardManager = FindFirstObjectByType<DiscardManager>();
-        _player         = FindFirstObjectByType<Player>();
+        _player            = FindFirstObjectByType<Player>();
+        _cardPlayManager   = FindFirstObjectByType<CardPlayManager>();
     }
 
     private void Update()
@@ -75,7 +74,7 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
         switch (_currentState)
         {
             case CardState.Hovering:
-                HandleHoverState();
+                _cardVisualEffects.HandleHoverState(_rectTransform, _originalScale);
                 break;
             case CardState.Dragging:
                 HandleDragState();
@@ -95,8 +94,9 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
         _rectTransform.localScale    = _originalScale;       // Reset Scale
         _rectTransform.localRotation = _originalRotation;    // Reset Rotation
         _rectTransform.localPosition = _originalPosition;    // Reset Position
-        glowEffect.SetActive(false);                         // Disable Glow Effect
-        playArrow.SetActive(false);                          // Disable playArrow
+        
+        _cardVisualEffects.HandleGlowEffect(false);          // Disable Glow Effect
+        _cardVisualEffects.HandlePlayArrow(false);           // Disable playArrow
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -132,9 +132,23 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        if (_cardHasBeenPlayed) return;
+
+        Debug.Log("OnPointerUp");
+
+        _cardData = _cardDisplay.cardData;
+
         if (_rectTransform.localPosition.y > cardPlay.y)
         {
-            TryPlayCard();
+            if (_cardPlayManager.TryPlayCard(_player, _cardData, gameObject))
+            {
+                _cardHasBeenPlayed = true;
+            }
+            else
+            {
+                ReturnToIdleState();
+            }
+
             return;
         }
 
@@ -160,13 +174,7 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
         if (!(_rectTransform.localPosition.y > cardPlay.y)) return;
         
         _currentState = CardState.Playing;
-        playArrow.SetActive(true);
-    }
-
-    private void HandleHoverState()
-    {
-        glowEffect.SetActive(true);
-        _rectTransform.localScale = _originalScale * selectScale;
+        _cardVisualEffects.HandlePlayArrow(true);
     }
 
     private void HandleDragState()
@@ -192,124 +200,6 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
         if (!(Input.mousePosition.y < cardPlay.y)) return;
         
         _currentState = CardState.Dragging;
-        playArrow.SetActive(false);
-    }
-
-    private void TryPlayCard()
-    {
-        _cardData = _cardDisplay.cardData;
-
-        Debug.Log($"Trying to play card. State: {_currentState}, Card: {_cardData}");
-        
-        if (_player.playerEnergy < _cardData.cardEnergyCost)
-        {
-            ReturnToIdleState();
-            Debug.Log("Not enough energy!");
-            return;
-        }
-
-        if (_cardData == null) return;
-
-        switch (_cardData.cardType)
-        {
-            case Card.CardType.Attack:
-                TryPlayAttack();
-                break;
-            case Card.CardType.Defense:
-                TryPlayDefense();
-                break;
-            case Card.CardType.Utility:
-                TryPlayUtility();
-                break;
-        }
-    }
-
-    private void TryPlayAttack()
-    {
-        var attackCard = _cardData as Attack;
-        if (attackCard == null) return;
-
-        var enemy = BattleManager.Instance.EnemyManager.GetFirstLivingEnemy();
-        if (enemy == null) return;
-        
-        if (attackCard.cardCorruptionGain > 0)
-        {
-            _player.GainCorruption(attackCard.cardCorruptionGain);
-        }
-
-        if (attackCard.cardEnergyCost > 0)
-        {
-            _player.SpendEnergy(attackCard.cardEnergyCost);
-        }
-        
-        Debug.Log($"Played attack card: {attackCard.cardName}, Damage: {attackCard.cardDamage}");
-        
-        enemy.TakeDamage(attackCard.cardDamage);
-        
-        SendCardToDiscard();
-    }
-
-    private void TryPlayDefense()
-    {
-        var defenseCard = _cardData as Defense;
-        if (defenseCard == null) return;
-
-        _player.GainBlock(defenseCard.cardBlock);
-        
-        if (defenseCard.cardCorruptionGain > 0)
-        {
-            _player.GainCorruption(defenseCard.cardCorruptionGain);
-        }
-        
-        if (defenseCard.cardEnergyCost > 0)
-        {
-            _player.SpendEnergy(defenseCard.cardEnergyCost);
-        }
-
-        Debug.Log($"Played defense card: {defenseCard.cardName}, Block: {defenseCard.cardBlock}");
-        SendCardToDiscard();
-    }
-
-    private void TryPlayUtility()
-    {
-        var utilityCard = _cardData as UtilityCard;
-        if (utilityCard == null) return;
-
-        if (utilityCard.cardEnergyGain > 0)
-        {
-            _player.GainEnergy(utilityCard.cardEnergyGain);
-        }
-        
-        if (utilityCard.cardHealthGain > 0)
-        {
-            _player.Heal(utilityCard.cardHealthGain);
-        }
-
-        if (utilityCard.cardCorruptionGain > 0)
-        {
-            _player.GainCorruption(utilityCard.cardCorruptionGain);
-        }
-        
-        if (utilityCard.cardEnergyCost > 0)
-        {
-            _player.SpendEnergy(utilityCard.cardEnergyCost);
-            
-        }
-        
-        Debug.Log($"Played utility card: " +
-                  $"{utilityCard.cardName}, " +
-                  $"Health: {utilityCard.cardHealthGain}, " +
-                  $"Energy: {utilityCard.cardEnergyGain}, " +
-                  $"Draw Cards: {utilityCard.cardsToDraw}");
-        
-        
-        SendCardToDiscard();
-    }
-
-    private void SendCardToDiscard()
-    {
-        _handManager.cardsInHand.Remove(gameObject);
-        _discardManager.AddToDiscardPile(_cardData);
-        Destroy(gameObject);
+        _cardVisualEffects.HandlePlayArrow(false);
     }
 }

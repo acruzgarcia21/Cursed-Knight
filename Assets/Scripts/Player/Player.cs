@@ -5,7 +5,7 @@ public class Player : MonoBehaviour
     public int playerMaxHealth = 100;
     
     public int playerEnergy = 3;
-    public int playerMaxEnergy = 3;
+    public int playerEnergyPerTurn = 3;
     
     public int playerBlock;
     
@@ -17,22 +17,21 @@ public class Player : MonoBehaviour
     public int corruptionDamage = 10;
     
     private PlayerDisplay _playerDisplay;
-    private UIManager _uiManager;
+    private UIDisplay _uiDisplay;
 
     private void Awake()
     {
         _playerDisplay = GetComponent<PlayerDisplay>();
-        _uiManager = FindFirstObjectByType<UIManager>();
-
-        BattleSetup();
-
+        
+        _uiDisplay = FindFirstObjectByType<UIDisplay>();
+        
         _playerDisplay.UpdatePlayerDisplay();
     }
 
-    private void BattleSetup()
+    public void BattleSetup()
     {
         playerHealth = playerMaxHealth;
-        playerEnergy = playerMaxEnergy;
+        playerEnergy = playerEnergyPerTurn;
         playerBlock = 0;
         playerCorruption = 0;
     }
@@ -41,6 +40,8 @@ public class Player : MonoBehaviour
     {
         ClearBlock(); 
         ResetEnergy();
+        _uiDisplay.UpdatePlayerEnergyText(this);
+        _uiDisplay.UpdatePlayerCorruptionText(this);
     }
 
     public void EndTurn()
@@ -57,21 +58,25 @@ public class Player : MonoBehaviour
     public void SpendEnergy(int amount)
     {
         playerEnergy -= amount;
+        playerEnergy = Mathf.Max(playerEnergy, 0);
+        
         _playerDisplay.UpdatePlayerDisplay();
-        _uiManager.UpdatePlayerEnergyText();
+        _uiDisplay.UpdatePlayerEnergyText(this);
     }
     
     public void GainEnergy(int energy)
     {
         playerEnergy += energy;
         _playerDisplay.UpdatePlayerDisplay();
-        _uiManager.UpdatePlayerEnergyText();
+        
+        _uiDisplay.UpdatePlayerEnergyText(this);
     }
 
     public void ResetEnergy()
     {
-        playerEnergy = playerMaxEnergy;
-        _playerDisplay.UpdatePlayerDisplay();
+        playerEnergy = playerEnergyPerTurn;
+        
+        _uiDisplay.UpdatePlayerEnergyText(this);
     }
 
     public void TakeDamage(int damage)
@@ -106,40 +111,47 @@ public class Player : MonoBehaviour
     {
         playerHealth += heal;
         playerHealth = Mathf.Clamp(playerHealth, 0, playerMaxHealth);
+        
         _playerDisplay.UpdatePlayerDisplay();
     }
     
     public void GainBlock(int block)
     {
         playerBlock += block;
+        
         _playerDisplay.UpdatePlayerDisplay();
     }
 
     private void ClearBlock()
     {
         playerBlock = 0;
+        
         _playerDisplay.UpdatePlayerDisplay();
     }
 
     public void GainCorruption(int corruption)
     {
         playerCorruption += corruption;
+        
         _playerDisplay.UpdatePlayerDisplay();
-        _uiManager.UpdatePlayerCorruptionText();
+        _uiDisplay.UpdatePlayerCorruptionText(this);
 
         if (playerCorruption < playerMaxCorruption) return;
         
         isCorrupted = true;
+        
         TriggerCorruptionOverflow();
     }
 
     private void TriggerCorruptionOverflow()
     {
         TakeDamage(corruptionDamage);
+        
         playerCorruption      = 0;
         corruptionDebuffTurns = 2;
+        
         _playerDisplay.UpdatePlayerDisplay();
-        _uiManager.UpdatePlayerCorruptionText();
+        _uiDisplay.UpdatePlayerCorruptionText(this);
     }
 
     public bool PlayerIsDead()

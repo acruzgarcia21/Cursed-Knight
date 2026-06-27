@@ -17,7 +17,7 @@ public class DrawPileManagerEditor : Editor
 
             if (handManager != null)
             {
-                drawPileManager.DrawCard(handManager);
+                drawPileManager.DrawCard();
             }
             else
             {

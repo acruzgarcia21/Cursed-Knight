@@ -1444,6 +1444,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3490743815120547548}
   - component: {fileID: 3054768253037170634}
+  - component: {fileID: 9055779765195517715}
   m_Layer: 5
   m_Name: HandManager
   m_TagString: Untagged
@@ -1484,11 +1485,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HandManager
   cardPrefab: {fileID: 6768943529909351548, guid: ea57f702e7a45ac4abe9cfeda2a24c03, type: 3}
   handTransform: {fileID: 6606991663290793674}
-  fanSpread: -7.5
-  cardsInHand: []
   maxCardsInHand: 5
+--- !u!114 &9055779765195517715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5338408661737730389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f214613514a31244dad5be1daa3192d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HandDisplay
+  fanSpread: -7.5
   cardSpacing: 100
-  verticalSpacing: 75
+  verticalSpacing: 100
 --- !u!1 &5761265547361338561
 GameObject:
   m_ObjectHideFlags: 0
@@ -1499,6 +1511,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8771578563232208297}
   - component: {fileID: 5979159078189561426}
+  - component: {fileID: 2983956337187010616}
   m_Layer: 5
   m_Name: DiscardManager
   m_TagString: Untagged
@@ -1537,9 +1550,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b589d0c2849efda449870584004da644, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DiscardManager
-  discardPile: []
+--- !u!114 &2983956337187010616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5761265547361338561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99f1948ea14c5374881b8d750bf74714, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DiscardPileDisplay
   discardCount: {fileID: 8133339512175218519}
-  discardCardsCount: 3
 --- !u!1 &6107519069295887732
 GameObject:
   m_ObjectHideFlags: 0
@@ -2171,10 +2194,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 872c2725d6e59e341bb8cbabc1d5402f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DrawPileManager
-  drawPile: []
-  startingHandSize: 6
-  maxHandSize: 0
-  currentHandSize: 0
   drawPileCounter: {fileID: 5728541217854498720}
 --- !u!1 &8645829496347227561
 GameObject:
@@ -2568,7 +2587,7 @@ MonoBehaviour:
   playerHealth: 0
   playerMaxHealth: 100
   playerEnergy: 3
-  playerMaxEnergy: 3
+  playerEnergyPerTurn: 3
   playerBlock: 0
   playerCorruption: 0
   playerMaxCorruption: 10

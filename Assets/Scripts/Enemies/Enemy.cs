@@ -22,6 +22,11 @@ public class Enemy : MonoBehaviour
         _enemyDisplay.UpdateEnemyDisplay();
     }
 
+    public void TakeTurn(Player player)
+    {
+        player.TakeDamage(enemyData.enemyAttackDamage);
+    }
+
     public void TakeDamage(int damage)
     {
         if (currentEnemyBlock > 0)

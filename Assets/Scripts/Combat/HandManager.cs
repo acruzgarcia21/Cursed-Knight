@@ -1,0 +1,86 @@
+using System.Collections.Generic;
+using UnityEngine;
+using CursedKnight;
+using UnityEngine.XR;
+
+public class HandManager : MonoBehaviour
+{
+    public GameObject cardPrefab;
+    
+    public Transform handTransform;
+    
+    public int maxCardsInHand;
+    
+    private readonly List<GameObject> _cardsInHand = new List<GameObject>();
+    
+    private DiscardManager _discardManager;
+    private DrawPileManager _drawPileManager;
+    private HandDisplay _handDisplay;
+
+    private void Awake()
+    {
+        _discardManager  = FindFirstObjectByType<DiscardManager>();
+        _drawPileManager = FindFirstObjectByType<DrawPileManager>();
+        _handDisplay     = FindFirstObjectByType<HandDisplay>();
+    }
+    
+    public void BattleSetup(int setMaxHandSize)
+    {
+        maxCardsInHand = setMaxHandSize;
+    }
+
+    public void AddCardToHand(Card cardData)
+    {
+        if (_cardsInHand.Count >= maxCardsInHand)
+        {
+            Debug.Log("You already have maximum amount of cards!: " + _cardsInHand.Count);
+            return;
+        }
+        // Instantiate card
+        // 1. GameObject
+        // 2. GameObject Position
+        // 3. GameObject Rotation (Quaternion.identity = no rotation)
+        // 4. Transform Parent
+        var newCard = Instantiate(cardPrefab, handTransform.position, Quaternion.identity, handTransform);
+        _cardsInHand.Add(newCard);
+        
+        // Set the card data of the instantiated card
+        newCard.GetComponent<CardDisplay>().cardData = cardData;
+
+        _handDisplay.UpdateHandVisuals(_cardsInHand);
+    }
+    
+    public void PrepareHandForTurn(int targetHandSize)
+    {
+        var numCardsInHand = _cardsInHand.Count;
+        var numCardsToDraw = targetHandSize - numCardsInHand;
+
+        if (numCardsToDraw <= 0) return;
+        
+        for (var i = 0; i < numCardsToDraw; i++)
+        {
+            var cardToDraw = _drawPileManager.DrawCard();
+            
+            if (cardToDraw == null) return;
+            AddCardToHand(cardToDraw);
+        }
+    }
+
+    public void DiscardHand()
+    {
+        foreach (var card in _cardsInHand)
+        {
+            var cardData = card.GetComponent<CardDisplay>().cardData;
+            _discardManager.AddToDiscardPile(cardData);
+            Destroy(card.gameObject);
+        }
+        _cardsInHand.Clear();
+        _handDisplay.UpdateHandVisuals(_cardsInHand);
+    }
+
+    public void RemoveCardFromHand(GameObject cardToRemove)
+    {
+        _cardsInHand.Remove(cardToRemove);
+        _handDisplay.UpdateHandVisuals(_cardsInHand);
+    }
+}

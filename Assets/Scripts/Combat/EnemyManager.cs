@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +5,7 @@ public class EnemyManager : MonoBehaviour
 {
     public GameObject enemyPrefab;
     
+    // Hardcoded for prototype, will change later
     public int enemiesToSpawn = 4;
 
     public Transform enemyContainer;
@@ -19,12 +19,8 @@ public class EnemyManager : MonoBehaviour
 
     private void Start()
     {
+        // Prototype only
         enemyStorage = Resources.LoadAll<EnemyData>("Enemies");
-        Debug.Log($"Loaded {enemyStorage.Length} enemies");
-        foreach (var enemy in enemyStorage)
-        {
-            Debug.Log(enemy.enemyName);
-        }
     }
 
     private void Awake()
@@ -63,6 +59,15 @@ public class EnemyManager : MonoBehaviour
         enemy.BattleSetup();
     }
 
+    public void ProcessEnemyTurn(Player player)
+    {
+        foreach (var enemy in currentEnemies)
+        {
+            enemy.TakeTurn(player);
+        }
+    }
+
+    // Prototype targeting logic
     public Enemy GetFirstLivingEnemy()
     {
         return currentEnemies.Count > 0 ? currentEnemies[0] : null;
@@ -72,7 +77,8 @@ public class EnemyManager : MonoBehaviour
     {
         currentEnemies.Remove(enemyToRemove);
         Destroy(enemyToRemove.gameObject);
-
+        
+        // Okay for now, will change later
         if (AllEnemiesDead())
         {
             BattleManager.Instance.WinBattle();

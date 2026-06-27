@@ -105,6 +105,10 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6639876307019848380, guid: 5a0dbc3fe1f9d9d4cbefdf0da9ed3f7c, type: 3}
+      propertyPath: startingDeck
+      value: 
+      objectReference: {fileID: 11400000, guid: afe2c0b5cb8397448879f7c975532e02, type: 2}
+    - target: {fileID: 6639876307019848380, guid: 5a0dbc3fe1f9d9d4cbefdf0da9ed3f7c, type: 3}
       propertyPath: startingHandSize
       value: 5
       objectReference: {fileID: 0}
