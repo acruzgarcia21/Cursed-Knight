@@ -79,7 +79,7 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    private bool AllEnemiesDead()
+    public bool AllEnemiesDead()
     {
         return currentEnemies.Count == 0;
     }

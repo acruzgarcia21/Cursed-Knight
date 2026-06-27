@@ -6,11 +6,13 @@ public class CardPlayManager : MonoBehaviour
 {
     private HandManager _handManager;
     private DiscardManager _discardManager;
+    private EnemyManager _enemyManager;
 
     private void Awake()
     {
         _handManager    = FindFirstObjectByType<HandManager>();
         _discardManager = FindFirstObjectByType<DiscardManager>();
+        _enemyManager   = FindFirstObjectByType<EnemyManager>();
     }
 
     public bool TryPlayCard(Player player, Card cardData, GameObject cardObject, Enemy targetEnemy)
@@ -22,6 +24,8 @@ public class CardPlayManager : MonoBehaviour
             Debug.Log("Not enough energy!");
             return false;
         }
+
+        if (!IsTargetValid(player, cardData, targetEnemy)) return false;
 
         return cardData.cardType switch
         {
@@ -119,5 +123,24 @@ public class CardPlayManager : MonoBehaviour
         _handManager.RemoveCardFromHand(cardObject);
         _discardManager.AddToDiscardPile(cardData);
         Destroy(cardObject);
+    }
+
+    private bool IsTargetValid(Player player, Card cardData, Enemy targetEnemy)
+    {
+        if (cardData == null) return false;
+
+        switch (cardData.targetType)
+        {
+            case Card.TargetType.SingleEnemy:
+                return targetEnemy != null;
+            case Card.TargetType.AllEnemies:
+            case Card.TargetType.RandomEnemy:
+                return !_enemyManager.AllEnemiesDead();
+            case Card.TargetType.Self:
+                return player != null;
+            case Card.TargetType.None:
+            default:
+                return true;
+        }
     }
 }
