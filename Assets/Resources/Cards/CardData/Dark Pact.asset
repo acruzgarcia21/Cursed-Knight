@@ -15,6 +15,7 @@ MonoBehaviour:
   cardName: Dark Pact
   cardDescription: Gain 2 Energy
   cardType: 2
+  targetType: 3
   cardSprite: {fileID: 0}
   cardEnergyCost: 0
   cardCorruptionGain: 3

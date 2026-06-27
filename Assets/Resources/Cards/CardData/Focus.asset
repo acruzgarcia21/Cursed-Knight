@@ -15,8 +15,10 @@ MonoBehaviour:
   cardName: Focus
   cardDescription: Gain 1 energy
   cardType: 2
+  targetType: 3
   cardSprite: {fileID: 0}
   cardEnergyCost: 0
   cardCorruptionGain: 0
   cardHealthGain: 0
   cardEnergyGain: 1
+  cardsToDraw: 0

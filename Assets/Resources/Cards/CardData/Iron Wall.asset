@@ -15,6 +15,7 @@ MonoBehaviour:
   cardName: Iron Wall
   cardDescription: Gain 8 block
   cardType: 1
+  targetType: 3
   cardSprite: {fileID: 0}
   cardEnergyCost: 2
   cardCorruptionGain: 0

@@ -15,6 +15,7 @@ MonoBehaviour:
   cardName: Battle Focus
   cardDescription: Draw 2 Cards
   cardType: 2
+  targetType: 4
   cardSprite: {fileID: 0}
   cardEnergyCost: 0
   cardCorruptionGain: 0

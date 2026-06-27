@@ -8,6 +8,8 @@ namespace CursedKnight
         public string cardDescription;
         
         public CardType cardType;
+
+        public TargetType targetType;
         
         public Sprite cardSprite;
         
@@ -19,6 +21,15 @@ namespace CursedKnight
             Attack,
             Defense,
             Utility
+        }
+
+        public enum TargetType
+        {
+            SingleEnemy,
+            AllEnemies,
+            RandomEnemy,
+            Self,
+            None
         }
     }
 }

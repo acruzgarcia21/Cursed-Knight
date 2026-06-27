@@ -15,6 +15,7 @@ MonoBehaviour:
   cardName: Shadow Mend
   cardDescription: Gain 8 health
   cardType: 2
+  targetType: 3
   cardSprite: {fileID: 0}
   cardEnergyCost: 1
   cardCorruptionGain: 2
