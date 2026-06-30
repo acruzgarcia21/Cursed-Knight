@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
@@ -133,14 +134,14 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
     public void OnPointerUp(PointerEventData eventData)
     {
         if (_cardHasBeenPlayed) return;
-
-        Debug.Log("OnPointerUp");
-
+        
         _cardData = _cardDisplay.cardData;
+
+        var targetEnemy = GetEnemyUnderPointer(eventData);
 
         if (_rectTransform.localPosition.y > cardPlay.y)
         {
-            if (_cardPlayManager.TryPlayCard(_player, _cardData, gameObject))
+            if (_cardPlayManager.TryPlayCard(_player, _cardData, gameObject, targetEnemy))
             {
                 _cardHasBeenPlayed = true;
             }
@@ -151,7 +152,6 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
 
             return;
         }
-
         ReturnToIdleState();
     }
 
@@ -201,5 +201,29 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
         
         _currentState = CardState.Dragging;
         _cardVisualEffects.HandlePlayArrow(false);
+    }
+
+    private Enemy GetEnemyUnderPointer(PointerEventData eventData)
+    {
+        if (EventSystem.current == null)
+        {
+            Debug.LogWarning("No EventSystem found");
+            return null;
+        }
+
+        var raycastResults = new List<RaycastResult>();
+        
+        EventSystem.current.RaycastAll(eventData, raycastResults);
+
+        foreach (var result in raycastResults)
+        {
+            var enemy = result.gameObject.GetComponentInParent<Enemy>();
+
+            if (enemy != null)
+            {
+                return enemy;
+            }
+        }
+        return null;
     }
 }

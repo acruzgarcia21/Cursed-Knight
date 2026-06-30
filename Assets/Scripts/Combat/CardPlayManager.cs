@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using CursedKnight;
 using UnityEngine;
 
@@ -6,14 +6,16 @@ public class CardPlayManager : MonoBehaviour
 {
     private HandManager _handManager;
     private DiscardManager _discardManager;
+    private EnemyManager _enemyManager;
 
     private void Awake()
     {
         _handManager    = FindFirstObjectByType<HandManager>();
         _discardManager = FindFirstObjectByType<DiscardManager>();
+        _enemyManager   = FindFirstObjectByType<EnemyManager>();
     }
 
-    public bool TryPlayCard(Player player, Card cardData, GameObject cardObject)
+    public bool TryPlayCard(Player player, Card cardData, GameObject cardObject, Enemy targetEnemy)
     {
         if (cardData == null) return false;
         
@@ -23,22 +25,25 @@ public class CardPlayManager : MonoBehaviour
             return false;
         }
 
+        if (!IsTargetValid(player, cardData, targetEnemy))
+        {
+            Debug.Log("Invalid Target");
+            return false;
+        }
+
         return cardData.cardType switch
         {
-            Card.CardType.Attack => TryPlayAttack(player, cardData, cardObject),
+            Card.CardType.Attack => TryPlayAttack(player, cardData, cardObject, targetEnemy),
             Card.CardType.Defense => TryPlayDefense(player, cardData, cardObject),
             Card.CardType.Utility => TryPlayUtility(player, cardData, cardObject),
             _ => false
         };
     }
 
-    private bool TryPlayAttack(Player player, Card cardData, GameObject cardObject)
+    private bool TryPlayAttack(Player player, Card cardData, GameObject cardObject, Enemy targetEnemy)
     {
         var attackCard = cardData as Attack;
         if (attackCard == null) return false;
-
-        var enemy = BattleManager.Instance.EnemyManager.GetFirstLivingEnemy();
-        if (enemy == null) return false;
         
         if (attackCard.cardCorruptionGain > 0)
         {
@@ -52,7 +57,30 @@ public class CardPlayManager : MonoBehaviour
         
         Debug.Log($"Played attack card: {attackCard.cardName}, Damage: {attackCard.cardDamage}");
         
-        enemy.TakeDamage(attackCard.cardDamage);
+        switch (cardData.targetType)
+        {
+            case Card.TargetType.AllEnemies:
+            {
+                var allLivingEnemies = _enemyManager.GetLivingEnemies();
+                foreach (var enemy in allLivingEnemies)
+                {
+                    enemy.TakeDamage(attackCard.cardDamage);
+                }
+
+                break;
+            }
+            case Card.TargetType.RandomEnemy:
+            {
+                var allLivingEnemies = _enemyManager.GetLivingEnemies();
+                var randomEnemyIndex = Random.Range(0, allLivingEnemies.Count);
+                allLivingEnemies[randomEnemyIndex].TakeDamage(attackCard.cardDamage);
+                break;
+            }
+            case Card.TargetType.SingleEnemy:
+            default:
+                targetEnemy.TakeDamage(attackCard.cardDamage);
+                break;
+        }
         
         SendCardToDiscard(cardData, cardObject);
         return true;
@@ -121,5 +149,24 @@ public class CardPlayManager : MonoBehaviour
         _handManager.RemoveCardFromHand(cardObject);
         _discardManager.AddToDiscardPile(cardData);
         Destroy(cardObject);
+    }
+
+    private bool IsTargetValid(Player player, Card cardData, Enemy targetEnemy)
+    {
+        if (cardData == null) return false;
+
+        switch (cardData.targetType)
+        {
+            case Card.TargetType.SingleEnemy:
+                return targetEnemy != null;
+            case Card.TargetType.AllEnemies:
+            case Card.TargetType.RandomEnemy:
+                return !_enemyManager.AllEnemiesDead();
+            case Card.TargetType.Self:
+                return player != null;
+            case Card.TargetType.None:
+            default:
+                return true;
+        }
     }
 }

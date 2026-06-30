@@ -13,7 +13,8 @@ public class EnemyManager : MonoBehaviour
     public EnemyData[] enemyStorage;
     
     public List<Transform> enemySpawnPositions = new List<Transform>();
-    public List<Enemy> currentEnemies = new List<Enemy>();
+    
+    private readonly List<Enemy> _currentEnemies = new List<Enemy>();
     
     private BattleManager _battleManager;
 
@@ -55,27 +56,21 @@ public class EnemyManager : MonoBehaviour
         var enemy = enemyObject.GetComponent<Enemy>();
         
         enemy.enemyData = enemyData;
-        currentEnemies.Add(enemy);
+        _currentEnemies.Add(enemy);
         enemy.BattleSetup();
     }
 
     public void ProcessEnemyTurn(Player player)
     {
-        foreach (var enemy in currentEnemies)
+        foreach (var enemy in _currentEnemies)
         {
             enemy.TakeTurn(player);
         }
     }
 
-    // Prototype targeting logic
-    public Enemy GetFirstLivingEnemy()
-    {
-        return currentEnemies.Count > 0 ? currentEnemies[0] : null;
-    }
-
     public void RemoveEnemy(Enemy enemyToRemove)
     {
-        currentEnemies.Remove(enemyToRemove);
+        _currentEnemies.Remove(enemyToRemove);
         Destroy(enemyToRemove.gameObject);
         
         // Okay for now, will change later
@@ -85,8 +80,14 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
+    public List<Enemy> GetLivingEnemies()
+    {
+        var livingEnemies = new List<Enemy>(_currentEnemies);
+        return livingEnemies;
+    }
+
     public bool AllEnemiesDead()
     {
-        return currentEnemies.Count == 0;
+        return _currentEnemies.Count == 0;
     }
 }
