@@ -5,4 +5,5 @@ using UnityEngine;
 public class Attack : Card
 {
     public int cardDamage;
+    public int hitCount = 1;
 }

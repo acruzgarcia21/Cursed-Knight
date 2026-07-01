@@ -57,21 +57,30 @@ public class CardPlayManager : MonoBehaviour
                 var allLivingEnemies = _enemyManager.GetLivingEnemies();
                 foreach (var enemy in allLivingEnemies)
                 {
-                    enemy.TakeDamage(attackCard.cardDamage);
+                    for (var i = 0; i < attackCard.hitCount; i++)
+                    {
+                        enemy.TakeDamage(attackCard.cardDamage);
+                    }
                 }
 
                 break;
             }
             case Card.TargetType.RandomEnemy:
             {
-                var allLivingEnemies = _enemyManager.GetLivingEnemies();
-                var randomEnemyIndex = Random.Range(0, allLivingEnemies.Count);
-                allLivingEnemies[randomEnemyIndex].TakeDamage(attackCard.cardDamage);
+                for (var i = 0; i < attackCard.hitCount; i++)
+                {
+                    var allLivingEnemies = _enemyManager.GetLivingEnemies();
+                    var randomEnemyIndex = Random.Range(0, allLivingEnemies.Count);
+                    allLivingEnemies[randomEnemyIndex].TakeDamage(attackCard.cardDamage);
+                }
                 break;
             }
             case Card.TargetType.SingleEnemy:
             default:
-                targetEnemy.TakeDamage(attackCard.cardDamage);
+                for (var i = 0; i < attackCard.hitCount; i++)
+                {
+                    targetEnemy.TakeDamage(attackCard.cardDamage);
+                }
                 break;
         }
         

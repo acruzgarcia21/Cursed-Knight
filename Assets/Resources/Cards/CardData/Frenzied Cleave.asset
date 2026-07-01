@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: Frenzied Cleave
   m_EditorClassIdentifier: Assembly-CSharp::Attack
   cardName: Frenzied Cleave
-  cardDescription: Deal 12 damage
+  cardDescription: Deal 2 x 8 damage
   cardType: 0
+  targetType: 0
   cardSprite: {fileID: 0}
   cardEnergyCost: 3
   cardCorruptionGain: 2
-  cardDamage: 12
+  cardDamage: 8
+  hitCount: 2

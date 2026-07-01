@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1cd9c383cbbfd24458b3beea015b76c5, type: 3}
-  m_Name: Rusty Sword
+  m_Name: Relentless Onslaught
   m_EditorClassIdentifier: Assembly-CSharp::Attack
-  cardName: Rusty Sword
-  cardDescription: Deal 4 damage
+  cardName: Relentless Onslaught
+  cardDescription: 'Deal 3 damage to all enemies 3 times. '
   cardType: 0
-  targetType: 0
+  targetType: 1
   cardSprite: {fileID: 0}
-  cardEnergyCost: 1
+  cardEnergyCost: 2
   cardCorruptionGain: 0
-  cardDamage: 4
-  hitCount: 1
+  cardDamage: 3
+  hitCount: 3

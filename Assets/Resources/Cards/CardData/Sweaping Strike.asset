@@ -20,3 +20,4 @@ MonoBehaviour:
   cardEnergyCost: 2
   cardCorruptionGain: 0
   cardDamage: 6
+  hitCount: 1

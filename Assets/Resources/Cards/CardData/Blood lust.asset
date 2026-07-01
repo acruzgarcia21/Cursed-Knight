@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1cd9c383cbbfd24458b3beea015b76c5, type: 3}
-  m_Name: Rusty Sword
+  m_Name: Blood lust
   m_EditorClassIdentifier: Assembly-CSharp::Attack
-  cardName: Rusty Sword
-  cardDescription: Deal 4 damage
+  cardName: Blood lust
+  cardDescription: 'Deal 4 damage to a random enemy 3 times. '
   cardType: 0
-  targetType: 0
+  targetType: 2
   cardSprite: {fileID: 0}
   cardEnergyCost: 1
-  cardCorruptionGain: 0
+  cardCorruptionGain: 2
   cardDamage: 4
-  hitCount: 1
+  hitCount: 3
