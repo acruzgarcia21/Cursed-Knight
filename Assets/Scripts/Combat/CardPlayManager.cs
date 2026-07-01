@@ -45,15 +45,8 @@ public class CardPlayManager : MonoBehaviour
         var attackCard = cardData as Attack;
         if (attackCard == null) return false;
         
-        if (attackCard.cardCorruptionGain > 0)
-        {
-            player.GainCorruption(attackCard.cardCorruptionGain);
-        }
-
-        if (attackCard.cardEnergyCost > 0)
-        {
-            player.SpendEnergy(attackCard.cardEnergyCost);
-        }
+        ApplyCardCorruption(player, attackCard);
+        SpendCardEnergy(player, attackCard);
         
         Debug.Log($"Played attack card: {attackCard.cardName}, Damage: {attackCard.cardDamage}");
         
@@ -91,17 +84,10 @@ public class CardPlayManager : MonoBehaviour
         var defenseCard = cardData as Defense;
         if (defenseCard == null) return false;
 
+        ApplyCardCorruption(player, defenseCard);
+        SpendCardEnergy(player, defenseCard);
+        
         player.GainBlock(defenseCard.cardBlock);
-        
-        if (defenseCard.cardCorruptionGain > 0)
-        {
-            player.GainCorruption(defenseCard.cardCorruptionGain);
-        }
-        
-        if (defenseCard.cardEnergyCost > 0)
-        {
-            player.SpendEnergy(defenseCard.cardEnergyCost);
-        }
 
         Debug.Log($"Played defense card: {defenseCard.cardName}, Block: {defenseCard.cardBlock}, Energy Spent: {defenseCard.cardEnergyCost}");
         SendCardToDiscard(cardData, cardObject);
@@ -113,6 +99,9 @@ public class CardPlayManager : MonoBehaviour
         var utilityCard = cardData as UtilityCard;
         if (utilityCard == null) return false;
 
+        ApplyCardCorruption(player, utilityCard);
+        SpendCardEnergy(player, utilityCard);
+        
         if (utilityCard.cardEnergyGain > 0)
         {
             player.GainEnergy(utilityCard.cardEnergyGain);
@@ -121,17 +110,6 @@ public class CardPlayManager : MonoBehaviour
         if (utilityCard.cardHealthGain > 0)
         {
             player.Heal(utilityCard.cardHealthGain);
-        }
-
-        if (utilityCard.cardCorruptionGain > 0)
-        {
-            player.GainCorruption(utilityCard.cardCorruptionGain);
-        }
-        
-        if (utilityCard.cardEnergyCost > 0)
-        {
-            player.SpendEnergy(utilityCard.cardEnergyCost);
-            
         }
         
         Debug.Log($"Played utility card: " +
@@ -167,6 +145,22 @@ public class CardPlayManager : MonoBehaviour
             case Card.TargetType.None:
             default:
                 return true;
+        }
+    }
+
+    private void SpendCardEnergy(Player player, Card cardData)
+    {
+        if (cardData.cardEnergyCost > 0)
+        {
+            player.SpendEnergy(cardData.cardEnergyCost);
+        }
+    }
+
+    private void ApplyCardCorruption(Player player, Card cardData)
+    {
+        if (cardData.cardCorruptionGain > 0)
+        {
+            player.GainCorruption(cardData.cardCorruptionGain);
         }
     }
 }
