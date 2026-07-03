@@ -85,6 +85,7 @@ public class CardPlayManager : MonoBehaviour
         }
         
         DrawCardsFromCard(player, attackCard);
+        ApplyRandomCardDiscard(attackCard);
         SendCardToDiscard(cardData, cardObject);
         return true;
     }
@@ -100,8 +101,7 @@ public class CardPlayManager : MonoBehaviour
         player.GainBlock(defenseCard.cardBlock);
 
         DrawCardsFromCard(player, defenseCard);
-        
-        Debug.Log($"Played defense card: {defenseCard.cardName}, Block: {defenseCard.cardBlock}, Energy Spent: {defenseCard.cardEnergyCost}");
+        ApplyRandomCardDiscard(defenseCard);
         SendCardToDiscard(cardData, cardObject);
         return true;
     }
@@ -125,12 +125,14 @@ public class CardPlayManager : MonoBehaviour
         }
         
         DrawCardsFromCard(player, utilityCard);
+        ApplyRandomCardDiscard(utilityCard);
         
         Debug.Log($"Played utility card: " +
                   $"{utilityCard.cardName}, " +
                   $"Health: {utilityCard.cardHealthGain}, " +
                   $"Energy: {utilityCard.cardEnergyGain}, " +
-                  $"Draw Cards: {utilityCard.cardsToDraw}");
+                  $"Draw Cards: {utilityCard.cardsToDraw}, " +
+                  $"Random cards to discard: {utilityCard.cardsToDiscardRandomly}");
         
         SendCardToDiscard(cardData, cardObject);
         return true;
@@ -183,6 +185,14 @@ public class CardPlayManager : MonoBehaviour
         if (cardData.cardsToDraw > 0)
         {
             _handManager.DrawCards(cardData.cardsToDraw);
+        }
+    }
+
+    private void ApplyRandomCardDiscard(Card cardData)
+    {
+        if (cardData.cardsToDiscardRandomly > 0)
+        {
+            _handManager.DiscardRandomCards(cardData.cardsToDiscardRandomly);
         }
     }
 }

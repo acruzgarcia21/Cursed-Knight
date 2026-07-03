@@ -10,14 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1cd9c383cbbfd24458b3beea015b76c5, type: 3}
-  m_Name: Sweaping Strike
+  m_Name: Sweeping Strike
   m_EditorClassIdentifier: Assembly-CSharp::Attack
-  cardName: Sweaping Strike
+  cardName: Sweeping Strike
   cardDescription: Deal 6 damage to all enemies
   cardType: 0
   targetType: 1
   cardSprite: {fileID: 0}
-  cardEnergyCost: 2
+  cardEnergyCost: 1
   cardCorruptionGain: 0
+  cardsToDraw: 0
+  cardsToDiscardRandomly: 0
   cardDamage: 6
   hitCount: 1

@@ -83,6 +83,24 @@ public class HandManager : MonoBehaviour
         _handDisplay.UpdateHandVisuals(_cardsInHand);
     }
 
+    public void DiscardRandomCards(int numCardsToDiscard)
+    {
+        for (var i = 0; i < numCardsToDiscard; i++)
+        {
+            if (_cardsInHand.Count <= 0) break;
+            
+            var randomCardIndex = Random.Range(0, _cardsInHand.Count);
+            
+            var cardToDiscard = _cardsInHand[randomCardIndex];
+            var cardData = cardToDiscard.GetComponent<CardDisplay>().cardData;
+            Debug.Log($"Discarded: {cardData.cardName}");
+            _discardManager.AddToDiscardPile(cardData);
+            _cardsInHand.Remove(cardToDiscard);
+            Destroy(cardToDiscard);
+        }
+        _handDisplay.UpdateHandVisuals(_cardsInHand);
+    }
+
     public void RemoveCardFromHand(GameObject cardToRemove)
     {
         _cardsInHand.Remove(cardToRemove);
