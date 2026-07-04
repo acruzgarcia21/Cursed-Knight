@@ -17,8 +17,9 @@ MonoBehaviour:
   cardType: 0
   targetType: 0
   cardSprite: {fileID: 0}
-  cardEnergyCost: 1
+  cardEnergyCost: 2
   cardCorruptionGain: 0
   cardsToDraw: 1
+  cardsToDiscardRandomly: 0
   cardDamage: 5
   hitCount: 1

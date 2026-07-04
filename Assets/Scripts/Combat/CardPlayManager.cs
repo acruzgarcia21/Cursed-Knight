@@ -84,7 +84,9 @@ public class CardPlayManager : MonoBehaviour
                 break;
         }
         
-        DrawCardsFromCard(player, attackCard);
+        DrawCardsFromCard(attackCard);
+        ApplyRandomCardDiscard(attackCard);
+        DrawRandomCardFromDiscard(attackCard);
         SendCardToDiscard(cardData, cardObject);
         return true;
     }
@@ -99,9 +101,9 @@ public class CardPlayManager : MonoBehaviour
         
         player.GainBlock(defenseCard.cardBlock);
 
-        DrawCardsFromCard(player, defenseCard);
-        
-        Debug.Log($"Played defense card: {defenseCard.cardName}, Block: {defenseCard.cardBlock}, Energy Spent: {defenseCard.cardEnergyCost}");
+        DrawCardsFromCard(defenseCard);
+        ApplyRandomCardDiscard(defenseCard);
+        DrawRandomCardFromDiscard(defenseCard);
         SendCardToDiscard(cardData, cardObject);
         return true;
     }
@@ -124,13 +126,16 @@ public class CardPlayManager : MonoBehaviour
             player.Heal(utilityCard.cardHealthGain);
         }
         
-        DrawCardsFromCard(player, utilityCard);
+        DrawCardsFromCard(utilityCard);
+        ApplyRandomCardDiscard(utilityCard);
+        DrawRandomCardFromDiscard(utilityCard);
         
         Debug.Log($"Played utility card: " +
                   $"{utilityCard.cardName}, " +
                   $"Health: {utilityCard.cardHealthGain}, " +
                   $"Energy: {utilityCard.cardEnergyGain}, " +
-                  $"Draw Cards: {utilityCard.cardsToDraw}");
+                  $"Draw Cards: {utilityCard.cardsToDraw}, " +
+                  $"Random cards to discard: {utilityCard.cardsToDiscardRandomly}");
         
         SendCardToDiscard(cardData, cardObject);
         return true;
@@ -178,11 +183,35 @@ public class CardPlayManager : MonoBehaviour
         }
     }
 
-    private void DrawCardsFromCard(Player player, Card cardData)
+    private void DrawCardsFromCard(Card cardData)
     {
         if (cardData.cardsToDraw > 0)
         {
             _handManager.DrawCards(cardData.cardsToDraw);
+        }
+    }
+
+    private void ApplyRandomCardDiscard(Card cardData)
+    {
+        if (cardData.cardsToDiscardRandomly > 0)
+        {
+            _handManager.DiscardRandomCards(cardData.cardsToDiscardRandomly);
+        }
+    }
+
+    private void DrawRandomCardFromDiscard(Card cardData)
+    {
+        if (cardData.cardsToDrawFromDiscard <= 0) return;
+
+        for (var i = 0; i < cardData.cardsToDrawFromDiscard; i++)
+        {
+            if (_handManager.IsHandFull()) break;
+
+            var randomCardFromDiscard = _discardManager.PullRandomCardFromDiscard();
+
+            if (randomCardFromDiscard == null) break;
+            
+            _handManager.AddCardToHand(randomCardFromDiscard);
         }
     }
 }

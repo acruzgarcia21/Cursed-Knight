@@ -31,11 +31,8 @@ public class HandManager : MonoBehaviour
 
     public void AddCardToHand(Card cardData)
     {
-        if (_cardsInHand.Count >= maxCardsInHand)
-        {
-            Debug.Log("You already have maximum amount of cards!: " + _cardsInHand.Count);
-            return;
-        }
+        if (_cardsInHand.Count >= maxCardsInHand) return;
+        
         // Instantiate card
         // 1. GameObject
         // 2. GameObject Position
@@ -83,9 +80,34 @@ public class HandManager : MonoBehaviour
         _handDisplay.UpdateHandVisuals(_cardsInHand);
     }
 
+    public void DiscardRandomCards(int numCardsToDiscard)
+    {
+        for (var i = 0; i < numCardsToDiscard; i++)
+        {
+            if (_cardsInHand.Count <= 0) break;
+            
+            var randomCardIndex = Random.Range(0, _cardsInHand.Count);
+            
+            var cardToDiscard = _cardsInHand[randomCardIndex];
+            var cardData = cardToDiscard.GetComponent<CardDisplay>().cardData;
+            Debug.Log($"Discarded: {cardData.cardName}");
+            
+            _discardManager.AddToDiscardPile(cardData);
+            _cardsInHand.Remove(cardToDiscard);
+            
+            Destroy(cardToDiscard);
+        }
+        _handDisplay.UpdateHandVisuals(_cardsInHand);
+    }
+
     public void RemoveCardFromHand(GameObject cardToRemove)
     {
         _cardsInHand.Remove(cardToRemove);
         _handDisplay.UpdateHandVisuals(_cardsInHand);
+    }
+
+    public bool IsHandFull()
+    {
+        return _cardsInHand.Count >= maxCardsInHand;
     }
 }
