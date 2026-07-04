@@ -32,10 +32,8 @@ public class DiscardManager : MonoBehaviour
             _discardPileDisplay.UpdateDiscardCount(_discardPile);
             return cardToReturn;
         }
-        else
-        {
-            return null;
-        }
+
+        return null;
     }
 
     public bool SelectCardFromDiscardPile(Card card)
@@ -65,6 +63,19 @@ public class DiscardManager : MonoBehaviour
         {
             return new List<Card>();
         }
+    }
+
+    public Card PullRandomCardFromDiscard()
+    {
+        if (IsDiscardPileEmpty()) return null;
+        
+        var randomCardIndex = Random.Range(0, _discardPile.Count);
+        var randomCardToReturn = _discardPile[randomCardIndex];
+        
+        _discardPile.Remove(randomCardToReturn);
+        _discardPileDisplay.UpdateDiscardCount(_discardPile);
+        
+        return randomCardToReturn;
     }
 
     public bool IsDiscardPileEmpty()

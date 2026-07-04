@@ -17,6 +17,7 @@ namespace CursedKnight
         public int cardCorruptionGain;
         public int cardsToDraw;
         public int cardsToDiscardRandomly;
+        public int cardsToDrawFromDiscard;
 
         public enum CardType
         {
