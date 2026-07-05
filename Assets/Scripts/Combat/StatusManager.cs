@@ -21,18 +21,60 @@ public class StatusManager : MonoBehaviour
         _activeStatuses.Add(statusEffect);
     }
 
-    public void RemoveStatus()
+    public void RemoveStatus(StatusEffect.StatusType statusType)
     {
+        StatusEffect statusToRemove = null;
         
+        foreach (var activeStatus in _activeStatuses)
+        {
+            if (activeStatus.statusType != statusType) continue;
+            
+            statusToRemove = activeStatus;
+            break;
+        }
+
+        if (statusToRemove == null) return;
+        _activeStatuses.Remove(statusToRemove);
     }
 
-    public bool HasStatus()
+    public bool HasStatus(StatusEffect.StatusType statusType)
     {
-        return false;   
+        foreach (var activeStatus in _activeStatuses)
+        {
+            if (activeStatus.statusType != statusType) continue;
+            
+            return true;
+        }
+        
+        return false;
     }
 
-    public int GetStatusAmount()
+    public int GetStatusAmount(StatusEffect.StatusType statusType)
     {
+        foreach (var activeStatus in _activeStatuses)
+        {
+            if (activeStatus.statusType != statusType) continue;
+            
+            return activeStatus.amount;
+        }
+
         return 0;
+    }
+
+    public void TickDurations()
+    {
+        for (var i = _activeStatuses.Count - 1; i >= 0; i--)
+        {
+            var status = _activeStatuses[i];
+            
+            if (status.duration == -1) continue;
+
+            status.duration--;
+
+            if (status.duration <= 0)
+            {
+                _activeStatuses.Remove(status);
+            }
+        }
     }
 }
