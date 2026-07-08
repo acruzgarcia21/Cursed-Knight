@@ -77,4 +77,24 @@ public class StatusManager : MonoBehaviour
             }
         }
     }
+    
+    public void DebugPrintStatuses()
+    {
+        if (_activeStatuses.Count <= 0)
+        {
+            Debug.Log("No Active Statuses.");
+            return;
+        }
+
+        Debug.Log("=== Active Statuses ===");
+
+        foreach (var status in _activeStatuses)
+        {
+            Debug.Log(
+                $"Status: {status.statusType} | " +
+                $"Amount: {status.amount} | " +
+                $"Duration: {status.duration}"
+            );
+        }
+    }
 }

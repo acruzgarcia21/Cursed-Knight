@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 public class Player : MonoBehaviour
 {
@@ -13,19 +14,43 @@ public class Player : MonoBehaviour
     public int playerMaxCorruption = 10;
 
     public int corruptionDebuffTurns;
-    public bool isCorrupted = false;
+    public bool isCorrupted;
     public int corruptionDamage = 10;
     
     private PlayerDisplay _playerDisplay;
     private UIDisplay _uiDisplay;
-
+    private StatusManager _statusManager;
+    
     private void Awake()
     {
         _playerDisplay = GetComponent<PlayerDisplay>();
         
-        _uiDisplay = FindFirstObjectByType<UIDisplay>();
+        _uiDisplay     = FindFirstObjectByType<UIDisplay>();
+        _statusManager = FindFirstObjectByType<StatusManager>();
         
         _playerDisplay.UpdatePlayerDisplay();
+    }
+    
+    private void Start()
+    {
+        var weakOne = new StatusEffect
+        {
+            statusType = StatusEffect.StatusType.Weak,
+            amount = 1,
+            duration = 2
+        };
+
+        var weakTwo = new StatusEffect
+        {
+            statusType = StatusEffect.StatusType.Weak,
+            amount = 2,
+            duration = 1
+        };
+
+        _statusManager.ApplyStatus(weakOne);
+        _statusManager.ApplyStatus(weakTwo);
+
+        _statusManager.DebugPrintStatuses();
     }
 
     public void BattleSetup()

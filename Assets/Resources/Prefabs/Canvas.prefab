@@ -2566,6 +2566,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3894402963841512277, guid: 404bedb6efb2e474cb60307b2621680b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8296358720547394489}
+    - targetCorrespondingSourceObject: {fileID: 3894402963841512277, guid: 404bedb6efb2e474cb60307b2621680b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2593823844508641177}
   m_SourcePrefab: {fileID: 100100000, guid: 404bedb6efb2e474cb60307b2621680b, type: 3}
 --- !u!1 &556644198091743039 stripped
 GameObject:
@@ -2610,6 +2613,18 @@ MonoBehaviour:
   playerHealthText: {fileID: 1755583041634818447}
   playerBlockText: {fileID: 3517225218565276448}
   playerSprite: {fileID: 2489465418029211679}
+--- !u!114 &2593823844508641177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 556644198091743039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d25c291b016ab64e9f872f24031fa1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatusManager
 --- !u!114 &1755583041634818447 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3021703521236809189, guid: 404bedb6efb2e474cb60307b2621680b, type: 3}
