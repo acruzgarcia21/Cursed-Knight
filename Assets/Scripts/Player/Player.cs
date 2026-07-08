@@ -30,27 +30,15 @@ public class Player : MonoBehaviour
         
         _playerDisplay.UpdatePlayerDisplay();
     }
-    
+
     private void Start()
     {
-        var weakOne = new StatusEffect
+        var strength = new StatusEffect
         {
-            statusType = StatusEffect.StatusType.Weak,
-            amount = 1,
-            duration = 2
-        };
-
-        var weakTwo = new StatusEffect
-        {
-            statusType = StatusEffect.StatusType.Weak,
+            statusType = StatusEffect.StatusType.Strength,
             amount = 2,
-            duration = 1
+            duration = -1
         };
-
-        _statusManager.ApplyStatus(weakOne);
-        _statusManager.ApplyStatus(weakTwo);
-
-        _statusManager.DebugPrintStatuses();
     }
 
     public void BattleSetup()
@@ -93,13 +81,6 @@ public class Player : MonoBehaviour
     {
         playerEnergy += energy;
         _playerDisplay.UpdatePlayerDisplay();
-        
-        _uiDisplay.UpdatePlayerEnergyText(this);
-    }
-
-    public void ResetEnergy()
-    {
-        playerEnergy = playerEnergyPerTurn;
         
         _uiDisplay.UpdatePlayerEnergyText(this);
     }
@@ -147,13 +128,6 @@ public class Player : MonoBehaviour
         _playerDisplay.UpdatePlayerDisplay();
     }
 
-    private void ClearBlock()
-    {
-        playerBlock = 0;
-        
-        _playerDisplay.UpdatePlayerDisplay();
-    }
-
     public void GainCorruption(int corruption)
     {
         playerCorruption += corruption;
@@ -167,6 +141,26 @@ public class Player : MonoBehaviour
         
         TriggerCorruptionOverflow();
     }
+    
+    public int GetModifiedAttackDamage(int baseDamage)
+    {
+        var strength = _statusManager.GetStatusAmount(StatusEffect.StatusType.Strength);
+        return baseDamage + strength;
+    }
+    
+    private void ClearBlock()
+    {
+        playerBlock = 0;
+        
+        _playerDisplay.UpdatePlayerDisplay();
+    }
+    
+    private void ResetEnergy()
+    {
+        playerEnergy = playerEnergyPerTurn;
+        
+        _uiDisplay.UpdatePlayerEnergyText(this);
+    }
 
     private void TriggerCorruptionOverflow()
     {
@@ -179,7 +173,7 @@ public class Player : MonoBehaviour
         _uiDisplay.UpdatePlayerCorruptionText(this);
     }
 
-    public bool PlayerIsDead()
+    private bool PlayerIsDead()
     {
         return playerHealth == 0;
     }

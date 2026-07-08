@@ -77,6 +77,8 @@ public class StatusManager : MonoBehaviour
             }
         }
     }
+
+    
     
     public void DebugPrintStatuses()
     {
