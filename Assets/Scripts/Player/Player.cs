@@ -31,16 +31,6 @@ public class Player : MonoBehaviour
         _playerDisplay.UpdatePlayerDisplay();
     }
 
-    private void Start()
-    {
-        var strength = new StatusEffect
-        {
-            statusType = StatusEffect.StatusType.Strength,
-            amount = 2,
-            duration = -1
-        };
-    }
-
     public void BattleSetup()
     {
         playerHealth = playerMaxHealth;
@@ -146,6 +136,11 @@ public class Player : MonoBehaviour
     {
         var strength = _statusManager.GetStatusAmount(StatusEffect.StatusType.Strength);
         return baseDamage + strength;
+    }
+
+    public void ApplyStatus(StatusEffect statusEffect)
+    {
+        _statusManager.ApplyStatus(statusEffect);
     }
     
     private void ClearBlock()

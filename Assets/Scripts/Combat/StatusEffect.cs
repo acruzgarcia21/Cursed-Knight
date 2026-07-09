@@ -1,7 +1,6 @@
 public class StatusEffect
 {
     public StatusType statusType;
-
     public int amount;
     public int duration;
 

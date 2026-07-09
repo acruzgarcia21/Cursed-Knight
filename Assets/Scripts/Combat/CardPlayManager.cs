@@ -49,6 +49,7 @@ public class CardPlayManager : MonoBehaviour
         
         ApplyCardCorruption(player, attackCard);
         SpendCardEnergy(player, attackCard);
+        ApplyCardStatus(player, cardData);
         
         Debug.Log($"Played attack card: {attackCard.cardName}, Base Damage: {attackCard.cardDamage}, Modified Damage: {finalAttackDamage}");
         
@@ -101,6 +102,7 @@ public class CardPlayManager : MonoBehaviour
 
         ApplyCardCorruption(player, defenseCard);
         SpendCardEnergy(player, defenseCard);
+        ApplyCardStatus(player, cardData);
         
         player.GainBlock(defenseCard.cardBlock);
 
@@ -119,6 +121,7 @@ public class CardPlayManager : MonoBehaviour
 
         ApplyCardCorruption(player, utilityCard);
         SpendCardEnergy(player, utilityCard);
+        ApplyCardStatus(player, cardData);
         
         if (utilityCard.cardEnergyGain > 0)
         {
@@ -195,6 +198,20 @@ public class CardPlayManager : MonoBehaviour
         {
             _handManager.DiscardRandomCards(cardData.cardsToDiscardRandomly);
         }
+    }
+
+    private void ApplyCardStatus(Player player, Card cardData)
+    {
+        if (!cardData.appliesStatus) return;
+
+        var statusEffect = new StatusEffect
+        {
+            statusType = cardData.statusType,
+            amount = cardData.statusAmount,
+            duration = cardData.statusDuration
+        };
+        
+        player.ApplyStatus(statusEffect);
     }
 
     private void DrawRandomCardFromDiscard(Card cardData)

@@ -12,19 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff015732792c77e4eb49056e964b05b4, type: 3}
   m_Name: Battle Cry
   m_EditorClassIdentifier: Assembly-CSharp::UtilityCard
-  cardName: 
-  cardDescription: 
-  cardType: 0
-  targetType: 0
+  cardName: Battle Cry
+  cardDescription: Gain 2 Strength
+  cardType: 2
+  targetType: 3
   cardSprite: {fileID: 0}
-  cardEnergyCost: 0
+  cardEnergyCost: 1
   cardCorruptionGain: 0
   cardsToDraw: 0
   cardsToDiscardRandomly: 0
   cardsToDrawFromDiscard: 0
-  statusAmount: 0
-  statusDuration: 0
-  appliesStatus: 0
+  appliesStatus: 1
   statusType: 0
+  statusAmount: 2
+  statusDuration: -1
   cardHealthGain: 0
   cardEnergyGain: 0

@@ -19,6 +19,12 @@ MonoBehaviour:
   cardSprite: {fileID: 0}
   cardEnergyCost: 1
   cardCorruptionGain: 0
+  cardsToDraw: 2
+  cardsToDiscardRandomly: 0
+  cardsToDrawFromDiscard: 0
+  appliesStatus: 1
+  statusType: 0
+  statusAmount: 0
+  statusDuration: 0
   cardHealthGain: 0
   cardEnergyGain: 0
-  cardsToDraw: 2
