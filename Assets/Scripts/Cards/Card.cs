@@ -26,8 +26,6 @@ namespace CursedKnight
         public int statusAmount;
         public int statusDuration;
 
-
-
         public enum CardType
         {
             Attack,

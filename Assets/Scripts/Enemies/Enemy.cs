@@ -8,10 +8,12 @@ public class Enemy : MonoBehaviour
     public EnemyData enemyData;
 
     private EnemyDisplay _enemyDisplay;
+    private StatusManager _statusManager;
 
     private void Awake()
     {
-        _enemyDisplay = GetComponent<EnemyDisplay>();
+        _enemyDisplay  = GetComponent<EnemyDisplay>();
+        _statusManager = GetComponent<StatusManager>();
     }
 
     public void BattleSetup()
@@ -35,8 +37,12 @@ public class Enemy : MonoBehaviour
             
             player.ApplyStatus(statusEffect);
         }
+
+        var enemyAttackDamage = GetModifiedAttackDamage(enemyData.enemyAttackDamage);
         
-        player.TakeDamage(enemyData.enemyAttackDamage);
+        player.TakeDamage(enemyAttackDamage);
+        
+        _statusManager.TickDurations();
     }
 
     public void TakeDamage(int damage)
@@ -68,9 +74,37 @@ public class Enemy : MonoBehaviour
             BattleManager.Instance.EnemyManager.RemoveEnemy(this);
         }
     }
+    
+    public void ApplyStatus(StatusEffect statusEffect)
+    {
+        _statusManager.ApplyStatus(statusEffect);
+        _statusManager.DebugPrintStatuses();
+    }
+    
+    private int GetModifiedAttackDamage(int baseDamage)
+    {
+        var modifiedDamage = baseDamage;
+        if (_statusManager.HasStatus(StatusEffect.StatusType.Strength))
+        {
+            var strength = _statusManager.GetStatusAmount(StatusEffect.StatusType.Strength);
+            modifiedDamage += strength;
+        }
 
-    public bool EnemyIsDead()
+        if (_statusManager.HasStatus(StatusEffect.StatusType.Weak))
+        {
+            var weak = _statusManager.GetStatusAmount(StatusEffect.StatusType.Weak);
+            modifiedDamage -= weak;
+        }
+
+        if (modifiedDamage < 0) modifiedDamage = 0;
+        
+        return modifiedDamage;
+    }
+
+    private bool EnemyIsDead()
     {
         return currentEnemyHealth <= 0;
     }
+    
+    
 }

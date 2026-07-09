@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1347849440437137522}
   - component: {fileID: 3257995927891682111}
   - component: {fileID: 712689773128420859}
+  - component: {fileID: -8450013649451895071}
   m_Layer: 0
   m_Name: EnemyPrefab
   m_TagString: Untagged
@@ -66,6 +67,18 @@ MonoBehaviour:
   currentEnemyHealth: 0
   currentEnemyBlock: 0
   enemyData: {fileID: 0}
+--- !u!114 &-8450013649451895071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 478064832413887238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d25c291b016ab64e9f872f24031fa1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatusManager
 --- !u!1 &1266155009764237521
 GameObject:
   m_ObjectHideFlags: 0

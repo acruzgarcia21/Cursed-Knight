@@ -34,8 +34,8 @@ public class CardPlayManager : MonoBehaviour
         return cardData.cardType switch
         {
             Card.CardType.Attack => TryPlayAttack(player, cardData, cardObject, targetEnemy),
-            Card.CardType.Defense => TryPlayDefense(player, cardData, cardObject),
-            Card.CardType.Utility => TryPlayUtility(player, cardData, cardObject),
+            Card.CardType.Defense => TryPlayDefense(player, cardData, cardObject, targetEnemy),
+            Card.CardType.Utility => TryPlayUtility(player, cardData, cardObject, targetEnemy),
             _ => false
         };
     }
@@ -49,7 +49,7 @@ public class CardPlayManager : MonoBehaviour
         
         ApplyCardCorruption(player, attackCard);
         SpendCardEnergy(player, attackCard);
-        ApplyCardStatus(player, cardData);
+        ApplyCardStatus(player, cardData, targetEnemy);
         
         Debug.Log($"Played attack card: {attackCard.cardName}, Base Damage: {attackCard.cardDamage}, Modified Damage: {finalAttackDamage}");
         
@@ -95,14 +95,14 @@ public class CardPlayManager : MonoBehaviour
         return true;
     }
 
-    private bool TryPlayDefense(Player player, Card cardData, GameObject cardObject)
+    private bool TryPlayDefense(Player player, Card cardData, GameObject cardObject, Enemy targetEnemy)
     {
         var defenseCard = cardData as Defense;
         if (defenseCard == null) return false;
 
         ApplyCardCorruption(player, defenseCard);
         SpendCardEnergy(player, defenseCard);
-        ApplyCardStatus(player, cardData);
+        ApplyCardStatus(player, cardData, targetEnemy); 
         
         player.GainBlock(defenseCard.cardBlock);
 
@@ -114,14 +114,14 @@ public class CardPlayManager : MonoBehaviour
         return true;
     }
 
-    private bool TryPlayUtility(Player player, Card cardData, GameObject cardObject)
+    private bool TryPlayUtility(Player player, Card cardData, GameObject cardObject, Enemy targetEnemy)
     {
         var utilityCard = cardData as UtilityCard;
         if (utilityCard == null) return false;
 
         ApplyCardCorruption(player, utilityCard);
         SpendCardEnergy(player, utilityCard);
-        ApplyCardStatus(player, cardData);
+        ApplyCardStatus(player, cardData, targetEnemy);
         
         if (utilityCard.cardEnergyGain > 0)
         {
@@ -200,7 +200,7 @@ public class CardPlayManager : MonoBehaviour
         }
     }
 
-    private void ApplyCardStatus(Player player, Card cardData)
+    private void ApplyCardStatus(Player player, Card cardData, Enemy targetEnemy)
     {
         if (!cardData.appliesStatus) return;
 
@@ -210,8 +210,16 @@ public class CardPlayManager : MonoBehaviour
             amount = cardData.statusAmount,
             duration = cardData.statusDuration
         };
-        
-        player.ApplyStatus(statusEffect);
+
+        switch (cardData.targetType)
+        {
+            case Card.TargetType.Self:
+                player.ApplyStatus(statusEffect);
+                break;
+            case Card.TargetType.SingleEnemy:
+                targetEnemy.ApplyStatus(statusEffect);
+                break;
+        }
     }
 
     private void DrawRandomCardFromDiscard(Card cardData)
