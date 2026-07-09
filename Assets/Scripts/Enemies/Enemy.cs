@@ -24,6 +24,18 @@ public class Enemy : MonoBehaviour
 
     public void TakeTurn(Player player)
     {
+        if (enemyData.appliesStatus)
+        {
+            var statusEffect = new StatusEffect
+            {
+                statusType = enemyData.statusType,
+                amount = enemyData.statusAmount,
+                duration = enemyData.statusDuration
+            }; 
+            
+            player.ApplyStatus(statusEffect);
+        }
+        
         player.TakeDamage(enemyData.enemyAttackDamage);
     }
 

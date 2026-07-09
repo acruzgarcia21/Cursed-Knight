@@ -56,6 +56,8 @@ public class Player : MonoBehaviour
         corruptionDebuffTurns = Mathf.Clamp(corruptionDebuffTurns, 0, 2);
         
         if (corruptionDebuffTurns <= 0) isCorrupted = false;
+        
+        _statusManager.TickDurations();
     }
 
     public void SpendEnergy(int amount)
@@ -134,13 +136,28 @@ public class Player : MonoBehaviour
     
     public int GetModifiedAttackDamage(int baseDamage)
     {
-        var strength = _statusManager.GetStatusAmount(StatusEffect.StatusType.Strength);
-        return baseDamage + strength;
+        var modifiedDamage = baseDamage;
+        if (_statusManager.HasStatus(StatusEffect.StatusType.Strength))
+        {
+            var strength = _statusManager.GetStatusAmount(StatusEffect.StatusType.Strength);
+            modifiedDamage += strength;
+        }
+
+        if (_statusManager.HasStatus(StatusEffect.StatusType.Weak))
+        {
+            var weak = _statusManager.GetStatusAmount(StatusEffect.StatusType.Weak);
+            modifiedDamage -= weak;
+        }
+
+        if (modifiedDamage < 0) modifiedDamage = 0;
+        
+        return modifiedDamage;
     }
 
     public void ApplyStatus(StatusEffect statusEffect)
     {
         _statusManager.ApplyStatus(statusEffect);
+        _statusManager.DebugPrintStatuses();
     }
     
     private void ClearBlock()
