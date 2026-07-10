@@ -42,6 +42,10 @@ public class Enemy : MonoBehaviour
         
         player.TakeDamage(enemyAttackDamage);
         
+        Debug.Log($"{enemyData.enemyName} attacks for {enemyAttackDamage} damage.");
+        
+        ProcessEndTurnStatuses();
+        
         _statusManager.TickDurations();
     }
 
@@ -103,7 +107,7 @@ public class Enemy : MonoBehaviour
         return modifiedDamage;
     }
     
-    public int GetModifiedIncomingDamage(int baseDamage)
+    private int GetModifiedIncomingDamage(int baseDamage)
     {
         var modifiedDamage = baseDamage;
 
@@ -113,6 +117,24 @@ public class Enemy : MonoBehaviour
         }
         
         return modifiedDamage;
+    }
+    
+    private void ProcessEndTurnStatuses()
+    {
+        if (_statusManager.HasStatus(StatusEffect.StatusType.Poison))
+        {
+            var poisonDamage = _statusManager.GetStatusAmount(StatusEffect.StatusType.Poison);
+            currentEnemyHealth -= poisonDamage;
+        }
+        
+        currentEnemyHealth = Mathf.Clamp(currentEnemyHealth, 0, enemyData.enemyMaxHealth);
+
+        _enemyDisplay.UpdateEnemyDisplay();
+
+        if (EnemyIsDead())
+        {
+            BattleManager.Instance.EnemyManager.RemoveEnemy(this);
+        }
     }
 
     private bool EnemyIsDead()

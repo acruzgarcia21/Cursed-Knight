@@ -24,9 +24,9 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         _playerDisplay = GetComponent<PlayerDisplay>();
+        _statusManager = GetComponent<StatusManager>();
         
         _uiDisplay     = FindFirstObjectByType<UIDisplay>();
-        _statusManager = FindFirstObjectByType<StatusManager>();
         
         _playerDisplay.UpdatePlayerDisplay();
     }
@@ -57,6 +57,8 @@ public class Player : MonoBehaviour
         
         if (corruptionDebuffTurns <= 0) isCorrupted = false;
         
+        ProcessEndTurnStatuses();
+        
         _statusManager.TickDurations();
     }
 
@@ -79,8 +81,10 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        var healthBefore = playerHealth;
+        var blockBefore = playerBlock;
         var modifiedDamage = GetModifiedIncomingDamage(damage);
-        
+
         if (playerBlock > 0)
         {
             if (playerBlock >= modifiedDamage)
@@ -96,14 +100,25 @@ public class Player : MonoBehaviour
         }
         else
         {
-            playerHealth -= modifiedDamage;   
+            playerHealth -= modifiedDamage;
         }
+
         playerHealth = Mathf.Clamp(playerHealth, 0, playerMaxHealth);
+
+        var healthLost = healthBefore - playerHealth;
+        var blockLost = blockBefore - playerBlock;
+
+        Debug.Log(
+            $"Player Damage | Raw: {damage} | " +
+            $"HP Lost: {healthLost} | Block Lost: {blockLost} | " +
+            $"Health: {healthBefore} -> {playerHealth}"
+        );
 
         if (PlayerIsDead())
         {
             BattleManager.Instance.LoseBattle();
         }
+
         _playerDisplay.UpdatePlayerDisplay();
     }
 
@@ -156,7 +171,13 @@ public class Player : MonoBehaviour
         return modifiedDamage;
     }
 
-    public int GetModifiedIncomingDamage(int baseDamage)
+    public void ApplyStatus(StatusEffect statusEffect)
+    {
+        _statusManager.ApplyStatus(statusEffect);
+        _statusManager.DebugPrintStatuses();
+    }
+    
+    private int GetModifiedIncomingDamage(int baseDamage)
     {
         var modifiedDamage = baseDamage;
 
@@ -167,11 +188,30 @@ public class Player : MonoBehaviour
         
         return modifiedDamage;
     }
-
-    public void ApplyStatus(StatusEffect statusEffect)
+    
+    private void ProcessEndTurnStatuses()
     {
-        _statusManager.ApplyStatus(statusEffect);
-        _statusManager.DebugPrintStatuses();
+        if (_statusManager.HasStatus(StatusEffect.StatusType.Poison))
+        {
+            var healthBefore = playerHealth;
+            var poisonDamage =
+                _statusManager.GetStatusAmount(StatusEffect.StatusType.Poison);
+
+            playerHealth -= poisonDamage;
+            playerHealth = Mathf.Clamp(playerHealth, 0, playerMaxHealth);
+
+            Debug.Log(
+                $"Player Poison | Damage: {healthBefore - playerHealth} | " +
+                $"Health: {healthBefore} -> {playerHealth}"
+            );
+        }
+
+        if (PlayerIsDead())
+        {
+            BattleManager.Instance.LoseBattle();
+        }
+
+        _playerDisplay.UpdatePlayerDisplay();
     }
     
     private void ClearBlock()
