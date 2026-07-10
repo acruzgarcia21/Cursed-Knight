@@ -48,7 +48,6 @@ public class CardPlayManager : MonoBehaviour
         
         ApplyCardCorruption(player, attackCard);
         SpendCardEnergy(player, attackCard);
-        ApplyCardStatus(player, cardData, targetEnemy);
         
         Debug.Log($"Played attack card: {attackCard.cardName}," +
                   $" Base Damage: {attackCard.cardDamage}," +
@@ -88,6 +87,7 @@ public class CardPlayManager : MonoBehaviour
                 break;
         }
         
+        ApplyCardStatus(player, cardData, targetEnemy);
         DrawCardsFromCard(attackCard);
         ApplyRandomCardDiscard(attackCard);
         DrawRandomCardFromDiscard(attackCard);

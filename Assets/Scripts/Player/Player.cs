@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 public class Player : MonoBehaviour
 {
@@ -78,22 +79,24 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        var modifiedDamage = GetModifiedIncomingDamage(damage);
+        
         if (playerBlock > 0)
         {
-            if (playerBlock >= damage)
+            if (playerBlock >= modifiedDamage)
             {
-                playerBlock -= damage;
+                playerBlock -= modifiedDamage;
             }
             else
             {
-                damage -= playerBlock;
+                modifiedDamage -= playerBlock;
                 playerBlock = 0;
-                playerHealth -= damage;
+                playerHealth -= modifiedDamage;
             }
         }
         else
         {
-            playerHealth -= damage;   
+            playerHealth -= modifiedDamage;   
         }
         playerHealth = Mathf.Clamp(playerHealth, 0, playerMaxHealth);
 
@@ -149,6 +152,18 @@ public class Player : MonoBehaviour
         }
 
         if (modifiedDamage < 0) modifiedDamage = 0;
+        
+        return modifiedDamage;
+    }
+
+    public int GetModifiedIncomingDamage(int baseDamage)
+    {
+        var modifiedDamage = baseDamage;
+
+        if (_statusManager.HasStatus(StatusEffect.StatusType.Vulnerable))
+        {
+            modifiedDamage = Mathf.FloorToInt(modifiedDamage * 1.5f);
+        }
         
         return modifiedDamage;
     }

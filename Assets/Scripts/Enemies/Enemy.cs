@@ -47,22 +47,24 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        var modifiedDamage = GetModifiedIncomingDamage(damage);
+        
         if (currentEnemyBlock > 0)
         {
-            if (currentEnemyBlock >= damage)
+            if (currentEnemyBlock >= modifiedDamage)
             {
-                currentEnemyBlock -= damage;
+                currentEnemyBlock -= modifiedDamage;
             }
             else
             {
-                damage -= currentEnemyBlock;
+                modifiedDamage -= currentEnemyBlock;
                 currentEnemyBlock = 0;
-                currentEnemyHealth -= damage;
+                currentEnemyHealth -= modifiedDamage;
             }
         }
         else
         {
-            currentEnemyHealth -= damage;
+            currentEnemyHealth -= modifiedDamage;
         }
 
         currentEnemyHealth = Mathf.Clamp(currentEnemyHealth, 0, enemyData.enemyMaxHealth);
@@ -97,6 +99,18 @@ public class Enemy : MonoBehaviour
         }
 
         if (modifiedDamage < 0) modifiedDamage = 0;
+        
+        return modifiedDamage;
+    }
+    
+    public int GetModifiedIncomingDamage(int baseDamage)
+    {
+        var modifiedDamage = baseDamage;
+
+        if (_statusManager.HasStatus(StatusEffect.StatusType.Vulnerable))
+        {
+            modifiedDamage = Mathf.FloorToInt(modifiedDamage * 1.5f);
+        }
         
         return modifiedDamage;
     }
