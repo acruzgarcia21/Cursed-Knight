@@ -7,12 +7,12 @@ public class ArcRenderer : MonoBehaviour
     public GameObject arrowPrefab;
     public GameObject dotPrefab;
     public int poolSize = 50;
-    private readonly List<GameObject> _dotPool = new List<GameObject>(); // Stores group of objects that can be reused,
-                                                                         // prevents constant instantiation (Dots in this case)
+    private readonly List<GameObject> _dotPool = new(); // Stores group of objects that can be reused,
+                                                        // prevents constant instantiation (Dots in this case)
     private GameObject _arrowInstance;
     
     public float spacing = 50.0f;               // The spacing between each dot in arrow's arc
-    public float arrowAngleAdjustment = 0;      // Angle correction for the arrowhead
+    public float arrowAngleAdjustment;          // Angle correction for the arrowhead
     public int dotsToSkip = 1;                  // Number of dots to skip to give the arrowhead space
     private Vector3 _arrowDirection;            // Holds the position the Arrowhead needs to point from.  
     
@@ -85,7 +85,7 @@ public class ArcRenderer : MonoBehaviour
     private static Vector3 CalculateMidPoint(Vector3 start, Vector3 end)
     {
         var midPoint = (start + end) / 2;
-        var arcHeight = Vector3.Distance(start, end) / 3f; // 
+        var arcHeight = Vector3.Distance(start, end) / 3f;
         midPoint.y += arcHeight;
         return midPoint;
     }

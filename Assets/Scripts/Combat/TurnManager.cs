@@ -27,23 +27,6 @@ public class TurnManager : MonoBehaviour
         EnemyTurn();
         StartPlayerTurn();
     }
-
-    public void PlayerEndTurn()
-    {
-        if (currentState == TurnState.Player)
-        {
-            _player.EndTurn();
-            _handManager.DiscardHand();
-            currentState = TurnState.Enemy;
-            Debug.Log("Player turn ended, now enemy turn");
-        }
-    }
-    
-    public void EnemyTurn()
-    {
-        _enemyManager.ProcessEnemyTurn(_player);
-    }
-
     public void StartPlayerTurn()
     {
         currentState = TurnState.Player;
@@ -51,4 +34,20 @@ public class TurnManager : MonoBehaviour
         _handManager.PrepareHandForTurn(targetHandSize);
         Debug.Log("Now player turn");
     }
+
+    private void PlayerEndTurn()
+    {
+        if (currentState != TurnState.Player) return;
+        
+        _player.EndTurn();
+        _handManager.DiscardHand();
+        currentState = TurnState.Enemy;
+        Debug.Log("Player turn ended, now enemy turn");
+    }
+
+    private void EnemyTurn()
+    {
+        _enemyManager.ProcessEnemyTurn(_player);
+    }
+
 }

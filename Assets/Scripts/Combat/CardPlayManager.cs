@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using CursedKnight;
 using UnityEngine;
 
@@ -27,13 +26,13 @@ public class CardPlayManager : MonoBehaviour
 
         if (!IsTargetValid(player, cardData, targetEnemy))
         {
-            Debug.Log("Invalid Target");
+            Debug.Log("Invalid Target!");
             return false;
         }
 
         return cardData.cardType switch
         {
-            Card.CardType.Attack => TryPlayAttack(player, cardData, cardObject, targetEnemy),
+            Card.CardType.Attack  => TryPlayAttack(player, cardData, cardObject, targetEnemy),
             Card.CardType.Defense => TryPlayDefense(player, cardData, cardObject, targetEnemy),
             Card.CardType.Utility => TryPlayUtility(player, cardData, cardObject, targetEnemy),
             _ => false
@@ -51,7 +50,9 @@ public class CardPlayManager : MonoBehaviour
         SpendCardEnergy(player, attackCard);
         ApplyCardStatus(player, cardData, targetEnemy);
         
-        Debug.Log($"Played attack card: {attackCard.cardName}, Base Damage: {attackCard.cardDamage}, Modified Damage: {finalAttackDamage}");
+        Debug.Log($"Played attack card: {attackCard.cardName}," +
+                  $" Base Damage: {attackCard.cardDamage}," +
+                  $" Modified Damage: {finalAttackDamage}");
         
         switch (cardData.targetType)
         {

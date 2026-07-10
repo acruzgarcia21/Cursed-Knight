@@ -5,15 +5,13 @@ using UnityEngine;
 public class DiscardManager : MonoBehaviour
 {
     private DiscardPileDisplay _discardPileDisplay;
-    private readonly List<Card> _discardPile = new List<Card>();
+    private readonly List<Card> _discardPile = new();
     
     private void Awake()
     {
         _discardPileDisplay = FindFirstObjectByType<DiscardPileDisplay>();
         _discardPileDisplay.UpdateDiscardCount(_discardPile);
     }
-
-    
 
     public void AddToDiscardPile(Card card)
     {
@@ -82,5 +80,4 @@ public class DiscardManager : MonoBehaviour
     {
         return _discardPile.Count <= 0;
     }
-    
 }
