@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: Hollow Brute
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   enemyName: Hollow Brute
+  enemySprite: {fileID: -7169170255583999232, guid: 0dca5bfcca6af5e4bbccd082136ff20d, type: 3}
   enemyMaxHealth: 45
   enemyAttackDamage: 10
-  enemySprite: {fileID: -7169170255583999232, guid: 0dca5bfcca6af5e4bbccd082136ff20d, type: 3}
+  appliesStatus: 1
+  statusType: 4
+  statusAmount: 2
+  statusDuration: 3

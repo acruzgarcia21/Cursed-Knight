@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: Dungeon Rat
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   enemyName: Dungeon Rat
+  enemySprite: {fileID: 2486017705933433476, guid: 23e93e110419a6745ad1272b0501457e, type: 3}
   enemyMaxHealth: 25
   enemyAttackDamage: 6
-  enemySprite: {fileID: 2486017705933433476, guid: 23e93e110419a6745ad1272b0501457e, type: 3}
+  appliesStatus: 1
+  statusType: 2
+  statusAmount: 3
+  statusDuration: 2
