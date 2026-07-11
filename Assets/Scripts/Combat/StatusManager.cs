@@ -77,6 +77,18 @@ public class StatusManager : MonoBehaviour
             }
         }
     }
+
+    public int GetStatusDuration(StatusEffect.StatusType statusType)
+    {
+        foreach (var activeStatus in _activeStatuses)
+        {
+            if (activeStatus.statusType != statusType) continue;
+            
+            return activeStatus.duration;
+        }
+
+        return 0;
+    }
     
     public void DebugPrintStatuses()
     {

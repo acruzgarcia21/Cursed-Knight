@@ -19,6 +19,6 @@ public class UIDisplay : MonoBehaviour
         if (player == null || playerCorruptionText == null || playerCorruptionRoundsText == null) return;
 
         playerCorruptionText.text = player.playerCorruption + " / " + player.playerMaxCorruption;
-        playerCorruptionRoundsText.text = player.corruptionDebuffTurns.ToString();
+        playerCorruptionRoundsText.text = player.GetStatusDuration(StatusEffect.StatusType.Corruption).ToString();
     }
 }
