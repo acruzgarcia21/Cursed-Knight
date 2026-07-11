@@ -13,25 +13,40 @@ public class StatusDisplay : MonoBehaviour
         statusManager = GetComponent<StatusManager>();
     }
 
-    public void Refresh()
+    public void OnEnable()
+    {
+        if (statusManager == null) return;
+        
+        statusManager.OnStatusesChanged += Refresh;
+    }
+
+    public void OnDisable()
+    {
+        statusManager.OnStatusesChanged -= Refresh;
+    }
+
+    private void Refresh()
     {
         var activeStatuses = statusManager.GetActiveStatuses();
 
         ClearAllSlots();
 
-        for (var i = 0; i < activeStatuses.Count; i++)
+        var slotIndex = 0;
+
+        foreach (var status in activeStatuses)
         {
-            if (i >= statusIconsSlots.Count)
+            if (slotIndex >= statusIconsSlots.Count)
                 break;
 
-            StatusEffect status = activeStatuses[i];
+            var matchingDisplayData = FindDisplayData(status.statusType);
 
-            StatusDisplayData matchingDisplayData = FindDisplayData(status.statusType);
-
+            // In the event that a status is null for display, there will be no space between status icons
             if (matchingDisplayData == null)
                 continue;
 
-            statusIconsSlots[i].DisplayStatus(status, matchingDisplayData);
+            statusIconsSlots[slotIndex].DisplayStatus(status, matchingDisplayData);
+
+            slotIndex++;
         }
     }
 

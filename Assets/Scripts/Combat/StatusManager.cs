@@ -1,8 +1,11 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class StatusManager : MonoBehaviour
 {
+    public event Action OnStatusesChanged;
+    
     private readonly List<StatusEffect> _activeStatuses = new();
 
     public void ApplyStatus(StatusEffect statusEffect)
@@ -15,10 +18,12 @@ public class StatusManager : MonoBehaviour
             
             activeStatus.amount += statusEffect.amount;
             activeStatus.duration += statusEffect.duration;
+            OnStatusesChanged?.Invoke();
             return;
         }
         
         _activeStatuses.Add(statusEffect);
+        OnStatusesChanged?.Invoke();
     }
 
     public void RemoveStatus(StatusEffect.StatusType statusType)
@@ -35,6 +40,7 @@ public class StatusManager : MonoBehaviour
 
         if (statusToRemove == null) return;
         _activeStatuses.Remove(statusToRemove);
+        OnStatusesChanged?.Invoke();
     }
 
     public bool HasStatus(StatusEffect.StatusType statusType)
@@ -76,6 +82,7 @@ public class StatusManager : MonoBehaviour
                 _activeStatuses.Remove(status);
             }
         }
+        OnStatusesChanged?.Invoke();
     }
 
     public int GetStatusDuration(StatusEffect.StatusType statusType)
