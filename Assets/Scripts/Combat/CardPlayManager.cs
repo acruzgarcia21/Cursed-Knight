@@ -46,8 +46,7 @@ public class CardPlayManager : MonoBehaviour
 
         var finalAttackDamage = player.GetModifiedAttackDamage(attackCard.cardDamage);
         
-        ApplyCardCorruption(player, attackCard);
-        SpendCardEnergy(player, attackCard);
+        BeginCardPlay(player, attackCard);
         
         Debug.Log($"Played attack card: {attackCard.cardName}," +
                   $" Base Damage: {attackCard.cardDamage}," +
@@ -88,10 +87,7 @@ public class CardPlayManager : MonoBehaviour
         }
         
         ApplyCardStatus(player, cardData, targetEnemy);
-        DrawCardsFromCard(attackCard);
-        ApplyRandomCardDiscard(attackCard);
-        DrawRandomCardFromDiscard(attackCard);
-        SendCardToDiscard(cardData, cardObject);
+        CompleteCardPlay(attackCard, cardObject, player);
         
         return true;
     }
@@ -101,16 +97,12 @@ public class CardPlayManager : MonoBehaviour
         var defenseCard = cardData as Defense;
         if (defenseCard == null) return false;
 
-        ApplyCardCorruption(player, defenseCard);
-        SpendCardEnergy(player, defenseCard);
+        BeginCardPlay(player, defenseCard);
         ApplyCardStatus(player, cardData, targetEnemy); 
         
         player.GainBlock(defenseCard.cardBlock);
 
-        DrawCardsFromCard(defenseCard);
-        ApplyRandomCardDiscard(defenseCard);
-        DrawRandomCardFromDiscard(defenseCard);
-        SendCardToDiscard(cardData, cardObject);
+        CompleteCardPlay(defenseCard, cardObject, player);
         
         return true;
     }
@@ -120,8 +112,7 @@ public class CardPlayManager : MonoBehaviour
         var utilityCard = cardData as UtilityCard;
         if (utilityCard == null) return false;
 
-        ApplyCardCorruption(player, utilityCard);
-        SpendCardEnergy(player, utilityCard);
+        BeginCardPlay(player, utilityCard);
         ApplyCardStatus(player, cardData, targetEnemy);
         
         if (utilityCard.cardEnergyGain > 0)
@@ -134,10 +125,7 @@ public class CardPlayManager : MonoBehaviour
             player.Heal(utilityCard.cardHealthGain);
         }
         
-        DrawCardsFromCard(utilityCard);
-        ApplyRandomCardDiscard(utilityCard);
-        DrawRandomCardFromDiscard(utilityCard);
-        SendCardToDiscard(cardData, cardObject);
+        CompleteCardPlay(utilityCard, cardObject, player);
         
         return true;
     }
@@ -237,5 +225,22 @@ public class CardPlayManager : MonoBehaviour
             
             _handManager.AddCardToHand(randomCardFromDiscard);
         }
+    }
+
+    private void BeginCardPlay(Player player, Card cardData)
+    {
+        ApplyCardCorruption(player, cardData);
+        SpendCardEnergy(player, cardData);
+    }
+
+    private void CompleteCardPlay(Card cardData, GameObject cardObject, Player player)
+    {
+        DrawCardsFromCard(cardData);
+        ApplyRandomCardDiscard(cardData);
+        DrawRandomCardFromDiscard(cardData);
+        
+        player.ProcessOnActionStatuses();
+        
+        SendCardToDiscard(cardData, cardObject);
     }
 }

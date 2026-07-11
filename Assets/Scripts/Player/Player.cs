@@ -177,6 +177,7 @@ public class Player : MonoBehaviour
         _statusManager.DebugPrintStatuses();
     }
     
+    
     private int GetModifiedIncomingDamage(int baseDamage)
     {
         var modifiedDamage = baseDamage;
@@ -206,6 +207,30 @@ public class Player : MonoBehaviour
             );
         }
 
+        if (PlayerIsDead())
+        {
+            BattleManager.Instance.LoseBattle();
+        }
+
+        _playerDisplay.UpdatePlayerDisplay();
+    }
+
+    public void ProcessOnActionStatuses()
+    {
+        if (_statusManager.HasStatus(StatusEffect.StatusType.Bleed))
+        {
+            var bleedAmount = 
+                _statusManager.GetStatusAmount(StatusEffect.StatusType.Bleed);
+            
+            playerHealth -= bleedAmount;
+            playerHealth = Mathf.Clamp(playerHealth, 0, playerMaxHealth);
+
+            Debug.Log(
+                $"Player Poison | Damage: {playerHealth - bleedAmount} | " +
+                $"Health: {bleedAmount} -> {playerHealth}"
+            );
+        }
+        
         if (PlayerIsDead())
         {
             BattleManager.Instance.LoseBattle();

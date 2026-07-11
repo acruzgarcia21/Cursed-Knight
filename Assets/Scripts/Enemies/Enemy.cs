@@ -44,6 +44,7 @@ public class Enemy : MonoBehaviour
         
         Debug.Log($"{enemyData.enemyName} attacks for {enemyAttackDamage} damage.");
         
+        ProcessOnActionStatuses();
         ProcessEndTurnStatuses();
         
         _statusManager.TickDurations();
@@ -123,12 +124,38 @@ public class Enemy : MonoBehaviour
     {
         if (_statusManager.HasStatus(StatusEffect.StatusType.Poison))
         {
-            var poisonDamage = _statusManager.GetStatusAmount(StatusEffect.StatusType.Poison);
+            var poisonDamage = 
+                _statusManager.GetStatusAmount(StatusEffect.StatusType.Poison);
+            
             currentEnemyHealth -= poisonDamage;
         }
         
         currentEnemyHealth = Mathf.Clamp(currentEnemyHealth, 0, enemyData.enemyMaxHealth);
 
+        _enemyDisplay.UpdateEnemyDisplay();
+
+        if (EnemyIsDead())
+        {
+            BattleManager.Instance.EnemyManager.RemoveEnemy(this);
+        }
+    }
+    
+    private void ProcessOnActionStatuses()
+    {
+        if (_statusManager.HasStatus(StatusEffect.StatusType.Bleed))
+        {
+            var bleedAmount = 
+                _statusManager.GetStatusAmount(StatusEffect.StatusType.Bleed);
+            
+            currentEnemyHealth -= bleedAmount;
+            currentEnemyHealth = Mathf.Clamp(currentEnemyHealth, 0, enemyData.enemyMaxHealth);
+
+            Debug.Log(
+                $"Player Bleed | Damage: {currentEnemyHealth - bleedAmount} | " +
+                $"Health: {bleedAmount} -> {currentEnemyHealth}"
+            );
+        }
+        
         _enemyDisplay.UpdateEnemyDisplay();
 
         if (EnemyIsDead())
