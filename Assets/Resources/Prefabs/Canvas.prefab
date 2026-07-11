@@ -2569,6 +2569,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3894402963841512277, guid: 404bedb6efb2e474cb60307b2621680b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2593823844508641177}
+    - targetCorrespondingSourceObject: {fileID: 3894402963841512277, guid: 404bedb6efb2e474cb60307b2621680b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9019465180916671450}
   m_SourcePrefab: {fileID: 100100000, guid: 404bedb6efb2e474cb60307b2621680b, type: 3}
 --- !u!1 &556644198091743039 stripped
 GameObject:
@@ -2594,8 +2597,6 @@ MonoBehaviour:
   playerBlock: 0
   playerCorruption: 0
   playerMaxCorruption: 10
-  corruptionDebuffTurns: 0
-  isCorrupted: 0
   corruptionDamage: 10
 --- !u!114 &8296358720547394489
 MonoBehaviour:
@@ -2625,6 +2626,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d25c291b016ab64e9f872f24031fa1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StatusManager
+--- !u!114 &9019465180916671450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 556644198091743039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7e6bdf09edc5824484a4c88e7f5c497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatusDisplay
+  statusIconsSlots: []
+  displayData: []
+  statusManager: {fileID: 0}
 --- !u!114 &1755583041634818447 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3021703521236809189, guid: 404bedb6efb2e474cb60307b2621680b, type: 3}

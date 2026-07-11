@@ -90,6 +90,11 @@ public class StatusManager : MonoBehaviour
         return 0;
     }
     
+    public IReadOnlyList<StatusEffect> GetActiveStatuses()
+    {
+        return _activeStatuses;
+    }
+    
     public void DebugPrintStatuses()
     {
         if (_activeStatuses.Count <= 0)
