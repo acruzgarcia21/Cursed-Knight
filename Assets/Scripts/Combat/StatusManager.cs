@@ -17,6 +17,14 @@ public class StatusManager : MonoBehaviour
             if (activeStatus.statusType != statusEffect.statusType) continue;
             
             activeStatus.amount += statusEffect.amount;
+            
+            if (activeStatus.duration < 0)
+            {
+                activeStatus.duration = -1;
+                OnStatusesChanged?.Invoke();
+                return;
+            }
+            
             activeStatus.duration += statusEffect.duration;
             OnStatusesChanged?.Invoke();
             return;

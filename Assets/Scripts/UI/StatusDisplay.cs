@@ -18,6 +18,7 @@ public class StatusDisplay : MonoBehaviour
         if (statusManager == null) return;
         
         statusManager.OnStatusesChanged += Refresh;
+        Refresh();
     }
 
     public void OnDisable()

@@ -16,7 +16,7 @@ MonoBehaviour:
   enemySprite: {fileID: 2486017705933433476, guid: 23e93e110419a6745ad1272b0501457e, type: 3}
   enemyMaxHealth: 25
   enemyAttackDamage: 6
-  appliesStatus: 1
+  appliesStatus: 0
   statusType: 2
   statusAmount: 3
   statusDuration: 2

@@ -62,8 +62,12 @@ public class EnemyManager : MonoBehaviour
 
     public void ProcessEnemyTurn(Player player)
     {
-        foreach (var enemy in _currentEnemies)
+        for (var i = _currentEnemies.Count - 1; i >= 0; i--)
         {
+            var enemy = _currentEnemies[i];
+
+            if (enemy == null) continue;
+
             enemy.TakeTurn(player);
         }
     }
