@@ -30,7 +30,8 @@ namespace CursedKnight
         {
             Attack,
             Defense,
-            Utility
+            Utility,
+            Power
         }
 
         public enum TargetType
