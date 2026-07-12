@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 public class Player : MonoBehaviour
 {
@@ -11,19 +12,18 @@ public class Player : MonoBehaviour
     
     public int playerCorruption;
     public int playerMaxCorruption = 10;
-
-    public int corruptionDebuffTurns;
-    public bool isCorrupted = false;
     public int corruptionDamage = 10;
     
     private PlayerDisplay _playerDisplay;
     private UIDisplay _uiDisplay;
-
+    private StatusManager _statusManager;
+    
     private void Awake()
     {
         _playerDisplay = GetComponent<PlayerDisplay>();
+        _statusManager = GetComponent<StatusManager>();
         
-        _uiDisplay = FindFirstObjectByType<UIDisplay>();
+        _uiDisplay     = FindFirstObjectByType<UIDisplay>();
         
         _playerDisplay.UpdatePlayerDisplay();
     }
@@ -46,13 +46,8 @@ public class Player : MonoBehaviour
 
     public void EndTurn()
     {
-        if (isCorrupted && corruptionDebuffTurns > 0)
-        {
-            corruptionDebuffTurns--;
-        }
-        corruptionDebuffTurns = Mathf.Clamp(corruptionDebuffTurns, 0, 2);
-        
-        if (corruptionDebuffTurns <= 0) isCorrupted = false;
+        ProcessEndTurnStatuses();
+        _statusManager.TickDurations();
     }
 
     public void SpendEnergy(int amount)
@@ -72,38 +67,46 @@ public class Player : MonoBehaviour
         _uiDisplay.UpdatePlayerEnergyText(this);
     }
 
-    public void ResetEnergy()
-    {
-        playerEnergy = playerEnergyPerTurn;
-        
-        _uiDisplay.UpdatePlayerEnergyText(this);
-    }
-
     public void TakeDamage(int damage)
     {
+        var healthBefore = playerHealth;
+        var blockBefore = playerBlock;
+        var modifiedDamage = GetModifiedIncomingDamage(damage);
+
         if (playerBlock > 0)
         {
-            if (playerBlock >= damage)
+            if (playerBlock >= modifiedDamage)
             {
-                playerBlock -= damage;
+                playerBlock -= modifiedDamage;
             }
             else
             {
-                damage -= playerBlock;
+                modifiedDamage -= playerBlock;
                 playerBlock = 0;
-                playerHealth -= damage;
+                playerHealth -= modifiedDamage;
             }
         }
         else
         {
-            playerHealth -= damage;   
+            playerHealth -= modifiedDamage;
         }
+
         playerHealth = Mathf.Clamp(playerHealth, 0, playerMaxHealth);
+
+        var healthLost = healthBefore - playerHealth;
+        var blockLost = blockBefore - playerBlock;
+
+        Debug.Log(
+            $"Player Damage | Raw: {damage} | " +
+            $"HP Lost: {healthLost} | Block Lost: {blockLost} | " +
+            $"Health: {healthBefore} -> {playerHealth}"
+        );
 
         if (PlayerIsDead())
         {
             BattleManager.Instance.LoseBattle();
         }
+
         _playerDisplay.UpdatePlayerDisplay();
     }
 
@@ -122,13 +125,6 @@ public class Player : MonoBehaviour
         _playerDisplay.UpdatePlayerDisplay();
     }
 
-    private void ClearBlock()
-    {
-        playerBlock = 0;
-        
-        _playerDisplay.UpdatePlayerDisplay();
-    }
-
     public void GainCorruption(int corruption)
     {
         playerCorruption += corruption;
@@ -138,23 +134,150 @@ public class Player : MonoBehaviour
 
         if (playerCorruption < playerMaxCorruption) return;
         
-        isCorrupted = true;
-        
         TriggerCorruptionOverflow();
+    }
+    
+    public int GetModifiedAttackDamage(int baseDamage)
+    {
+        var modifiedDamage = baseDamage;
+        if (_statusManager.HasStatus(StatusEffect.StatusType.Strength))
+        {
+            var strength = _statusManager.GetStatusAmount(StatusEffect.StatusType.Strength);
+            modifiedDamage += strength;
+        }
+
+        if (_statusManager.HasStatus(StatusEffect.StatusType.Weak))
+        {
+            var weak = _statusManager.GetStatusAmount(StatusEffect.StatusType.Weak);
+            modifiedDamage -= weak;
+        }
+
+        if (modifiedDamage < 0) modifiedDamage = 0;
+        
+        return modifiedDamage;
+    }
+
+    public void ApplyStatus(StatusEffect statusEffect)
+    {
+        _statusManager.ApplyStatus(statusEffect);
+        _statusManager.DebugPrintStatuses();
+    }
+    
+    
+    private int GetModifiedIncomingDamage(int baseDamage)
+    {
+        var modifiedDamage = baseDamage;
+
+        if (_statusManager.HasStatus(StatusEffect.StatusType.Vulnerable))
+        {
+            modifiedDamage = Mathf.FloorToInt(modifiedDamage * 1.5f);
+        }
+        
+        if (_statusManager.HasStatus(StatusEffect.StatusType.Corruption))
+        {
+            modifiedDamage = Mathf.FloorToInt(modifiedDamage * 1.25f);
+        }
+        
+        return modifiedDamage;
+    }
+    
+    private void ProcessEndTurnStatuses()
+    {
+        if (_statusManager.HasStatus(StatusEffect.StatusType.Poison))
+        {
+            var healthBefore = playerHealth;
+            var statusAmount =
+                _statusManager.GetStatusAmount(StatusEffect.StatusType.Poison);
+
+            playerHealth -= statusAmount;
+            playerHealth = Mathf.Clamp(playerHealth, 0, playerMaxHealth);
+
+            Debug.Log(
+                $"Player Poison | Damage: {healthBefore - playerHealth} | " +
+                $"Health: {healthBefore} -> {playerHealth}"
+            );
+        }
+
+        if (PlayerIsDead())
+        {
+            BattleManager.Instance.LoseBattle();
+        }
+
+        _playerDisplay.UpdatePlayerDisplay();
+    }
+
+    public void ProcessOnActionStatuses()
+    {
+        if (_statusManager.HasStatus(StatusEffect.StatusType.Bleed))
+        {
+            var statusAmount = 
+                _statusManager.GetStatusAmount(StatusEffect.StatusType.Bleed);
+            
+            playerHealth -= statusAmount;
+            playerHealth = Mathf.Clamp(playerHealth, 0, playerMaxHealth);
+
+            Debug.Log(
+                $"Player Poison | Damage: {statusAmount} | " +
+                $"Health: {statusAmount} -> {playerHealth}"
+            );
+        }
+        
+        if (_statusManager.HasStatus(StatusEffect.StatusType.Corruption))
+        {
+            var statusAmount = 
+                _statusManager.GetStatusAmount(StatusEffect.StatusType.Corruption);
+            
+            playerHealth -= statusAmount;
+            playerHealth = Mathf.Clamp(playerHealth, 0, playerMaxHealth);
+        }
+        
+        if (PlayerIsDead())
+        {
+            BattleManager.Instance.LoseBattle();
+        }
+
+        _playerDisplay.UpdatePlayerDisplay();
+    }
+    
+    private void ClearBlock()
+    {
+        playerBlock = 0;
+        
+        _playerDisplay.UpdatePlayerDisplay();
+    }
+    
+    private void ResetEnergy()
+    {
+        playerEnergy = playerEnergyPerTurn;
+        
+        _uiDisplay.UpdatePlayerEnergyText(this);
     }
 
     private void TriggerCorruptionOverflow()
     {
         TakeDamage(corruptionDamage);
-        
-        playerCorruption      = 0;
-        corruptionDebuffTurns = 2;
-        
+
+        playerCorruption = 0;
+
+        var corruptedStatus = new StatusEffect
+        {
+            statusType = StatusEffect.StatusType.Corruption,
+            amount = 1,
+            duration = 2
+        };
+
+        ApplyStatus(corruptedStatus);
+
         _playerDisplay.UpdatePlayerDisplay();
         _uiDisplay.UpdatePlayerCorruptionText(this);
     }
 
-    public bool PlayerIsDead()
+    public int GetStatusDuration(StatusEffect.StatusType statusType)
+    {
+        return _statusManager.GetStatusDuration(statusType);
+    }
+
+    private bool PlayerIsDead()
     {
         return playerHealth == 0;
     }

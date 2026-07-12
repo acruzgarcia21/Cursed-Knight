@@ -3,16 +3,10 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-    
-    public int PlayerHealth { get; set; }
-    public int PlayerXp { get; set; }
-    public int Difficulty { get; set; }
-    
     public OptionsManager OptionsManager { get; private set; }
     public AudioManager AudioManager { get; private set; }
-    public DeckManager DeckManager { get; private set; }
-    
-    public UIManager UIManager { get; private set; }
+    private DeckManager DeckManager { get; set; }
+    private UIManager UIManager { get; set; }
 
     private void Awake()
     {
@@ -31,8 +25,8 @@ public class GameManager : MonoBehaviour
     private void InitializeMangers()
     {
         OptionsManager = GetComponentInChildren<OptionsManager>();
-        AudioManager = GetComponentInChildren<AudioManager>();
-        DeckManager = GetComponentInChildren<DeckManager>();
+        AudioManager   = GetComponentInChildren<AudioManager>();
+        DeckManager    = GetComponentInChildren<DeckManager>();
 
         if (OptionsManager == null)
         {

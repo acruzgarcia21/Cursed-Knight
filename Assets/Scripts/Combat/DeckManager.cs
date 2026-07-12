@@ -32,7 +32,7 @@ public class DeckManager : MonoBehaviour
         
         playerDeck.Clear();
 
-        foreach (Card card in startingDeck.GetPlayerDeck())
+        foreach (var card in startingDeck.GetPlayerDeck())
         {
             playerDeck.Add(card);
         }

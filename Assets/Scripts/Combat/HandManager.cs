@@ -11,7 +11,7 @@ public class HandManager : MonoBehaviour
     
     public int maxCardsInHand;
     
-    private readonly List<GameObject> _cardsInHand = new List<GameObject>();
+    private readonly List<GameObject> _cardsInHand = new();
     
     private DiscardManager _discardManager;
     private DrawPileManager _drawPileManager;
@@ -90,7 +90,6 @@ public class HandManager : MonoBehaviour
             
             var cardToDiscard = _cardsInHand[randomCardIndex];
             var cardData = cardToDiscard.GetComponent<CardDisplay>().cardData;
-            Debug.Log($"Discarded: {cardData.cardName}");
             
             _discardManager.AddToDiscardPile(cardData);
             _cardsInHand.Remove(cardToDiscard);

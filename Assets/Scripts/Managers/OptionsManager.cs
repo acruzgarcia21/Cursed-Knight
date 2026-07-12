@@ -18,11 +18,6 @@ public class OptionsManager : MonoBehaviour
         _audioManager = GameManager.Instance.AudioManager;
     }
 
-    private void Update()
-    {
-        
-    }
-
     public TMP_FontAsset GetFontClass(string classID)
     {
         return classID switch
