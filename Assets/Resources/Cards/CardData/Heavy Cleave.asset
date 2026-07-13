@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1cd9c383cbbfd24458b3beea015b76c5, type: 3}
-  m_Name: Heav Cleave
+  m_Name: Heavy Cleave
   m_EditorClassIdentifier: Assembly-CSharp::Attack
   cardName: Heavy Cleave
   cardDescription: Deal 8 damage

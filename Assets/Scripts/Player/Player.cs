@@ -1,4 +1,5 @@
 using System;
+using CursedKnight;
 using UnityEngine;
 public class Player : MonoBehaviour
 {
@@ -237,6 +238,19 @@ public class Player : MonoBehaviour
         }
 
         _playerDisplay.UpdatePlayerDisplay();
+    }
+
+    public void ProcessCardTypeTriggeredEffects(Card.CardType cardType)
+    {
+        if (cardType != Card.CardType.Attack) return;
+        
+        if (_statusManager.HasStatus(StatusEffect.StatusType.ViciousResolve))
+        {
+            var blockToGain = 
+                _statusManager.GetStatusAmount(StatusEffect.StatusType.ViciousResolve);
+            
+            GainBlock(blockToGain);
+        }
     }
     
     private void ClearBlock()

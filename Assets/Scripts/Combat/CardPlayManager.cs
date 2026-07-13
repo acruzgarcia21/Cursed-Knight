@@ -93,9 +93,9 @@ public class CardPlayManager : MonoBehaviour
                 break;
         }
         
+        player.ProcessCardTypeTriggeredEffects(attackCard.cardType);
         ApplyCardStatus(player, cardData, targetEnemy);
         CompleteCardPlay(attackCard, cardObject, player, PostPlayDestination.Discard);
-        
         return true;
     }
 

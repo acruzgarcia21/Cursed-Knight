@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bef9c9d9c0864fc47afc579069f09cc3, type: 3}
+  m_Name: Vicious Resolve
+  m_EditorClassIdentifier: Assembly-CSharp::Power
+  cardName: Vicious Resolve
+  cardDescription: Whenever you play an Attack, gain 1 Block.
+  cardType: 3
+  targetType: 3
+  cardSprite: {fileID: 0}
+  cardEnergyCost: 3
+  cardCorruptionGain: 0
+  cardsToDraw: 0
+  cardsToDiscardRandomly: 0
+  cardsToDrawFromDiscard: 0
+  appliesStatus: 1
+  statusType: 6
+  statusAmount: 1
+  statusDuration: -1
