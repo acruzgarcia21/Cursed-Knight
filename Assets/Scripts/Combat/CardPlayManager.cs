@@ -7,6 +7,12 @@ public class CardPlayManager : MonoBehaviour
     private DiscardManager _discardManager;
     private EnemyManager _enemyManager;
 
+    private enum PostPlayDestination
+    {
+        Discard,
+        OutOfCombat
+    }
+
     private void Awake()
     {
         _handManager    = FindFirstObjectByType<HandManager>();
@@ -35,6 +41,7 @@ public class CardPlayManager : MonoBehaviour
             Card.CardType.Attack  => TryPlayAttack(player, cardData, cardObject, targetEnemy),
             Card.CardType.Defense => TryPlayDefense(player, cardData, cardObject, targetEnemy),
             Card.CardType.Utility => TryPlayUtility(player, cardData, cardObject, targetEnemy),
+            Card.CardType.Power   => TryPlayPower(player, cardData, cardObject),
             _ => false
         };
     }
@@ -86,9 +93,9 @@ public class CardPlayManager : MonoBehaviour
                 break;
         }
         
+        player.ProcessCardTypeTriggeredEffects(attackCard.cardType);
         ApplyCardStatus(player, cardData, targetEnemy);
-        CompleteCardPlay(attackCard, cardObject, player);
-        
+        CompleteCardPlay(attackCard, cardObject, player, PostPlayDestination.Discard);
         return true;
     }
 
@@ -102,7 +109,7 @@ public class CardPlayManager : MonoBehaviour
         
         player.GainBlock(defenseCard.cardBlock);
 
-        CompleteCardPlay(defenseCard, cardObject, player);
+        CompleteCardPlay(defenseCard, cardObject, player, PostPlayDestination.Discard);
         
         return true;
     }
@@ -125,8 +132,20 @@ public class CardPlayManager : MonoBehaviour
             player.Heal(utilityCard.cardHealthGain);
         }
         
-        CompleteCardPlay(utilityCard, cardObject, player);
+        CompleteCardPlay(utilityCard, cardObject, player, PostPlayDestination.Discard);
         
+        return true;
+    }
+
+    private bool TryPlayPower(Player player, Card cardData, GameObject cardObject)
+    {
+        var powerCard = cardData as Power;
+        if (powerCard == null) return false;
+        
+        BeginCardPlay(player, powerCard);
+        ApplyCardStatus(player, cardData, null);
+        CompleteCardPlay(powerCard, cardObject, player, PostPlayDestination.OutOfCombat);
+
         return true;
     }
     
@@ -135,6 +154,12 @@ public class CardPlayManager : MonoBehaviour
         _handManager.RemoveCardFromHand(cardObject);
         _discardManager.AddToDiscardPile(cardData);
         
+        Destroy(cardObject);
+    }
+
+    private void RemoveCardFromCombat(GameObject cardObject)
+    {
+        _handManager.RemoveCardFromHand(cardObject);
         Destroy(cardObject);
     }
 
@@ -233,14 +258,22 @@ public class CardPlayManager : MonoBehaviour
         SpendCardEnergy(player, cardData);
     }
 
-    private void CompleteCardPlay(Card cardData, GameObject cardObject, Player player)
+    private void CompleteCardPlay(Card cardData, GameObject cardObject, Player player, PostPlayDestination destination)
     {
         DrawCardsFromCard(cardData);
         ApplyRandomCardDiscard(cardData);
         DrawRandomCardFromDiscard(cardData);
         
         player.ProcessOnActionStatuses();
-        
-        SendCardToDiscard(cardData, cardObject);
+
+        switch (destination)
+        {
+            case PostPlayDestination.Discard:
+                SendCardToDiscard(cardData, cardObject);
+                break;
+            case PostPlayDestination.OutOfCombat:
+                RemoveCardFromCombat(cardObject);
+                break;
+        }
     }
 }

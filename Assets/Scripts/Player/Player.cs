@@ -1,4 +1,5 @@
 using System;
+using CursedKnight;
 using UnityEngine;
 public class Player : MonoBehaviour
 {
@@ -40,6 +41,8 @@ public class Player : MonoBehaviour
     {
         ClearBlock(); 
         ResetEnergy();
+        ProcessStartTurnEffects();
+        
         _uiDisplay.UpdatePlayerEnergyText(this);
         _uiDisplay.UpdatePlayerCorruptionText(this);
     }
@@ -206,6 +209,17 @@ public class Player : MonoBehaviour
         _playerDisplay.UpdatePlayerDisplay();
     }
 
+    private void ProcessStartTurnEffects()
+    {
+        if (_statusManager.HasStatus(StatusEffect.StatusType.DarkMomentum))
+        {
+            var energyToGain = 
+                _statusManager.GetStatusAmount(StatusEffect.StatusType.DarkMomentum);
+            
+            GainEnergy(energyToGain);
+        }
+    }
+
     public void ProcessOnActionStatuses()
     {
         if (_statusManager.HasStatus(StatusEffect.StatusType.Bleed))
@@ -237,6 +251,19 @@ public class Player : MonoBehaviour
         }
 
         _playerDisplay.UpdatePlayerDisplay();
+    }
+
+    public void ProcessCardTypeTriggeredEffects(Card.CardType cardType)
+    {
+        if (cardType != Card.CardType.Attack) return;
+        
+        if (_statusManager.HasStatus(StatusEffect.StatusType.ViciousResolve))
+        {
+            var blockToGain = 
+                _statusManager.GetStatusAmount(StatusEffect.StatusType.ViciousResolve);
+            
+            GainBlock(blockToGain);
+        }
     }
     
     private void ClearBlock()

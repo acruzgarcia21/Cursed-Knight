@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bef9c9d9c0864fc47afc579069f09cc3, type: 3}
-  m_Name: Battle Cry
+  m_Name: Vicious Resolve
   m_EditorClassIdentifier: Assembly-CSharp::Power
-  cardName: Power Test
-  cardDescription: Gain 2 strength for the rest of combat
+  cardName: Vicious Resolve
+  cardDescription: Whenever you play an Attack, gain 1 Block.
   cardType: 3
   targetType: 3
   cardSprite: {fileID: 0}
-  cardEnergyCost: 0
+  cardEnergyCost: 3
   cardCorruptionGain: 0
   cardsToDraw: 0
   cardsToDiscardRandomly: 0
   cardsToDrawFromDiscard: 0
   appliesStatus: 1
-  statusType: 0
-  statusAmount: 2
+  statusType: 6
+  statusAmount: 1
   statusDuration: -1

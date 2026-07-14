@@ -11,6 +11,8 @@ public class StatusEffect
         Vulnerable,
         Poison,
         Bleed,
-        Corruption
+        Corruption,
+        ViciousResolve,
+        DarkMomentum
     }
 }
