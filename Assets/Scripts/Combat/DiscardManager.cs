@@ -1,83 +1,78 @@
 using System.Collections.Generic;
-using CursedKnight;
 using UnityEngine;
 
 public class DiscardManager : MonoBehaviour
 {
     private DiscardPileDisplay _discardPileDisplay;
-    private readonly List<Card> _discardPile = new();
-    
+    private readonly List<RuntimeCard> _discardPile = new();
+
     private void Awake()
     {
         _discardPileDisplay = FindFirstObjectByType<DiscardPileDisplay>();
-        _discardPileDisplay.UpdateDiscardCount(_discardPile);
+        UpdateDiscardCount();
     }
 
-    public void AddToDiscardPile(Card card)
+    public void AddToDiscardPile(RuntimeCard runtimeCard)
     {
-        if (card == null) return;
-        
-        _discardPile.Add(card);
-        _discardPileDisplay.UpdateDiscardCount(_discardPile);
+        if (runtimeCard == null) return;
+
+        _discardPile.Add(runtimeCard);
+        UpdateDiscardCount();
     }
 
-    public Card PullFromDiscardPile()
-    {
-        if (!IsDiscardPileEmpty())
-        {
-            var cardToReturn = _discardPile[^1];
-            _discardPile.RemoveAt(_discardPile.Count - 1);
-            _discardPileDisplay.UpdateDiscardCount(_discardPile);
-            return cardToReturn;
-        }
-
-        return null;
-    }
-
-    public bool SelectCardFromDiscardPile(Card card)
-    {
-        if (!IsDiscardPileEmpty() && _discardPile.Contains(card))
-        {
-            _discardPile.Remove(card);
-            _discardPileDisplay.UpdateDiscardCount(_discardPile);
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    public List<Card> PullAllFromDiscardPile()
-    {
-        if (!IsDiscardPileEmpty())
-        {
-            var cardsToReturn = new List<Card>(_discardPile);
-            _discardPile.Clear();
-            _discardPileDisplay.UpdateDiscardCount(_discardPile);
-            return cardsToReturn;
-        }
-        else
-        {
-            return new List<Card>();
-        }
-    }
-
-    public Card PullRandomCardFromDiscard()
+    public RuntimeCard PullFromDiscardPile()
     {
         if (IsDiscardPileEmpty()) return null;
-        
+
+        var cardToReturn = _discardPile[^1];
+
+        _discardPile.RemoveAt(_discardPile.Count - 1);
+        UpdateDiscardCount();
+
+        return cardToReturn;
+    }
+
+    public bool SelectCardFromDiscardPile(RuntimeCard runtimeCard)
+    {
+        if (runtimeCard == null) return false;
+        if (!_discardPile.Remove(runtimeCard)) return false;
+
+        UpdateDiscardCount();
+        return true;
+    }
+
+    public List<RuntimeCard> PullAllFromDiscardPile()
+    {
+        var cardsToReturn = new List<RuntimeCard>(_discardPile);
+
+        _discardPile.Clear();
+        UpdateDiscardCount();
+
+        return cardsToReturn;
+    }
+
+    public RuntimeCard PullRandomCardFromDiscard()
+    {
+        if (IsDiscardPileEmpty()) return null;
+
         var randomCardIndex = Random.Range(0, _discardPile.Count);
         var randomCardToReturn = _discardPile[randomCardIndex];
-        
-        _discardPile.Remove(randomCardToReturn);
-        _discardPileDisplay.UpdateDiscardCount(_discardPile);
-        
+
+        _discardPile.RemoveAt(randomCardIndex);
+        UpdateDiscardCount();
+
         return randomCardToReturn;
     }
 
     public bool IsDiscardPileEmpty()
     {
-        return _discardPile.Count <= 0;
+        return _discardPile.Count == 0;
+    }
+
+    private void UpdateDiscardCount()
+    {
+        if (_discardPileDisplay == null) return;
+
+        _discardPileDisplay.UpdateDiscardCount(_discardPile.Count);
     }
 }

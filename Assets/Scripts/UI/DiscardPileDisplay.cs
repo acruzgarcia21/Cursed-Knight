@@ -1,14 +1,14 @@
 using TMPro;
-using System.Collections.Generic;
-using CursedKnight;
 using UnityEngine;
 
 public class DiscardPileDisplay : MonoBehaviour
 {
     public TextMeshProUGUI discardCount;
-    
-    public void UpdateDiscardCount(List<Card> discardPile)
+
+    public void UpdateDiscardCount(int count)
     {
-        discardCount.text = discardPile.Count.ToString();
+        if (discardCount == null) return;
+
+        discardCount.text = count.ToString();
     }
 }

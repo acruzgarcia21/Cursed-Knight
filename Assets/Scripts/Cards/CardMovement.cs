@@ -2,29 +2,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
-using CursedKnight;
 
-public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler,
+public class CardMovement : MonoBehaviour,
+    IDragHandler,
+    IPointerDownHandler,
+    IPointerUpHandler,
+    IPointerEnterHandler,
     IPointerExitHandler
 {
-    // For object
     private RectTransform _rectTransform;
-    private Canvas _canvas; // Looking for parent canvas
-    
-    // Cached to save calls
+    private Canvas _canvas;
     private RectTransform _canvasRectTransform;
-    
-    // Stores mouse pointer position
+
     private Vector2 _originalLocalPointerPosition;
-    
-    // Store original card location and scale
     private Vector3 _originalPanelLocalPosition;
     private Vector3 _originalScale;
 
     private Player _player;
-
     private bool _cardHasBeenPlayed;
-    
+
     private enum CardState
     {
         Idle,
@@ -34,40 +30,37 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
     }
 
     private CardState _currentState = CardState.Idle;
-    
+
     private Quaternion _originalRotation;
     private Vector3 _originalPosition;
-    
-    private Card _cardData;
+
     private CardDisplay _cardDisplay;
     private CardPlayManager _cardPlayManager;
     private CardVisualEffects _cardVisualEffects;
 
     [SerializeField] private Vector2 cardPlay;
     [SerializeField] private Vector3 playPosition;
-     
-    // Controls how aggressive the play effect moves to target position
-    [FormerlySerializedAs("moveSpeed")] [SerializeField] private float lerpFactor = 10f;
+
+    [FormerlySerializedAs("moveSpeed")]
+    [SerializeField] private float lerpFactor = 10f;
 
     private void Awake()
     {
         _cardDisplay       = GetComponent<CardDisplay>();
         _rectTransform     = GetComponent<RectTransform>();
         _cardVisualEffects = GetComponent<CardVisualEffects>();
-        
+
         _canvas = GetComponentInParent<Canvas>();
         if (_canvas == null) return;
-        
+
         _canvasRectTransform = _canvas.GetComponent<RectTransform>();
-        
+
         _originalScale    = _rectTransform.localScale;
         _originalPosition = _rectTransform.localPosition;
         _originalRotation = _rectTransform.localRotation;
-        
-        _cardData = _cardDisplay.cardData;
-        
-        _player            = FindFirstObjectByType<Player>();
-        _cardPlayManager   = FindFirstObjectByType<CardPlayManager>();
+
+        _player          = FindFirstObjectByType<Player>();
+        _cardPlayManager = FindFirstObjectByType<CardPlayManager>();
     }
 
     private void Update()
@@ -75,14 +68,20 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
         switch (_currentState)
         {
             case CardState.Hovering:
-                _cardVisualEffects.HandleHoverState(_rectTransform, _originalScale);
+                _cardVisualEffects.HandleHoverState(
+                    _rectTransform,
+                    _originalScale
+                );
                 break;
+
             case CardState.Dragging:
                 HandleDragState();
                 break;
+
             case CardState.Playing:
                 HandlePlayState();
                 break;
+
             case CardState.Idle:
             default:
                 break;
@@ -91,57 +90,75 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
 
     private void ReturnToIdleState()
     {
-        _currentState                = CardState.Idle;
-        _rectTransform.localScale    = _originalScale;       // Reset Scale
-        _rectTransform.localRotation = _originalRotation;    // Reset Rotation
-        _rectTransform.localPosition = _originalPosition;    // Reset Position
-        
-        _cardVisualEffects.HandleGlowEffect(false);          // Disable Glow Effect
-        _cardVisualEffects.HandlePlayArrow(false);           // Disable playArrow
+        _currentState = CardState.Idle;
+
+        _rectTransform.localScale    = _originalScale;
+        _rectTransform.localRotation = _originalRotation;
+        _rectTransform.localPosition = _originalPosition;
+
+        _cardVisualEffects.HandleGlowEffect(false);
+        _cardVisualEffects.HandlePlayArrow(false);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (_currentState != CardState.Idle) return;
+
         _originalPosition = _rectTransform.localPosition;
         _originalRotation = _rectTransform.localRotation;
-        _originalScale = _rectTransform.localScale;
-            
+        _originalScale    = _rectTransform.localScale;
+
         _currentState = CardState.Hovering;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         if (_currentState != CardState.Hovering) return;
+
         ReturnToIdleState();
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         if (_currentState != CardState.Hovering) return;
-        _currentState = CardState.Dragging; // Drag State
-        
+
+        _currentState = CardState.Dragging;
+
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            _canvasRectTransform,                      // Gets position of mouse on screen
-            eventData.position,              // Current mouse position in screen coordinates
-            eventData.pressEventCamera,                // The camera that registered the click
-            out _originalLocalPointerPosition);        // Stores the calculated mouse position relative to the canvas
-        
-        // Stores the position where the click happened
+            _canvasRectTransform,
+            eventData.position,
+            eventData.pressEventCamera,
+            out _originalLocalPointerPosition
+        );
+
         _originalPanelLocalPosition = _rectTransform.localPosition;
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
         if (_cardHasBeenPlayed) return;
-        
-        _cardData = _cardDisplay.cardData;
+
+        var runtimeCard = _cardDisplay.runtimeCard;
+
+        if (runtimeCard == null || runtimeCard.cardData == null)
+        {
+            Debug.LogWarning("Card has no RuntimeCard data.");
+            ReturnToIdleState();
+            return;
+        }
 
         var targetEnemy = GetEnemyUnderPointer(eventData);
 
         if (_rectTransform.localPosition.y > cardPlay.y)
         {
-            if (_cardPlayManager.TryPlayCard(_player, _cardData, gameObject, targetEnemy))
+            var cardWasPlayed = _cardPlayManager.TryPlayCard(
+                _player,
+                runtimeCard,
+                gameObject,
+                targetEnemy
+            );
+
+            if (cardWasPlayed)
             {
                 _cardHasBeenPlayed = true;
             }
@@ -152,53 +169,59 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
 
             return;
         }
+
         ReturnToIdleState();
     }
 
     public void OnDrag(PointerEventData eventData)
     {
         if (_currentState != CardState.Dragging) return;
-        
+
         if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(
                 _canvasRectTransform,
                 eventData.position,
                 eventData.pressEventCamera,
-                out var localPointerPosition)) return;
-        
-        // Ensures the card follows the mouse and not just the mouse movement
-        localPointerPosition /= _canvas.scaleFactor;
-        
-        Vector3 offsetToOriginal =  localPointerPosition - _originalLocalPointerPosition;
-        _rectTransform.localPosition = _originalPanelLocalPosition + offsetToOriginal;
+                out var localPointerPosition))
+        {
+            return;
+        }
 
-        if (!(_rectTransform.localPosition.y > cardPlay.y)) return;
-        
+        localPointerPosition /= _canvas.scaleFactor;
+
+        Vector3 offsetToOriginal =
+            localPointerPosition - _originalLocalPointerPosition;
+
+        _rectTransform.localPosition =
+            _originalPanelLocalPosition + offsetToOriginal;
+
+        if (_rectTransform.localPosition.y <= cardPlay.y) return;
+
         _currentState = CardState.Playing;
         _cardVisualEffects.HandlePlayArrow(true);
     }
 
     private void HandleDragState()
     {
-        // Set the card's rotation to zero
         _rectTransform.localRotation = Quaternion.identity;
     }
 
     private void HandlePlayState()
     {
         _rectTransform.localPosition = Vector3.Lerp(
-            _rectTransform.localPosition, 
-            playPosition, 
-            lerpFactor * Time.deltaTime); // Moves based on elapsed time
-        
+            _rectTransform.localPosition,
+            playPosition,
+            lerpFactor * Time.deltaTime
+        );
+
         _rectTransform.localRotation = Quaternion.identity;
-        
+
         if (Vector3.Distance(_rectTransform.localPosition, playPosition) < 0.1f)
         {
             _rectTransform.localPosition = playPosition;
         }
 
-        if (!(Input.mousePosition.y < cardPlay.y)) return;
-        
+        if (Input.mousePosition.y >= cardPlay.y) return;
+
         _currentState = CardState.Dragging;
         _cardVisualEffects.HandlePlayArrow(false);
     }
@@ -207,12 +230,12 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
     {
         if (EventSystem.current == null)
         {
-            Debug.LogWarning("No EventSystem found");
+            Debug.LogWarning("No EventSystem found.");
             return null;
         }
 
         var raycastResults = new List<RaycastResult>();
-        
+
         EventSystem.current.RaycastAll(eventData, raycastResults);
 
         foreach (var result in raycastResults)
@@ -224,6 +247,7 @@ public class CardMovement : MonoBehaviour, IDragHandler, IPointerDownHandler, IP
                 return enemy;
             }
         }
+
         return null;
     }
 }

@@ -15,7 +15,19 @@ MonoBehaviour:
   cardName: Blood Rend
   cardDescription: Deal 2 x 6 damage
   cardType: 0
+  targetType: 0
   cardSprite: {fileID: 0}
   cardEnergyCost: 1
   cardCorruptionGain: 1
-  cardDamage: 12
+  cardsToDraw: 0
+  cardsToDiscardRandomly: 0
+  cardsToDrawFromDiscard: 0
+  appliesStatus: 0
+  statusType: 0
+  statusAmount: 0
+  statusDuration: 0
+  retain: 0
+  exhaust: 0
+  spectral: 0
+  cardDamage: 6
+  hitCount: 2
