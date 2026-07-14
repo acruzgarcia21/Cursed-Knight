@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DeckManager : MonoBehaviour
 {
-    public List<Card> playerDeck = new List<Card>();
+    public List<Card> playerDeck = new();
     
     public int maxHandSize = 10;
     
