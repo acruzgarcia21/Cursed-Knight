@@ -41,6 +41,8 @@ public class Player : MonoBehaviour
     {
         ClearBlock(); 
         ResetEnergy();
+        ProcessStartTurnEffects();
+        
         _uiDisplay.UpdatePlayerEnergyText(this);
         _uiDisplay.UpdatePlayerCorruptionText(this);
     }
@@ -205,6 +207,17 @@ public class Player : MonoBehaviour
         }
 
         _playerDisplay.UpdatePlayerDisplay();
+    }
+
+    private void ProcessStartTurnEffects()
+    {
+        if (_statusManager.HasStatus(StatusEffect.StatusType.DarkMomentum))
+        {
+            var energyToGain = 
+                _statusManager.GetStatusAmount(StatusEffect.StatusType.DarkMomentum);
+            
+            GainEnergy(energyToGain);
+        }
     }
 
     public void ProcessOnActionStatuses()

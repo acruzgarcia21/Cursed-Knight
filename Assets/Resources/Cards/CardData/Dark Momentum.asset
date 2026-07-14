@@ -22,7 +22,7 @@ MonoBehaviour:
   cardsToDraw: 0
   cardsToDiscardRandomly: 0
   cardsToDrawFromDiscard: 0
-  appliesStatus: 0
-  statusType: 0
-  statusAmount: 0
-  statusDuration: 0
+  appliesStatus: 1
+  statusType: 7
+  statusAmount: 1
+  statusDuration: -1

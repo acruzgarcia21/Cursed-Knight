@@ -12,6 +12,7 @@ public class StatusEffect
         Poison,
         Bleed,
         Corruption,
-        ViciousResolve
+        ViciousResolve,
+        DarkMomentum
     }
 }
