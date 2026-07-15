@@ -6,11 +6,13 @@ public class CardPlayManager : MonoBehaviour
     private HandManager _handManager;
     private DiscardManager _discardManager;
     private EnemyManager _enemyManager;
+    private ExhaustManager _exhaustManager;
 
     private enum PostPlayDestination
     {
         Discard,
-        OutOfCombat
+        OutOfCombat,
+        Exhaust,
     }
 
     private void Awake()
@@ -18,6 +20,7 @@ public class CardPlayManager : MonoBehaviour
         _handManager    = FindFirstObjectByType<HandManager>();
         _discardManager = FindFirstObjectByType<DiscardManager>();
         _enemyManager   = FindFirstObjectByType<EnemyManager>();
+        _exhaustManager = FindFirstObjectByType<ExhaustManager>();
     }
 
     public bool TryPlayCard(Player player, RuntimeCard runtimeCard, GameObject cardObject, Enemy targetEnemy)
@@ -114,7 +117,7 @@ public class CardPlayManager : MonoBehaviour
 
         player.ProcessCardTypeTriggeredEffects(attackCard.cardType);
         ApplyCardStatus(player, attackCard, targetEnemy);
-        CompleteCardPlay(runtimeCard, cardObject, player, PostPlayDestination.Discard);
+        CompleteCardPlay(runtimeCard, cardObject, player);
 
         return true;
     }
@@ -129,7 +132,7 @@ public class CardPlayManager : MonoBehaviour
 
         player.GainBlock(defenseCard.cardBlock);
         
-        CompleteCardPlay(runtimeCard, cardObject, player, PostPlayDestination.Discard);
+        CompleteCardPlay(runtimeCard, cardObject, player);
         
         return true;
     }
@@ -152,7 +155,7 @@ public class CardPlayManager : MonoBehaviour
             player.Heal(utilityCard.cardHealthGain);
         }
 
-        CompleteCardPlay(runtimeCard, cardObject, player, PostPlayDestination.Discard);
+        CompleteCardPlay(runtimeCard, cardObject, player);
 
         return true;
     }
@@ -164,16 +167,13 @@ public class CardPlayManager : MonoBehaviour
 
         BeginCardPlay(player, powerCard);
         ApplyCardStatus(player, powerCard, null);
-        CompleteCardPlay(runtimeCard, cardObject, player, PostPlayDestination.OutOfCombat);
+        
+        CompleteCardPlay(runtimeCard, cardObject, player);
 
         return true;
     }
 
-    private void CompleteCardPlay(
-        RuntimeCard runtimeCard,
-        GameObject cardObject,
-        Player player,
-        PostPlayDestination destination)
+    private void CompleteCardPlay(RuntimeCard runtimeCard, GameObject cardObject, Player player)
     {
         var cardData = runtimeCard.cardData;
 
@@ -182,6 +182,8 @@ public class CardPlayManager : MonoBehaviour
         DrawRandomCardFromDiscard(cardData);
 
         player.ProcessOnActionStatuses();
+
+        var destination = DeterminePostPlayDestination(runtimeCard);
 
         switch (destination)
         {
@@ -192,7 +194,26 @@ public class CardPlayManager : MonoBehaviour
             case PostPlayDestination.OutOfCombat:
                 RemoveCardFromCombat(cardObject);
                 break;
+            case PostPlayDestination.Exhaust:
+                ExhaustCard(runtimeCard, cardObject);
+                break;
         }
+        
+    }
+
+    private PostPlayDestination DeterminePostPlayDestination(RuntimeCard runtimeCard)
+    {
+        if (runtimeCard.cardData.cardType == Card.CardType.Power)
+        {
+            return PostPlayDestination.OutOfCombat;
+        }
+        if (runtimeCard.exhaust)
+        {
+            return PostPlayDestination.Exhaust;
+        }
+        
+        return PostPlayDestination.Discard;
+        
     }
 
     private void SendCardToDiscard(RuntimeCard runtimeCard, GameObject cardObject)
@@ -206,6 +227,14 @@ public class CardPlayManager : MonoBehaviour
     private void RemoveCardFromCombat(GameObject cardObject)
     {
         _handManager.RemoveCardFromHand(cardObject);
+        Destroy(cardObject);
+    }
+
+    private void ExhaustCard(RuntimeCard runtimeCard, GameObject cardObject)
+    {
+        _handManager.RemoveCardFromHand(cardObject);
+        _exhaustManager.AddToExhaustPile(runtimeCard);
+        
         Destroy(cardObject);
     }
 

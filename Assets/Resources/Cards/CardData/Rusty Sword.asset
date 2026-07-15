@@ -19,5 +19,15 @@ MonoBehaviour:
   cardSprite: {fileID: 0}
   cardEnergyCost: 1
   cardCorruptionGain: 0
+  cardsToDraw: 0
+  cardsToDiscardRandomly: 0
+  cardsToDrawFromDiscard: 0
+  appliesStatus: 0
+  statusType: 0
+  statusAmount: 0
+  statusDuration: 0
+  retain: 0
+  exhaust: 1
+  spectral: 0
   cardDamage: 4
   hitCount: 1
