@@ -31,6 +31,20 @@ namespace CursedKnight
         public bool exhaust;
         public bool spectral;
 
+        [Space(10)] [Header("Created During Combat")]
+        public bool createsCards;
+        public Card cardToCreate;
+        public int cardsToCreate;
+        public CreatedCardDestination createdCardDestination;
+        
+        public enum CreatedCardDestination
+        {
+            Hand,
+            DrawPile,
+            DiscardPile
+        }
+        
+
         public enum CardType
         {
             Attack,

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Rusty Sword
   m_EditorClassIdentifier: Assembly-CSharp::Attack
   cardName: 'Rusty Sword. '
-  cardDescription: Deal 4 damage SPECTRAL
+  cardDescription: 'Deal 4 damage '
   cardType: 0
   targetType: 0
   cardSprite: {fileID: 0}
@@ -28,6 +28,10 @@ MonoBehaviour:
   statusDuration: 0
   retain: 0
   exhaust: 0
-  spectral: 1
+  spectral: 0
+  createsCards: 0
+  cardToCreate: {fileID: 11400000}
+  cardsToCreate: 0
+  createdCardDestination: 2
   cardDamage: 4
   hitCount: 1

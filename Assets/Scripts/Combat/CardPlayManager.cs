@@ -7,6 +7,7 @@ public class CardPlayManager : MonoBehaviour
     private DiscardManager _discardManager;
     private EnemyManager _enemyManager;
     private ExhaustManager _exhaustManager;
+    private DeckManager _deckManager;
 
     private enum PostPlayDestination
     {
@@ -21,6 +22,7 @@ public class CardPlayManager : MonoBehaviour
         _discardManager = FindFirstObjectByType<DiscardManager>();
         _enemyManager   = FindFirstObjectByType<EnemyManager>();
         _exhaustManager = FindFirstObjectByType<ExhaustManager>();
+        _deckManager    = FindFirstObjectByType<DeckManager>();
     }
 
     public bool TryPlayCard(Player player, RuntimeCard runtimeCard, GameObject cardObject, Enemy targetEnemy)
@@ -199,6 +201,7 @@ public class CardPlayManager : MonoBehaviour
                 break;
         }
         
+        ResolveCardCreation(cardData);
     }
 
     private PostPlayDestination DeterminePostPlayDestination(RuntimeCard runtimeCard)
@@ -341,6 +344,17 @@ public class CardPlayManager : MonoBehaviour
                 }
 
                 break;
+        }
+    }
+
+    private void ResolveCardCreation(Card cardData)
+    {
+        if (cardData == null) return;
+        if (!cardData.createsCards) return;
+
+        for (var i = 0; i < cardData.cardsToCreate; i++)
+        {
+            _deckManager.CreateCardDuringCombat(cardData.cardToCreate, cardData.createdCardDestination);
         }
     }
 }

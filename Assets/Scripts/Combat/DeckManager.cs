@@ -10,6 +10,8 @@ public class DeckManager : MonoBehaviour
 
     private HandManager _handManager;
     private DrawPileManager _drawPileManager;
+    private DiscardManager _discardManager;
+    
 
     [SerializeField] private DeckData startingDeck;
 
@@ -17,6 +19,7 @@ public class DeckManager : MonoBehaviour
     {
         _drawPileManager = FindFirstObjectByType<DrawPileManager>();
         _handManager     = FindFirstObjectByType<HandManager>();
+        _discardManager  = FindFirstObjectByType<DiscardManager>();
     }
 
     public void BattleSetup()
@@ -41,5 +44,25 @@ public class DeckManager : MonoBehaviour
 
         _handManager.BattleSetup(maxHandSize);
         _drawPileManager.MakeDrawPile(runtimeCards);
+    }
+
+    public void CreateCardDuringCombat(Card cardData, Card.CreatedCardDestination destination)
+    {
+        if (cardData == null) return;
+
+        var createdCard = new RuntimeCard(cardData, true);
+
+        switch (destination)
+        {
+            case Card.CreatedCardDestination.Hand:
+                _handManager.AddCardToHand(createdCard);
+                break;
+            case Card.CreatedCardDestination.DrawPile:
+                _drawPileManager.AddToDrawPile(createdCard);
+                break;
+            case Card.CreatedCardDestination.DiscardPile:
+                _discardManager.AddToDiscardPile(createdCard);
+                break;
+        }
     }
 }

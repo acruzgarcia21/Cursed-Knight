@@ -29,6 +29,18 @@ public class DrawPileManager : MonoBehaviour
         UpdateDrawPileCount();
     }
 
+    public void AddToDrawPile(RuntimeCard cardToAdd)
+    {
+        if (cardToAdd == null) return;
+        
+        _drawPile.Add(cardToAdd);
+        
+        Utility.Shuffle(_drawPile);
+
+        _currentIndex = 0;
+        UpdateDrawPileCount();
+    }
+
     public RuntimeCard DrawCard()
     {
         if (_drawPile.Count == 0)
