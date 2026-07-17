@@ -12,15 +12,17 @@ public class HandManager : MonoBehaviour
     
     private readonly List<GameObject> _cardsInHand = new();
     
-    private DiscardManager _discardManager;
+    private DiscardManager  _discardManager;
     private DrawPileManager _drawPileManager;
-    private HandDisplay _handDisplay;
+    private HandDisplay     _handDisplay;
+    private ExhaustManager  _exhaustManager;
 
     private void Awake()
     {
         _discardManager  = FindFirstObjectByType<DiscardManager>();
         _drawPileManager = FindFirstObjectByType<DrawPileManager>();
         _handDisplay     = FindFirstObjectByType<HandDisplay>();
+        _exhaustManager  = FindFirstObjectByType<ExhaustManager>();
     }
     
     public void BattleSetup(int setMaxHandSize)
@@ -97,20 +99,24 @@ public class HandManager : MonoBehaviour
                 continue;
             }
 
-            if (cardDisplay.runtimeCard.retain) continue;
+            var runtimeCard = cardDisplay.runtimeCard;
+
+            if (runtimeCard.retain) continue;
+            if (runtimeCard.spectral)
+            {
+                _exhaustManager.AddToExhaustPile(runtimeCard);
+                
+            }
+            else
+            {
+                _discardManager.AddToDiscardPile(runtimeCard);
+            }
 
             cardsToRemove.Add(cardObject);
         }
 
         foreach (var cardObject in cardsToRemove)
         {
-            var cardDisplay = cardObject.GetComponent<CardDisplay>();
-
-            if (cardDisplay != null && cardDisplay.runtimeCard != null)
-            {
-                _discardManager.AddToDiscardPile(cardDisplay.runtimeCard);
-            }
-
             _cardsInHand.Remove(cardObject);
             Destroy(cardObject);
         }
