@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class DrawPileManager : MonoBehaviour
 {
-    private List<Card> _drawPile = new List<Card>();
+    private List<RuntimeCard> _drawPile = new();
     
     public TextMeshProUGUI drawPileCounter;
     
@@ -18,16 +18,30 @@ public class DrawPileManager : MonoBehaviour
         _discardManager = FindFirstObjectByType<DiscardManager>();
     }
 
-    public void MakeDrawPile(List<Card> cardsToAdd)
+    public void MakeDrawPile(List<RuntimeCard> cardsToAdd)
     {
         _drawPile.Clear();
         _drawPile.AddRange(cardsToAdd);
 
         Utility.Shuffle(_drawPile);
+
+        _currentIndex = 0;
         UpdateDrawPileCount();
     }
 
-    public Card DrawCard()
+    public void AddToDrawPile(RuntimeCard cardToAdd)
+    {
+        if (cardToAdd == null) return;
+        
+        _drawPile.Add(cardToAdd);
+        
+        Utility.Shuffle(_drawPile);
+
+        _currentIndex = 0;
+        UpdateDrawPileCount();
+    }
+
+    public RuntimeCard DrawCard()
     {
         if (_drawPile.Count == 0)
         {
@@ -40,8 +54,17 @@ public class DrawPileManager : MonoBehaviour
         
         _drawPile.RemoveAt(_currentIndex);
         
+        if (_drawPile.Count > 0)
+        {
+            _currentIndex %= _drawPile.Count;
+        }
+        else
+        {
+            _currentIndex = 0;
+        }
+
         UpdateDrawPileCount();
-        if (_drawPile.Count > 0) _currentIndex %= _drawPile.Count;
+
         return nextCard;
     }
 
@@ -50,8 +73,11 @@ public class DrawPileManager : MonoBehaviour
         if (_discardManager.IsDiscardPileEmpty()) return;
         
         _drawPile = _discardManager.PullAllFromDiscardPile();
+        
         Utility.Shuffle(_drawPile);
+        
         _currentIndex = 0;
+        UpdateDrawPileCount();
     }
 
     private void UpdateDrawPileCount()

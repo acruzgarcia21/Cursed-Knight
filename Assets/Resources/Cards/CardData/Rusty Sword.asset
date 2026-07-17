@@ -12,12 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cd9c383cbbfd24458b3beea015b76c5, type: 3}
   m_Name: Rusty Sword
   m_EditorClassIdentifier: Assembly-CSharp::Attack
-  cardName: Rusty Sword
-  cardDescription: Deal 4 damage
+  cardName: 'Rusty Sword. '
+  cardDescription: 'Deal 4 damage '
   cardType: 0
   targetType: 0
   cardSprite: {fileID: 0}
   cardEnergyCost: 1
   cardCorruptionGain: 0
+  cardsToDraw: 0
+  cardsToDiscardRandomly: 0
+  cardsToDrawFromDiscard: 0
+  appliesStatus: 0
+  statusType: 0
+  statusAmount: 0
+  statusDuration: 0
+  retain: 0
+  exhaust: 0
+  spectral: 0
+  createsCards: 0
+  cardToCreate: {fileID: 11400000}
+  cardsToCreate: 0
+  createdCardDestination: 2
   cardDamage: 4
   hitCount: 1

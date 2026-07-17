@@ -6,11 +6,14 @@ public class CardPlayManager : MonoBehaviour
     private HandManager _handManager;
     private DiscardManager _discardManager;
     private EnemyManager _enemyManager;
+    private ExhaustManager _exhaustManager;
+    private DeckManager _deckManager;
 
     private enum PostPlayDestination
     {
         Discard,
-        OutOfCombat
+        OutOfCombat,
+        Exhaust,
     }
 
     private void Awake()
@@ -18,12 +21,19 @@ public class CardPlayManager : MonoBehaviour
         _handManager    = FindFirstObjectByType<HandManager>();
         _discardManager = FindFirstObjectByType<DiscardManager>();
         _enemyManager   = FindFirstObjectByType<EnemyManager>();
+        _exhaustManager = FindFirstObjectByType<ExhaustManager>();
+        _deckManager    = FindFirstObjectByType<DeckManager>();
     }
 
-    public bool TryPlayCard(Player player, Card cardData, GameObject cardObject, Enemy targetEnemy)
+    public bool TryPlayCard(Player player, RuntimeCard runtimeCard, GameObject cardObject, Enemy targetEnemy)
     {
-        if (cardData == null) return false;
-        
+        if (player == null || runtimeCard == null || runtimeCard.cardData == null)
+        {
+            return false;
+        }
+
+        var cardData = runtimeCard.cardData;
+
         if (player.playerEnergy < cardData.cardEnergyCost)
         {
             Debug.Log("Not enough energy!");
@@ -38,32 +48,36 @@ public class CardPlayManager : MonoBehaviour
 
         return cardData.cardType switch
         {
-            Card.CardType.Attack  => TryPlayAttack(player, cardData, cardObject, targetEnemy),
-            Card.CardType.Defense => TryPlayDefense(player, cardData, cardObject, targetEnemy),
-            Card.CardType.Utility => TryPlayUtility(player, cardData, cardObject, targetEnemy),
-            Card.CardType.Power   => TryPlayPower(player, cardData, cardObject),
+            Card.CardType.Attack  => TryPlayAttack(player, runtimeCard, cardObject, targetEnemy),
+            Card.CardType.Defense => TryPlayDefense(player, runtimeCard, cardObject, targetEnemy),
+            Card.CardType.Utility => TryPlayUtility(player, runtimeCard, cardObject, targetEnemy),
+            Card.CardType.Power   => TryPlayPower(player, runtimeCard, cardObject),
             _ => false
         };
     }
 
-    private bool TryPlayAttack(Player player, Card cardData, GameObject cardObject, Enemy targetEnemy)
+    private bool TryPlayAttack(Player player, RuntimeCard runtimeCard, GameObject cardObject, Enemy targetEnemy)
     {
-        var attackCard = cardData as Attack;
+        var attackCard = runtimeCard.cardData as Attack;
         if (attackCard == null) return false;
 
-        var finalAttackDamage = player.GetModifiedAttackDamage(attackCard.cardDamage);
-        
+        var finalAttackDamage =
+            player.GetModifiedAttackDamage(attackCard.cardDamage);
+
         BeginCardPlay(player, attackCard);
-        
-        Debug.Log($"Played attack card: {attackCard.cardName}," +
-                  $" Base Damage: {attackCard.cardDamage}," +
-                  $" Modified Damage: {finalAttackDamage}");
-        
-        switch (cardData.targetType)
+
+        Debug.Log(
+            $"Played attack card: {attackCard.cardName}," +
+            $" Base Damage: {attackCard.cardDamage}," +
+            $" Modified Damage: {finalAttackDamage}"
+        );
+
+        switch (attackCard.targetType)
         {
             case Card.TargetType.AllEnemies:
             {
                 var allLivingEnemies = _enemyManager.GetLivingEnemies();
+
                 foreach (var enemy in allLivingEnemies)
                 {
                     for (var i = 0; i < attackCard.hitCount; i++)
@@ -74,92 +88,156 @@ public class CardPlayManager : MonoBehaviour
 
                 break;
             }
+
             case Card.TargetType.RandomEnemy:
             {
                 for (var i = 0; i < attackCard.hitCount; i++)
                 {
                     var allLivingEnemies = _enemyManager.GetLivingEnemies();
+
+                    if (allLivingEnemies.Count == 0) break;
+
                     var randomEnemyIndex = Random.Range(0, allLivingEnemies.Count);
+
                     allLivingEnemies[randomEnemyIndex].TakeDamage(finalAttackDamage);
                 }
+
                 break;
             }
+
             case Card.TargetType.SingleEnemy:
             default:
+            {
                 for (var i = 0; i < attackCard.hitCount; i++)
                 {
                     targetEnemy.TakeDamage(finalAttackDamage);
                 }
+
                 break;
+            }
         }
-        
+
         player.ProcessCardTypeTriggeredEffects(attackCard.cardType);
-        ApplyCardStatus(player, cardData, targetEnemy);
-        CompleteCardPlay(attackCard, cardObject, player, PostPlayDestination.Discard);
+        ApplyCardStatus(player, attackCard, targetEnemy);
+        CompleteCardPlay(runtimeCard, cardObject, player);
+
         return true;
     }
 
-    private bool TryPlayDefense(Player player, Card cardData, GameObject cardObject, Enemy targetEnemy)
+    private bool TryPlayDefense(Player player, RuntimeCard runtimeCard, GameObject cardObject, Enemy targetEnemy)
     {
-        var defenseCard = cardData as Defense;
+        var defenseCard = runtimeCard.cardData as Defense;
         if (defenseCard == null) return false;
 
         BeginCardPlay(player, defenseCard);
-        ApplyCardStatus(player, cardData, targetEnemy); 
-        
-        player.GainBlock(defenseCard.cardBlock);
+        ApplyCardStatus(player, defenseCard, targetEnemy);
 
-        CompleteCardPlay(defenseCard, cardObject, player, PostPlayDestination.Discard);
+        player.GainBlock(defenseCard.cardBlock);
+        
+        CompleteCardPlay(runtimeCard, cardObject, player);
         
         return true;
     }
 
-    private bool TryPlayUtility(Player player, Card cardData, GameObject cardObject, Enemy targetEnemy)
+    private bool TryPlayUtility(Player player, RuntimeCard runtimeCard, GameObject cardObject, Enemy targetEnemy)
     {
-        var utilityCard = cardData as UtilityCard;
+        var utilityCard = runtimeCard.cardData as UtilityCard;
         if (utilityCard == null) return false;
 
         BeginCardPlay(player, utilityCard);
-        ApplyCardStatus(player, cardData, targetEnemy);
-        
+        ApplyCardStatus(player, utilityCard, targetEnemy);
+
         if (utilityCard.cardEnergyGain > 0)
         {
             player.GainEnergy(utilityCard.cardEnergyGain);
         }
-        
+
         if (utilityCard.cardHealthGain > 0)
         {
             player.Heal(utilityCard.cardHealthGain);
         }
-        
-        CompleteCardPlay(utilityCard, cardObject, player, PostPlayDestination.Discard);
-        
+
+        CompleteCardPlay(runtimeCard, cardObject, player);
+
         return true;
     }
 
-    private bool TryPlayPower(Player player, Card cardData, GameObject cardObject)
+    private bool TryPlayPower(Player player, RuntimeCard runtimeCard, GameObject cardObject)
     {
-        var powerCard = cardData as Power;
+        var powerCard = runtimeCard.cardData as Power;
         if (powerCard == null) return false;
-        
+
         BeginCardPlay(player, powerCard);
-        ApplyCardStatus(player, cardData, null);
-        CompleteCardPlay(powerCard, cardObject, player, PostPlayDestination.OutOfCombat);
+        ApplyCardStatus(player, powerCard, null);
+        
+        CompleteCardPlay(runtimeCard, cardObject, player);
 
         return true;
     }
-    
-    private void SendCardToDiscard(Card cardData, GameObject cardObject)
+
+    private void CompleteCardPlay(RuntimeCard runtimeCard, GameObject cardObject, Player player)
+    {
+        var cardData = runtimeCard.cardData;
+
+        DrawCardsFromCard(cardData);
+        ApplyRandomCardDiscard(cardData);
+        DrawRandomCardFromDiscard(cardData);
+
+        player.ProcessOnActionStatuses();
+
+        var destination = DeterminePostPlayDestination(runtimeCard);
+
+        switch (destination)
+        {
+            case PostPlayDestination.Discard:
+                SendCardToDiscard(runtimeCard, cardObject);
+                break;
+
+            case PostPlayDestination.OutOfCombat:
+                RemoveCardFromCombat(cardObject);
+                break;
+            case PostPlayDestination.Exhaust:
+                ExhaustCard(runtimeCard, cardObject);
+                break;
+        }
+        
+        ResolveCardCreation(cardData);
+    }
+
+    private PostPlayDestination DeterminePostPlayDestination(RuntimeCard runtimeCard)
+    {
+        if (runtimeCard.cardData.cardType == Card.CardType.Power)
+        {
+            return PostPlayDestination.OutOfCombat;
+        }
+        if (runtimeCard.exhaust)
+        {
+            return PostPlayDestination.Exhaust;
+        }
+        
+        return PostPlayDestination.Discard;
+        
+    }
+
+    private void SendCardToDiscard(RuntimeCard runtimeCard, GameObject cardObject)
     {
         _handManager.RemoveCardFromHand(cardObject);
-        _discardManager.AddToDiscardPile(cardData);
-        
+        _discardManager.AddToDiscardPile(runtimeCard);
+
         Destroy(cardObject);
     }
 
     private void RemoveCardFromCombat(GameObject cardObject)
     {
         _handManager.RemoveCardFromHand(cardObject);
+        Destroy(cardObject);
+    }
+
+    private void ExhaustCard(RuntimeCard runtimeCard, GameObject cardObject)
+    {
+        _handManager.RemoveCardFromHand(cardObject);
+        _exhaustManager.AddToExhaustPile(runtimeCard);
+        
         Destroy(cardObject);
     }
 
@@ -171,15 +249,24 @@ public class CardPlayManager : MonoBehaviour
         {
             case Card.TargetType.SingleEnemy:
                 return targetEnemy != null;
+
             case Card.TargetType.AllEnemies:
             case Card.TargetType.RandomEnemy:
                 return !_enemyManager.AllEnemiesDead();
+
             case Card.TargetType.Self:
                 return player != null;
+
             case Card.TargetType.None:
             default:
                 return true;
         }
+    }
+
+    private void BeginCardPlay(Player player, Card cardData)
+    {
+        ApplyCardCorruption(player, cardData);
+        SpendCardEnergy(player, cardData);
     }
 
     private void SpendCardEnergy(Player player, Card cardData)
@@ -210,7 +297,26 @@ public class CardPlayManager : MonoBehaviour
     {
         if (cardData.cardsToDiscardRandomly > 0)
         {
-            _handManager.DiscardRandomCards(cardData.cardsToDiscardRandomly);
+            _handManager.DiscardRandomCards(
+                cardData.cardsToDiscardRandomly
+            );
+        }
+    }
+
+    private void DrawRandomCardFromDiscard(Card cardData)
+    {
+        if (cardData.cardsToDrawFromDiscard <= 0) return;
+
+        for (var i = 0; i < cardData.cardsToDrawFromDiscard; i++)
+        {
+            if (_handManager.IsHandFull()) break;
+
+            var runtimeCard =
+                _discardManager.PullRandomCardFromDiscard();
+
+            if (runtimeCard == null) break;
+
+            _handManager.AddCardToHand(runtimeCard);
         }
     }
 
@@ -230,50 +336,25 @@ public class CardPlayManager : MonoBehaviour
             case Card.TargetType.Self:
                 player.ApplyStatus(statusEffect);
                 break;
+
             case Card.TargetType.SingleEnemy:
-                targetEnemy.ApplyStatus(statusEffect);
+                if (targetEnemy != null)
+                {
+                    targetEnemy.ApplyStatus(statusEffect);
+                }
+
                 break;
         }
     }
 
-    private void DrawRandomCardFromDiscard(Card cardData)
+    private void ResolveCardCreation(Card cardData)
     {
-        if (cardData.cardsToDrawFromDiscard <= 0) return;
+        if (cardData == null) return;
+        if (!cardData.createsCards) return;
 
-        for (var i = 0; i < cardData.cardsToDrawFromDiscard; i++)
+        for (var i = 0; i < cardData.cardsToCreate; i++)
         {
-            if (_handManager.IsHandFull()) break;
-
-            var randomCardFromDiscard = _discardManager.PullRandomCardFromDiscard();
-
-            if (randomCardFromDiscard == null) break;
-            
-            _handManager.AddCardToHand(randomCardFromDiscard);
-        }
-    }
-
-    private void BeginCardPlay(Player player, Card cardData)
-    {
-        ApplyCardCorruption(player, cardData);
-        SpendCardEnergy(player, cardData);
-    }
-
-    private void CompleteCardPlay(Card cardData, GameObject cardObject, Player player, PostPlayDestination destination)
-    {
-        DrawCardsFromCard(cardData);
-        ApplyRandomCardDiscard(cardData);
-        DrawRandomCardFromDiscard(cardData);
-        
-        player.ProcessOnActionStatuses();
-
-        switch (destination)
-        {
-            case PostPlayDestination.Discard:
-                SendCardToDiscard(cardData, cardObject);
-                break;
-            case PostPlayDestination.OutOfCombat:
-                RemoveCardFromCombat(cardObject);
-                break;
+            _deckManager.CreateCardDuringCombat(cardData.cardToCreate, cardData.createdCardDestination);
         }
     }
 }

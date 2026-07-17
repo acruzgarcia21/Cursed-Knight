@@ -6,22 +6,23 @@ using UnityEngine.XR;
 public class HandManager : MonoBehaviour
 {
     public GameObject cardPrefab;
-    
     public Transform handTransform;
     
     public int maxCardsInHand;
     
     private readonly List<GameObject> _cardsInHand = new();
     
-    private DiscardManager _discardManager;
+    private DiscardManager  _discardManager;
     private DrawPileManager _drawPileManager;
-    private HandDisplay _handDisplay;
+    private HandDisplay     _handDisplay;
+    private ExhaustManager  _exhaustManager;
 
     private void Awake()
     {
         _discardManager  = FindFirstObjectByType<DiscardManager>();
         _drawPileManager = FindFirstObjectByType<DrawPileManager>();
         _handDisplay     = FindFirstObjectByType<HandDisplay>();
+        _exhaustManager  = FindFirstObjectByType<ExhaustManager>();
     }
     
     public void BattleSetup(int setMaxHandSize)
@@ -29,8 +30,9 @@ public class HandManager : MonoBehaviour
         maxCardsInHand = setMaxHandSize;
     }
 
-    public void AddCardToHand(Card cardData)
+    public void AddCardToHand(RuntimeCard runtimeCard)
     {
+        if (runtimeCard == null) return;
         if (_cardsInHand.Count >= maxCardsInHand) return;
         
         // Instantiate card
@@ -38,12 +40,24 @@ public class HandManager : MonoBehaviour
         // 2. GameObject Position
         // 3. GameObject Rotation (Quaternion.identity = no rotation)
         // 4. Transform Parent
-        var newCard = Instantiate(cardPrefab, handTransform.position, Quaternion.identity, handTransform);
-        _cardsInHand.Add(newCard);
+        var newCard = Instantiate(
+            cardPrefab, 
+            handTransform.position, 
+            Quaternion.identity, 
+            handTransform);
         
-        // Set the card data of the instantiated card
-        newCard.GetComponent<CardDisplay>().cardData = cardData;
+        var cardDisplay = newCard.GetComponent<CardDisplay>();
 
+        if (cardDisplay == null)
+        {
+            Destroy(newCard);
+            Debug.LogError("Card prefab is missing CardDisplay.");
+            return;
+        }
+
+        cardDisplay.runtimeCard = runtimeCard;
+
+        _cardsInHand.Add(newCard);
         _handDisplay.UpdateHandVisuals(_cardsInHand);
     }
     
@@ -61,22 +75,52 @@ public class HandManager : MonoBehaviour
     {
         for (var i = 0; i < numCardsToDraw; i++)
         {
+            if (IsHandFull()) break;
+
             var cardToDraw = _drawPileManager.DrawCard();
-            
-            if (cardToDraw == null) return;
+
+            if (cardToDraw == null) break;
+
             AddCardToHand(cardToDraw);
         }
     }
 
     public void DiscardHand()
     {
-        foreach (var card in _cardsInHand)
+        var cardsToRemove = new List<GameObject>();
+
+        foreach (var cardObject in _cardsInHand)
         {
-            var cardData = card.GetComponent<CardDisplay>().cardData;
-            _discardManager.AddToDiscardPile(cardData);
-            Destroy(card.gameObject);
+            var cardDisplay = cardObject.GetComponent<CardDisplay>();
+
+            if (cardDisplay == null || cardDisplay.runtimeCard == null)
+            {
+                cardsToRemove.Add(cardObject);
+                continue;
+            }
+
+            var runtimeCard = cardDisplay.runtimeCard;
+
+            if (runtimeCard.retain) continue;
+            if (runtimeCard.spectral)
+            {
+                _exhaustManager.AddToExhaustPile(runtimeCard);
+                
+            }
+            else
+            {
+                _discardManager.AddToDiscardPile(runtimeCard);
+            }
+
+            cardsToRemove.Add(cardObject);
         }
-        _cardsInHand.Clear();
+
+        foreach (var cardObject in cardsToRemove)
+        {
+            _cardsInHand.Remove(cardObject);
+            Destroy(cardObject);
+        }
+
         _handDisplay.UpdateHandVisuals(_cardsInHand);
     }
 
@@ -84,23 +128,28 @@ public class HandManager : MonoBehaviour
     {
         for (var i = 0; i < numCardsToDiscard; i++)
         {
-            if (_cardsInHand.Count <= 0) break;
-            
+            if (_cardsInHand.Count == 0) break;
+
             var randomCardIndex = Random.Range(0, _cardsInHand.Count);
-            
-            var cardToDiscard = _cardsInHand[randomCardIndex];
-            var cardData = cardToDiscard.GetComponent<CardDisplay>().cardData;
-            
-            _discardManager.AddToDiscardPile(cardData);
-            _cardsInHand.Remove(cardToDiscard);
-            
-            Destroy(cardToDiscard);
+            var cardObject = _cardsInHand[randomCardIndex];
+            var cardDisplay = cardObject.GetComponent<CardDisplay>();
+
+            if (cardDisplay != null && cardDisplay.runtimeCard != null)
+            {
+                _discardManager.AddToDiscardPile(cardDisplay.runtimeCard);
+            }
+
+            _cardsInHand.RemoveAt(randomCardIndex);
+            Destroy(cardObject);
         }
+
         _handDisplay.UpdateHandVisuals(_cardsInHand);
     }
 
     public void RemoveCardFromHand(GameObject cardToRemove)
     {
+        if (cardToRemove == null) return;
+
         _cardsInHand.Remove(cardToRemove);
         _handDisplay.UpdateHandVisuals(_cardsInHand);
     }
