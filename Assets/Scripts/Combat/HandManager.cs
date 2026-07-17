@@ -85,7 +85,24 @@ public class HandManager : MonoBehaviour
 
     public void DiscardHand()
     {
+        var cardsToRemove = new List<GameObject>();
+
         foreach (var cardObject in _cardsInHand)
+        {
+            var cardDisplay = cardObject.GetComponent<CardDisplay>();
+
+            if (cardDisplay == null || cardDisplay.runtimeCard == null)
+            {
+                cardsToRemove.Add(cardObject);
+                continue;
+            }
+
+            if (cardDisplay.runtimeCard.retain) continue;
+
+            cardsToRemove.Add(cardObject);
+        }
+
+        foreach (var cardObject in cardsToRemove)
         {
             var cardDisplay = cardObject.GetComponent<CardDisplay>();
 
@@ -94,10 +111,10 @@ public class HandManager : MonoBehaviour
                 _discardManager.AddToDiscardPile(cardDisplay.runtimeCard);
             }
 
+            _cardsInHand.Remove(cardObject);
             Destroy(cardObject);
         }
 
-        _cardsInHand.Clear();
         _handDisplay.UpdateHandVisuals(_cardsInHand);
     }
 
