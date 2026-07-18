@@ -37,6 +37,8 @@ public class Enemy : MonoBehaviour
             return;
         }
 
+        currentEnemyBlock = 0;
+
         if (_currentAction.damage > 0)
         {
             var hitCount = Mathf.Max(1, _currentAction.hitCount);
@@ -52,6 +54,11 @@ public class Enemy : MonoBehaviour
                 $"{enemyData.enemyName} uses {_currentAction.actionName} " +
                 $"for {modifiedDamage} damage x{hitCount}."
             );
+        }
+
+        if (_currentAction.blockAmount > 0)
+        {
+            GainBlock(_currentAction.blockAmount);
         }
 
         ProcessOnActionStatuses();
@@ -136,6 +143,13 @@ public class Enemy : MonoBehaviour
         {
             BattleManager.Instance.EnemyManager.RemoveEnemy(this);
         }
+    }
+    
+    public void GainBlock(int block)
+    {
+        currentEnemyBlock += block;
+        
+        _enemyDisplay.UpdateEnemyDisplay();
     }
     
     public void ApplyStatus(StatusEffect statusEffect)

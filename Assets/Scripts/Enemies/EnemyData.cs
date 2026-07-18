@@ -14,7 +14,7 @@ public class EnemyData : ScriptableObject
     
     [Space(10)] [Header("Enemy Stats")]
     public int enemyMaxHealth;
-
+    
     [Space(10)] [Header("Enemy Actions")] 
     public List<EnemyActionData> enemyActions = new();
     

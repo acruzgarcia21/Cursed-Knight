@@ -13,6 +13,5 @@ public class StatusDisplayData : ScriptableObject
     {
         Amount,
         Duration,
-        None
     }
 }
