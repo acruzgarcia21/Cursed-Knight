@@ -9,7 +9,13 @@ public class Enemy : MonoBehaviour
 
     private EnemyDisplay _enemyDisplay;
     private StatusManager _statusManager;
+    
+    private EnemyActionData _currentAction;
 
+    private int _currentActionIndex;
+
+    public EnemyActionData CurrentAction => _currentAction;
+    
     private void Awake()
     {
         _enemyDisplay  = GetComponent<EnemyDisplay>();
@@ -26,28 +32,71 @@ public class Enemy : MonoBehaviour
 
     public void TakeTurn(Player player)
     {
-        if (enemyData.appliesStatus)
+        if (player == null || _currentAction == null)
         {
-            var statusEffect = new StatusEffect
-            {
-                statusType = enemyData.statusType,
-                amount = enemyData.statusAmount,
-                duration = enemyData.statusDuration
-            }; 
-            
-            player.ApplyStatus(statusEffect);
+            return;
         }
 
-        var enemyAttackDamage = GetModifiedAttackDamage(enemyData.enemyAttackDamage);
-        
-        player.TakeDamage(enemyAttackDamage);
-        
-        Debug.Log($"{enemyData.enemyName} attacks for {enemyAttackDamage} damage.");
-        
+        if (_currentAction.damage > 0)
+        {
+            int hitCount = Mathf.Max(1, _currentAction.hitCount);
+            int modifiedDamage = GetCurrentIntentDamage();
+
+            for (int i = 0; i < hitCount; i++)
+            {
+                player.TakeDamage(modifiedDamage);
+            }
+
+            Debug.Log(
+                $"{enemyData.enemyName} uses {_currentAction.actionName} " +
+                $"for {modifiedDamage} damage x{hitCount}."
+            );
+        }
+
         ProcessOnActionStatuses();
         ProcessEndTurnStatuses();
-        
+
         _statusManager.TickDurations();
+    }
+    
+    public void InitializeIntent()
+    {
+        if (enemyData == null || enemyData.enemyActions.Count == 0)
+        {
+            _currentAction = null;
+            return;
+        }
+
+        _currentActionIndex = Random.Range(0, enemyData.enemyActions.Count);
+        _currentAction = enemyData.enemyActions[_currentActionIndex];
+    }
+
+    public int GetCurrentIntentDamage()
+    {
+        if (_currentAction == null || _currentAction.damage <= 0)
+        {
+            return 0;
+        }
+
+        return GetModifiedAttackDamage(_currentAction.damage);
+    }
+    
+    public void SelectNextFixedAction()
+    {
+        if (enemyData == null || enemyData.enemyActions.Count == 0)
+        {
+            _currentAction = null;
+            return;
+        }
+
+        _currentActionIndex++;
+
+        if (_currentActionIndex >= enemyData.enemyActions.Count)
+        {
+            _currentActionIndex = 0;
+        }
+
+        _currentAction = enemyData.enemyActions[_currentActionIndex];
     }
 
     public void TakeDamage(int damage)

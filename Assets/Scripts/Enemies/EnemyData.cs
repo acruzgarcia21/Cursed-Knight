@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Enemy", menuName = "EnemyData")]
@@ -6,10 +8,14 @@ public class EnemyData : ScriptableObject
     [Header("General")] 
     public string enemyName;
     public Sprite enemySprite;
-
-    [Space(10)] [Header("Enemy Info")]
+    public EnemyType enemyType;
+    public ActionSelectionType actionSelectionType;
+    
+    [Space(10)] [Header("Enemy Stats")]
     public int enemyMaxHealth;
-    public int enemyAttackDamage;
+
+    [Space(10)] [Header("Enemy Actions")] 
+    public List<EnemyActionData> enemyActions = new();
     
     public enum EnemyType
     {
@@ -18,9 +24,43 @@ public class EnemyData : ScriptableObject
         Boss
     }
 
-    [Space(10)] [Header("Status Effects")]
+    public enum ActionSelectionType
+    {
+        FixedPattern,
+        WeightedRandom
+    }
+}
+
+[Serializable]
+public class EnemyActionData
+{
+    [Header("General")]
+    public string actionName;
+
+    [Space(10)] [Header("Damage")]
+    public int damage;
+    public int hitCount = 1;
+
+    [Space(10)] [Header("Defense")]
+    public int blockAmount;
+    public int healingAmount;
+
+    [Space(10)] [Header("Status Effect")]
     public bool appliesStatus;
     public StatusEffect.StatusType statusType;
     public int statusAmount;
     public int statusDuration;
+    public StatusTargetType statusTarget;
+
+    [Space(10)] [Header("Weighted Selection")]
+    public int selectionWeight = 1;
+    public int maximumConsecutiveUses = 1;
+
+    public enum StatusTargetType
+    {
+        Self,
+        Player,
+        AllOtherAllies,
+        RandomAlly
+    }
 }
