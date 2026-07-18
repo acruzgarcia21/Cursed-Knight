@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Stores immutable enemy data
 [CreateAssetMenu(fileName = "New Enemy", menuName = "EnemyData")]
 public class EnemyData : ScriptableObject
 {
@@ -31,6 +32,7 @@ public class EnemyData : ScriptableObject
     }
 }
 
+// Stores one action definition
 [Serializable]
 public class EnemyActionData
 {

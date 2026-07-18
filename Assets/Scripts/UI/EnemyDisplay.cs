@@ -26,9 +26,7 @@ public class EnemyDisplay : MonoBehaviour
         }
 
         enemyName.text = enemy.enemyData.enemyName;
-        enemyHealth.text =
-            enemy.currentEnemyHealth + " / " + enemy.enemyData.enemyMaxHealth;
-
+        enemyHealth.text = enemy.currentEnemyHealth + " / " + enemy.enemyData.enemyMaxHealth;
         enemySprite.sprite = enemy.enemyData.enemySprite;
 
         UpdateIntentDisplay();
@@ -42,7 +40,7 @@ public class EnemyDisplay : MonoBehaviour
             return;
         }
 
-        int intentDamage = enemy.GetCurrentIntentDamage();
+        var intentDamage = enemy.GetCurrentIntentDamage();
 
         if (intentDamage <= 0)
         {
@@ -50,7 +48,7 @@ public class EnemyDisplay : MonoBehaviour
             return;
         }
 
-        int hitCount = Mathf.Max(1, enemy.CurrentAction.hitCount);
+        var hitCount = Mathf.Max(1, enemy.CurrentAction.hitCount);
 
         enemyAttackDamage.text = hitCount > 1
             ? $"{intentDamage} x {hitCount}"

@@ -14,9 +14,43 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   enemyName: Dungeon Slime
   enemySprite: {fileID: -7039809797687964217, guid: f6f4f15924bb9a84e9768bbdb4bfcc33, type: 3}
+  enemyType: 0
+  actionSelectionType: 0
   enemyMaxHealth: 20
-  enemyAttackDamage: 5
-  appliesStatus: 0
-  statusType: 3
-  statusAmount: 4
-  statusDuration: 2
+  enemyActions:
+  - actionName: Acid Spit
+    damage: 4
+    hitCount: 1
+    blockAmount: 0
+    healingAmount: 0
+    appliesStatus: 0
+    statusType: 0
+    statusAmount: 0
+    statusDuration: 0
+    statusTarget: 0
+    selectionWeight: 0
+    maximumConsecutiveUses: 0
+  - actionName: Viscous Slam
+    damage: 5
+    hitCount: 1
+    blockAmount: 0
+    healingAmount: 0
+    appliesStatus: 1
+    statusType: 1
+    statusAmount: 2
+    statusDuration: 1
+    statusTarget: 1
+    selectionWeight: 0
+    maximumConsecutiveUses: 0
+  - actionName: Slime Volley
+    damage: 3
+    hitCount: 2
+    blockAmount: 0
+    healingAmount: 0
+    appliesStatus: 0
+    statusType: 0
+    statusAmount: 0
+    statusDuration: 0
+    statusTarget: 0
+    selectionWeight: 0
+    maximumConsecutiveUses: 0

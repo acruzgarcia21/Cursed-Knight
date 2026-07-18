@@ -14,9 +14,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   enemyName: Bone Soldier
   enemySprite: {fileID: 1744754171572165974, guid: bc349c08a661cca4695650d48752038b, type: 3}
+  enemyType: 0
+  actionSelectionType: 0
   enemyMaxHealth: 35
-  enemyAttackDamage: 8
-  appliesStatus: 0
-  statusType: 1
-  statusAmount: 1
-  statusDuration: 2
+  enemyActions:
+  - actionName: Slash
+    damage: 8
+    hitCount: 1
+    blockAmount: 0
+    healingAmount: 0
+    appliesStatus: 0
+    statusType: 0
+    statusAmount: 0
+    statusDuration: 0
+    statusTarget: 0
+    selectionWeight: 0
+    maximumConsecutiveUses: 0
+  - actionName: Shield
+    damage: 0
+    hitCount: 0
+    blockAmount: 6
+    healingAmount: 0
+    appliesStatus: 0
+    statusType: 0
+    statusAmount: 0
+    statusDuration: 0
+    statusTarget: 0
+    selectionWeight: 0
+    maximumConsecutiveUses: 0

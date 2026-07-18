@@ -12,17 +12,11 @@ public class EnemyManager : MonoBehaviour
     
     public EnemyData[] enemyStorage;
     
-    public List<Transform> enemySpawnPositions = new List<Transform>();
+    public List<Transform> enemySpawnPositions = new();
     
-    private readonly List<Enemy> _currentEnemies = new List<Enemy>();
+    private readonly List<Enemy> _currentEnemies = new();
     
     private BattleManager _battleManager;
-
-    private void Start()
-    {
-        // Prototype only
-        enemyStorage = Resources.LoadAll<EnemyData>("Enemies");
-    }
 
     private void Awake()
     {
@@ -30,11 +24,17 @@ public class EnemyManager : MonoBehaviour
         {
             _battleManager = FindFirstObjectByType<BattleManager>();
         }
+        enemyStorage = Resources.LoadAll<EnemyData>("Enemies");
     }
 
     public void BattleSetup()
     {
         SpawnEncounter();
+
+        foreach (var enemy in _currentEnemies)
+        {
+            enemy.InitializeIntent();
+        }
     }
 
     private void SpawnEncounter()
@@ -65,10 +65,15 @@ public class EnemyManager : MonoBehaviour
         for (var i = _currentEnemies.Count - 1; i >= 0; i--)
         {
             var enemy = _currentEnemies[i];
-
+ 
             if (enemy == null) continue;
 
             enemy.TakeTurn(player);
+        }
+
+        foreach (var enemy in _currentEnemies)
+        {
+            enemy.SelectNextAction();
         }
     }
 

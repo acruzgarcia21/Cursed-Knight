@@ -14,9 +14,43 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   enemyName: Hollow Brute
   enemySprite: {fileID: -7169170255583999232, guid: 0dca5bfcca6af5e4bbccd082136ff20d, type: 3}
+  enemyType: 0
+  actionSelectionType: 0
   enemyMaxHealth: 45
-  enemyAttackDamage: 10
-  appliesStatus: 0
-  statusType: 4
-  statusAmount: 2
-  statusDuration: 3
+  enemyActions:
+  - actionName: Heavy Strike
+    damage: 10
+    hitCount: 1
+    blockAmount: 0
+    healingAmount: 0
+    appliesStatus: 0
+    statusType: 0
+    statusAmount: 0
+    statusDuration: 0
+    statusTarget: 0
+    selectionWeight: 0
+    maximumConsecutiveUses: 0
+  - actionName: Sword Furry
+    damage: 3
+    hitCount: 6
+    blockAmount: 0
+    healingAmount: 0
+    appliesStatus: 0
+    statusType: 0
+    statusAmount: 0
+    statusDuration: 0
+    statusTarget: 0
+    selectionWeight: 0
+    maximumConsecutiveUses: 0
+  - actionName: Numbing Strike
+    damage: 6
+    hitCount: 1
+    blockAmount: 0
+    healingAmount: 0
+    appliesStatus: 1
+    statusType: 2
+    statusAmount: 0
+    statusDuration: 2
+    statusTarget: 1
+    selectionWeight: 0
+    maximumConsecutiveUses: 0

@@ -13,6 +13,20 @@ MonoBehaviour:
   m_Name: The Chained Bound Knight
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   enemyName: The Chained Bound Knight
-  enemyMaxHealth: 85
-  enemyAttackDamage: 12
   enemySprite: {fileID: 5753024105725432548, guid: c904491e8718deb439e12fe8d534fb1f, type: 3}
+  enemyType: 0
+  actionSelectionType: 0
+  enemyMaxHealth: 85
+  enemyActions:
+  - actionName: Hit
+    damage: 1
+    hitCount: 1
+    blockAmount: 0
+    healingAmount: 0
+    appliesStatus: 0
+    statusType: 0
+    statusAmount: 0
+    statusDuration: 0
+    statusTarget: 0
+    selectionWeight: 0
+    maximumConsecutiveUses: 0

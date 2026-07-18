@@ -14,9 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   enemyName: Dungeon Rat
   enemySprite: {fileID: 2486017705933433476, guid: 23e93e110419a6745ad1272b0501457e, type: 3}
+  enemyType: 0
+  actionSelectionType: 0
   enemyMaxHealth: 25
-  enemyAttackDamage: 6
-  appliesStatus: 0
-  statusType: 2
-  statusAmount: 3
-  statusDuration: 2
+  enemyActions:
+  - actionName: Bite
+    damage: 6
+    hitCount: 1
+    blockAmount: 0
+    healingAmount: 0
+    appliesStatus: 0
+    statusType: 0
+    statusAmount: 0
+    statusDuration: 0
+    statusTarget: 0
+    selectionWeight: 0
+    maximumConsecutiveUses: 0

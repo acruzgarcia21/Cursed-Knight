@@ -11,9 +11,9 @@ public class Enemy : MonoBehaviour
     private StatusManager _statusManager;
     
     private EnemyActionData _currentAction;
-
     private int _currentActionIndex;
 
+    // Allows other systems to read current enemy action
     public EnemyActionData CurrentAction => _currentAction;
     
     private void Awake()
@@ -32,18 +32,19 @@ public class Enemy : MonoBehaviour
 
     public void TakeTurn(Player player)
     {
-        if (player == null || _currentAction == null)
+        if (player == null || _currentAction == null || player.playerHealth <= 0)
         {
             return;
         }
 
         if (_currentAction.damage > 0)
         {
-            int hitCount = Mathf.Max(1, _currentAction.hitCount);
-            int modifiedDamage = GetCurrentIntentDamage();
+            var hitCount = Mathf.Max(1, _currentAction.hitCount);
+            var modifiedDamage = GetCurrentIntentDamage();
 
-            for (int i = 0; i < hitCount; i++)
+            for (var i = 0; i < hitCount; i++)
             {
+                if (player.playerHealth <= 0) return;
                 player.TakeDamage(modifiedDamage);
             }
 
@@ -54,14 +55,18 @@ public class Enemy : MonoBehaviour
         }
 
         ProcessOnActionStatuses();
+        if (EnemyIsDead()) return;
+        
         ProcessEndTurnStatuses();
+        if (EnemyIsDead()) return;
 
         _statusManager.TickDurations();
     }
-    
+
+    // Chooses enemy's first action
     public void InitializeIntent()
     {
-        if (enemyData == null || enemyData.enemyActions.Count == 0)
+        if (enemyData == null || enemyData.enemyActions == null || enemyData.enemyActions.Count == 0)
         {
             _currentAction = null;
             return;
@@ -69,6 +74,7 @@ public class Enemy : MonoBehaviour
 
         _currentActionIndex = Random.Range(0, enemyData.enemyActions.Count);
         _currentAction = enemyData.enemyActions[_currentActionIndex];
+        _enemyDisplay.UpdateEnemyDisplay();
     }
 
     public int GetCurrentIntentDamage()
@@ -81,9 +87,9 @@ public class Enemy : MonoBehaviour
         return GetModifiedAttackDamage(_currentAction.damage);
     }
     
-    public void SelectNextFixedAction()
+    public void SelectNextAction()
     {
-        if (enemyData == null || enemyData.enemyActions.Count == 0)
+        if (enemyData == null || enemyData.enemyActions == null || enemyData.enemyActions.Count == 0)
         {
             _currentAction = null;
             return;
@@ -97,6 +103,7 @@ public class Enemy : MonoBehaviour
         }
 
         _currentAction = enemyData.enemyActions[_currentActionIndex];
+        _enemyDisplay.UpdateEnemyDisplay();
     }
 
     public void TakeDamage(int damage)
