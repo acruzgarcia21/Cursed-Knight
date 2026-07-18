@@ -28,8 +28,8 @@ MonoBehaviour:
     statusAmount: 0
     statusDuration: 0
     statusTarget: 0
-    selectionWeight: 0
-    maximumConsecutiveUses: 0
+    selectionWeight: 8
+    maximumConsecutiveUses: 3
   - actionName: Shield
     damage: 0
     hitCount: 0
@@ -40,17 +40,17 @@ MonoBehaviour:
     statusAmount: 0
     statusDuration: 0
     statusTarget: 0
-    selectionWeight: 0
-    maximumConsecutiveUses: 0
+    selectionWeight: 2
+    maximumConsecutiveUses: 2
   - actionName: Heal
     damage: 0
     hitCount: 0
-    blockAmount: 4
-    healingAmount: 4
+    blockAmount: 0
+    healingAmount: 2
     appliesStatus: 0
     statusType: 3
     statusAmount: 0
     statusDuration: 0
     statusTarget: 0
-    selectionWeight: 0
-    maximumConsecutiveUses: 0
+    selectionWeight: 1
+    maximumConsecutiveUses: 1

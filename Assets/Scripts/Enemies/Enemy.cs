@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -12,6 +13,7 @@ public class Enemy : MonoBehaviour
     
     private EnemyActionData _currentAction;
     private int _currentActionIndex;
+    private int _currentActionConsecutiveUses;
 
     // Allows other systems to read current enemy action
     public EnemyActionData CurrentAction => _currentAction;
@@ -86,8 +88,10 @@ public class Enemy : MonoBehaviour
             return;
         }
 
-        _currentActionIndex = Random.Range(0, enemyData.enemyActions.Count);
-        _currentAction = enemyData.enemyActions[_currentActionIndex];
+        _currentActionIndex           = Random.Range(0, enemyData.enemyActions.Count);
+        _currentAction                = enemyData.enemyActions[_currentActionIndex];
+        _currentActionConsecutiveUses = 1;
+        
         _enemyDisplay.UpdateEnemyDisplay();
     }
 
@@ -109,8 +113,23 @@ public class Enemy : MonoBehaviour
             return;
         }
 
-        _currentActionIndex++;
 
+        switch (enemyData.actionSelectionType)
+        {
+            case EnemyData.ActionSelectionType.FixedPattern:
+                SelectFixedPatternAction();
+                break;
+
+            case EnemyData.ActionSelectionType.WeightedRandom:
+                SelectWeightedRandomAction();
+                break;
+        }
+    }
+
+    private void SelectFixedPatternAction()
+    {
+        _currentActionIndex++;
+        
         if (_currentActionIndex >= enemyData.enemyActions.Count)
         {
             _currentActionIndex = 0;
@@ -119,8 +138,58 @@ public class Enemy : MonoBehaviour
         _currentAction = enemyData.enemyActions[_currentActionIndex];
         _enemyDisplay.UpdateEnemyDisplay();
     }
-    
 
+    private void SelectWeightedRandomAction()
+    {
+        var allowedActions = new List<EnemyActionData>();
+        var oldCurrentAction = _currentAction;
+        
+        foreach (var action in enemyData.enemyActions)
+        {
+            if (action.selectionWeight <= 0) continue;
+            if (action == _currentAction && _currentActionConsecutiveUses >= action.maximumConsecutiveUses) 
+                continue;
+            
+            allowedActions.Add(action);
+        }
+        
+        // Fallback if every action was filtered out
+        if (allowedActions.Count == 0)
+        {
+            foreach (var action in enemyData.enemyActions)
+            {
+                if (action.selectionWeight <= 0) continue;
+
+                allowedActions.Add(action);
+            }
+        }
+
+        // Calculate the total weight of the pool
+        var totalWeight = 0;
+
+        foreach (var action in allowedActions)
+        {
+            totalWeight += action.selectionWeight;
+        }
+
+        var roll = Random.Range(0, totalWeight);
+        var runningWeight = 0;
+        
+        // Roll somewhere inside the total weight
+        foreach (var action in allowedActions)
+        {
+            runningWeight += action.selectionWeight;
+            
+            if (roll >= runningWeight) continue;
+            _currentAction = action;
+
+            if (_currentAction == oldCurrentAction) _currentActionConsecutiveUses++;
+            if (_currentAction != oldCurrentAction) _currentActionConsecutiveUses = 1;
+            _enemyDisplay.UpdateEnemyDisplay();
+            return;
+        }
+    }
+    
     public void TakeDamage(int damage)
     {
         var modifiedDamage = GetModifiedIncomingDamage(damage);
