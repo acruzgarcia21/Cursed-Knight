@@ -48,7 +48,7 @@ MonoBehaviour:
     blockAmount: 4
     healingAmount: 4
     appliesStatus: 0
-    statusType: 0
+    statusType: 3
     statusAmount: 0
     statusDuration: 0
     statusTarget: 0

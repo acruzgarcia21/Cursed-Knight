@@ -90,6 +90,19 @@ public class EnemyDisplay : MonoBehaviour
         {
             AddIntentEntry(healIcon, enemy.CurrentAction.healingAmount.ToString(), ref entryIndex);
         }
+
+        if (enemy.CurrentAction.appliesStatus && enemy.CurrentAction.statusAmount > 0)
+        {
+            switch (enemy.CurrentAction.statusTarget)
+            {
+                case EnemyActionData.StatusTargetType.Self:
+                    AddIntentEntry(buffIcon, enemy.CurrentAction.statusAmount.ToString(), ref entryIndex);
+                    break;
+                case EnemyActionData.StatusTargetType.Player:
+                    AddIntentEntry(debuffIcon, enemy.CurrentAction.statusAmount.ToString(), ref entryIndex);
+                    break;
+            }
+        }
     }
     
     private void AddIntentEntry(Sprite icon, string text, ref int entryIndex)

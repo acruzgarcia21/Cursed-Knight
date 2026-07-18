@@ -65,7 +65,9 @@ public class Enemy : MonoBehaviour
         {
             Heal(_currentAction.healingAmount);
         }
-
+        
+        ApplyCurrentActionStatus(player);
+        
         ProcessOnActionStatuses();
         if (EnemyIsDead()) return;
         
@@ -117,6 +119,7 @@ public class Enemy : MonoBehaviour
         _currentAction = enemyData.enemyActions[_currentActionIndex];
         _enemyDisplay.UpdateEnemyDisplay();
     }
+    
 
     public void TakeDamage(int damage)
     {
@@ -147,6 +150,39 @@ public class Enemy : MonoBehaviour
         if (EnemyIsDead())
         {
             BattleManager.Instance.EnemyManager.RemoveEnemy(this);
+        }
+    }
+
+    private void ApplyCurrentActionStatus(Player player)
+    {
+        if (!_currentAction.appliesStatus || _currentAction.statusAmount <= 0)
+        {
+            return;
+        }
+
+        var statusEffect = new StatusEffect
+        {
+            statusType = _currentAction.statusType,
+            amount = _currentAction.statusAmount,
+            duration = _currentAction.statusDuration
+        };
+
+        switch (_currentAction.statusTarget)
+        {
+            case EnemyActionData.StatusTargetType.Self:
+                ApplyStatus(statusEffect);
+                break;
+
+            case EnemyActionData.StatusTargetType.Player:
+                player.ApplyStatus(statusEffect);
+                break;
+
+            case EnemyActionData.StatusTargetType.AllOtherAllies:
+            case EnemyActionData.StatusTargetType.RandomAlly:
+                Debug.LogWarning(
+                    $"{_currentAction.statusTarget} is not implemented yet."
+                );
+                break;
         }
     }
     

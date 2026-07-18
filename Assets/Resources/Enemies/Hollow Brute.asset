@@ -54,3 +54,15 @@ MonoBehaviour:
     statusTarget: 1
     selectionWeight: 0
     maximumConsecutiveUses: 0
+  - actionName: War Cry
+    damage: 0
+    hitCount: 0
+    blockAmount: 0
+    healingAmount: 0
+    appliesStatus: 1
+    statusType: 0
+    statusAmount: 2
+    statusDuration: 2
+    statusTarget: 0
+    selectionWeight: 0
+    maximumConsecutiveUses: 0

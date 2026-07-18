@@ -23,11 +23,11 @@ MonoBehaviour:
     hitCount: 1
     blockAmount: 0
     healingAmount: 0
-    appliesStatus: 0
-    statusType: 0
-    statusAmount: 0
-    statusDuration: 0
-    statusTarget: 0
+    appliesStatus: 1
+    statusType: 3
+    statusAmount: 4
+    statusDuration: 4
+    statusTarget: 1
     selectionWeight: 0
     maximumConsecutiveUses: 0
   - actionName: Viscous Slam
