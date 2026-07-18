@@ -61,6 +61,11 @@ public class Enemy : MonoBehaviour
             GainBlock(_currentAction.blockAmount);
         }
 
+        if (_currentAction.healingAmount > 0 && currentEnemyHealth != enemyData.enemyMaxHealth)
+        {
+            Heal(_currentAction.healingAmount);
+        }
+
         ProcessOnActionStatuses();
         if (EnemyIsDead()) return;
         
@@ -145,9 +150,17 @@ public class Enemy : MonoBehaviour
         }
     }
     
-    public void GainBlock(int block)
+    private void GainBlock(int block)
     {
         currentEnemyBlock += block;
+        
+        _enemyDisplay.UpdateEnemyDisplay();
+    }
+    
+    private void Heal(int heal)
+    {
+        currentEnemyHealth += heal;
+        currentEnemyHealth = Mathf.Clamp(currentEnemyHealth, 0, enemyData.enemyMaxHealth);
         
         _enemyDisplay.UpdateEnemyDisplay();
     }

@@ -85,6 +85,11 @@ public class EnemyDisplay : MonoBehaviour
         {
             AddIntentEntry(blockIcon, enemy.CurrentAction.blockAmount.ToString(), ref entryIndex);
         }
+        
+        if (enemy.CurrentAction.healingAmount > 0)
+        {
+            AddIntentEntry(healIcon, enemy.CurrentAction.healingAmount.ToString(), ref entryIndex);
+        }
     }
     
     private void AddIntentEntry(Sprite icon, string text, ref int entryIndex)

@@ -42,3 +42,15 @@ MonoBehaviour:
     statusTarget: 0
     selectionWeight: 0
     maximumConsecutiveUses: 0
+  - actionName: Heal
+    damage: 0
+    hitCount: 0
+    blockAmount: 4
+    healingAmount: 4
+    appliesStatus: 0
+    statusType: 0
+    statusAmount: 0
+    statusDuration: 0
+    statusTarget: 0
+    selectionWeight: 0
+    maximumConsecutiveUses: 0
