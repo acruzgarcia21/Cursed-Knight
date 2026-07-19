@@ -30,9 +30,10 @@ MonoBehaviour:
     statusTarget: 0
     selectionWeight: 0
     maximumConsecutiveUses: 0
-  - actionName: Sword Furry
-    damage: 3
-    hitCount: 6
+    nextAttackBonusDamage: 0
+  - actionName: Charge
+    damage: 0
+    hitCount: 0
     blockAmount: 0
     healingAmount: 0
     appliesStatus: 0
@@ -42,6 +43,7 @@ MonoBehaviour:
     statusTarget: 0
     selectionWeight: 0
     maximumConsecutiveUses: 0
+    nextAttackBonusDamage: 8
   - actionName: Numbing Strike
     damage: 6
     hitCount: 1
@@ -54,6 +56,7 @@ MonoBehaviour:
     statusTarget: 1
     selectionWeight: 0
     maximumConsecutiveUses: 0
+    nextAttackBonusDamage: 0
   - actionName: War Cry
     damage: 0
     hitCount: 0
@@ -66,3 +69,4 @@ MonoBehaviour:
     statusTarget: 0
     selectionWeight: 0
     maximumConsecutiveUses: 0
+    nextAttackBonusDamage: 0

@@ -18,6 +18,9 @@ public class EnemyData : ScriptableObject
     [Space(10)] [Header("Enemy Actions")] 
     public List<EnemyActionData> enemyActions = new();
     
+    [Space(10)] [Header("Health Phases")]
+    public List<EnemyPhaseData> healthPhases = new();
+    
     public enum EnemyType
     {
         Normal,
@@ -58,6 +61,9 @@ public class EnemyActionData
     public int selectionWeight = 1;
     public int maximumConsecutiveUses = 1;
 
+    [Space(10)] [Header("Temporary Buffs")]
+    public int nextAttackBonusDamage;
+
     public enum StatusTargetType
     {
         Self,
@@ -65,4 +71,17 @@ public class EnemyActionData
         AllOtherAllies,
         RandomAlly
     }
+}
+
+[Serializable]
+public class EnemyPhaseData
+{
+    [Header("Trigger")]
+    public int healthThreshold;
+
+    [Header("Status Effect")]
+    public bool appliesStatus;
+    public StatusEffect.StatusType statusType;
+    public int statusAmount;
+    public int statusDuration = -1;
 }
