@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5eb00f26170b57f4ab8e5c56eafa0512, type: 3}
-  m_Name: Dungeon Slime
+  m_Name: Slime
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
-  enemyName: Dungeon Slime
+  enemyName: Slime
   enemySprite: {fileID: -7039809797687964217, guid: f6f4f15924bb9a84e9768bbdb4bfcc33, type: 3}
   enemyType: 0
   actionSelectionType: 0
-  enemyMaxHealth: 20
+  enemyMaxHealth: 40
   enemyActions:
   - actionName: Acid Spit
     damage: 4
@@ -26,7 +26,7 @@ MonoBehaviour:
     appliesStatus: 1
     statusType: 3
     statusAmount: 4
-    statusDuration: 4
+    statusDuration: 2
     statusTarget: 1
     selectionWeight: 0
     maximumConsecutiveUses: 0
@@ -43,8 +43,8 @@ MonoBehaviour:
     selectionWeight: 0
     maximumConsecutiveUses: 0
   - actionName: Slime Volley
-    damage: 3
-    hitCount: 2
+    damage: 2
+    hitCount: 3
     blockAmount: 0
     healingAmount: 0
     appliesStatus: 0

@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5eb00f26170b57f4ab8e5c56eafa0512, type: 3}
-  m_Name: Dungeon Rat
+  m_Name: Crypt Rat
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
-  enemyName: Dungeon Rat
+  enemyName: Crypt Rat
   enemySprite: {fileID: 2486017705933433476, guid: 23e93e110419a6745ad1272b0501457e, type: 3}
   enemyType: 0
   actionSelectionType: 0
