@@ -17,6 +17,7 @@ public class EnemyData : ScriptableObject
     
     [Space(10)] [Header("Enemy Actions")] 
     public List<EnemyActionData> enemyActions = new();
+
     
     public enum EnemyType
     {
@@ -57,6 +58,8 @@ public class EnemyActionData
     [Space(10)] [Header("Weighted Selection")]
     public int selectionWeight = 1;
     public int maximumConsecutiveUses = 1;
+
+    public bool hidesEnemy;
 
     public enum StatusTargetType
     {

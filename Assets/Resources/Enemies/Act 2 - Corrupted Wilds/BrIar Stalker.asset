@@ -10,59 +10,37 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5eb00f26170b57f4ab8e5c56eafa0512, type: 3}
-  m_Name: Hollow Brute
+  m_Name: BrIar Stalker
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
-  enemyName: Hollow Brute
-  enemySprite: {fileID: -7169170255583999232, guid: 0dca5bfcca6af5e4bbccd082136ff20d, type: 3}
+  enemyName: Briar Stalker
+  enemySprite: {fileID: 0}
   enemyType: 0
   actionSelectionType: 0
   enemyMaxHealth: 50
   enemyActions:
-  - actionName: Heavy Strike
-    damage: 10
-    hitCount: 1
-    blockAmount: 0
-    healingAmount: 0
-    appliesStatus: 0
-    statusType: 0
-    statusAmount: 0
-    statusDuration: 0
-    statusTarget: 0
-    selectionWeight: 0
-    maximumConsecutiveUses: 0
-  - actionName: Sword Furry
-    damage: 3
-    hitCount: 6
-    blockAmount: 0
-    healingAmount: 0
-    appliesStatus: 0
-    statusType: 0
-    statusAmount: 0
-    statusDuration: 0
-    statusTarget: 0
-    selectionWeight: 0
-    maximumConsecutiveUses: 0
-  - actionName: Numbing Strike
-    damage: 6
-    hitCount: 1
-    blockAmount: 0
-    healingAmount: 0
-    appliesStatus: 1
-    statusType: 2
-    statusAmount: 0
-    statusDuration: 2
-    statusTarget: 1
-    selectionWeight: 0
-    maximumConsecutiveUses: 0
-  - actionName: War Cry
+  - actionName: Hide
     damage: 0
     hitCount: 0
     blockAmount: 0
     healingAmount: 0
-    appliesStatus: 1
+    appliesStatus: 0
     statusType: 0
-    statusAmount: 2
-    statusDuration: 2
+    statusAmount: 0
+    statusDuration: 0
     statusTarget: 0
     selectionWeight: 0
     maximumConsecutiveUses: 0
+    hidesEnemy: 1
+  - actionName: Ambush (Heavy Attack)
+    damage: 18
+    hitCount: 1
+    blockAmount: 0
+    healingAmount: 0
+    appliesStatus: 0
+    statusType: 0
+    statusAmount: 0
+    statusDuration: 0
+    statusTarget: 0
+    selectionWeight: 0
+    maximumConsecutiveUses: 0
+    hidesEnemy: 0

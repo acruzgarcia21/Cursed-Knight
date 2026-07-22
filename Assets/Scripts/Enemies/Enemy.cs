@@ -6,28 +6,31 @@ public class Enemy : MonoBehaviour
     public int currentEnemyHealth;
     public int currentEnemyBlock;
 
+    public bool isHidden;
+
     public EnemyData enemyData;
 
     private EnemyDisplay _enemyDisplay;
     private StatusManager _statusManager;
-    
+
     private EnemyActionData _currentAction;
     private int _currentActionIndex;
     private int _currentActionConsecutiveUses;
 
     // Allows other systems to read current enemy action
     public EnemyActionData CurrentAction => _currentAction;
-    
+
     private void Awake()
     {
-        _enemyDisplay  = GetComponent<EnemyDisplay>();
+        _enemyDisplay = GetComponent<EnemyDisplay>();
         _statusManager = GetComponent<StatusManager>();
     }
 
     public void BattleSetup()
     {
         currentEnemyHealth = enemyData.enemyMaxHealth;
-        currentEnemyBlock = 0;
+        currentEnemyBlock  = 0;
+        isHidden           = false;
 
         _enemyDisplay.UpdateEnemyDisplay();
     }
@@ -40,6 +43,7 @@ public class Enemy : MonoBehaviour
         }
 
         currentEnemyBlock = 0;
+        isHidden = _currentAction.hidesEnemy;
 
         if (_currentAction.damage > 0)
         {
@@ -67,12 +71,12 @@ public class Enemy : MonoBehaviour
         {
             Heal(_currentAction.healingAmount);
         }
-        
+
         ApplyCurrentActionStatus(player);
-        
+
         ProcessOnActionStatuses();
         if (EnemyIsDead()) return;
-        
+
         ProcessEndTurnStatuses();
         if (EnemyIsDead()) return;
 
@@ -88,10 +92,10 @@ public class Enemy : MonoBehaviour
             return;
         }
 
-        _currentActionIndex           = Random.Range(0, enemyData.enemyActions.Count);
-        _currentAction                = enemyData.enemyActions[_currentActionIndex];
+        _currentActionIndex = Random.Range(0, enemyData.enemyActions.Count);
+        _currentAction = enemyData.enemyActions[_currentActionIndex];
         _currentActionConsecutiveUses = 1;
-        
+
         _enemyDisplay.UpdateEnemyDisplay();
     }
 
@@ -104,7 +108,7 @@ public class Enemy : MonoBehaviour
 
         return GetModifiedAttackDamage(_currentAction.damage);
     }
-    
+
     public void SelectNextAction()
     {
         if (enemyData == null || enemyData.enemyActions == null || enemyData.enemyActions.Count == 0)
@@ -129,7 +133,7 @@ public class Enemy : MonoBehaviour
     private void SelectFixedPatternAction()
     {
         _currentActionIndex++;
-        
+
         if (_currentActionIndex >= enemyData.enemyActions.Count)
         {
             _currentActionIndex = 0;
@@ -143,16 +147,16 @@ public class Enemy : MonoBehaviour
     {
         var allowedActions = new List<EnemyActionData>();
         var oldCurrentAction = _currentAction;
-        
+
         foreach (var action in enemyData.enemyActions)
         {
             if (action.selectionWeight <= 0) continue;
-            if (action == _currentAction && _currentActionConsecutiveUses >= action.maximumConsecutiveUses) 
+            if (action == _currentAction && _currentActionConsecutiveUses >= action.maximumConsecutiveUses)
                 continue;
-            
+
             allowedActions.Add(action);
         }
-        
+
         // Fallback if every action was filtered out
         if (allowedActions.Count == 0)
         {
@@ -174,12 +178,12 @@ public class Enemy : MonoBehaviour
 
         var roll = Random.Range(0, totalWeight);
         var runningWeight = 0;
-        
+
         // Roll somewhere inside the total weight
         foreach (var action in allowedActions)
         {
             runningWeight += action.selectionWeight;
-            
+
             if (roll >= runningWeight) continue;
             _currentAction = action;
 
@@ -189,11 +193,11 @@ public class Enemy : MonoBehaviour
             return;
         }
     }
-    
+
     public void TakeDamage(int damage)
     {
         var modifiedDamage = GetModifiedIncomingDamage(damage);
-        
+
         if (currentEnemyBlock > 0)
         {
             if (currentEnemyBlock >= modifiedDamage)
@@ -221,7 +225,7 @@ public class Enemy : MonoBehaviour
             BattleManager.Instance.EnemyManager.RemoveEnemy(this);
         }
     }
-
+    
     private void ApplyCurrentActionStatus(Player player)
     {
         if (!_currentAction.appliesStatus || _currentAction.statusAmount <= 0)

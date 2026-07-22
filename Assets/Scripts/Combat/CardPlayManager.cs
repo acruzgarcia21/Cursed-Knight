@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using CursedKnight;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class CardPlayManager : MonoBehaviour
 {
@@ -80,6 +82,8 @@ public class CardPlayManager : MonoBehaviour
 
                 foreach (var enemy in allLivingEnemies)
                 {
+                    if (enemy.isHidden) continue;
+
                     for (var i = 0; i < attackCard.hitCount; i++)
                     {
                         enemy.TakeDamage(finalAttackDamage);
@@ -94,12 +98,21 @@ public class CardPlayManager : MonoBehaviour
                 for (var i = 0; i < attackCard.hitCount; i++)
                 {
                     var allLivingEnemies = _enemyManager.GetLivingEnemies();
+                    var visibleEnemies = new List<Enemy>();
 
-                    if (allLivingEnemies.Count == 0) break;
+                    foreach (var enemy in allLivingEnemies)
+                    {
+                        if (!enemy.isHidden)
+                        {
+                            visibleEnemies.Add(enemy);
+                        }
+                    }
 
-                    var randomEnemyIndex = Random.Range(0, allLivingEnemies.Count);
+                    if (visibleEnemies.Count == 0) break;
 
-                    allLivingEnemies[randomEnemyIndex].TakeDamage(finalAttackDamage);
+                    var randomEnemyIndex = Random.Range(0, visibleEnemies.Count);
+
+                    visibleEnemies[randomEnemyIndex].TakeDamage(finalAttackDamage);
                 }
 
                 break;
@@ -248,11 +261,28 @@ public class CardPlayManager : MonoBehaviour
         switch (cardData.targetType)
         {
             case Card.TargetType.SingleEnemy:
-                return targetEnemy != null;
+                if (targetEnemy == null) return false;
+                
+                if (targetEnemy.isHidden)
+                {
+                    Debug.Log("Enemy is hidden for this turn, cannot target!");
+                    return false;
+                }
+
+                return true;
 
             case Card.TargetType.AllEnemies:
             case Card.TargetType.RandomEnemy:
-                return !_enemyManager.AllEnemiesDead();
+
+                var livingEnemies = _enemyManager.GetLivingEnemies();
+
+                foreach (var enemy in livingEnemies)
+                {
+                    if (!enemy.isHidden) return true;
+                }
+
+                Debug.Log("There are no visible enemies to target");
+                return false;
 
             case Card.TargetType.Self:
                 return player != null;

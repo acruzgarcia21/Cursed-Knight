@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5eb00f26170b57f4ab8e5c56eafa0512, type: 3}
-  m_Name: Hollow Brute
+  m_Name: Hexcaller
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
-  enemyName: Hollow Brute
-  enemySprite: {fileID: -7169170255583999232, guid: 0dca5bfcca6af5e4bbccd082136ff20d, type: 3}
+  enemyName: Hexcaller
+  enemySprite: {fileID: 0}
   enemyType: 0
-  actionSelectionType: 0
+  actionSelectionType: 1
   enemyMaxHealth: 50
   enemyActions:
-  - actionName: Heavy Strike
-    damage: 10
+  - actionName: Attack
+    damage: 8
     hitCount: 1
     blockAmount: 0
     healingAmount: 0
@@ -28,41 +28,41 @@ MonoBehaviour:
     statusAmount: 0
     statusDuration: 0
     statusTarget: 0
-    selectionWeight: 0
-    maximumConsecutiveUses: 0
-  - actionName: Sword Furry
-    damage: 3
-    hitCount: 6
-    blockAmount: 0
-    healingAmount: 0
-    appliesStatus: 0
-    statusType: 0
-    statusAmount: 0
-    statusDuration: 0
-    statusTarget: 0
-    selectionWeight: 0
-    maximumConsecutiveUses: 0
-  - actionName: Numbing Strike
-    damage: 6
-    hitCount: 1
-    blockAmount: 0
-    healingAmount: 0
-    appliesStatus: 1
-    statusType: 2
-    statusAmount: 0
-    statusDuration: 2
-    statusTarget: 1
-    selectionWeight: 0
-    maximumConsecutiveUses: 0
-  - actionName: War Cry
+    selectionWeight: 6
+    maximumConsecutiveUses: 3
+  - actionName: Hex
     damage: 0
     hitCount: 0
     blockAmount: 0
     healingAmount: 0
     appliesStatus: 1
-    statusType: 0
+    statusType: 1
     statusAmount: 2
     statusDuration: 2
+    statusTarget: 1
+    selectionWeight: 3
+    maximumConsecutiveUses: 1
+  - actionName: Curse
+    damage: 0
+    hitCount: 0
+    blockAmount: 0
+    healingAmount: 0
+    appliesStatus: 1
+    statusType: 2
+    statusAmount: 2
+    statusDuration: 2
+    statusTarget: 1
+    selectionWeight: 1
+    maximumConsecutiveUses: 1
+  - actionName: Block
+    damage: 0
+    hitCount: 0
+    blockAmount: 6
+    healingAmount: 0
+    appliesStatus: 0
+    statusType: 0
+    statusAmount: 0
+    statusDuration: 0
     statusTarget: 0
-    selectionWeight: 0
-    maximumConsecutiveUses: 0
+    selectionWeight: 4
+    maximumConsecutiveUses: 2

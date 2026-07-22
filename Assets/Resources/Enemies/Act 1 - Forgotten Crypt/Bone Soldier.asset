@@ -30,6 +30,7 @@ MonoBehaviour:
     statusTarget: 0
     selectionWeight: 8
     maximumConsecutiveUses: 3
+    hidesEnemy: 1
   - actionName: Shield
     damage: 0
     hitCount: 0
@@ -42,3 +43,4 @@ MonoBehaviour:
     statusTarget: 0
     selectionWeight: 2
     maximumConsecutiveUses: 2
+    hidesEnemy: 0
