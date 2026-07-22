@@ -16,6 +16,9 @@ public class Enemy : MonoBehaviour
     private EnemyActionData _currentAction;
     private int _currentActionIndex;
     private int _currentActionConsecutiveUses;
+    private int _nextAttackBonusDamage;
+    
+    private readonly List<int> _triggeredHealthPhases = new();
 
     // Allows other systems to read current enemy action
     public EnemyActionData CurrentAction => _currentAction;
@@ -29,8 +32,10 @@ public class Enemy : MonoBehaviour
     public void BattleSetup()
     {
         currentEnemyHealth = enemyData.enemyMaxHealth;
-        currentEnemyBlock  = 0;
-        isHidden           = false;
+        currentEnemyBlock = 0;
+        isHidden = false;
+
+        _triggeredHealthPhases.Clear();
 
         _enemyDisplay.UpdateEnemyDisplay();
     }
@@ -48,13 +53,15 @@ public class Enemy : MonoBehaviour
         if (_currentAction.damage > 0)
         {
             var hitCount = Mathf.Max(1, _currentAction.hitCount);
-            var modifiedDamage = GetCurrentIntentDamage();
+            var modifiedDamage = GetFinalAttackDamage(_currentAction.damage);
 
             for (var i = 0; i < hitCount; i++)
             {
                 if (player.playerHealth <= 0) return;
                 player.TakeDamage(modifiedDamage);
             }
+            
+            _nextAttackBonusDamage = 0;
 
             Debug.Log(
                 $"{enemyData.enemyName} uses {_currentAction.actionName} " +
@@ -65,6 +72,16 @@ public class Enemy : MonoBehaviour
         if (_currentAction.blockAmount > 0)
         {
             GainBlock(_currentAction.blockAmount);
+        }
+        
+        if (_currentAction.nextAttackBonusDamage > 0)
+        {
+            _nextAttackBonusDamage += _currentAction.nextAttackBonusDamage;
+
+            Debug.Log(
+                $"{enemyData.enemyName} is charging! " +
+                $"Next attack gains {_nextAttackBonusDamage} damage."
+            );
         }
 
         if (_currentAction.healingAmount > 0 && currentEnemyHealth != enemyData.enemyMaxHealth)
@@ -106,7 +123,7 @@ public class Enemy : MonoBehaviour
             return 0;
         }
 
-        return GetModifiedAttackDamage(_currentAction.damage);
+        return GetFinalAttackDamage(_currentAction.damage);
     }
 
     public void SelectNextAction()
@@ -127,6 +144,59 @@ public class Enemy : MonoBehaviour
             case EnemyData.ActionSelectionType.WeightedRandom:
                 SelectWeightedRandomAction();
                 break;
+        }
+    }
+    
+    private int GetFinalAttackDamage(int baseDamage)
+    {
+        var modifiedDamage = baseDamage;
+
+        // Charge bonus
+        modifiedDamage += _nextAttackBonusDamage;
+
+        // Strength
+        if (_statusManager.HasStatus(StatusEffect.StatusType.Strength))
+        {
+            var strength = _statusManager.GetStatusAmount(StatusEffect.StatusType.Strength);
+            modifiedDamage += strength;
+        }
+
+        // Weak
+        if (_statusManager.HasStatus(StatusEffect.StatusType.Weak))
+        {
+            var weak = _statusManager.GetStatusAmount(StatusEffect.StatusType.Weak);
+            modifiedDamage -= weak;
+        }
+
+        return Mathf.Max(0, modifiedDamage);
+    }
+    
+    // Checks and stores what phases are valid - meant for elites and bosses
+    private void CheckHealthPhases()
+    {
+        for (var i = 0; i < enemyData.healthPhases.Count; i++)
+        {
+            var phase = enemyData.healthPhases[i];
+
+            if (_triggeredHealthPhases.Contains(i)) continue;
+            if (currentEnemyHealth > phase.healthThreshold) continue;
+
+            _triggeredHealthPhases.Add(i);
+
+            if (phase.appliesStatus)
+            {
+                ApplyStatus(new StatusEffect
+                {
+                    statusType = phase.statusType,
+                    amount = phase.statusAmount,
+                    duration = phase.statusDuration
+                });
+            }
+
+            Debug.Log(
+                $"{enemyData.enemyName} entered phase {i + 1} " +
+                $"at {currentEnemyHealth} health."
+            );
         }
     }
 
@@ -217,6 +287,8 @@ public class Enemy : MonoBehaviour
         }
 
         currentEnemyHealth = Mathf.Clamp(currentEnemyHealth, 0, enemyData.enemyMaxHealth);
+        
+        CheckHealthPhases();
 
         _enemyDisplay.UpdateEnemyDisplay();
 
@@ -278,26 +350,6 @@ public class Enemy : MonoBehaviour
     {
         _statusManager.ApplyStatus(statusEffect);
         _statusManager.DebugPrintStatuses();
-    }
-    
-    private int GetModifiedAttackDamage(int baseDamage)
-    {
-        var modifiedDamage = baseDamage;
-        if (_statusManager.HasStatus(StatusEffect.StatusType.Strength))
-        {
-            var strength = _statusManager.GetStatusAmount(StatusEffect.StatusType.Strength);
-            modifiedDamage += strength;
-        }
-
-        if (_statusManager.HasStatus(StatusEffect.StatusType.Weak))
-        {
-            var weak = _statusManager.GetStatusAmount(StatusEffect.StatusType.Weak);
-            modifiedDamage -= weak;
-        }
-
-        if (modifiedDamage < 0) modifiedDamage = 0;
-        
-        return modifiedDamage;
     }
     
     private int GetModifiedIncomingDamage(int baseDamage)

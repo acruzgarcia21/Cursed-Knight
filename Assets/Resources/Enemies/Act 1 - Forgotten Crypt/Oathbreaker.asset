@@ -12,9 +12,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5eb00f26170b57f4ab8e5c56eafa0512, type: 3}
   m_Name: Oathbreaker
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
-  enemyName: 
+  enemyName: Oathbreaker
   enemySprite: {fileID: 0}
-  enemyType: 0
-  actionSelectionType: 0
-  enemyMaxHealth: 0
-  enemyActions: []
+  enemyType: 1
+  actionSelectionType: 1
+  enemyMaxHealth: 70
+  enemyActions:
+  - actionName: Attack
+    damage: 10
+    hitCount: 1
+    blockAmount: 0
+    healingAmount: 0
+    appliesStatus: 0
+    statusType: 0
+    statusAmount: 0
+    statusDuration: 0
+    statusTarget: 0
+    selectionWeight: 10
+    maximumConsecutiveUses: 2
+  - actionName: Heavy Attack
+    damage: 16
+    hitCount: 0
+    blockAmount: 0
+    healingAmount: 0
+    appliesStatus: 0
+    statusType: 0
+    statusAmount: 0
+    statusDuration: 0
+    statusTarget: 0
+    selectionWeight: 2
+    maximumConsecutiveUses: 2
+  - actionName: Gain Block
+    damage: 0
+    hitCount: 0
+    blockAmount: 20
+    healingAmount: 0
+    appliesStatus: 0
+    statusType: 0
+    statusAmount: 0
+    statusDuration: 0
+    statusTarget: 0
+    selectionWeight: 3
+    maximumConsecutiveUses: 1
+  - actionName: Strength buff
+    damage: 0
+    hitCount: 0
+    blockAmount: 0
+    healingAmount: 0
+    appliesStatus: 1
+    statusType: 0
+    statusAmount: 6
+    statusDuration: 2
+    statusTarget: 0
+    selectionWeight: 1
+    maximumConsecutiveUses: 1

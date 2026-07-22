@@ -20,6 +20,7 @@ public class EnemyDisplay : MonoBehaviour
     [SerializeField] private Sprite healIcon;
     [SerializeField] private Sprite buffIcon;
     [SerializeField] private Sprite debuffIcon;
+    [SerializeField] private Sprite bonusDamageIcon;
 
     [SerializeField] private IntentEntryDisplay[] intentEntries;
 
@@ -89,6 +90,11 @@ public class EnemyDisplay : MonoBehaviour
         if (enemy.CurrentAction.healingAmount > 0)
         {
             AddIntentEntry(healIcon, enemy.CurrentAction.healingAmount.ToString(), ref entryIndex);
+        }
+
+        if (enemy.CurrentAction.nextAttackBonusDamage > 0)
+        {
+            AddIntentEntry(bonusDamageIcon, "", ref entryIndex);
         }
 
         if (enemy.CurrentAction.appliesStatus && enemy.CurrentAction.statusAmount > 0)
