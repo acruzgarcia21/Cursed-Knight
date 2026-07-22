@@ -62,10 +62,12 @@ public class EnemyActionData
     public int selectionWeight = 1;
     public int maximumConsecutiveUses = 1;
 
-    public bool hidesEnemy;
     [Space(10)] [Header("Temporary Buffs")]
     public int nextAttackBonusDamage;
 
+    [Space(10)] [Header("Hides Enemy")]
+    public bool hidesEnemy;
+    
     public enum StatusTargetType
     {
         Self,
