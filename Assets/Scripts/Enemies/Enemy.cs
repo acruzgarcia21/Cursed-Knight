@@ -262,8 +262,13 @@ public class Enemy : MonoBehaviour
         foreach (var action in enemyData.enemyActions)
         {
             if (action.selectionWeight <= 0) continue;
-            if (action == _currentAction && _currentActionConsecutiveUses >= action.maximumConsecutiveUses)
+            if (!CanUseAction(action)) continue;
+            
+            if (action == _currentAction 
+                && _currentActionConsecutiveUses >= action.maximumConsecutiveUses)
+            {
                 continue;
+            }
 
             allowedActions.Add(action);
         }
@@ -274,9 +279,17 @@ public class Enemy : MonoBehaviour
             foreach (var action in enemyData.enemyActions)
             {
                 if (action.selectionWeight <= 0) continue;
+                if (!CanUseAction(action)) continue;
 
                 allowedActions.Add(action);
             }
+        }
+        
+        if (allowedActions.Count == 0)
+        {
+            _currentAction = null;
+            _enemyDisplay.UpdateEnemyDisplay();
+            return;
         }
 
         // Calculate the total weight of the pool
@@ -337,6 +350,19 @@ public class Enemy : MonoBehaviour
         {
             BattleManager.Instance.EnemyManager.RemoveEnemy(this);
         }
+    }
+
+    // Allows for smarter enemy AI (Can be updated...)
+    private bool CanUseAction(EnemyActionData action)
+    {
+        if (action == null) return false;
+
+        if (action.enemyToSummon != null && action.enemiesToSummon > 0)
+        {
+            return _enemyManager.HasAvailableSpawnSlot();
+        }
+
+        return true;
     }
     
     private void ApplyCurrentActionStatus(Player player)

@@ -135,6 +135,11 @@ public class EnemyManager : MonoBehaviour
         
         return healingTarget;
     }
+    
+    public bool HasAvailableSpawnSlot()
+    {
+        return GetAvailableSpawnSlots().Count > 0;
+    }
 
     private List<Transform> GetAvailableSpawnSlots()
     {
