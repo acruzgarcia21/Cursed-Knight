@@ -114,7 +114,9 @@ public class EnemyDisplay : MonoBehaviour
             switch (enemy.CurrentAction.statusTarget)
             {
                 case EnemyActionData.StatusTargetType.Self:
-                    AddIntentEntry(buffIcon, enemy.CurrentAction.statusAmount.ToString(), ref entryIndex);
+                case EnemyActionData.StatusTargetType.RandomAlly:
+                case EnemyActionData.StatusTargetType.AllOtherAllies:
+                    AddIntentEntry(buffIcon, enemy.CurrentAction.statusDuration.ToString(), ref entryIndex);
                     break;
                 case EnemyActionData.StatusTargetType.Player:
                     AddIntentEntry(debuffIcon, enemy.CurrentAction.statusAmount.ToString(), ref entryIndex);

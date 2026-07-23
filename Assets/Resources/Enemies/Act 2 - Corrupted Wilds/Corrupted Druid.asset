@@ -48,7 +48,7 @@ MonoBehaviour:
     statusAmount: 0
     statusDuration: 0
     statusTarget: 0
-    selectionWeight: 2
+    selectionWeight: 4
     maximumConsecutiveUses: 1
     nextAttackBonusDamage: 0
     hidesEnemy: 0
@@ -65,7 +65,7 @@ MonoBehaviour:
     statusAmount: 2
     statusDuration: 2
     statusTarget: 3
-    selectionWeight: 4
+    selectionWeight: 22
     maximumConsecutiveUses: 1
     nextAttackBonusDamage: 0
     hidesEnemy: 0
@@ -82,7 +82,7 @@ MonoBehaviour:
     statusAmount: 0
     statusDuration: 0
     statusTarget: 0
-    selectionWeight: 1
+    selectionWeight: 10
     maximumConsecutiveUses: 1
     nextAttackBonusDamage: 0
     hidesEnemy: 0

@@ -53,6 +53,16 @@ public class Enemy : MonoBehaviour
         {
             return;
         }
+        
+        if (!CanUseAction(_currentAction))
+        {
+            Debug.LogWarning(
+                $"{enemyData.enemyName} could not use " +
+                $"{_currentAction.actionName}."
+            );
+
+            return;
+        }
 
         currentEnemyBlock = 0;
         isHidden = _currentAction.hidesEnemy;
@@ -69,11 +79,9 @@ public class Enemy : MonoBehaviour
             }
             
             _nextAttackBonusDamage = 0;
-
-            Debug.Log(
-                $"{enemyData.enemyName} uses {_currentAction.actionName} " +
-                $"for {modifiedDamage} damage x{hitCount}."
-            );
+            
+            
+            Debug.Log($"{enemyData.enemyName} ({GetInstanceID()}) uses {_currentAction.actionName} for {modifiedDamage} damage x{hitCount}.");
         }
 
         if (_currentAction.blockAmount > 0)
@@ -142,7 +150,20 @@ public class Enemy : MonoBehaviour
         ProcessEndTurnStatuses();
         if (EnemyIsDead()) return;
 
+        Debug.Log($"{enemyData.enemyName} ({GetInstanceID()}) BEFORE Tick");
+        _statusManager.DebugPrintStatuses();
+        
         _statusManager.TickDurations();
+        
+        Debug.Log($"{enemyData.enemyName} ({GetInstanceID()}) AFTER Tick");
+        _statusManager.DebugPrintStatuses();
+        
+        Debug.Log(
+            $"Action: {_currentAction.actionName} | " +
+            $"Summon target: {_currentAction.enemyToSummon} | " +
+            $"Summon count: {_currentAction.enemiesToSummon} | " +
+            $"Applies status: {_currentAction.appliesStatus}"
+        );
     }
 
     // Chooses enemy's first action
@@ -151,14 +172,23 @@ public class Enemy : MonoBehaviour
         if (enemyData == null || enemyData.enemyActions == null || enemyData.enemyActions.Count == 0)
         {
             _currentAction = null;
+            _enemyDisplay.UpdateEnemyDisplay();
             return;
         }
 
-        _currentActionIndex = Random.Range(0, enemyData.enemyActions.Count);
-        _currentAction = enemyData.enemyActions[_currentActionIndex];
-        _currentActionConsecutiveUses = 1;
-
-        _enemyDisplay.UpdateEnemyDisplay();
+        switch (enemyData.actionSelectionType)
+        {
+            case EnemyData.ActionSelectionType.FixedPattern:
+                _currentActionIndex = -1;
+                SelectFixedPatternAction();
+                break;
+            
+            case EnemyData.ActionSelectionType.WeightedRandom:
+                _currentAction = null;
+                _currentActionConsecutiveUses = 0;
+                SelectWeightedRandomAction();
+                break;
+        }
     }
 
     public int GetCurrentIntentDamage()
@@ -190,6 +220,22 @@ public class Enemy : MonoBehaviour
                 SelectWeightedRandomAction();
                 break;
         }
+    }
+    
+    public void RefreshIntentIfInvalid()
+    {
+        if (_currentAction == null)
+        {
+            SelectNextAction();
+            return;
+        }
+
+        if (CanUseAction(_currentAction))
+        {
+            return;
+        }
+
+        SelectNextAction();
     }
     
     private int GetFinalAttackDamage(int baseDamage)
@@ -291,6 +337,17 @@ public class Enemy : MonoBehaviour
         
         if (allowedActions.Count == 0)
         {
+            Debug.LogWarning(
+                $"{enemyData.enemyName} has no valid actions."
+            );
+
+            _currentAction = null;
+            _enemyDisplay.UpdateEnemyDisplay();
+            return;
+        }
+        
+        if (allowedActions.Count == 0)
+        {
             _currentAction = null;
             _enemyDisplay.UpdateEnemyDisplay();
             return;
@@ -361,9 +418,38 @@ public class Enemy : MonoBehaviour
     {
         if (action == null) return false;
 
-        if (action.enemyToSummon != null && action.enemiesToSummon > 0)
+        if (action.enemyToSummon != null &&
+            action.enemiesToSummon > 0)
         {
-            return _enemyManager.HasAvailableSpawnSlot();
+            return _enemyManager.CanSummonToDesiredCount(action.enemyToSummon, action.enemiesToSummon);
+        }
+
+        if (action.healingAmount > 0)
+        {
+            
+            Debug.Log(
+                $"{enemyData.enemyName} checking {action.actionName} | " +
+                $"Healing target: {action.healingTarget} | " +
+                $"Self health: {currentEnemyHealth}/{enemyData.enemyMaxHealth} | " +
+                $"Has injured ally: {_enemyManager.HasInjuredAlly(this)}"
+            );
+            
+            switch (action.healingTarget)
+            {
+                case EnemyActionData.HealingTarget.Self:
+                    return currentEnemyHealth < enemyData.enemyMaxHealth;
+                
+                case EnemyActionData.HealingTarget.SingleAlly:
+                case EnemyActionData.HealingTarget.AllOtherAllies:
+                    return _enemyManager.HasInjuredAlly(this);
+            }
+        }
+
+        if (action.appliesStatus &&
+            action.statusTarget == EnemyActionData.StatusTargetType.RandomAlly || action.appliesStatus &&
+            action.statusTarget == EnemyActionData.StatusTargetType.AllOtherAllies)
+        {
+            return _enemyManager.HasOtherLivingAlly(this);
         }
 
         return true;
@@ -375,30 +461,74 @@ public class Enemy : MonoBehaviour
         {
             return;
         }
-
-        var statusEffect = new StatusEffect
-        {
-            statusType = _currentAction.statusType,
-            amount = _currentAction.statusAmount,
-            duration = _currentAction.statusDuration
-        };
+        
 
         switch (_currentAction.statusTarget)
         {
             case EnemyActionData.StatusTargetType.Self:
-                ApplyStatus(statusEffect);
+                ApplyStatus(new StatusEffect
+                {
+                    statusType = _currentAction.statusType,
+                    amount = _currentAction.statusAmount,
+                    duration = _currentAction.statusDuration
+                });
                 break;
 
             case EnemyActionData.StatusTargetType.Player:
-                player.ApplyStatus(statusEffect);
+                player.ApplyStatus(new StatusEffect
+                {
+                    statusType = _currentAction.statusType,
+                    amount = _currentAction.statusAmount,
+                    duration = _currentAction.statusDuration
+                });
                 break;
 
-            case EnemyActionData.StatusTargetType.AllOtherAllies:
             case EnemyActionData.StatusTargetType.RandomAlly:
-                Debug.LogWarning(
-                    $"{_currentAction.statusTarget} is not implemented yet."
+            {
+                var randomAlly = _enemyManager.GetRandomLivingAlly(this);
+
+                if (randomAlly == null)
+                {
+                    Debug.LogWarning("Buff failed: no valid ally.");
+                    break;
+                }
+
+                Debug.Log(
+                    $"{enemyData.enemyName} ({GetInstanceID()}) buffs " +
+                    $"{randomAlly.enemyData.enemyName} ({randomAlly.GetInstanceID()}) " +
+                    $"with {_currentAction.statusType} " +
+                    $"Amount: {_currentAction.statusAmount} | Duration: {_currentAction.statusDuration}"
                 );
+
+                randomAlly.ApplyStatus(new StatusEffect
+                {
+                    statusType = _currentAction.statusType,
+                    amount = _currentAction.statusAmount,
+                    duration = _currentAction.statusDuration
+                });
+
                 break;
+            }
+
+            case EnemyActionData.StatusTargetType.AllOtherAllies:
+            {
+                var livingEnemies = _enemyManager.GetLivingEnemies();
+
+                foreach (var enemy in livingEnemies)
+                {
+                    if (enemy == null) continue;
+                    if (enemy == this) continue;
+
+                    enemy.ApplyStatus(new StatusEffect
+                    {
+                        statusType = _currentAction.statusType,
+                        amount = _currentAction.statusAmount,
+                        duration = _currentAction.statusDuration
+                    });
+                }
+
+                break;
+            }
         }
     }
     

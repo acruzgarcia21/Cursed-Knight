@@ -65,19 +65,43 @@ public class EnemyManager : MonoBehaviour
         return enemy;
     }
 
-    public void SummonEnemies(EnemyData enemyToSummon, int summonCount)
+    public void SummonEnemies(EnemyData enemyToSummon, int desiredLivingCount)
     {
+        if (enemyToSummon == null || desiredLivingCount <= 0)
+        {
+            return;
+        }
+
+        var currentLivingCount = GetLivingEnemyCount(enemyToSummon);
+        var enemiesNeeded = desiredLivingCount - currentLivingCount;
+
+        if (enemiesNeeded <= 0)
+        {
+            return;
+        }
+
         var availableSlots = GetAvailableSpawnSlots();
-        var actualSummons = Mathf.Min(summonCount, availableSlots.Count);
-        
+        var actualSummonCount = Mathf.Min(enemiesNeeded, availableSlots.Count);
+
+        if (actualSummonCount <= 0)
+        {
+            Debug.LogWarning(
+                $"Summon failed: no available spawn slots for " +
+                $"{enemyToSummon.enemyName}."
+            );
+
+            return;
+        }
+
         Debug.Log(
-            $"Summon requested: {summonCount} | " +
-            $"Available slots: {availableSlots.Count} | " +
-            $"Actual summons: {actualSummons}"
+            $"Summoning {enemyToSummon.enemyName} | " +
+            $"Currently alive: {currentLivingCount} | " +
+            $"Desired count: {desiredLivingCount} | " +
+            $"Actual summons: {actualSummonCount}"
         );
 
-        for (var i = 0; i < actualSummons; i++)
-        { 
+        for (var i = 0; i < actualSummonCount; i++)
+        {
             var enemy = SpawnEnemy(enemyToSummon, availableSlots[i]);
             enemy.InitializeIntent();
         }
@@ -106,7 +130,9 @@ public class EnemyManager : MonoBehaviour
     {
         _currentEnemies.Remove(enemyToRemove);
         Destroy(enemyToRemove.gameObject);
-        
+
+        RefreshEnemyIntents();
+
         // Okay for now, will change later
         if (AllEnemiesDead())
         {
@@ -143,21 +169,107 @@ public class EnemyManager : MonoBehaviour
         return healingTarget;
     }
     
-    public bool HasAvailableSpawnSlot()
+    public Enemy GetRandomLivingAlly(Enemy requester)
     {
+        var validAllies = new List<Enemy>();
+
+        foreach (var enemy in GetLivingEnemies())
+        {
+            if (enemy == null) continue;
+            if (enemy == requester) continue;
+
+            validAllies.Add(enemy);
+        }
+
+        if (validAllies.Count == 0)
+        {
+            return null;
+        }
+
+        var randomIndex = Random.Range(0, validAllies.Count);
+        return validAllies[randomIndex];
+    }
+    
+    public bool HasInjuredAlly(Enemy requester)
+    {
+        return GetLowestHealthAlly(requester) != null;
+    }
+
+    public bool HasOtherLivingAlly(Enemy requester)
+    {
+
+        foreach (var enemy in GetLivingEnemies())
+        {
+            if (enemy == null) continue;
+            if (enemy == requester) continue;
+
+            return true;
+        }
+
+        return false;
+    }
+    
+    public bool HasAvailableSpawnSlots(int requiredSlots)
+    {
+        return GetAvailableSpawnSlots().Count >= requiredSlots;
+    }
+    
+    public int GetLivingEnemyCount(EnemyData enemyData)
+    {
+        if (enemyData == null)
+        {
+            return 0;
+        }
+
+        var livingCount = 0;
+
+        foreach (var enemy in GetLivingEnemies())
+        {
+            if (enemy == null) continue;
+            if (enemy.enemyData != enemyData) continue;
+
+            livingCount++;
+        }
+
+        return livingCount;
+    }
+
+    public bool CanSummonToDesiredCount(EnemyData enemyToSummon, int desiredLivingCount)
+    {
+        if (enemyToSummon == null || desiredLivingCount <= 0)
+        {
+            return false;
+        }
+
+        var currentLivingCount = GetLivingEnemyCount(enemyToSummon);
+
+        if (currentLivingCount >= desiredLivingCount)
+        {
+            return false;
+        }
+
         return GetAvailableSpawnSlots().Count > 0;
     }
 
+    private void RefreshEnemyIntents()
+    {
+        foreach (var enemy in GetLivingEnemies())
+        {
+            if (enemy == null) continue;
+
+            enemy.RefreshIntentIfInvalid();
+        }
+    }
+    
     private List<Transform> GetAvailableSpawnSlots()
     {
         var availableSpawnSlots = new List<Transform>();
-        var currentLivingEnemies = GetLivingEnemies();
 
         foreach (var position in enemySpawnPositions)
         {
             var isOccupied = false;
             
-            foreach (var enemy in currentLivingEnemies)
+            foreach (var enemy in GetLivingEnemies())
             {
                 if (enemy.spawnPoint != position) continue;
 

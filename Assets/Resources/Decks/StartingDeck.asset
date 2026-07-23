@@ -13,23 +13,15 @@ MonoBehaviour:
   m_Name: StartingDeck
   m_EditorClassIdentifier: Assembly-CSharp::DeckData
   deckCards:
-  - {fileID: 11400000, guid: bc7f94d824db71345b6aa0885a152a49, type: 2}
-  - {fileID: 11400000, guid: cad90af9d904a6445be28434404724a4, type: 2}
-  - {fileID: 11400000, guid: 28b89ae67514b6e4f90e56d2ea21a080, type: 2}
-  - {fileID: 11400000, guid: a372654052c6fb247b69cd3665bcd91e, type: 2}
-  - {fileID: 11400000, guid: 68257227072872244b5f5045400361a3, type: 2}
-  - {fileID: 11400000, guid: 38180e0cc7f1f5844adebb85a3032620, type: 2}
+  - {fileID: 11400000, guid: 9b2078e8ba9aa754b9f8511b4e8163ce, type: 2}
+  - {fileID: 11400000, guid: 9b2078e8ba9aa754b9f8511b4e8163ce, type: 2}
+  - {fileID: 11400000, guid: 9b2078e8ba9aa754b9f8511b4e8163ce, type: 2}
+  - {fileID: 11400000, guid: 9b2078e8ba9aa754b9f8511b4e8163ce, type: 2}
   - {fileID: 11400000, guid: e4d9d7752e645d34f9c6f758d97ecfa2, type: 2}
   - {fileID: 11400000, guid: e4d9d7752e645d34f9c6f758d97ecfa2, type: 2}
-  - {fileID: 11400000, guid: 60a559f82ee54394f90321800c8c5ee5, type: 2}
-  - {fileID: 11400000, guid: 38180e0cc7f1f5844adebb85a3032620, type: 2}
-  - {fileID: 11400000, guid: 7dccc17fff87f504ba8049743803557f, type: 2}
-  - {fileID: 11400000, guid: 7dccc17fff87f504ba8049743803557f, type: 2}
-  - {fileID: 11400000, guid: de34e0a50c1b0c2419e77b3cf82f75d4, type: 2}
-  - {fileID: 11400000, guid: c1bd8720c7a266246a6d24c9acc459a1, type: 2}
-  - {fileID: 11400000, guid: b28fd843658a8dc4c8f1b0b801a571ee, type: 2}
-  - {fileID: 11400000, guid: caa81d7c76205b44aa0623eb0c2c5ac6, type: 2}
-  - {fileID: 11400000, guid: b2dd867f2304b90459e589ec2e1c708b, type: 2}
-  - {fileID: 11400000, guid: 45d0e1563c8525a4ebbe81593e4a9f6c, type: 2}
-  - {fileID: 11400000, guid: 84b1208b0e7be55488fdfb671f8919e4, type: 2}
-  - {fileID: 11400000, guid: a22f41db927308b4da5c7dbe755ebe86, type: 2}
+  - {fileID: 11400000, guid: e4d9d7752e645d34f9c6f758d97ecfa2, type: 2}
+  - {fileID: 11400000, guid: e4d9d7752e645d34f9c6f758d97ecfa2, type: 2}
+  - {fileID: 11400000, guid: fd7254e7dfb34ba46b3a6170220a28ae, type: 2}
+  - {fileID: 11400000, guid: fd7254e7dfb34ba46b3a6170220a28ae, type: 2}
+  - {fileID: 11400000, guid: fd7254e7dfb34ba46b3a6170220a28ae, type: 2}
+  - {fileID: 11400000, guid: fd7254e7dfb34ba46b3a6170220a28ae, type: 2}

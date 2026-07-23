@@ -18,14 +18,14 @@ public class StatusManager : MonoBehaviour
             
             activeStatus.amount += statusEffect.amount;
             
-            if (activeStatus.duration < 0)
+            if (activeStatus.duration < 0 || statusEffect.duration < 0)
             {
                 activeStatus.duration = -1;
                 OnStatusesChanged?.Invoke();
                 return;
             }
             
-            activeStatus.duration += statusEffect.duration;
+            activeStatus.duration = Mathf.Max(activeStatus.duration, statusEffect.duration);
             OnStatusesChanged?.Invoke();
             return;
         }
