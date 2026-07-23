@@ -22,6 +22,7 @@ public class EnemyDisplay : MonoBehaviour
     [SerializeField] private Sprite debuffIcon;
     [SerializeField] private Sprite bonusDamageIcon;
     [SerializeField] private Sprite hideIntentIcon;
+    [SerializeField] private Sprite summonEnemyIcon;
 
     [SerializeField] private IntentEntryDisplay[] intentEntries;
 
@@ -101,6 +102,11 @@ public class EnemyDisplay : MonoBehaviour
         if (enemy.CurrentAction.hidesEnemy)
         {
             AddIntentEntry(hideIntentIcon, "", ref entryIndex);
+        }
+        
+        if (enemy.CurrentAction.enemyToSummon != null && enemy.CurrentAction.enemiesToSummon > 0)
+        {
+            AddIntentEntry(summonEnemyIcon, enemy.CurrentAction.enemiesToSummon.ToString(), ref entryIndex);
         }
 
         if (enemy.CurrentAction.appliesStatus && enemy.CurrentAction.statusAmount > 0)

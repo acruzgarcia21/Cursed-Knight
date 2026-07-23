@@ -646,6 +646,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3064942670328895587, guid: 32da3d5058a3e9c4c9de9370bae55014, type: 3}
+      propertyPath: encounter
+      value: 
+      objectReference: {fileID: 11400000, guid: 36e8536af90244945b0a8ba1f191f82b, type: 2}
+    - target: {fileID: 3064942670328895587, guid: 32da3d5058a3e9c4c9de9370bae55014, type: 3}
+      propertyPath: testEncounter
+      value: 
+      objectReference: {fileID: 11400000, guid: 36e8536af90244945b0a8ba1f191f82b, type: 2}
+    - target: {fileID: 3064942670328895587, guid: 32da3d5058a3e9c4c9de9370bae55014, type: 3}
       propertyPath: enemyContainer
       value: 
       objectReference: {fileID: 255966899}

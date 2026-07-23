@@ -98,6 +98,7 @@ MonoBehaviour:
   debuffIcon: {fileID: 21300000, guid: ec5ab42de05fbda4fb4f7288587faa2f, type: 3}
   bonusDamageIcon: {fileID: 21300000, guid: 3398b8887ffde4b4186956e52a6171ea, type: 3}
   hideIntentIcon: {fileID: 21300000, guid: 07bbd3c8e6bc2ef428bafc3e638fa7b4, type: 3}
+  summonEnemyIcon: {fileID: 21300000, guid: d0cbbc9df3520c7439ed14cad7cdcca0, type: 3}
   intentEntries:
   - {fileID: 4989535592054780097}
   - {fileID: 7630705422904230738}
@@ -120,6 +121,7 @@ MonoBehaviour:
   currentEnemyHealth: 0
   currentEnemyBlock: 0
   isHidden: 0
+  spawnPoint: {fileID: 0}
   enemyData: {fileID: 0}
 --- !u!114 &-8450013649451895071
 MonoBehaviour:

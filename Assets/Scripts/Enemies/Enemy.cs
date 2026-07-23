@@ -129,6 +129,10 @@ public class Enemy : MonoBehaviour
         {
             _enemyManager.SummonEnemies(_currentAction.enemyToSummon, _currentAction.enemiesToSummon);
         }
+        
+        Debug.Log(
+            $"{enemyData.enemyName} is using {_currentAction.actionName}"
+        );
 
         ApplyCurrentActionStatus(player);
 

@@ -4,13 +4,9 @@ using UnityEngine;
 public class EnemyManager : MonoBehaviour
 {
     public GameObject enemyPrefab;
-    
-    // Hardcoded for prototype, will change later
-    public int enemiesToSpawn = 4;
 
     public Transform enemyContainer;
     
-    public EnemyData[] enemyStorage;
     
     public List<Transform> enemySpawnPositions = new();
     
@@ -18,13 +14,14 @@ public class EnemyManager : MonoBehaviour
     
     private BattleManager _battleManager;
 
+    [SerializeField] private EncounterData encounter;
+
     private void Awake()
     {
         if (_battleManager == null)
         {
             _battleManager = FindFirstObjectByType<BattleManager>();
         }
-        enemyStorage = Resources.LoadAll<EnemyData>("Enemies");
     }
 
     public void BattleSetup()
@@ -39,9 +36,13 @@ public class EnemyManager : MonoBehaviour
 
     private void SpawnEncounter()
     {
-        for (var i = 0; i < enemiesToSpawn; i++)
+        if (encounter == null) return;
+
+        var actualEnemyCount = Mathf.Min(encounter.enemies.Count, enemySpawnPositions.Count);
+
+        for (var i = 0; i < actualEnemyCount; i++)
         {
-            SpawnEnemy(enemyStorage[i], enemySpawnPositions[i]);
+            SpawnEnemy(encounter.enemies[i], enemySpawnPositions[i]);
         }
     }
 
@@ -68,6 +69,12 @@ public class EnemyManager : MonoBehaviour
     {
         var availableSlots = GetAvailableSpawnSlots();
         var actualSummons = Mathf.Min(summonCount, availableSlots.Count);
+        
+        Debug.Log(
+            $"Summon requested: {summonCount} | " +
+            $"Available slots: {availableSlots.Count} | " +
+            $"Actual summons: {actualSummons}"
+        );
 
         for (var i = 0; i < actualSummons; i++)
         { 
