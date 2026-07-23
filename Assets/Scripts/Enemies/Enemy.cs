@@ -8,6 +8,8 @@ public class Enemy : MonoBehaviour
 
     public bool isHidden;
 
+    public Transform spawnPoint;
+    
     public EnemyData enemyData;
 
     private EnemyDisplay  _enemyDisplay;
@@ -19,6 +21,7 @@ public class Enemy : MonoBehaviour
     private int _currentActionIndex;
     private int _currentActionConsecutiveUses;
     private int _nextAttackBonusDamage;
+
     
     private readonly List<int> _triggeredHealthPhases = new();
 
@@ -120,6 +123,11 @@ public class Enemy : MonoBehaviour
                     break;
                 }
             }
+        }
+
+        if (_currentAction.enemyToSummon != null && _currentAction.enemiesToSummon > 0)
+        {
+            _enemyManager.SummonEnemies(_currentAction.enemyToSummon, _currentAction.enemiesToSummon);
         }
 
         ApplyCurrentActionStatus(player);
@@ -445,6 +453,4 @@ public class Enemy : MonoBehaviour
     {
         return currentEnemyHealth <= 0;
     }
-    
-    
 }

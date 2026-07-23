@@ -45,34 +45,52 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    private void SpawnEnemy(EnemyData enemyData, Transform spawnPositions)
+    private Enemy SpawnEnemy(EnemyData enemyData, Transform spawnPosition)
     {
-        var enemyObject = Instantiate(enemyPrefab,  spawnPositions.position, spawnPositions.rotation);
+        var enemyObject = Instantiate(enemyPrefab,  spawnPosition.position, spawnPosition.rotation);
         enemyObject.transform.SetParent(enemyContainer, false);
-        enemyObject.transform.localPosition = spawnPositions.localPosition;
+        enemyObject.transform.localPosition = spawnPosition.localPosition;
         enemyObject.transform.localRotation = Quaternion.identity;
         enemyObject.transform.localScale = Vector3.one;
         
         var enemy = enemyObject.GetComponent<Enemy>();
         
         enemy.enemyData = enemyData;
+        enemy.spawnPoint = spawnPosition;
+        
         _currentEnemies.Add(enemy);
         enemy.BattleSetup();
+
+        return enemy;
+    }
+
+    public void SummonEnemies(EnemyData enemyToSummon, int summonCount)
+    {
+        var availableSlots = GetAvailableSpawnSlots();
+        var actualSummons = Mathf.Min(summonCount, availableSlots.Count);
+
+        for (var i = 0; i < actualSummons; i++)
+        { 
+            var enemy = SpawnEnemy(enemyToSummon, availableSlots[i]);
+            enemy.InitializeIntent();
+        }
     }
 
     public void ProcessEnemyTurn(Player player)
     {
-        for (var i = _currentEnemies.Count - 1; i >= 0; i--)
+        var currentEnemies = GetLivingEnemies();
+        
+        foreach (var enemy in currentEnemies)
         {
-            var enemy = _currentEnemies[i];
- 
             if (enemy == null) continue;
 
             enemy.TakeTurn(player);
         }
 
-        foreach (var enemy in _currentEnemies)
+        foreach (var enemy in currentEnemies)
         {
+            if (!_currentEnemies.Contains(enemy)) continue;
+            
             enemy.SelectNextAction();
         }
     }
@@ -116,6 +134,32 @@ public class EnemyManager : MonoBehaviour
         }
         
         return healingTarget;
+    }
+
+    private List<Transform> GetAvailableSpawnSlots()
+    {
+        var availableSpawnSlots = new List<Transform>();
+        var currentLivingEnemies = GetLivingEnemies();
+
+        foreach (var position in enemySpawnPositions)
+        {
+            var isOccupied = false;
+            
+            foreach (var enemy in currentLivingEnemies)
+            {
+                if (enemy.spawnPoint != position) continue;
+
+                isOccupied = true;
+                break;
+            }
+
+            if (!isOccupied)
+            {
+                availableSpawnSlots.Add(position);
+            }
+        }
+
+        return availableSpawnSlots;
     }
 
     private bool AllEnemiesDead()

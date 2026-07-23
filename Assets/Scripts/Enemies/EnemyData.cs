@@ -62,6 +62,11 @@ public class EnemyActionData
         AllOtherAllies
     }
 
+    [Space(10)] [Header("Summoning")] 
+    public EnemyData enemyToSummon;
+    
+    public int enemiesToSummon;
+
     [Space(10)] [Header("Status Effect")]
     public bool appliesStatus;
     public StatusEffect.StatusType statusType;

@@ -24,6 +24,8 @@ MonoBehaviour:
     blockAmount: 0
     healingAmount: 0
     healingTarget: 0
+    enemyToSummon: {fileID: 0}
+    enemiesToSummon: 0
     appliesStatus: 0
     statusType: 0
     statusAmount: 0
@@ -39,6 +41,8 @@ MonoBehaviour:
     blockAmount: 0
     healingAmount: 10
     healingTarget: 1
+    enemyToSummon: {fileID: 0}
+    enemiesToSummon: 0
     appliesStatus: 0
     statusType: 0
     statusAmount: 0
@@ -54,6 +58,8 @@ MonoBehaviour:
     blockAmount: 0
     healingAmount: 0
     healingTarget: 0
+    enemyToSummon: {fileID: 0}
+    enemiesToSummon: 0
     appliesStatus: 1
     statusType: 0
     statusAmount: 2
@@ -63,34 +69,21 @@ MonoBehaviour:
     maximumConsecutiveUses: 1
     nextAttackBonusDamage: 0
     hidesEnemy: 0
-  - actionName: 
+  - actionName: Summon Wolf
     damage: 0
     hitCount: 0
     blockAmount: 0
     healingAmount: 0
     healingTarget: 0
+    enemyToSummon: {fileID: 11400000, guid: 07e8708f45dd267468dbad12e4d4e7d7, type: 2}
+    enemiesToSummon: 2
     appliesStatus: 0
     statusType: 0
     statusAmount: 0
     statusDuration: 0
     statusTarget: 0
-    selectionWeight: 0
-    maximumConsecutiveUses: 0
-    nextAttackBonusDamage: 0
-    hidesEnemy: 0
-  - actionName: 
-    damage: 0
-    hitCount: 0
-    blockAmount: 0
-    healingAmount: 0
-    healingTarget: 0
-    appliesStatus: 0
-    statusType: 0
-    statusAmount: 0
-    statusDuration: 0
-    statusTarget: 0
-    selectionWeight: 0
-    maximumConsecutiveUses: 0
+    selectionWeight: 1
+    maximumConsecutiveUses: 1
     nextAttackBonusDamage: 0
     hidesEnemy: 0
   healthPhases: []
