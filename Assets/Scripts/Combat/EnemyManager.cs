@@ -95,7 +95,30 @@ public class EnemyManager : MonoBehaviour
         return livingEnemies;
     }
 
-    public bool AllEnemiesDead()
+    public Enemy GetLowestHealthAlly(Enemy healer)
+    {
+        Enemy healingTarget = null;
+        
+        var lowestHealthPercentage = 1f;
+        var livingEnemies = GetLivingEnemies();
+
+        foreach (var enemy in livingEnemies)
+        {
+            if (enemy == healer) continue;
+            if (enemy.currentEnemyHealth >= enemy.enemyData.enemyMaxHealth) continue;
+
+            var healthPercentage = (float)enemy.currentEnemyHealth / enemy.enemyData.enemyMaxHealth;
+
+            if (healthPercentage >= lowestHealthPercentage) continue;
+
+            lowestHealthPercentage = healthPercentage;
+            healingTarget = enemy;
+        }
+        
+        return healingTarget;
+    }
+
+    private bool AllEnemiesDead()
     {
         return _currentEnemies.Count == 0;
     }

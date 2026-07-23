@@ -10,10 +10,12 @@ public class Enemy : MonoBehaviour
 
     public EnemyData enemyData;
 
-    private EnemyDisplay _enemyDisplay;
+    private EnemyDisplay  _enemyDisplay;
     private StatusManager _statusManager;
+    private EnemyManager  _enemyManager;
 
     private EnemyActionData _currentAction;
+    
     private int _currentActionIndex;
     private int _currentActionConsecutiveUses;
     private int _nextAttackBonusDamage;
@@ -25,8 +27,10 @@ public class Enemy : MonoBehaviour
 
     private void Awake()
     {
-        _enemyDisplay = GetComponent<EnemyDisplay>();
+        _enemyDisplay  = GetComponent<EnemyDisplay>();
         _statusManager = GetComponent<StatusManager>();
+
+        _enemyManager = FindAnyObjectByType<EnemyManager>();
     }
 
     public void BattleSetup()
@@ -84,9 +88,38 @@ public class Enemy : MonoBehaviour
             );
         }
 
-        if (_currentAction.healingAmount > 0 && currentEnemyHealth != enemyData.enemyMaxHealth)
+        if (_currentAction.healingAmount > 0)
         {
-            Heal(_currentAction.healingAmount);
+            switch (_currentAction.healingTarget)
+            {
+                case EnemyActionData.HealingTarget.Self when currentEnemyHealth != enemyData.enemyMaxHealth:
+                    Heal(_currentAction.healingAmount);
+                    break;
+                
+                case EnemyActionData.HealingTarget.SingleAlly:
+                {
+                    var healingTarget = _enemyManager.GetLowestHealthAlly(this);
+
+                    if (healingTarget == null) break;
+                
+                    healingTarget.Heal(_currentAction.healingAmount);
+                    break;
+                }
+                
+                case EnemyActionData.HealingTarget.AllOtherAllies:
+                {
+                    var allAllies = _enemyManager.GetLivingEnemies();
+
+                    foreach (var enemy in allAllies)
+                    {
+                        if (enemy == this) continue;
+                    
+                        enemy.Heal(_currentAction.healingAmount);
+                    }
+
+                    break;
+                }
+            }
         }
 
         ApplyCurrentActionStatus(player);

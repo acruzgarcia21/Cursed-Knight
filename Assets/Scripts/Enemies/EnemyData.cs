@@ -49,7 +49,18 @@ public class EnemyActionData
 
     [Space(10)] [Header("Defense")]
     public int blockAmount;
+
+    [Space(10)] [Header("Healing")]
     public int healingAmount;
+
+    public HealingTarget healingTarget;
+
+    public enum HealingTarget
+    {
+        Self,
+        SingleAlly,
+        AllOtherAllies
+    }
 
     [Space(10)] [Header("Status Effect")]
     public bool appliesStatus;

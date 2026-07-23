@@ -23,6 +23,7 @@ MonoBehaviour:
     hitCount: 1
     blockAmount: 0
     healingAmount: 0
+    healingTarget: 0
     appliesStatus: 0
     statusType: 0
     statusAmount: 0
@@ -37,6 +38,7 @@ MonoBehaviour:
     hitCount: 0
     blockAmount: 6
     healingAmount: 0
+    healingTarget: 0
     appliesStatus: 0
     statusType: 0
     statusAmount: 0

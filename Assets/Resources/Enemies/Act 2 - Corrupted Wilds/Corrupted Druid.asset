@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5eb00f26170b57f4ab8e5c56eafa0512, type: 3}
+  m_Name: Corrupted Druid
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyData
+  enemyName: Corrupted Druid
+  enemySprite: {fileID: 0}
+  enemyType: 1
+  actionSelectionType: 1
+  enemyMaxHealth: 100
+  enemyActions:
+  - actionName: Attack
+    damage: 10
+    hitCount: 1
+    blockAmount: 0
+    healingAmount: 0
+    healingTarget: 0
+    appliesStatus: 0
+    statusType: 0
+    statusAmount: 0
+    statusDuration: 0
+    statusTarget: 0
+    selectionWeight: 6
+    maximumConsecutiveUses: 3
+    nextAttackBonusDamage: 0
+    hidesEnemy: 0
+  - actionName: Heal Ally
+    damage: 0
+    hitCount: 0
+    blockAmount: 0
+    healingAmount: 10
+    healingTarget: 1
+    appliesStatus: 0
+    statusType: 0
+    statusAmount: 0
+    statusDuration: 0
+    statusTarget: 0
+    selectionWeight: 2
+    maximumConsecutiveUses: 1
+    nextAttackBonusDamage: 0
+    hidesEnemy: 0
+  - actionName: Buff Ally
+    damage: 0
+    hitCount: 0
+    blockAmount: 0
+    healingAmount: 0
+    healingTarget: 0
+    appliesStatus: 1
+    statusType: 0
+    statusAmount: 2
+    statusDuration: 2
+    statusTarget: 3
+    selectionWeight: 4
+    maximumConsecutiveUses: 1
+    nextAttackBonusDamage: 0
+    hidesEnemy: 0
+  - actionName: 
+    damage: 0
+    hitCount: 0
+    blockAmount: 0
+    healingAmount: 0
+    healingTarget: 0
+    appliesStatus: 0
+    statusType: 0
+    statusAmount: 0
+    statusDuration: 0
+    statusTarget: 0
+    selectionWeight: 0
+    maximumConsecutiveUses: 0
+    nextAttackBonusDamage: 0
+    hidesEnemy: 0
+  - actionName: 
+    damage: 0
+    hitCount: 0
+    blockAmount: 0
+    healingAmount: 0
+    healingTarget: 0
+    appliesStatus: 0
+    statusType: 0
+    statusAmount: 0
+    statusDuration: 0
+    statusTarget: 0
+    selectionWeight: 0
+    maximumConsecutiveUses: 0
+    nextAttackBonusDamage: 0
+    hidesEnemy: 0
+  healthPhases: []
