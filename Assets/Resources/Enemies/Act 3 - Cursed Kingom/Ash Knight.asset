@@ -35,6 +35,8 @@ MonoBehaviour:
     maximumConsecutiveUses: 3
     nextAttackBonusDamage: 0
     hidesEnemy: 0
+    appliesCounterAttack: 0
+    counterAttackDamage: 0
   - actionName: Multi
     damage: 6
     hitCount: 4
@@ -52,6 +54,8 @@ MonoBehaviour:
     maximumConsecutiveUses: 1
     nextAttackBonusDamage: 0
     hidesEnemy: 0
+    appliesCounterAttack: 0
+    counterAttackDamage: 0
   - actionName: Riposte
     damage: 0
     hitCount: 0
@@ -69,6 +73,8 @@ MonoBehaviour:
     maximumConsecutiveUses: 2
     nextAttackBonusDamage: 0
     hidesEnemy: 0
+    appliesCounterAttack: 1
+    counterAttackDamage: 10
   - actionName: Heavy
     damage: 48
     hitCount: 1
@@ -86,4 +92,6 @@ MonoBehaviour:
     maximumConsecutiveUses: 1
     nextAttackBonusDamage: 0
     hidesEnemy: 0
+    appliesCounterAttack: 0
+    counterAttackDamage: 0
   healthPhases: []

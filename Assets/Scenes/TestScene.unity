@@ -648,7 +648,7 @@ PrefabInstance:
     - target: {fileID: 3064942670328895587, guid: 32da3d5058a3e9c4c9de9370bae55014, type: 3}
       propertyPath: encounter
       value: 
-      objectReference: {fileID: 11400000, guid: 7f3b90602fa59f741967160772e2f433, type: 2}
+      objectReference: {fileID: 11400000, guid: b33036205c8a38b44ad431199dcf1a4b, type: 2}
     - target: {fileID: 3064942670328895587, guid: 32da3d5058a3e9c4c9de9370bae55014, type: 3}
       propertyPath: testEncounter
       value: 

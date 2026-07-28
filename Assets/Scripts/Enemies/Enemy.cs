@@ -7,6 +7,10 @@ public class Enemy : MonoBehaviour
     public int currentEnemyBlock;
 
     public bool isHidden;
+    
+    // Counterattack
+    public bool counterAttackActive;
+    public int actionCounterAttackDamage;
 
     public Transform spawnPoint;
     
@@ -40,8 +44,13 @@ public class Enemy : MonoBehaviour
     public void BattleSetup()
     {
         currentEnemyHealth = enemyData.enemyMaxHealth;
-        currentEnemyBlock = 0;
-        isHidden = false;
+        currentEnemyBlock  = 0;
+        
+        isHidden            = false;
+        counterAttackActive = false;
+
+        actionCounterAttackDamage = 0;
+        
         _availableActions = new List<EnemyActionData>(enemyData.enemyActions);
 
         _triggeredHealthPhases.Clear();
@@ -51,10 +60,14 @@ public class Enemy : MonoBehaviour
 
     public void TakeTurn(Player player)
     {
+        counterAttackActive = false;
+        actionCounterAttackDamage = 0;
+        
         if (player == null || _currentAction == null || player.playerHealth <= 0)
         {
             return;
         }
+
         
         if (!CanUseAction(_currentAction))
         {
@@ -67,6 +80,7 @@ public class Enemy : MonoBehaviour
         }
 
         currentEnemyBlock = 0;
+        
         isHidden = _currentAction.hidesEnemy;
 
         if (_currentAction.damage > 0)
@@ -138,6 +152,12 @@ public class Enemy : MonoBehaviour
         if (_currentAction.enemyToSummon != null && _currentAction.enemiesToSummon > 0)
         {
             _enemyManager.SummonEnemies(_currentAction.enemyToSummon, _currentAction.enemiesToSummon);
+        }
+
+        if (_currentAction.appliesCounterAttack && _currentAction.counterAttackDamage > 0)
+        {
+            counterAttackActive = true;
+            actionCounterAttackDamage = _currentAction.counterAttackDamage;
         }
         
         Debug.Log(
@@ -386,7 +406,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, bool triggersCounterAttack, Player player)
     {
         var modifiedDamage = GetModifiedIncomingDamage(damage);
 
@@ -410,8 +430,20 @@ public class Enemy : MonoBehaviour
 
         currentEnemyHealth = Mathf.Clamp(currentEnemyHealth, 0, enemyData.enemyMaxHealth);
         
-        CheckHealthPhases();
+        var shouldCounterAttack = triggersCounterAttack && counterAttackActive && player != null && !EnemyIsDead();
+        
+        if (shouldCounterAttack)
+        {
+            counterAttackActive = false;
 
+            var counterDamage = actionCounterAttackDamage;
+            actionCounterAttackDamage = 0;
+            
+            player.TakeDamage(counterDamage);
+        }
+
+        
+        CheckHealthPhases();
         _enemyDisplay.UpdateEnemyDisplay();
 
         if (EnemyIsDead())
@@ -419,6 +451,7 @@ public class Enemy : MonoBehaviour
             BattleManager.Instance.EnemyManager.RemoveEnemy(this);
         }
     }
+    
 
     // Allows for smarter enemy AI (Can be updated...)
     private bool CanUseAction(EnemyActionData action)

@@ -81,8 +81,13 @@ public class EnemyActionData
     [Space(10)] [Header("Temporary Buffs")]
     public int nextAttackBonusDamage;
 
-    [Space(10)] [Header("Hides Enemy")]
+    [Space(10)] [Header("Hide")]
     public bool hidesEnemy;
+
+    [Space(10)] [Header("Counterattack")] 
+    public bool appliesCounterAttack;
+
+    public int counterAttackDamage;
     
     public enum StatusTargetType
     {

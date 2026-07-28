@@ -86,7 +86,7 @@ public class CardPlayManager : MonoBehaviour
 
                     for (var i = 0; i < attackCard.hitCount; i++)
                     {
-                        enemy.TakeDamage(finalAttackDamage);
+                        enemy.TakeDamage(finalAttackDamage, true, player);
                     }
                 }
 
@@ -112,7 +112,7 @@ public class CardPlayManager : MonoBehaviour
 
                     var randomEnemyIndex = Random.Range(0, visibleEnemies.Count);
 
-                    visibleEnemies[randomEnemyIndex].TakeDamage(finalAttackDamage);
+                    visibleEnemies[randomEnemyIndex].TakeDamage(finalAttackDamage, true, player);
                 }
 
                 break;
@@ -123,7 +123,7 @@ public class CardPlayManager : MonoBehaviour
             {
                 for (var i = 0; i < attackCard.hitCount; i++)
                 {
-                    targetEnemy.TakeDamage(finalAttackDamage);
+                    targetEnemy.TakeDamage(finalAttackDamage, true, player);
                 }
 
                 break;
