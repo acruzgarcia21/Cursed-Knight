@@ -4,7 +4,7 @@ Cursed Knight is a dark fantasy deck-building roguelike developed in Unity. Batt
 
 ## Overview
 
-Built as a solo development project, Cursed Knight focuses on clean gameplay architecture and modular systems. Combat revolves around strategic turn-based decision making, where players balance offense, defense, status effects, and corruption while building a stronger deck throughout a run.
+Built as a solo development project, Cursed Knight emphasizes clean gameplay architecture, modular systems, and data-driven design. Combat revolves around strategic turn-based decision making, where players balance offense, defense, status effects, and corruption while facing enemies with unique behaviors, abilities, and boss mechanics.
 
 ---
 
@@ -15,7 +15,6 @@ Built as a solo development project, Cursed Knight focuses on clean gameplay arc
 - Turn-based card combat
 - Energy-based card play
 - Attack, Defense, Utility, and Power cards
-- Enemy AI with turn management
 - Single-target, random-target, multi-target, self, and utility targeting
 - Block, damage, healing, and energy gain
 - Win and loss conditions
@@ -27,15 +26,32 @@ Built as a solo development project, Cursed Knight focuses on clean gameplay arc
 - Draw pile, discard pile, and exhaust pile
 - Retain and Spectral mechanics
 - Created During Combat card generation
-- Card creation into hand, draw pile, or discard pile
 - Runtime card routing and lifecycle management
+
+### Enemy System
+
+- Fixed Pattern AI
+- Weighted Random AI
+- Smart action validation
+- Enemy summoning
+- Hidden enemy mechanics
+- Multi-hit attacks
+- Temporary charge attacks
+- Counterattack (Riposte)
+- Healing and support behaviors
+- Boss health phase transitions
+- Runtime action replacement
+- Dynamic intent generation
 
 ### Status System
 
-- Modular status effect system
+- Modular status effect framework
 - Permanent and temporary statuses
 - Strength
 - Weak
+- Vulnerable
+- Poison
+- Bleed
 - Triggered Power effects
 - Stackable status effects with duration tracking
 
@@ -46,14 +62,20 @@ Built as a solo development project, Cursed Knight focuses on clean gameplay arc
 - Curse Surge when corruption reaches its threshold
 - Risk-versus-reward combat centered around corruption management
 
-### Enemies
+### Current Enemy Roster
 
-Current prototype includes multiple enemy types:
+The game currently includes a complete roster of enemies planned across three acts, featuring:
 
-- Crypt Rat
-- Bone Soldier
-- Hollow Brute
-- Chainbound Knight (Boss)
+- Basic enemies
+- Defensive enemies
+- Support enemies
+- Summoners
+- Hidden enemies
+- Multi-phase bosses
+- Elites with unique mechanics
+- Fixed Pattern and Weighted Random AI behaviors
+
+Each encounter is designed to teach, reinforce, or test a different combat mechanic throughout the player's progression.
 
 ---
 
@@ -69,38 +91,43 @@ Current prototype includes multiple enemy types:
 
 ## Development Status
 
-### Completed (v0.2.0)
+### Completed (v0.3.0)
 
 - Core combat architecture
-- Turn management
 - Runtime card system
-- Card effect pipeline
+- Turn management
 - Attack, Defense, Utility, and Power cards
 - Draw, discard, reshuffle, and exhaust systems
 - Retain and Spectral mechanics
 - Created During Combat card generation
-- Modular status effect system
+- Modular status effect framework
 - Corruption system
-- Enemy combat
+- Enemy AI framework
+- Fixed Pattern and Weighted Random enemy behaviors
+- Enemy summoning
+- Hidden enemies
+- Boss health phase transitions
+- Runtime enemy action replacement
+- Counterattack mechanics
 - Combat UI
 - Victory and defeat states
 
 ### In Progress
 
-- Enemy Intent System
-- Additional enemies
 - Card content expansion
 - Combat polish
+- UI polish
+- Combat feedback improvements
 
 ### Planned
 
-- Combat rewards
-- Map progression
+- Card rewards
 - Relic system
-- Card upgrades
-- Run persistence
+- Map progression
+- Elite encounters
+- Run progression
 - Save / Load
-- Visual polish
+- Additional visual polish
 
 ---
 
@@ -108,8 +135,12 @@ Current prototype includes multiple enemy types:
 
 ### v0.1.0 — Prototype Complete
 
-Initial playable combat prototype with core gameplay loop.
+Initial playable combat prototype featuring the core gameplay loop.
 
-### v0.2.0 — Core Combat Complete
+### v0.2.0 — Combat Foundation Complete
 
-Completed the full combat architecture, including the runtime card system, status effects, power cards, corruption, exhaust, retain, spectral, and combat card generation. This milestone establishes the gameplay foundation that future content and progression systems will build upon.
+Completed the core combat architecture, including the runtime card system, turn management, status effects, corruption, and modular gameplay systems that serve as the foundation for future development.
+
+### v0.3.0 — Enemy Systems Complete
+
+Expanded combat by implementing a complete enemy framework featuring multiple AI behaviors, boss phase transitions, runtime action replacement, summoning, hidden enemies, counterattacks, and a diverse enemy roster. This milestone completes the planned enemy systems and prepares the project for combat content expansion and gameplay polish.
