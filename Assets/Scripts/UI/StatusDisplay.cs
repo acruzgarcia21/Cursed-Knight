@@ -30,6 +30,12 @@ public class StatusDisplay : MonoBehaviour
     {
         var activeStatuses = statusManager.GetActiveStatuses();
 
+        Debug.Log(
+            $"{name} StatusDisplay Refresh | " +
+            $"Manager: {statusManager.gameObject.name} | " +
+            $"Active statuses: {activeStatuses.Count}"
+        );
+
         ClearAllSlots();
 
         var slotIndex = 0;
@@ -41,12 +47,10 @@ public class StatusDisplay : MonoBehaviour
 
             var matchingDisplayData = FindDisplayData(status.statusType);
 
-            // In the event that a status is null for display, there will be no space between status icons
             if (matchingDisplayData == null)
                 continue;
 
             statusIconsSlots[slotIndex].DisplayStatus(status, matchingDisplayData);
-
             slotIndex++;
         }
     }

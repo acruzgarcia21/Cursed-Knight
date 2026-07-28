@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5eb00f26170b57f4ab8e5c56eafa0512, type: 3}
+  m_Name: The Chained Bound Knight
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyData
+  enemyName: The Chained Bound Knight
+  enemySprite: {fileID: 5753024105725432548, guid: c904491e8718deb439e12fe8d534fb1f, type: 3}
+  enemyType: 0
+  actionSelectionType: 0
+  enemyMaxHealth: 85
+  enemyActions:
+  - actionName: Attack
+    damage: 10
+    hitCount: 1
+    blockAmount: 0
+    healingAmount: 0
+    appliesStatus: 0
+    statusType: 0
+    statusAmount: 0
+    statusDuration: 0
+    statusTarget: 0
+    selectionWeight: 0
+    maximumConsecutiveUses: 0
+    nextAttackBonusDamage: 0
+  - actionName: Heavy Attack
+    damage: 14
+    hitCount: 1
+    blockAmount: 0
+    healingAmount: 0
+    appliesStatus: 0
+    statusType: 0
+    statusAmount: 0
+    statusDuration: 0
+    statusTarget: 0
+    selectionWeight: 0
+    maximumConsecutiveUses: 0
+    nextAttackBonusDamage: 0
+  - actionName: Heavy Strike
+    damage: 18
+    hitCount: 1
+    blockAmount: 0
+    healingAmount: 0
+    appliesStatus: 0
+    statusType: 0
+    statusAmount: 0
+    statusDuration: 0
+    statusTarget: 0
+    selectionWeight: 0
+    maximumConsecutiveUses: 0
+    nextAttackBonusDamage: 0
+  healthPhases:
+  - healthThreshold: 40
+    appliesStatus: 1
+    statusType: 0
+    statusAmount: 2
+    statusDuration: -1

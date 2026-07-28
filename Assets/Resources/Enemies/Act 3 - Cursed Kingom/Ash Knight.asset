@@ -1,0 +1,97 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5eb00f26170b57f4ab8e5c56eafa0512, type: 3}
+  m_Name: Ash Knight
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyData
+  enemyName: Ash Knight
+  enemySprite: {fileID: 0}
+  enemyType: 1
+  actionSelectionType: 1
+  enemyMaxHealth: 120
+  enemyActions:
+  - actionName: Attack
+    damage: 12
+    hitCount: 1
+    blockAmount: 0
+    healingAmount: 0
+    healingTarget: 0
+    enemyToSummon: {fileID: 0}
+    enemiesToSummon: 0
+    appliesStatus: 0
+    statusType: 0
+    statusAmount: 0
+    statusDuration: 0
+    statusTarget: 0
+    selectionWeight: 6
+    maximumConsecutiveUses: 3
+    nextAttackBonusDamage: 0
+    hidesEnemy: 0
+    appliesCounterAttack: 0
+    counterAttackDamage: 0
+  - actionName: Multi
+    damage: 6
+    hitCount: 4
+    blockAmount: 0
+    healingAmount: 0
+    healingTarget: 0
+    enemyToSummon: {fileID: 0}
+    enemiesToSummon: 0
+    appliesStatus: 0
+    statusType: 0
+    statusAmount: 0
+    statusDuration: 0
+    statusTarget: 0
+    selectionWeight: 3
+    maximumConsecutiveUses: 1
+    nextAttackBonusDamage: 0
+    hidesEnemy: 0
+    appliesCounterAttack: 0
+    counterAttackDamage: 0
+  - actionName: Riposte
+    damage: 0
+    hitCount: 0
+    blockAmount: 10
+    healingAmount: 0
+    healingTarget: 0
+    enemyToSummon: {fileID: 0}
+    enemiesToSummon: 0
+    appliesStatus: 0
+    statusType: 0
+    statusAmount: 0
+    statusDuration: 0
+    statusTarget: 0
+    selectionWeight: 2
+    maximumConsecutiveUses: 2
+    nextAttackBonusDamage: 0
+    hidesEnemy: 0
+    appliesCounterAttack: 1
+    counterAttackDamage: 10
+  - actionName: Heavy
+    damage: 48
+    hitCount: 1
+    blockAmount: 0
+    healingAmount: 0
+    healingTarget: 0
+    enemyToSummon: {fileID: 0}
+    enemiesToSummon: 0
+    appliesStatus: 0
+    statusType: 0
+    statusAmount: 0
+    statusDuration: 0
+    statusTarget: 0
+    selectionWeight: 1
+    maximumConsecutiveUses: 1
+    nextAttackBonusDamage: 0
+    hidesEnemy: 0
+    appliesCounterAttack: 0
+    counterAttackDamage: 0
+  healthPhases: []
