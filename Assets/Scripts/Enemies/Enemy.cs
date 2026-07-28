@@ -17,6 +17,7 @@ public class Enemy : MonoBehaviour
     private EnemyManager  _enemyManager;
 
     private EnemyActionData _currentAction;
+    private List<EnemyActionData> _availableActions;
     
     private int _currentActionIndex;
     private int _currentActionConsecutiveUses;
@@ -41,6 +42,7 @@ public class Enemy : MonoBehaviour
         currentEnemyHealth = enemyData.enemyMaxHealth;
         currentEnemyBlock = 0;
         isHidden = false;
+        _availableActions = new List<EnemyActionData>(enemyData.enemyActions);
 
         _triggeredHealthPhases.Clear();
 
@@ -169,7 +171,7 @@ public class Enemy : MonoBehaviour
     // Chooses enemy's first action
     public void InitializeIntent()
     {
-        if (enemyData == null || enemyData.enemyActions == null || enemyData.enemyActions.Count == 0)
+        if (enemyData == null || _availableActions == null || _availableActions.Count == 0)
         {
             _currentAction = null;
             _enemyDisplay.UpdateEnemyDisplay();
@@ -203,7 +205,7 @@ public class Enemy : MonoBehaviour
 
     public void SelectNextAction()
     {
-        if (enemyData == null || enemyData.enemyActions == null || enemyData.enemyActions.Count == 0)
+        if (enemyData == null || _availableActions == null || _availableActions.Count == 0)
         {
             _currentAction = null;
             return;
@@ -284,6 +286,18 @@ public class Enemy : MonoBehaviour
                 });
             }
 
+            if (phase.replacesActions &&
+                phase.replacementActions is { Count: > 0 })
+            {
+                _availableActions = new List<EnemyActionData>(phase.replacementActions);
+                
+                _currentActionIndex = -1;
+                _currentActionConsecutiveUses = 0;
+                
+                SelectNextAction();
+            }
+
+
             Debug.Log(
                 $"{enemyData.enemyName} entered phase {i + 1} " +
                 $"at {currentEnemyHealth} health."
@@ -295,12 +309,12 @@ public class Enemy : MonoBehaviour
     {
         _currentActionIndex++;
 
-        if (_currentActionIndex >= enemyData.enemyActions.Count)
+        if (_currentActionIndex >= _availableActions.Count)
         {
             _currentActionIndex = 0;
         }
 
-        _currentAction = enemyData.enemyActions[_currentActionIndex];
+        _currentAction = _availableActions[_currentActionIndex];
         _enemyDisplay.UpdateEnemyDisplay();
     }
 
@@ -309,7 +323,7 @@ public class Enemy : MonoBehaviour
         var allowedActions = new List<EnemyActionData>();
         var oldCurrentAction = _currentAction;
 
-        foreach (var action in enemyData.enemyActions)
+        foreach (var action in _availableActions)
         {
             if (action.selectionWeight <= 0) continue;
             if (!CanUseAction(action)) continue;
@@ -326,7 +340,7 @@ public class Enemy : MonoBehaviour
         // Fallback if every action was filtered out
         if (allowedActions.Count == 0)
         {
-            foreach (var action in enemyData.enemyActions)
+            foreach (var action in _availableActions)
             {
                 if (action.selectionWeight <= 0) continue;
                 if (!CanUseAction(action)) continue;
@@ -341,13 +355,6 @@ public class Enemy : MonoBehaviour
                 $"{enemyData.enemyName} has no valid actions."
             );
 
-            _currentAction = null;
-            _enemyDisplay.UpdateEnemyDisplay();
-            return;
-        }
-        
-        if (allowedActions.Count == 0)
-        {
             _currentAction = null;
             _enemyDisplay.UpdateEnemyDisplay();
             return;

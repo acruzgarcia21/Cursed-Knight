@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff015732792c77e4eb49056e964b05b4, type: 3}
   m_Name: cheat
   m_EditorClassIdentifier: Assembly-CSharp::UtilityCard
-  cardName: de
+  cardName: cheat
   cardDescription: 
   cardType: 2
   targetType: 3
