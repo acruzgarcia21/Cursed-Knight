@@ -104,4 +104,7 @@ public class EnemyPhaseData
     public StatusEffect.StatusType statusType;
     public int statusAmount;
     public int statusDuration = -1;
+
+    [Header("Replacement Actions")] public bool replacesAction;
+    public List<EnemyActionData> replacementActions = new();
 }
