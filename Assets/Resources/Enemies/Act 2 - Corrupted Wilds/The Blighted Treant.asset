@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5eb00f26170b57f4ab8e5c56eafa0512, type: 3}
   m_Name: The Blighted Treant
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
+<<<<<<< HEAD
   enemyName: 
   enemySprite: {fileID: 0}
   enemyType: 0
@@ -111,3 +112,12 @@ MonoBehaviour:
       maximumConsecutiveUses: 0
       nextAttackBonusDamage: 0
       hidesEnemy: 0
+=======
+  enemyName: The Blighted Treant
+  enemySprite: {fileID: 0}
+  enemyType: 0
+  actionSelectionType: 0
+  enemyMaxHealth: 0
+  enemyActions: []
+  healthPhases: []
+>>>>>>> 5f51f8f7d66a546745498e22c46b969d27f72b5d
