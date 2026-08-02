@@ -10,21 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1cd9c383cbbfd24458b3beea015b76c5, type: 3}
-  m_Name: Crippling Strike
+  m_Name: Last Rites
   m_EditorClassIdentifier: Assembly-CSharp::Attack
-  cardName: Crippling Strike
-  cardDescription: Deal 4 damage. Apply Vulnerable for 2 turns.
+  cardName: Last Rites
+  cardDescription: Deal 24 Damage
   cardType: 0
   targetType: 0
   cardSprite: {fileID: 0}
-  cardEnergyCost: 1
+  cardEnergyCost: 3
   cardCorruptionGain: 0
   cardsToDraw: 0
   cardsToDiscardRandomly: 0
   cardsToDrawFromDiscard: 0
-  appliesStatus: 1
-  statusType: 2
+  appliesStatus: 0
+  statusType: 0
   statusAmount: 0
-  statusDuration: 2
-  cardDamage: 4
+  statusDuration: 0
+  retain: 0
+  exhaust: 1
+  spectral: 0
+  createsCards: 0
+  cardToCreate: {fileID: 0}
+  cardsToCreate: 0
+  createdCardDestination: 0
+  cardDamage: 24
   hitCount: 1

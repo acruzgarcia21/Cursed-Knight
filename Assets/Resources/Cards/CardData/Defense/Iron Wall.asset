@@ -10,15 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f9911114dda8cfa4992e1310ff0595be, type: 3}
-  m_Name: Unwavering fortitude
+  m_Name: Iron Wall
   m_EditorClassIdentifier: Assembly-CSharp::Defense
-  cardName: Unwavering fortitude
-  cardDescription: Gain 8 block. Draw 1 card
+  cardName: Iron Wall
+  cardDescription: Gain 11 Block
   cardType: 1
   targetType: 3
   cardSprite: {fileID: 0}
   cardEnergyCost: 2
   cardCorruptionGain: 0
-  cardsToDraw: 1
+  cardsToDraw: 0
   cardsToDiscardRandomly: 0
+  cardsToDrawFromDiscard: 0
+  appliesStatus: 0
+  statusType: 0
+  statusAmount: 0
+  statusDuration: 0
+  retain: 0
+  exhaust: 0
+  spectral: 0
+  createsCards: 0
+  cardToCreate: {fileID: 0}
+  cardsToCreate: 0
+  createdCardDestination: 0
   cardBlock: 8

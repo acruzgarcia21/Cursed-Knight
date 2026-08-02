@@ -10,24 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1cd9c383cbbfd24458b3beea015b76c5, type: 3}
-  m_Name: Blood Rend
+  m_Name: Rending Strike
   m_EditorClassIdentifier: Assembly-CSharp::Attack
-  cardName: Blood Rend
-  cardDescription: Deal 2 x 6 damage
+  cardName: Rending Strike
+  cardDescription: Deal 3 Damage. Apply 3 bleed for 2 turns.
   cardType: 0
   targetType: 0
   cardSprite: {fileID: 0}
-  cardEnergyCost: 1
-  cardCorruptionGain: 1
+  cardEnergyCost: 2
+  cardCorruptionGain: 0
   cardsToDraw: 0
   cardsToDiscardRandomly: 0
   cardsToDrawFromDiscard: 0
-  appliesStatus: 0
-  statusType: 0
-  statusAmount: 0
-  statusDuration: 0
+  appliesStatus: 1
+  statusType: 4
+  statusAmount: 3
+  statusDuration: 2
   retain: 0
   exhaust: 0
   spectral: 0
-  cardDamage: 6
-  hitCount: 2
+  createsCards: 0
+  cardToCreate: {fileID: 0}
+  cardsToCreate: 0
+  createdCardDestination: 0
+  cardDamage: 3
+  hitCount: 1

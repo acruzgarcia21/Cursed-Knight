@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bef9c9d9c0864fc47afc579069f09cc3, type: 3}
   m_Name: Battle Cry
   m_EditorClassIdentifier: Assembly-CSharp::Power
-  cardName: Power Test
+  cardName: Battle Cry
   cardDescription: Gain 2 strength for the rest of combat
   cardType: 3
   targetType: 3
@@ -26,3 +26,10 @@ MonoBehaviour:
   statusType: 0
   statusAmount: 2
   statusDuration: -1
+  retain: 0
+  exhaust: 0
+  spectral: 0
+  createsCards: 0
+  cardToCreate: {fileID: 0}
+  cardsToCreate: 0
+  createdCardDestination: 0
