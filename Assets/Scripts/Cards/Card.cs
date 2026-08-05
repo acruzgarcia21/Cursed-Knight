@@ -19,6 +19,9 @@ namespace CursedKnight
         public int cardsToDraw;
         public int cardsToDiscardRandomly;
         public int cardsToDrawFromDiscard;
+        public int cardHealthGain;
+        public int cardHealthLoss;
+        public int cardEnergyGain;
         
         [Space(10)] [Header("Status Effects")]
         public bool appliesStatus;

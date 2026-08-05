@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Crippling Blow
   m_EditorClassIdentifier: Assembly-CSharp::UtilityCard
   cardName: Crippling Blow
-  cardDescription: Apply 2 weakness to a single enemy
+  cardDescription: Apply 2 Weak
   cardType: 2
   targetType: 0
   cardSprite: {fileID: 0}
@@ -25,6 +25,13 @@ MonoBehaviour:
   appliesStatus: 1
   statusType: 1
   statusAmount: 2
-  statusDuration: 1
+  statusDuration: 2
+  retain: 0
+  exhaust: 0
+  spectral: 0
+  createsCards: 0
+  cardToCreate: {fileID: 0}
+  cardsToCreate: 0
+  createdCardDestination: 0
   cardHealthGain: 0
   cardEnergyGain: 0

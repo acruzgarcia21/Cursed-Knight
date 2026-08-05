@@ -13,12 +13,25 @@ MonoBehaviour:
   m_Name: Battle Trance
   m_EditorClassIdentifier: Assembly-CSharp::UtilityCard
   cardName: Battle Trance
-  cardDescription: Draw 1 card. Gain 1 Energy.
+  cardDescription: Draw 1 card.   Gain 1 energy.   Exhaust.
   cardType: 2
   targetType: 3
   cardSprite: {fileID: 0}
   cardEnergyCost: 0
   cardCorruptionGain: 0
   cardsToDraw: 1
+  cardsToDiscardRandomly: 0
+  cardsToDrawFromDiscard: 0
+  appliesStatus: 0
+  statusType: 0
+  statusAmount: 0
+  statusDuration: 0
+  retain: 0
+  exhaust: 1
+  spectral: 0
+  createsCards: 0
+  cardToCreate: {fileID: 0}
+  cardsToCreate: 0
+  createdCardDestination: 0
   cardHealthGain: 0
   cardEnergyGain: 1
