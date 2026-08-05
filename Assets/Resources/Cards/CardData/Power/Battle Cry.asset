@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Battle Cry
   m_EditorClassIdentifier: Assembly-CSharp::Power
   cardName: Battle Cry
-  cardDescription: Gain 2 strength for the rest of combat
+  cardDescription: Gain 2 Strength
   cardType: 3
   targetType: 3
   cardSprite: {fileID: 0}
-  cardEnergyCost: 0
+  cardEnergyCost: 2
   cardCorruptionGain: 0
   cardsToDraw: 0
   cardsToDiscardRandomly: 0

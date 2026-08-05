@@ -17,7 +17,7 @@ MonoBehaviour:
   cardType: 3
   targetType: 3
   cardSprite: {fileID: 0}
-  cardEnergyCost: 3
+  cardEnergyCost: 1
   cardCorruptionGain: 0
   cardsToDraw: 0
   cardsToDiscardRandomly: 0
@@ -26,3 +26,10 @@ MonoBehaviour:
   statusType: 6
   statusAmount: 1
   statusDuration: -1
+  retain: 0
+  exhaust: 0
+  spectral: 0
+  createsCards: 0
+  cardToCreate: {fileID: 0}
+  cardsToCreate: 0
+  createdCardDestination: 0

@@ -10,22 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bef9c9d9c0864fc47afc579069f09cc3, type: 3}
-  m_Name: Dark Momentum
+  m_Name: Endless Assault
   m_EditorClassIdentifier: Assembly-CSharp::Power
-  cardName: Dark Momentum
-  cardDescription: At the start of your turn, gain 1 Energy.
-  cardType: 3
-  targetType: 3
+  cardName: Endless Assault
+  cardDescription: The first time each turn you play a multi-hit Attack, draw 1 card.
+  cardType: 0
+  targetType: 0
   cardSprite: {fileID: 0}
   cardEnergyCost: 2
-  cardCorruptionGain: 3
+  cardCorruptionGain: 0
   cardsToDraw: 0
   cardsToDiscardRandomly: 0
   cardsToDrawFromDiscard: 0
-  appliesStatus: 1
-  statusType: 7
-  statusAmount: 1
-  statusDuration: -1
+  appliesStatus: 0
+  statusType: 0
+  statusAmount: 0
+  statusDuration: 0
   retain: 0
   exhaust: 0
   spectral: 0
