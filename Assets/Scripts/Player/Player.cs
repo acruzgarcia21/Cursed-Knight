@@ -113,6 +113,20 @@ public class Player : MonoBehaviour
         _playerDisplay.UpdatePlayerDisplay();
     }
 
+    public void LoseHealth(int healthToLose)
+    {
+        playerHealth -= healthToLose;
+        
+        playerHealth = Mathf.Clamp(playerHealth, 0, playerMaxHealth);
+
+        if (PlayerIsDead())
+        {
+            BattleManager.Instance.LoseBattle();
+        }
+
+        _playerDisplay.UpdatePlayerDisplay();
+    }
+
     public void Heal(int heal)
     {
         playerHealth += heal;
@@ -229,11 +243,6 @@ public class Player : MonoBehaviour
             
             playerHealth -= statusAmount;
             playerHealth = Mathf.Clamp(playerHealth, 0, playerMaxHealth);
-
-            Debug.Log(
-                $"Player Poison | Damage: {statusAmount} | " +
-                $"Health: {statusAmount} -> {playerHealth}"
-            );
         }
         
         if (_statusManager.HasStatus(StatusEffect.StatusType.Corruption))

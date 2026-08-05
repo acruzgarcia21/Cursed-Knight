@@ -192,6 +192,7 @@ public class CardPlayManager : MonoBehaviour
     {
         var cardData = runtimeCard.cardData;
 
+        ApplyCardHealthLoss(player, cardData);
         DrawCardsFromCard(cardData);
         ApplyRandomCardDiscard(cardData);
         DrawRandomCardFromDiscard(cardData);
@@ -312,6 +313,14 @@ public class CardPlayManager : MonoBehaviour
         if (cardData.cardCorruptionGain > 0)
         {
             player.GainCorruption(cardData.cardCorruptionGain);
+        }
+    }
+
+    private void ApplyCardHealthLoss(Player player, Card cardData)
+    {
+        if (cardData.cardHealthLoss > 0)
+        {
+            player.LoseHealth(cardData.cardHealthLoss);
         }
     }
 
