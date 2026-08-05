@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f9911114dda8cfa4992e1310ff0595be, type: 3}
-  m_Name: Last Stand
+  m_Name: Brace
   m_EditorClassIdentifier: Assembly-CSharp::Defense
-  cardName: Last Stand
-  cardDescription: Gain 20 Block
-  cardType: 1
-  targetType: 3
+  cardName: Brace
+  cardDescription: Gain 4 Block.
+  cardType: 0
+  targetType: 0
   cardSprite: {fileID: 0}
-  cardEnergyCost: 2
+  cardEnergyCost: 0
   cardCorruptionGain: 0
   cardsToDraw: 0
   cardsToDiscardRandomly: 0
@@ -27,10 +27,10 @@ MonoBehaviour:
   statusAmount: 0
   statusDuration: 0
   retain: 0
-  exhaust: 1
+  exhaust: 0
   spectral: 0
   createsCards: 0
   cardToCreate: {fileID: 0}
   cardsToCreate: 0
   createdCardDestination: 0
-  cardBlock: 20
+  cardBlock: 4

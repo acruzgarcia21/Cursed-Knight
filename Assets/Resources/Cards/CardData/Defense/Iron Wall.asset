@@ -33,4 +33,4 @@ MonoBehaviour:
   cardToCreate: {fileID: 0}
   cardsToCreate: 0
   createdCardDestination: 0
-  cardBlock: 8
+  cardBlock: 11

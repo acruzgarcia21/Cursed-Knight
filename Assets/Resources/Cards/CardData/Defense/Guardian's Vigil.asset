@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9911114dda8cfa4992e1310ff0595be, type: 3}
   m_Name: Guardian's Vigil
   m_EditorClassIdentifier: Assembly-CSharp::Defense
-  cardName: 
-  cardDescription: 
-  cardType: 0
-  targetType: 0
+  cardName: Guardian's Vigil
+  cardDescription: Gain 7 Block
+  cardType: 1
+  targetType: 3
   cardSprite: {fileID: 0}
-  cardEnergyCost: 0
+  cardEnergyCost: 1
   cardCorruptionGain: 0
   cardsToDraw: 0
   cardsToDiscardRandomly: 0
@@ -26,11 +26,11 @@ MonoBehaviour:
   statusType: 0
   statusAmount: 0
   statusDuration: 0
-  retain: 0
+  retain: 1
   exhaust: 0
   spectral: 0
   createsCards: 0
   cardToCreate: {fileID: 0}
   cardsToCreate: 0
   createdCardDestination: 0
-  cardBlock: 0
+  cardBlock: 7
