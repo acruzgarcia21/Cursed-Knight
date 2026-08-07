@@ -63,15 +63,16 @@ public class CardPlayManager : MonoBehaviour
         var attackCard = runtimeCard.cardData as Attack;
         if (attackCard == null) return false;
 
-        var finalAttackDamage =
-            player.GetModifiedAttackDamage(attackCard.cardDamage);
+        var scaledDamage = CalculateScaledAttackDamage(player, attackCard);
+
+        var finalAttackDamage = player.GetModifiedAttackDamage(scaledDamage);
 
         BeginCardPlay(player, attackCard);
 
         Debug.Log(
             $"Played attack card: {attackCard.cardName}," +
             $" Base Damage: {attackCard.cardDamage}," +
-            $" Modified Damage: {finalAttackDamage}"
+            $" Modified Damage: {finalAttackDamage}" 
         );
 
         switch (attackCard.targetType)
@@ -314,6 +315,20 @@ public class CardPlayManager : MonoBehaviour
         {
             player.GainCorruption(cardData.cardCorruptionGain);
         }
+    }
+
+    private int CalculateScaledAttackDamage(Player player, Attack cardData)
+    {
+        var baseDamage = cardData.cardDamage;
+        var scaledDamage = baseDamage;
+        
+        if (cardData.scalesWithCorruption && cardData.corruptionDamagePerPoint > 0)
+        {
+            var corruptionBonus = player.playerCorruption * cardData.corruptionDamagePerPoint;
+            scaledDamage += corruptionBonus;
+        }
+
+        return scaledDamage;
     }
 
     private void ApplyCardHealthLoss(Player player, Card cardData)

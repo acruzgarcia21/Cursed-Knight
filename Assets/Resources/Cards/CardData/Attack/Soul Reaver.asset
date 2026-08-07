@@ -23,6 +23,9 @@ MonoBehaviour:
   cardsToDraw: 0
   cardsToDiscardRandomly: 0
   cardsToDrawFromDiscard: 0
+  cardHealthGain: 0
+  cardHealthLoss: 0
+  cardEnergyGain: 0
   appliesStatus: 0
   statusType: 0
   statusAmount: 0
@@ -34,5 +37,7 @@ MonoBehaviour:
   cardToCreate: {fileID: 0}
   cardsToCreate: 0
   createdCardDestination: 0
-  cardDamage: 0
+  cardDamage: 10
   hitCount: 1
+  scalesWithCorruption: 1
+  corruptionDamagePerPoint: 2
