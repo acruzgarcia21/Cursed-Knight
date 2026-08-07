@@ -251,6 +251,18 @@ public class EnemyManager : MonoBehaviour
         return GetAvailableSpawnSlots().Count > 0;
     }
 
+    public bool DoesAnyEnemyHaveStatus(StatusEffect.StatusType statusType)
+    {
+        foreach (var enemy in GetLivingEnemies())
+        {
+            if (!enemy.HasStatus(statusType)) continue;
+
+            return true;
+        }
+        
+        return false;
+    }
+
     private void RefreshEnemyIntents()
     {
         foreach (var enemy in GetLivingEnemies())

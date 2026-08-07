@@ -592,6 +592,11 @@ public class Enemy : MonoBehaviour
         _statusManager.ApplyStatus(statusEffect);
         _statusManager.DebugPrintStatuses();
     }
+
+    public bool HasStatus(StatusEffect.StatusType statusType)
+    {
+        return _statusManager.HasStatus(statusType);
+    }
     
     private int GetModifiedIncomingDamage(int baseDamage)
     {

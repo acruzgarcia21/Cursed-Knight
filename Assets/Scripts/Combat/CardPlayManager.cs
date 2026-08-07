@@ -146,7 +146,9 @@ public class CardPlayManager : MonoBehaviour
         BeginCardPlay(player, defenseCard);
         ApplyCardStatus(player, defenseCard, targetEnemy);
 
-        player.GainBlock(defenseCard.cardBlock);
+        var finalBlockToGain = CalculateFinalBlock(defenseCard);
+
+        player.GainBlock(finalBlockToGain);
         
         CompleteCardPlay(runtimeCard, cardObject, player);
         
@@ -329,6 +331,20 @@ public class CardPlayManager : MonoBehaviour
         }
 
         return scaledDamage;
+    }
+    
+    private int CalculateFinalBlock(Defense cardData)
+    {
+        var baseBlock   = cardData.cardBlock;
+        var scaledBlock = baseBlock;
+        
+        // Blood Guard
+        if (_enemyManager.DoesAnyEnemyHaveStatus(StatusEffect.StatusType.Bleed) && cardData.bonusBlockIfEnemyHasBleed > 0)
+        {
+            scaledBlock += cardData.bonusBlockIfEnemyHasBleed;
+        }
+
+        return scaledBlock;
     }
 
     private void ApplyCardHealthLoss(Player player, Card cardData)
