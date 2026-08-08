@@ -18,6 +18,7 @@ public class StatusEffect
         Corruption,
         ViciousResolve,
         DarkMomentum,
-        DarkCommunion
+        DarkCommunion,
+        CorruptedSoul
     }
 }

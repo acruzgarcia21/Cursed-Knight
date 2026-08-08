@@ -172,6 +172,14 @@ public class Player : MonoBehaviour
             modifiedDamage -= weak;
         }
 
+        if (_statusManager.HasStatus(StatusEffect.StatusType.CorruptedSoul))
+        {
+            var damageIncrease = _statusManager.GetStatusAmount(StatusEffect.StatusType.CorruptedSoul);
+            var corruptionScale = playerCorruption * damageIncrease;
+
+            modifiedDamage += corruptionScale;
+        }
+
         if (modifiedDamage < 0) modifiedDamage = 0;
         
         return modifiedDamage;
