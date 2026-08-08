@@ -1,4 +1,3 @@
-using System;
 using CursedKnight;
 using UnityEngine;
 public class Player : MonoBehaviour
@@ -14,6 +13,7 @@ public class Player : MonoBehaviour
     public int playerCorruption;
     public int playerMaxCorruption = 10;
     public int corruptionDamage = 10;
+    public int nextAttackEnergyReduction;
     
     private PlayerDisplay _playerDisplay;
     private UIDisplay _uiDisplay;
@@ -31,6 +31,8 @@ public class Player : MonoBehaviour
 
     public void BattleSetup()
     {
+        ClearNextAttackEnergyReduction();
+        
         playerHealth = playerMaxHealth;
         playerEnergy = playerEnergyPerTurn;
         playerBlock = 0;
@@ -179,7 +181,17 @@ public class Player : MonoBehaviour
         _statusManager.ApplyStatus(statusEffect);
         _statusManager.DebugPrintStatuses();
     }
-    
+
+    public void AddNextAttackEnergyReduction(int amount)
+    {
+        if (amount < 0) return;
+        nextAttackEnergyReduction += amount;
+    }
+
+    public void ClearNextAttackEnergyReduction()
+    {
+        nextAttackEnergyReduction = 0;
+    }
     
     private int GetModifiedIncomingDamage(int baseDamage)
     {

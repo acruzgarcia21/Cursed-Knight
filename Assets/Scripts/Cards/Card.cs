@@ -39,7 +39,11 @@ namespace CursedKnight
         public Card cardToCreate;
         public int cardsToCreate;
         public CreatedCardDestination createdCardDestination;
-        
+
+        [Space(10)] [Header("Energy Reduction")]
+        public bool reducesNextAttackEnergy;
+
+        public int energyToReduce;
         public enum CreatedCardDestination
         {
             Hand,

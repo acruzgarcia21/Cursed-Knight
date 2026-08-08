@@ -35,8 +35,9 @@ public class CardPlayManager : MonoBehaviour
         }
 
         var cardData = runtimeCard.cardData;
+        var finalEnergyCardCost = CalculateFinalCardEnergyCost(cardData.cardEnergyCost, player, cardData.cardType);
 
-        if (player.playerEnergy < cardData.cardEnergyCost)
+        if (player.playerEnergy < finalEnergyCardCost)
         {
             Debug.Log("Not enough energy!");
             return false;
@@ -50,15 +51,15 @@ public class CardPlayManager : MonoBehaviour
 
         return cardData.cardType switch
         {
-            Card.CardType.Attack  => TryPlayAttack(player, runtimeCard, cardObject, targetEnemy),
-            Card.CardType.Defense => TryPlayDefense(player, runtimeCard, cardObject, targetEnemy),
-            Card.CardType.Utility => TryPlayUtility(player, runtimeCard, cardObject, targetEnemy),
-            Card.CardType.Power   => TryPlayPower(player, runtimeCard, cardObject),
+            Card.CardType.Attack  => TryPlayAttack(player, runtimeCard, cardObject, targetEnemy, finalEnergyCardCost),
+            Card.CardType.Defense => TryPlayDefense(player, runtimeCard, cardObject, targetEnemy, finalEnergyCardCost),
+            Card.CardType.Utility => TryPlayUtility(player, runtimeCard, cardObject, targetEnemy, finalEnergyCardCost),
+            Card.CardType.Power   => TryPlayPower(player, runtimeCard, cardObject, finalEnergyCardCost),
             _ => false
         };
     }
 
-    private bool TryPlayAttack(Player player, RuntimeCard runtimeCard, GameObject cardObject, Enemy targetEnemy)
+    private bool TryPlayAttack(Player player, RuntimeCard runtimeCard, GameObject cardObject, Enemy targetEnemy, int cardEnergyCost)
     {
         var attackCard = runtimeCard.cardData as Attack;
         if (attackCard == null) return false;
@@ -67,7 +68,9 @@ public class CardPlayManager : MonoBehaviour
 
         var finalAttackDamage = player.GetModifiedAttackDamage(scaledDamage);
 
-        BeginCardPlay(player, attackCard);
+        BeginCardPlay(player, attackCard, cardEnergyCost);
+        
+        player.ClearNextAttackEnergyReduction();
 
         Debug.Log(
             $"Played attack card: {attackCard.cardName}," +
@@ -138,12 +141,12 @@ public class CardPlayManager : MonoBehaviour
         return true;
     }
 
-    private bool TryPlayDefense(Player player, RuntimeCard runtimeCard, GameObject cardObject, Enemy targetEnemy)
+    private bool TryPlayDefense(Player player, RuntimeCard runtimeCard, GameObject cardObject, Enemy targetEnemy, int cardEnergyCost)
     {
         var defenseCard = runtimeCard.cardData as Defense;
         if (defenseCard == null) return false;
 
-        BeginCardPlay(player, defenseCard);
+        BeginCardPlay(player, defenseCard, cardEnergyCost);
         ApplyCardStatus(player, defenseCard, targetEnemy);
 
         var finalBlockToGain = CalculateFinalBlock(defenseCard);
@@ -155,13 +158,14 @@ public class CardPlayManager : MonoBehaviour
         return true;
     }
 
-    private bool TryPlayUtility(Player player, RuntimeCard runtimeCard, GameObject cardObject, Enemy targetEnemy)
+    private bool TryPlayUtility(Player player, RuntimeCard runtimeCard, GameObject cardObject, Enemy targetEnemy, int cardEnergyCost)
     {
         var utilityCard = runtimeCard.cardData as UtilityCard;
         if (utilityCard == null) return false;
 
-        BeginCardPlay(player, utilityCard);
+        BeginCardPlay(player, utilityCard, cardEnergyCost);
         ApplyCardStatus(player, utilityCard, targetEnemy);
+        ProcessNextCardEnergyReduction(utilityCard, player);
 
         if (utilityCard.cardEnergyGain > 0)
         {
@@ -178,12 +182,12 @@ public class CardPlayManager : MonoBehaviour
         return true;
     }
 
-    private bool TryPlayPower(Player player, RuntimeCard runtimeCard, GameObject cardObject)
+    private bool TryPlayPower(Player player, RuntimeCard runtimeCard, GameObject cardObject, int cardEnergyCost)
     {
         var powerCard = runtimeCard.cardData as Power;
         if (powerCard == null) return false;
 
-        BeginCardPlay(player, powerCard);
+        BeginCardPlay(player, powerCard, cardEnergyCost);
         ApplyCardStatus(player, powerCard, null);
         
         CompleteCardPlay(runtimeCard, cardObject, player);
@@ -297,17 +301,17 @@ public class CardPlayManager : MonoBehaviour
         }
     }
 
-    private void BeginCardPlay(Player player, Card cardData)
+    private void BeginCardPlay(Player player, Card cardData, int cardEnergyCost)
     {
         ApplyCardCorruption(player, cardData);
-        SpendCardEnergy(player, cardData);
+        SpendCardEnergy(player, cardEnergyCost);
     }
 
-    private void SpendCardEnergy(Player player, Card cardData)
+    private void SpendCardEnergy(Player player, int cardEnergyCost)
     {
-        if (cardData.cardEnergyCost > 0)
+        if (cardEnergyCost > 0)
         {
-            player.SpendEnergy(cardData.cardEnergyCost);
+            player.SpendEnergy(cardEnergyCost);
         }
     }
 
@@ -345,6 +349,20 @@ public class CardPlayManager : MonoBehaviour
         }
 
         return scaledBlock;
+    }
+
+    private int CalculateFinalCardEnergyCost(int cardEnergyCost, Player player, Card.CardType cardType)
+    {
+        var finalCardEnergyCost = cardEnergyCost;
+
+
+        if (player.nextAttackEnergyReduction > 0 && cardType == Card.CardType.Attack)
+        {
+            finalCardEnergyCost -= player.nextAttackEnergyReduction;
+            finalCardEnergyCost = Mathf.Max(finalCardEnergyCost, 0);
+        }
+        
+        return finalCardEnergyCost;
     }
 
     private void ApplyCardHealthLoss(Player player, Card cardData)
@@ -415,6 +433,15 @@ public class CardPlayManager : MonoBehaviour
 
                 break;
         }
+    }
+
+    private void ProcessNextCardEnergyReduction(Card cardData, Player player)
+    {
+        if (!cardData.reducesNextAttackEnergy) return;
+
+        var nextEnergyReduction = cardData.energyToReduce;
+
+        player.AddNextAttackEnergyReduction(nextEnergyReduction);
     }
 
     private void ResolveCardCreation(Card cardData)
