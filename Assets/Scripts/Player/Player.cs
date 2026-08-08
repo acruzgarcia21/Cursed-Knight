@@ -153,6 +153,7 @@ public class Player : MonoBehaviour
 
         if (playerCorruption < playerMaxCorruption) return;
         
+        ProcessMaxCorruptionTriggeredEffects();
         TriggerCorruptionOverflow();
     }
     
@@ -310,14 +311,34 @@ public class Player : MonoBehaviour
         var corruptedStatus = new StatusEffect
         {
             statusType = StatusEffect.StatusType.Corruption,
-            amount = 1,
-            duration = 2
+            amount     = 1,
+            duration   = 2
         };
 
         ApplyStatus(corruptedStatus);
 
         _playerDisplay.UpdatePlayerDisplay();
         _uiDisplay.UpdatePlayerCorruptionText(this);
+    }
+    
+    private void ProcessMaxCorruptionTriggeredEffects()
+    {
+        var statusEffect = _statusManager.GetStatus(StatusEffect.StatusType.DarkCommunion);
+
+        if (statusEffect == null) return;
+        if (statusEffect.hasTriggered) return;
+        if (statusEffect.statusToCreate == null) return;
+
+        var statusToCreate = new StatusEffect()
+        { 
+            statusType = statusEffect.statusToCreate.statusType,
+            amount     = statusEffect.statusToCreate.amount,
+            duration   = statusEffect.statusToCreate.duration
+        };
+            
+        ApplyStatus(statusToCreate);
+
+        statusEffect.hasTriggered = true;
     }
 
     public int GetStatusDuration(StatusEffect.StatusType statusType)

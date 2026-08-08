@@ -189,7 +189,6 @@ public class CardPlayManager : MonoBehaviour
 
         BeginCardPlay(player, powerCard, cardEnergyCost);
         ApplyCardStatus(player, powerCard, null);
-        
         CompleteCardPlay(runtimeCard, cardObject, player);
 
         return true;
@@ -411,13 +410,23 @@ public class CardPlayManager : MonoBehaviour
     private void ApplyCardStatus(Player player, Card cardData, Enemy targetEnemy)
     {
         if (!cardData.appliesStatus) return;
-
+        
         var statusEffect = new StatusEffect
         {
             statusType = cardData.statusType,
             amount = cardData.statusAmount,
             duration = cardData.statusDuration
         };
+        
+        if (cardData is Power powerCard && powerCard.statusToCreate != null)
+        {
+            statusEffect.statusToCreate = new StatusEffect
+            {
+                statusType = powerCard.statusToCreate.statusType,
+                amount     = powerCard.statusToCreate.amount,
+                duration   = powerCard.statusToCreate.duration
+            };
+        }
 
         switch (cardData.targetType)
         {
