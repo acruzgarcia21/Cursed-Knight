@@ -452,6 +452,21 @@ public class Enemy : MonoBehaviour
         }
     }
     
+    public void LoseHealth(int healthToLose)
+    {
+        currentEnemyHealth -= healthToLose;
+
+        currentEnemyHealth = Mathf.Clamp(currentEnemyHealth, 0, enemyData.enemyMaxHealth);
+
+        CheckHealthPhases();
+        _enemyDisplay.UpdateEnemyDisplay();
+
+        if (EnemyIsDead())
+        {
+            BattleManager.Instance.EnemyManager.RemoveEnemy(this);
+        }
+    }
+    
 
     // Allows for smarter enemy AI (Can be updated...)
     private bool CanUseAction(EnemyActionData action)

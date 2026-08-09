@@ -430,6 +430,17 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void ProcessBleedAppliedTriggerEffects(Enemy enemy)
+    {
+        if (enemy == null) return;
+        if (!_statusManager.HasStatus(StatusEffect.StatusType.BloodCurse)) return;
+
+        var bleedBonusDamage = _statusManager.GetStatusAmount(StatusEffect.StatusType.BloodCurse);
+        
+        if (bleedBonusDamage < 0) return;
+        enemy.LoseHealth(bleedBonusDamage);
+    }
+
     private void ProcessMaxCorruptionTriggeredEffects()
     {
         var statusEffect =

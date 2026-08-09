@@ -435,12 +435,18 @@ public class CardPlayManager : MonoBehaviour
                 break;
 
             case Card.TargetType.SingleEnemy:
-                if (targetEnemy != null)
+            {
+                if (targetEnemy == null) break;
+
+                targetEnemy.ApplyStatus(statusEffect);
+
+                if (statusEffect.statusType == StatusEffect.StatusType.Bleed)
                 {
-                    targetEnemy.ApplyStatus(statusEffect);
+                    player.ProcessBleedAppliedTriggerEffects(targetEnemy);
                 }
 
                 break;
+            }
         }
     }
 

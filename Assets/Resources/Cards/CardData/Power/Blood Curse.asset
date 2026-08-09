@@ -22,10 +22,13 @@ MonoBehaviour:
   cardsToDraw: 0
   cardsToDiscardRandomly: 0
   cardsToDrawFromDiscard: 0
-  appliesStatus: 0
-  statusType: 0
-  statusAmount: 0
-  statusDuration: 0
+  cardHealthGain: 0
+  cardHealthLoss: 0
+  cardEnergyGain: 0
+  appliesStatus: 1
+  statusType: 10
+  statusAmount: 2
+  statusDuration: -1
   retain: 0
   exhaust: 0
   spectral: 0
@@ -33,3 +36,9 @@ MonoBehaviour:
   cardToCreate: {fileID: 0}
   cardsToCreate: 0
   createdCardDestination: 0
+  reducesNextAttackEnergy: 0
+  energyToReduce: 0
+  statusToCreate:
+    statusType: 0
+    amount: 0
+    duration: 0

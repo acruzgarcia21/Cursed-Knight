@@ -20,6 +20,7 @@ public class StatusEffect
         DarkMomentum,
         DarkCommunion,
         CorruptedSoul,
-        BloodMoon
+        BloodMoon,
+        BloodCurse
     }
 }
