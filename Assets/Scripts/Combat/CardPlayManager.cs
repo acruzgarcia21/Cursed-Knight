@@ -202,6 +202,7 @@ public class CardPlayManager : MonoBehaviour
         DrawCardsFromCard(cardData);
         ApplyRandomCardDiscard(cardData);
         DrawRandomCardFromDiscard(cardData);
+        ApplyCardBonusEnergy(player, cardData);
 
         player.ProcessOnActionStatuses();
 
@@ -467,6 +468,23 @@ public class CardPlayManager : MonoBehaviour
         for (var i = 0; i < cardData.cardsToCreate; i++)
         {
             _deckManager.CreateCardDuringCombat(cardData.cardToCreate, cardData.createdCardDestination);
+        }
+    }
+
+    private void ApplyCardBonusEnergy(Player player, Card cardData)
+    {
+        if (!player.HasStatus(StatusEffect.StatusType.EndlessAssault)) return;
+        if (player.endlessAssaultTriggeredThisTurn)
+        {
+            Debug.Log("Already played a multihit attack, cannot gain more energy this turn!");
+            return;
+        }
+
+        if (cardData is Attack attackCard && attackCard.hitCount > 1)
+        {
+            var energyToGain = player.GetStatusAmount(StatusEffect.StatusType.EndlessAssault);
+            player.GainEnergy(energyToGain);
+            player.TriggerEndlessAssault();
         }
     }
 }

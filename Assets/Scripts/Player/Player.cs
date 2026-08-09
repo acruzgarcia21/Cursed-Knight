@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
 
     public int nextAttackEnergyReduction;
 
+    public bool endlessAssaultTriggeredThisTurn;
 
     // =========================================================
     // REFERENCES
@@ -48,6 +49,7 @@ public class Player : MonoBehaviour
     public void BattleSetup()
     {
         ClearNextAttackEnergyReduction();
+        ResetEndlessAssaultTrigger();
 
         playerHealth     = playerMaxHealth;
         playerEnergy     = playerEnergyPerTurn;
@@ -60,6 +62,7 @@ public class Player : MonoBehaviour
         ClearBlock();
         ResetEnergy();
         ProcessStartTurnEffects();
+        ResetEndlessAssaultTrigger();
 
         _uiDisplay.UpdatePlayerEnergyText(this);
         _uiDisplay.UpdatePlayerCorruptionText(this);
@@ -342,6 +345,16 @@ public class Player : MonoBehaviour
         return _statusManager.GetStatusDuration(statusType);
     }
 
+    public bool HasStatus(StatusEffect.StatusType statusType)
+    {
+        return _statusManager.HasStatus(statusType);
+    }
+
+    public int GetStatusAmount(StatusEffect.StatusType statusType)
+    {
+        return _statusManager.GetStatusAmount(statusType);
+    }
+
 
     // =========================================================
     // STATUS PROCESSING
@@ -460,5 +473,15 @@ public class Player : MonoBehaviour
         ApplyStatus(statusToCreate);
 
         statusEffect.hasTriggered = true;
+    }
+
+    private void ResetEndlessAssaultTrigger()
+    {
+        endlessAssaultTriggeredThisTurn = false;
+    }
+
+    public void TriggerEndlessAssault()
+    {
+        endlessAssaultTriggeredThisTurn = true;
     }
 }

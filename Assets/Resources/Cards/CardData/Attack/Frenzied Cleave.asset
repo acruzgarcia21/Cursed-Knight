@@ -17,11 +17,14 @@ MonoBehaviour:
   cardType: 0
   targetType: 0
   cardSprite: {fileID: 0}
-  cardEnergyCost: 3
+  cardEnergyCost: 1
   cardCorruptionGain: 2
   cardsToDraw: 0
   cardsToDiscardRandomly: 0
   cardsToDrawFromDiscard: 0
+  cardHealthGain: 0
+  cardHealthLoss: 0
+  cardEnergyGain: 0
   appliesStatus: 0
   statusType: 0
   statusAmount: 0
@@ -33,5 +36,9 @@ MonoBehaviour:
   cardToCreate: {fileID: 0}
   cardsToCreate: 0
   createdCardDestination: 0
+  reducesNextAttackEnergy: 0
+  energyToReduce: 0
   cardDamage: 10
   hitCount: 2
+  scalesWithCorruption: 0
+  corruptionDamagePerPoint: 0

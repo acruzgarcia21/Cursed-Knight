@@ -21,6 +21,9 @@ public class StatusEffect
         DarkCommunion,
         CorruptedSoul,
         BloodMoon,
-        BloodCurse
+        BloodCurse,
+        EndlessAssault,
+        AshesOfWar,
+        PatientHunter
     }
 }
