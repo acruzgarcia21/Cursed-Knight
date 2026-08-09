@@ -295,6 +295,16 @@ public class Player : MonoBehaviour
             GainBlock(blockToGain);
         }
     }
+
+    public int GetModifiedBleedDamage(int baseBleedDamage)
+    {
+        var modifiedBleedDamage = baseBleedDamage;
+        if (!_statusManager.HasStatus(StatusEffect.StatusType.BloodMoon)) return modifiedBleedDamage;
+        
+        modifiedBleedDamage = Mathf.FloorToInt(modifiedBleedDamage * 1.5f);
+
+        return modifiedBleedDamage;
+    }
     
     private void ClearBlock()
     {

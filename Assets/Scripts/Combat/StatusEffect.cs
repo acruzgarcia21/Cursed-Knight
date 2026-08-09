@@ -19,6 +19,7 @@ public class StatusEffect
         ViciousResolve,
         DarkMomentum,
         DarkCommunion,
-        CorruptedSoul
+        CorruptedSoul,
+        BloodMoon
     }
 }
