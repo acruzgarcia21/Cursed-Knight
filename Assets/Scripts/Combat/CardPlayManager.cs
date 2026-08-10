@@ -218,7 +218,7 @@ public class CardPlayManager : MonoBehaviour
                 RemoveCardFromCombat(cardObject);
                 break;
             case PostPlayDestination.Exhaust:
-                ExhaustCard(runtimeCard, cardObject);
+                ExhaustCard(runtimeCard, cardObject, player);
                 break;
         }
         
@@ -254,10 +254,12 @@ public class CardPlayManager : MonoBehaviour
         Destroy(cardObject);
     }
 
-    private void ExhaustCard(RuntimeCard runtimeCard, GameObject cardObject)
+    private void ExhaustCard(RuntimeCard runtimeCard, GameObject cardObject, Player player)
     {
         _handManager.RemoveCardFromHand(cardObject);
         _exhaustManager.AddToExhaustPile(runtimeCard);
+        
+        ApplyCardBonusBlock(player);
         
         Destroy(cardObject);
     }
@@ -486,5 +488,13 @@ public class CardPlayManager : MonoBehaviour
             player.GainEnergy(energyToGain);
             player.TriggerEndlessAssault();
         }
+    }
+
+    private void ApplyCardBonusBlock(Player player)
+    {
+        if (!player.HasStatus(StatusEffect.StatusType.AshesOfWar)) return;
+
+        var blockToGain = player.GetStatusAmount(StatusEffect.StatusType.AshesOfWar);
+        player.GainBlock(blockToGain);
     }
 }
