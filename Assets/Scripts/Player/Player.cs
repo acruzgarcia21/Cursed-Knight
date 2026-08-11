@@ -355,6 +355,11 @@ public class Player : MonoBehaviour
         return _statusManager.GetStatusAmount(statusType);
     }
 
+    public StatusEffect GetStatus(StatusEffect.StatusType statusType)
+    {
+        return _statusManager.GetStatus(statusType);
+    }
+
 
     // =========================================================
     // STATUS PROCESSING

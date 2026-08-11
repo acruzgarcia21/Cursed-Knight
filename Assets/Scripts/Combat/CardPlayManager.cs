@@ -136,6 +136,7 @@ public class CardPlayManager : MonoBehaviour
 
         player.ProcessCardTypeTriggeredEffects(attackCard.cardType);
         ApplyCardStatus(player, attackCard, targetEnemy);
+        ApplyCardAdditionalStatus(player, targetEnemy, attackCard);
         CompleteCardPlay(runtimeCard, cardObject, player);
 
         return true;
@@ -496,5 +497,27 @@ public class CardPlayManager : MonoBehaviour
 
         var blockToGain = player.GetStatusAmount(StatusEffect.StatusType.AshesOfWar);
         player.GainBlock(blockToGain);
+    }
+
+    private void ApplyCardAdditionalStatus(Player player, Enemy enemy, Attack cardData)
+    {
+        if (!player.HasStatus(StatusEffect.StatusType.PatientHunter)) return;
+        if (!cardData.retain) return;
+        
+        var statusEffect =
+            player.GetStatus(StatusEffect.StatusType.PatientHunter);
+
+        if (statusEffect == null) return;
+        
+        var statusToCreate = new StatusEffect
+        {
+            statusType = statusEffect.statusToCreate.statusType,
+            amount     = statusEffect.statusToCreate.amount,
+            duration   = statusEffect.statusToCreate.duration
+        };
+        
+        if (statusToCreate.statusToCreate == null) return;
+        
+        enemy.ApplyStatus(statusToCreate);
     }
 }
