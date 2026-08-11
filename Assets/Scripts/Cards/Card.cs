@@ -22,9 +22,10 @@ namespace CursedKnight
         public int cardHealthGain;
         public int cardHealthLoss;
         public int cardEnergyGain;
-        
-        [Space(10)] [Header("Status Effects")]
+
+        [Space(10)] [Header("Status Effects")] 
         public bool appliesStatus;
+        public StatusTargetType statusTargetType;
         public StatusEffect.StatusType statusType;
         public int statusAmount;
         public int statusDuration;
@@ -67,6 +68,14 @@ namespace CursedKnight
             RandomEnemy,
             Self,
             None
+        }
+
+        public enum StatusTargetType
+        {
+            SingleEnemy,
+            AllEnemies,
+            RandomEnemy,
+            Self
         }
     }
 }

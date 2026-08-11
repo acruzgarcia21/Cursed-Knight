@@ -22,6 +22,10 @@ MonoBehaviour:
   cardsToDraw: 0
   cardsToDiscardRandomly: 0
   cardsToDrawFromDiscard: 0
+  cardHealthGain: 0
+  cardHealthLoss: 0
+  cardEnergyGain: 0
+  statusTargetType: 1
   appliesStatus: 1
   statusType: 1
   statusAmount: 1
@@ -33,4 +37,7 @@ MonoBehaviour:
   cardToCreate: {fileID: 0}
   cardsToCreate: 0
   createdCardDestination: 0
+  reducesNextAttackEnergy: 0
+  energyToReduce: 0
   cardBlock: 8
+  bonusBlockIfEnemyHasBleed: 0

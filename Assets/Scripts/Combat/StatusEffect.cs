@@ -24,6 +24,6 @@ public class StatusEffect
         BloodCurse,
         EndlessAssault,
         AshesOfWar,
-        PatientHunter
+        PatientHunter,
     }
 }

@@ -9,4 +9,7 @@ public class Defense : Card
 
     [Space(10)] [Header("Bonus Block")] 
     public int bonusBlockIfEnemyHasBleed;
+    
+    [Space(10)] [Header("Status")] 
+    public bool appliesStatusToAllEnemies;
 }

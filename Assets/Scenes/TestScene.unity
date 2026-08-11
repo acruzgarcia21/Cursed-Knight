@@ -275,6 +275,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 626659452899945334, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -2222653123133775598, guid: e5c26b27d0c0ac64f8bfd83f43d1f3cf, type: 2}
     - target: {fileID: 4351492304481255019, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
       propertyPath: m_Name
       value: Canvas
@@ -648,7 +652,7 @@ PrefabInstance:
     - target: {fileID: 3064942670328895587, guid: 32da3d5058a3e9c4c9de9370bae55014, type: 3}
       propertyPath: encounter
       value: 
-      objectReference: {fileID: 11400000, guid: b33036205c8a38b44ad431199dcf1a4b, type: 2}
+      objectReference: {fileID: 11400000, guid: f62b11c17bddb7f4fb0b026165d4551f, type: 2}
     - target: {fileID: 3064942670328895587, guid: 32da3d5058a3e9c4c9de9370bae55014, type: 3}
       propertyPath: testEncounter
       value: 
