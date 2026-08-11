@@ -1,9 +1,13 @@
 public class StatusEffect
 {
     public StatusType statusType;
+    
     public int amount;
     public int duration;
+    
+    public bool hasTriggered = false;
 
+    public StatusEffect statusToCreate;
     public enum StatusType
     {
         Strength,
@@ -13,6 +17,13 @@ public class StatusEffect
         Bleed,
         Corruption,
         ViciousResolve,
-        DarkMomentum
+        DarkMomentum,
+        DarkCommunion,
+        CorruptedSoul,
+        BloodMoon,
+        BloodCurse,
+        EndlessAssault,
+        AshesOfWar,
+        PatientHunter,
     }
 }

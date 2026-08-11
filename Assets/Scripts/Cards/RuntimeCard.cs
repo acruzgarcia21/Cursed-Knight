@@ -2,11 +2,11 @@ using CursedKnight;
 
 public class RuntimeCard
 {
-    public Card cardData;
+    public readonly Card cardData;
     
-    public bool retain;
-    public bool exhaust;
-    public bool spectral;
+    public readonly bool retain;
+    public readonly bool exhaust;
+    public readonly bool spectral;
     public bool createdDuringCombat;
 
     public RuntimeCard(Card cardData, bool createdDuringCombat = false)

@@ -166,7 +166,7 @@ public class Enemy : MonoBehaviour
 
         ApplyCurrentActionStatus(player);
 
-        ProcessOnActionStatuses();
+        ProcessOnActionStatuses(player);
         if (EnemyIsDead()) return;
 
         ProcessEndTurnStatuses();
@@ -452,6 +452,21 @@ public class Enemy : MonoBehaviour
         }
     }
     
+    public void LoseHealth(int healthToLose)
+    {
+        currentEnemyHealth -= healthToLose;
+
+        currentEnemyHealth = Mathf.Clamp(currentEnemyHealth, 0, enemyData.enemyMaxHealth);
+
+        CheckHealthPhases();
+        _enemyDisplay.UpdateEnemyDisplay();
+
+        if (EnemyIsDead())
+        {
+            BattleManager.Instance.EnemyManager.RemoveEnemy(this);
+        }
+    }
+    
 
     // Allows for smarter enemy AI (Can be updated...)
     private bool CanUseAction(EnemyActionData action)
@@ -592,6 +607,11 @@ public class Enemy : MonoBehaviour
         _statusManager.ApplyStatus(statusEffect);
         _statusManager.DebugPrintStatuses();
     }
+
+    public bool HasStatus(StatusEffect.StatusType statusType)
+    {
+        return _statusManager.HasStatus(statusType);
+    }
     
     private int GetModifiedIncomingDamage(int baseDamage)
     {
@@ -625,19 +645,21 @@ public class Enemy : MonoBehaviour
         }
     }
     
-    private void ProcessOnActionStatuses()
+    private void ProcessOnActionStatuses(Player player)
     {
         if (_statusManager.HasStatus(StatusEffect.StatusType.Bleed))
         {
-            var bleedAmount = 
+            var baseBleedAmount = 
                 _statusManager.GetStatusAmount(StatusEffect.StatusType.Bleed);
+
+            var finalBleedAmount = player.GetModifiedBleedDamage(baseBleedAmount);
             
-            currentEnemyHealth -= bleedAmount;
+            currentEnemyHealth -= finalBleedAmount;
             currentEnemyHealth = Mathf.Clamp(currentEnemyHealth, 0, enemyData.enemyMaxHealth);
 
             Debug.Log(
-                $"Player Bleed | Damage: {currentEnemyHealth - bleedAmount} | " +
-                $"Health: {bleedAmount} -> {currentEnemyHealth}"
+                $"Player Bleed | Damage: {currentEnemyHealth - finalBleedAmount} | " +
+                $"Health: {finalBleedAmount} -> {currentEnemyHealth}"
             );
         }
         

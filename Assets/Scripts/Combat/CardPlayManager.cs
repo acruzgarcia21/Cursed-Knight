@@ -35,8 +35,9 @@ public class CardPlayManager : MonoBehaviour
         }
 
         var cardData = runtimeCard.cardData;
+        var finalEnergyCardCost = CalculateFinalCardEnergyCost(cardData.cardEnergyCost, player, cardData.cardType);
 
-        if (player.playerEnergy < cardData.cardEnergyCost)
+        if (player.playerEnergy < finalEnergyCardCost)
         {
             Debug.Log("Not enough energy!");
             return false;
@@ -50,28 +51,31 @@ public class CardPlayManager : MonoBehaviour
 
         return cardData.cardType switch
         {
-            Card.CardType.Attack  => TryPlayAttack(player, runtimeCard, cardObject, targetEnemy),
-            Card.CardType.Defense => TryPlayDefense(player, runtimeCard, cardObject, targetEnemy),
-            Card.CardType.Utility => TryPlayUtility(player, runtimeCard, cardObject, targetEnemy),
-            Card.CardType.Power   => TryPlayPower(player, runtimeCard, cardObject),
+            Card.CardType.Attack  => TryPlayAttack(player, runtimeCard, cardObject, targetEnemy, finalEnergyCardCost),
+            Card.CardType.Defense => TryPlayDefense(player, runtimeCard, cardObject, targetEnemy, finalEnergyCardCost),
+            Card.CardType.Utility => TryPlayUtility(player, runtimeCard, cardObject, targetEnemy, finalEnergyCardCost),
+            Card.CardType.Power   => TryPlayPower(player, runtimeCard, cardObject, finalEnergyCardCost),
             _ => false
         };
     }
 
-    private bool TryPlayAttack(Player player, RuntimeCard runtimeCard, GameObject cardObject, Enemy targetEnemy)
+    private bool TryPlayAttack(Player player, RuntimeCard runtimeCard, GameObject cardObject, Enemy targetEnemy, int cardEnergyCost)
     {
         var attackCard = runtimeCard.cardData as Attack;
         if (attackCard == null) return false;
 
-        var finalAttackDamage =
-            player.GetModifiedAttackDamage(attackCard.cardDamage);
+        var scaledDamage = CalculateScaledAttackDamage(player, attackCard);
 
-        BeginCardPlay(player, attackCard);
+        var finalAttackDamage = player.GetModifiedAttackDamage(scaledDamage);
+
+        BeginCardPlay(player, attackCard, cardEnergyCost);
+        
+        player.ClearNextAttackEnergyReduction();
 
         Debug.Log(
             $"Played attack card: {attackCard.cardName}," +
             $" Base Damage: {attackCard.cardDamage}," +
-            $" Modified Damage: {finalAttackDamage}"
+            $" Modified Damage: {finalAttackDamage}" 
         );
 
         switch (attackCard.targetType)
@@ -132,33 +136,43 @@ public class CardPlayManager : MonoBehaviour
 
         player.ProcessCardTypeTriggeredEffects(attackCard.cardType);
         ApplyCardStatus(player, attackCard, targetEnemy);
+        ApplyCardAdditionalStatus(player, targetEnemy, attackCard);
         CompleteCardPlay(runtimeCard, cardObject, player);
 
         return true;
     }
 
-    private bool TryPlayDefense(Player player, RuntimeCard runtimeCard, GameObject cardObject, Enemy targetEnemy)
+    private bool TryPlayDefense(Player player, RuntimeCard runtimeCard, GameObject cardObject, Enemy targetEnemy, int cardEnergyCost)
     {
         var defenseCard = runtimeCard.cardData as Defense;
         if (defenseCard == null) return false;
 
-        BeginCardPlay(player, defenseCard);
-        ApplyCardStatus(player, defenseCard, targetEnemy);
+        BeginCardPlay(player, defenseCard, cardEnergyCost);
+        
+        if (!defenseCard.appliesStatusToAllEnemies)
+        {
+            ApplyCardStatus(player, defenseCard, targetEnemy);
+        }
+        
+        ApplyAdditionalStatusToAllEnemies(player, defenseCard);
 
-        player.GainBlock(defenseCard.cardBlock);
+        var finalBlockToGain = CalculateFinalBlock(defenseCard);
+
+        player.GainBlock(finalBlockToGain);
         
         CompleteCardPlay(runtimeCard, cardObject, player);
         
         return true;
     }
 
-    private bool TryPlayUtility(Player player, RuntimeCard runtimeCard, GameObject cardObject, Enemy targetEnemy)
+    private bool TryPlayUtility(Player player, RuntimeCard runtimeCard, GameObject cardObject, Enemy targetEnemy, int cardEnergyCost)
     {
         var utilityCard = runtimeCard.cardData as UtilityCard;
         if (utilityCard == null) return false;
 
-        BeginCardPlay(player, utilityCard);
+        BeginCardPlay(player, utilityCard, cardEnergyCost);
         ApplyCardStatus(player, utilityCard, targetEnemy);
+        ProcessNextCardEnergyReduction(utilityCard, player);
 
         if (utilityCard.cardEnergyGain > 0)
         {
@@ -175,14 +189,13 @@ public class CardPlayManager : MonoBehaviour
         return true;
     }
 
-    private bool TryPlayPower(Player player, RuntimeCard runtimeCard, GameObject cardObject)
+    private bool TryPlayPower(Player player, RuntimeCard runtimeCard, GameObject cardObject, int cardEnergyCost)
     {
         var powerCard = runtimeCard.cardData as Power;
         if (powerCard == null) return false;
 
-        BeginCardPlay(player, powerCard);
+        BeginCardPlay(player, powerCard, cardEnergyCost);
         ApplyCardStatus(player, powerCard, null);
-        
         CompleteCardPlay(runtimeCard, cardObject, player);
 
         return true;
@@ -192,9 +205,11 @@ public class CardPlayManager : MonoBehaviour
     {
         var cardData = runtimeCard.cardData;
 
+        ApplyCardHealthLoss(player, cardData);
         DrawCardsFromCard(cardData);
         ApplyRandomCardDiscard(cardData);
         DrawRandomCardFromDiscard(cardData);
+        ApplyCardBonusEnergy(player, cardData);
 
         player.ProcessOnActionStatuses();
 
@@ -210,7 +225,7 @@ public class CardPlayManager : MonoBehaviour
                 RemoveCardFromCombat(cardObject);
                 break;
             case PostPlayDestination.Exhaust:
-                ExhaustCard(runtimeCard, cardObject);
+                ExhaustCard(runtimeCard, cardObject, player);
                 break;
         }
         
@@ -246,10 +261,12 @@ public class CardPlayManager : MonoBehaviour
         Destroy(cardObject);
     }
 
-    private void ExhaustCard(RuntimeCard runtimeCard, GameObject cardObject)
+    private void ExhaustCard(RuntimeCard runtimeCard, GameObject cardObject, Player player)
     {
         _handManager.RemoveCardFromHand(cardObject);
         _exhaustManager.AddToExhaustPile(runtimeCard);
+        
+        ApplyCardBonusBlock(player);
         
         Destroy(cardObject);
     }
@@ -293,17 +310,17 @@ public class CardPlayManager : MonoBehaviour
         }
     }
 
-    private void BeginCardPlay(Player player, Card cardData)
+    private void BeginCardPlay(Player player, Card cardData, int cardEnergyCost)
     {
         ApplyCardCorruption(player, cardData);
-        SpendCardEnergy(player, cardData);
+        SpendCardEnergy(player, cardEnergyCost);
     }
 
-    private void SpendCardEnergy(Player player, Card cardData)
+    private void SpendCardEnergy(Player player, int cardEnergyCost)
     {
-        if (cardData.cardEnergyCost > 0)
+        if (cardEnergyCost > 0)
         {
-            player.SpendEnergy(cardData.cardEnergyCost);
+            player.SpendEnergy(cardEnergyCost);
         }
     }
 
@@ -312,6 +329,56 @@ public class CardPlayManager : MonoBehaviour
         if (cardData.cardCorruptionGain > 0)
         {
             player.GainCorruption(cardData.cardCorruptionGain);
+        }
+    }
+
+    private int CalculateScaledAttackDamage(Player player, Attack cardData)
+    {
+        var baseDamage = cardData.cardDamage;
+        var scaledDamage = baseDamage;
+        
+        if (cardData.scalesWithCorruption && cardData.corruptionDamagePerPoint > 0)
+        {
+            var corruptionBonus = player.playerCorruption * cardData.corruptionDamagePerPoint;
+            scaledDamage += corruptionBonus;
+        }
+
+        return scaledDamage;
+    }
+    
+    private int CalculateFinalBlock(Defense cardData)
+    {
+        var baseBlock   = cardData.cardBlock;
+        var scaledBlock = baseBlock;
+        
+        // Blood Guard
+        if (_enemyManager.DoesAnyEnemyHaveStatus(StatusEffect.StatusType.Bleed) && cardData.bonusBlockIfEnemyHasBleed > 0)
+        {
+            scaledBlock += cardData.bonusBlockIfEnemyHasBleed;
+        }
+
+        return scaledBlock;
+    }
+
+    private int CalculateFinalCardEnergyCost(int cardEnergyCost, Player player, Card.CardType cardType)
+    {
+        var finalCardEnergyCost = cardEnergyCost;
+
+
+        if (player.nextAttackEnergyReduction > 0 && cardType == Card.CardType.Attack)
+        {
+            finalCardEnergyCost -= player.nextAttackEnergyReduction;
+            finalCardEnergyCost = Mathf.Max(finalCardEnergyCost, 0);
+        }
+        
+        return finalCardEnergyCost;
+    }
+
+    private void ApplyCardHealthLoss(Player player, Card cardData)
+    {
+        if (cardData.cardHealthLoss > 0)
+        {
+            player.LoseHealth(cardData.cardHealthLoss);
         }
     }
 
@@ -353,13 +420,23 @@ public class CardPlayManager : MonoBehaviour
     private void ApplyCardStatus(Player player, Card cardData, Enemy targetEnemy)
     {
         if (!cardData.appliesStatus) return;
-
+        
         var statusEffect = new StatusEffect
         {
             statusType = cardData.statusType,
             amount = cardData.statusAmount,
             duration = cardData.statusDuration
         };
+        
+        if (cardData is Power powerCard && powerCard.statusToCreate != null)
+        {
+            statusEffect.statusToCreate = new StatusEffect
+            {
+                statusType = powerCard.statusToCreate.statusType,
+                amount     = powerCard.statusToCreate.amount,
+                duration   = powerCard.statusToCreate.duration
+            };
+        }
 
         switch (cardData.targetType)
         {
@@ -368,13 +445,81 @@ public class CardPlayManager : MonoBehaviour
                 break;
 
             case Card.TargetType.SingleEnemy:
-                if (targetEnemy != null)
+            {
+                if (targetEnemy == null) break;
+
+                targetEnemy.ApplyStatus(statusEffect);
+
+                if (statusEffect.statusType == StatusEffect.StatusType.Bleed)
                 {
-                    targetEnemy.ApplyStatus(statusEffect);
+                    player.ProcessBleedAppliedTriggerEffects(targetEnemy);
                 }
 
                 break;
+            }
+            
+            case Card.TargetType.AllEnemies:
+                var livingEnemies = _enemyManager.GetLivingEnemies();
+
+                foreach (var enemy in livingEnemies)
+                {
+                    if (enemy == null) continue;
+                    if (enemy.isHidden) continue;
+                    
+                    var statusToApply = new StatusEffect
+                    {
+                        statusType = statusEffect.statusType,
+                        amount     = statusEffect.amount,
+                        duration   = statusEffect.duration
+                    };
+                    
+                    enemy.ApplyStatus(statusToApply);
+                    
+                    if (statusToApply.statusType == StatusEffect.StatusType.Bleed)
+                    {
+                        player.ProcessBleedAppliedTriggerEffects(enemy);
+                    }
+                }
+                
+                break;
         }
+    }
+    
+    private void ApplyAdditionalStatusToAllEnemies(Player player, Defense cardData)
+    {
+        if (!cardData.appliesStatusToAllEnemies) return;
+        if (!cardData.appliesStatus) return;
+
+        var livingEnemies = _enemyManager.GetLivingEnemies();
+
+        foreach (var enemy in livingEnemies)
+        {
+            if (enemy == null) continue;
+            if (enemy.isHidden) continue;
+
+            var statusEffect = new StatusEffect
+            {
+                statusType = cardData.statusType,
+                amount     = cardData.statusAmount,
+                duration   = cardData.statusDuration
+            };
+
+            enemy.ApplyStatus(statusEffect);
+
+            if (statusEffect.statusType == StatusEffect.StatusType.Bleed)
+            {
+                player.ProcessBleedAppliedTriggerEffects(enemy);
+            }
+        }
+    }
+
+    private void ProcessNextCardEnergyReduction(Card cardData, Player player)
+    {
+        if (!cardData.reducesNextAttackEnergy) return;
+
+        var nextEnergyReduction = cardData.energyToReduce;
+
+        player.AddNextAttackEnergyReduction(nextEnergyReduction);
     }
 
     private void ResolveCardCreation(Card cardData)
@@ -386,5 +531,52 @@ public class CardPlayManager : MonoBehaviour
         {
             _deckManager.CreateCardDuringCombat(cardData.cardToCreate, cardData.createdCardDestination);
         }
+    }
+
+    private void ApplyCardBonusEnergy(Player player, Card cardData)
+    {
+        if (!player.HasStatus(StatusEffect.StatusType.EndlessAssault)) return;
+        if (player.endlessAssaultTriggeredThisTurn)
+        {
+            Debug.Log("Already played a multihit attack, cannot gain more energy this turn!");
+            return;
+        }
+
+        if (cardData is Attack attackCard && attackCard.hitCount > 1)
+        {
+            var energyToGain = player.GetStatusAmount(StatusEffect.StatusType.EndlessAssault);
+            player.GainEnergy(energyToGain);
+            player.TriggerEndlessAssault();
+        }
+    }
+
+    private void ApplyCardBonusBlock(Player player)
+    {
+        if (!player.HasStatus(StatusEffect.StatusType.AshesOfWar)) return;
+
+        var blockToGain = player.GetStatusAmount(StatusEffect.StatusType.AshesOfWar);
+        player.GainBlock(blockToGain);
+    }
+
+    private void ApplyCardAdditionalStatus(Player player, Enemy enemy, Attack cardData)
+    {
+        if (!player.HasStatus(StatusEffect.StatusType.PatientHunter)) return;
+        if (!cardData.retain) return;
+        
+        var statusEffect =
+            player.GetStatus(StatusEffect.StatusType.PatientHunter);
+
+        if (statusEffect == null) return;
+        
+        var statusToCreate = new StatusEffect
+        {
+            statusType = statusEffect.statusToCreate.statusType,
+            amount     = statusEffect.statusToCreate.amount,
+            duration   = statusEffect.statusToCreate.duration
+        };
+        
+        if (statusToCreate.statusToCreate == null) return;
+        
+        enemy.ApplyStatus(statusToCreate);
     }
 }

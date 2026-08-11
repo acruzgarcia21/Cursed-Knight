@@ -19,9 +19,13 @@ namespace CursedKnight
         public int cardsToDraw;
         public int cardsToDiscardRandomly;
         public int cardsToDrawFromDiscard;
-        
-        [Space(10)] [Header("Status Effects")]
+        public int cardHealthGain;
+        public int cardHealthLoss;
+        public int cardEnergyGain;
+
+        [Space(10)] [Header("Status Effects")] 
         public bool appliesStatus;
+        public StatusTargetType statusTargetType;
         public StatusEffect.StatusType statusType;
         public int statusAmount;
         public int statusDuration;
@@ -36,7 +40,11 @@ namespace CursedKnight
         public Card cardToCreate;
         public int cardsToCreate;
         public CreatedCardDestination createdCardDestination;
-        
+
+        [Space(10)] [Header("Energy Reduction")]
+        public bool reducesNextAttackEnergy;
+
+        public int energyToReduce;
         public enum CreatedCardDestination
         {
             Hand,
@@ -60,6 +68,14 @@ namespace CursedKnight
             RandomEnemy,
             Self,
             None
+        }
+
+        public enum StatusTargetType
+        {
+            SingleEnemy,
+            AllEnemies,
+            RandomEnemy,
+            Self
         }
     }
 }

@@ -51,6 +51,21 @@ public class StatusManager : MonoBehaviour
         OnStatusesChanged?.Invoke();
     }
 
+    public StatusEffect GetStatus(StatusEffect.StatusType statusType)
+    {
+        StatusEffect statusEffect = null;
+        
+        foreach (var activeStatus in _activeStatuses)
+        {
+            if (activeStatus.statusType != statusType) continue;
+            
+            statusEffect = activeStatus;
+            break;
+        }
+        
+        return statusEffect;
+    }
+
     public bool HasStatus(StatusEffect.StatusType statusType)
     {
         foreach (var activeStatus in _activeStatuses)

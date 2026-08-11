@@ -7,4 +7,8 @@ public class Attack : Card
     [Space(10)] [Header("Damage")]
     public int cardDamage;
     public int hitCount = 1;
+
+    [Space(10)] [Header("Corruption Scaling")]
+    public bool scalesWithCorruption;
+    public int corruptionDamagePerPoint;
 }
