@@ -1,5 +1,40 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &176753638450960993
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2584768435673813534}
+  m_Layer: 0
+  m_Name: CombatFeedbackPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2584768435673813534
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 176753638450960993}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6073514364064266937}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 2.65}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &229024436392589935
 GameObject:
   m_ObjectHideFlags: 0
@@ -50,6 +85,7 @@ GameObject:
   - component: {fileID: 712689773128420859}
   - component: {fileID: -8450013649451895071}
   - component: {fileID: -7276984443892743945}
+  - component: {fileID: 5843339634897976796}
   m_Layer: 0
   m_Name: EnemyPrefab
   m_TagString: Untagged
@@ -121,6 +157,8 @@ MonoBehaviour:
   currentEnemyHealth: 0
   currentEnemyBlock: 0
   isHidden: 0
+  counterAttackActive: 0
+  actionCounterAttackDamage: 0
   spawnPoint: {fileID: 0}
   enemyData: {fileID: 0}
 --- !u!114 &-8450013649451895071
@@ -160,6 +198,20 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 68cc43f245e0dbd49a5209db29114c92, type: 2}
   - {fileID: 11400000, guid: 0e8f11bc20f024c4a99215a55272bf70, type: 2}
   statusManager: {fileID: 0}
+--- !u!114 &5843339634897976796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 478064832413887238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a19e637bf4edc654aae25653de5cf105, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CombatFeedbackManager
+  damageNumberPrefab: {fileID: 3199462357588498077, guid: 3b72b35554a989a458fa6e309b55d594, type: 3}
+  combatFeedbackPoint: {fileID: 2584768435673813534}
 --- !u!1 &600054750811521350
 GameObject:
   m_ObjectHideFlags: 0
@@ -2147,6 +2199,7 @@ RectTransform:
   - {fileID: 3813813371170055715}
   - {fileID: 4703968665629930713}
   - {fileID: 1360100642817570680}
+  - {fileID: 2584768435673813534}
   m_Father: {fileID: 1347849440437137522}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
