@@ -396,6 +396,18 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8296358720547394489, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+      propertyPath: blockUI
+      value: 
+      objectReference: {fileID: 255966900}
+    - target: {fileID: 8296358720547394489, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+      propertyPath: lifeTime
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8296358720547394489, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+      propertyPath: blockIcon
+      value: 
+      objectReference: {fileID: 1466054753}
+    - target: {fileID: 8296358720547394489, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
       propertyPath: blockPrefab
       value: 
       objectReference: {fileID: 255966900}
@@ -431,10 +443,17 @@ PrefabInstance:
       propertyPath: healthColor.r
       value: 0.9294118
       objectReference: {fileID: 0}
+    - target: {fileID: 8296358720547394489, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+      propertyPath: blockCanvasGroup
+      value: 
+      objectReference: {fileID: 255966902}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1513187536210747641, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 255966902}
   m_SourcePrefab: {fileID: 100100000, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
 --- !u!224 &255966899 stripped
 RectTransform:
@@ -446,6 +465,18 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1513187536210747641, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
   m_PrefabInstance: {fileID: 255966898}
   m_PrefabAsset: {fileID: 0}
+--- !u!225 &255966902
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 255966900}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!224 &353007379 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4207413169975408394, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
@@ -665,6 +696,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 944293790578884605, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
   m_PrefabInstance: {fileID: 255966898}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1466054753 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6588712895719697028, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+  m_PrefabInstance: {fileID: 255966898}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!224 &2074218211 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5447367602443561, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
