@@ -17,7 +17,7 @@ public class CardVisualEffects : MonoBehaviour
         glowEffect.SetActive(isGlowEffectActive);
     }
 
-    public void HandlePlayArrow(bool isPlayArrowActive)
+    public void ShowPlayArrow(bool isPlayArrowActive)
     {
         playArrow.SetActive(isPlayArrowActive);
     }

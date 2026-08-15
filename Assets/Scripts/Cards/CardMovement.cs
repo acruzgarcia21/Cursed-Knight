@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using CursedKnight;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
@@ -97,7 +98,7 @@ public class CardMovement : MonoBehaviour,
         _rectTransform.localPosition = _originalPosition;
 
         _cardVisualEffects.HandleGlowEffect(false);
-        _cardVisualEffects.HandlePlayArrow(false);
+        _cardVisualEffects.ShowPlayArrow(false);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -196,8 +197,7 @@ public class CardMovement : MonoBehaviour,
 
         if (_rectTransform.localPosition.y <= cardPlay.y) return;
 
-        _currentState = CardState.Playing;
-        _cardVisualEffects.HandlePlayArrow(true);
+        EnterPlayState();
     }
 
     private void HandleDragState()
@@ -223,7 +223,7 @@ public class CardMovement : MonoBehaviour,
         if (Input.mousePosition.y >= cardPlay.y) return;
 
         _currentState = CardState.Dragging;
-        _cardVisualEffects.HandlePlayArrow(false);
+        _cardVisualEffects.ShowPlayArrow(false);
     }
 
     private Enemy GetEnemyUnderPointer(PointerEventData eventData)
@@ -249,5 +249,21 @@ public class CardMovement : MonoBehaviour,
         }
 
         return null;
+    }
+
+    private bool UsesTargetingArrow()
+    {
+        var currentCard = _cardDisplay.runtimeCard;
+
+        if (currentCard == null) return false;
+        
+        return currentCard.cardData.targetType == Card.TargetType.SingleEnemy;
+    }
+
+    private void EnterPlayState()
+    {
+        _currentState = CardState.Playing;
+
+        _cardVisualEffects.ShowPlayArrow(UsesTargetingArrow());
     }
 }
