@@ -41,14 +41,14 @@ public class CardMovement : MonoBehaviour,
 
     private RectTransform _cardPlayPoint;
     private RectTransform _targetingPlayPoint;
+
+    private int _originalSiblingIndex;
     
     [SerializeField] private Vector2 cardPlay;
 
     [FormerlySerializedAs("moveSpeed")]
     [SerializeField] private float lerpFactor = 10f;
-
-    [SerializeField] private float targetingScale = 1.5f;
-
+    
     private void Awake()
     {
         _cardDisplay       = GetComponent<CardDisplay>();
@@ -86,23 +86,27 @@ public class CardMovement : MonoBehaviour,
         switch (_currentState)
         {
             case CardState.Hovering:
-                _cardVisualEffects.HandleHoverState(
-                    _rectTransform,
-                    _originalScale,
-                    lerpFactor
-                );
+                
+                _cardVisualEffects.HandleHoverState(_rectTransform, _originalScale, lerpFactor);
+                _cardVisualEffects.HandleRotationToUpright(_rectTransform, lerpFactor);
+                _cardVisualEffects.HandleHoverPosition(_rectTransform, _canvasRectTransform, lerpFactor);
+                
                 break;
 
             case CardState.Dragging:
+                
                 HandleDragState();
                 break;
 
             case CardState.Playing:
+                
                 HandlePlayState();
                 break;
 
             case CardState.Idle:
-            default:
+                
+                _cardVisualEffects.HandleScaleToNormal(_rectTransform, _originalScale, lerpFactor);
+                
                 break;
         }
     }
@@ -111,22 +115,24 @@ public class CardMovement : MonoBehaviour,
     {
         _currentState = CardState.Idle;
 
-        _rectTransform.localScale    = _originalScale;
         _rectTransform.localRotation = _originalRotation;
         _rectTransform.localPosition = _originalPosition;
-
+        
         _cardVisualEffects.HandleGlowEffect(false);
         _cardVisualEffects.ShowPlayArrow(false);
+        
+        _rectTransform.SetSiblingIndex(_originalSiblingIndex);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (_currentState != CardState.Idle) return;
 
-        _originalPosition = _rectTransform.localPosition;
-        _originalRotation = _rectTransform.localRotation;
-        _originalScale    = _rectTransform.localScale;
+        _originalPosition        = _rectTransform.localPosition;
+        _originalRotation        = _rectTransform.localRotation;
+        _originalSiblingIndex    = _rectTransform.GetSiblingIndex();
 
+        BringCardToFront();
         _currentState = CardState.Hovering;
     }
 
@@ -315,5 +321,10 @@ public class CardMovement : MonoBehaviour,
         {
             _rectTransform.localPosition = targetPosition;
         }
+    }
+
+    private void BringCardToFront()
+    {
+        _rectTransform.SetAsLastSibling();
     }
 }
