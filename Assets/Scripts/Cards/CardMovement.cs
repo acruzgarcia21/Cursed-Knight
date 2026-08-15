@@ -47,6 +47,8 @@ public class CardMovement : MonoBehaviour,
     [FormerlySerializedAs("moveSpeed")]
     [SerializeField] private float lerpFactor = 10f;
 
+    [SerializeField] private float targetingScale = 1.5f;
+
     private void Awake()
     {
         _cardDisplay       = GetComponent<CardDisplay>();
@@ -86,7 +88,8 @@ public class CardMovement : MonoBehaviour,
             case CardState.Hovering:
                 _cardVisualEffects.HandleHoverState(
                     _rectTransform,
-                    _originalScale
+                    _originalScale,
+                    lerpFactor
                 );
                 break;
 
