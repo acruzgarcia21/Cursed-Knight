@@ -11,10 +11,18 @@ public class PlayerDisplay : MonoBehaviour
     public TMP_Text playerBlockText;
     
     public Image playerSprite;
+    public Image playerHealthBarFill;
+
+    [SerializeField] private Color healthColor;
+    [SerializeField] private Color blockColor;
+
+    [SerializeField] private GameObject blockUI;
 
     public void Awake()
     {
         player = GetComponent<Player>();
+        
+        blockUI.SetActive(false);
     }
 
     private void Start()
@@ -25,6 +33,21 @@ public class PlayerDisplay : MonoBehaviour
     public void UpdatePlayerDisplay()
     {
         playerHealthText.text = player.playerHealth + "/" + player.playerMaxHealth;
+        
+        var healthPercent = (float)player.playerHealth / player.playerMaxHealth;
+        playerHealthBarFill.fillAmount = healthPercent;
+        
         playerBlockText.text = player.playerBlock.ToString();
+        
+        if (player.playerBlock > 0)
+        {
+            blockUI.SetActive(true);
+            playerHealthBarFill.color = blockColor;
+        }
+        else
+        {
+            blockUI.SetActive(false);
+            playerHealthBarFill.color = healthColor;
+        }
     }
 }
