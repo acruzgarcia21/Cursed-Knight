@@ -39,8 +39,10 @@ public class CardMovement : MonoBehaviour,
     private CardPlayManager _cardPlayManager;
     private CardVisualEffects _cardVisualEffects;
 
+    private RectTransform _cardPlayPoint;
+    private RectTransform _targetingPlayPoint;
+    
     [SerializeField] private Vector2 cardPlay;
-    [SerializeField] private Vector3 playPosition;
 
     [FormerlySerializedAs("moveSpeed")]
     [SerializeField] private float lerpFactor = 10f;
@@ -62,6 +64,19 @@ public class CardMovement : MonoBehaviour,
 
         _player          = FindFirstObjectByType<Player>();
         _cardPlayManager = FindFirstObjectByType<CardPlayManager>();
+        
+        var playPoint = FindFirstObjectByType<CardPlayPoint>();
+
+        if (playPoint != null)
+        {
+            _cardPlayPoint = playPoint.GetComponent<RectTransform>();
+        }
+
+        var targetPlayPoint = FindFirstObjectByType<TargetingCardPoint>();
+        if (targetPlayPoint != null)
+        {
+            _targetingPlayPoint = targetPlayPoint.GetComponent<RectTransform>();
+        }
     }
 
     private void Update()
@@ -150,7 +165,7 @@ public class CardMovement : MonoBehaviour,
 
         var targetEnemy = GetEnemyUnderPointer(eventData);
 
-        if (_rectTransform.localPosition.y > cardPlay.y)
+        if (_currentState == CardState.Playing)
         {
             var cardWasPlayed = _cardPlayManager.TryPlayCard(
                 _player,
@@ -207,17 +222,13 @@ public class CardMovement : MonoBehaviour,
 
     private void HandlePlayState()
     {
-        _rectTransform.localPosition = Vector3.Lerp(
-            _rectTransform.localPosition,
-            playPosition,
-            lerpFactor * Time.deltaTime
-        );
-
-        _rectTransform.localRotation = Quaternion.identity;
-
-        if (Vector3.Distance(_rectTransform.localPosition, playPosition) < 0.1f)
+        if (UsesTargetingArrow())
         {
-            _rectTransform.localPosition = playPosition;
+            HandleTargetingPlayState();
+        }
+        else
+        {
+            HandleCenterPlayState();
         }
 
         if (Input.mousePosition.y >= cardPlay.y) return;
@@ -265,5 +276,41 @@ public class CardMovement : MonoBehaviour,
         _currentState = CardState.Playing;
 
         _cardVisualEffects.ShowPlayArrow(UsesTargetingArrow());
+    }
+
+    private void HandleTargetingPlayState()
+    {
+        var targetPosition = _rectTransform.parent.InverseTransformPoint(_targetingPlayPoint.position);
+        
+        _rectTransform.localPosition = Vector3.Lerp(
+            _rectTransform.localPosition,
+            targetPosition,
+            lerpFactor * Time.deltaTime
+        );
+
+        _rectTransform.localRotation = Quaternion.identity;
+
+        if (Vector3.Distance(_rectTransform.localPosition, targetPosition) < 0.1f)
+        {
+            _rectTransform.localPosition = targetPosition;
+        }
+    }
+
+    private void HandleCenterPlayState()
+    {
+        var targetPosition = _rectTransform.parent.InverseTransformPoint(_cardPlayPoint.position);
+        
+        _rectTransform.localPosition = Vector3.Lerp(
+            _rectTransform.localPosition,
+            targetPosition,
+            lerpFactor * Time.deltaTime
+        );
+
+        _rectTransform.localRotation = Quaternion.identity;
+
+        if (Vector3.Distance(_rectTransform.localPosition, targetPosition) < 0.1f)
+        {
+            _rectTransform.localPosition = targetPosition;
+        }
     }
 }
