@@ -117,6 +117,7 @@ public class HandManager : MonoBehaviour
         foreach (var cardObject in cardsToRemove)
         {
             _cardsInHand.Remove(cardObject);
+            _handDisplay.RemoveCard(cardObject);
             Destroy(cardObject);
         }
 
@@ -139,6 +140,7 @@ public class HandManager : MonoBehaviour
             }
 
             _cardsInHand.RemoveAt(randomCardIndex);
+            _handDisplay.RemoveCard(cardObject);
             Destroy(cardObject);
         }
 
@@ -150,6 +152,7 @@ public class HandManager : MonoBehaviour
         if (cardToRemove == null) return;
 
         _cardsInHand.Remove(cardToRemove);
+        _handDisplay.RemoveCard(cardToRemove);
         _handDisplay.UpdateHandVisuals(_cardsInHand);
     }
 

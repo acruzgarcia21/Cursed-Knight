@@ -19,11 +19,8 @@ public class HandDisplay : MonoBehaviour
 
     public void Update()
     {
-        foreach (var cardTarget in _cardTargetPositions)
+        foreach (var (card, targetPosition) in _cardTargetPositions)
         {
-            var card = cardTarget.Key;
-            var targetPosition = cardTarget.Value;
-
             if (card == null) continue;
 
             if (card == _hoveredCard)
@@ -44,6 +41,17 @@ public class HandDisplay : MonoBehaviour
                 targetPosition,
                 handLerpFactor * Time.deltaTime);
         }
+
+        foreach (var (card, targetRotation) in _cardTargetRotations)
+        {
+            if (card == null) continue;
+            if (card == _hoveredCard) continue;
+            
+            card.transform.localRotation = Quaternion.Lerp(
+                card.transform.localRotation,
+                targetRotation,
+                handLerpFactor * Time.deltaTime);
+        }
     }
 
     public void UpdateHandVisuals(List<GameObject> cardsInHand)
@@ -55,7 +63,7 @@ public class HandDisplay : MonoBehaviour
         // Error handling for 1 card in hand
         if (cardCount == 1)
         {
-            cardsInHand[0].transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+            _cardTargetRotations[cardsInHand[0]] = Quaternion.Euler(0f, 0f, 0f);
 
             var targetPosition = new Vector3(0f, 0f, 0f);
             _cardTargetPositions[cardsInHand[0]] = targetPosition;
@@ -83,7 +91,8 @@ public class HandDisplay : MonoBehaviour
         {
             // Goes through every single card and goes through each rotation
             var rotationAngle = (fanSpread * (i - (cardCount - 1) / 2f));
-            cardsInHand[i].transform.localRotation = Quaternion.Euler(0f, 0f, rotationAngle);
+            
+            _cardTargetRotations[cardsInHand[i]] = Quaternion.Euler(0f, 0f, rotationAngle);
 
             // Give the hovered card extra room before it
             if (i == _hoveredCardIndex)
@@ -137,5 +146,17 @@ public class HandDisplay : MonoBehaviour
     {
         _hoveredCardIndex = -1;
         _hoveredCard = null;
+    }
+
+    public void RemoveCard(GameObject card)
+    {
+        _cardTargetPositions.Remove(card);
+        _cardTargetRotations.Remove(card);
+
+        if (card == _hoveredCard)
+        {
+            _hoveredCardIndex = -1;
+            _hoveredCard = null;
+        }
     }
 }
