@@ -12,7 +12,7 @@ public class CardMovement : MonoBehaviour,
     IPointerExitHandler
 {
     private RectTransform _rectTransform;
-    private Canvas _canvas;
+    private Canvas        _canvas;
     private RectTransform _canvasRectTransform;
 
     private Vector2 _originalLocalPointerPosition;
@@ -33,10 +33,14 @@ public class CardMovement : MonoBehaviour,
     private CardState _currentState = CardState.Idle;
 
     private Quaternion _originalRotation;
-    private Vector3 _originalPosition;
+    private Vector3    _originalPosition;
 
     private CardDisplay _cardDisplay;
+    private HandDisplay _handDisplay;
+    
     private CardPlayManager _cardPlayManager;
+    private HandManager     _handManager;
+    
     private CardVisualEffects _cardVisualEffects;
 
     private RectTransform _cardPlayPoint;
@@ -66,6 +70,8 @@ public class CardMovement : MonoBehaviour,
 
         _player          = FindFirstObjectByType<Player>();
         _cardPlayManager = FindFirstObjectByType<CardPlayManager>();
+        _handManager     = FindFirstObjectByType<HandManager>();
+        _handDisplay     = FindFirstObjectByType<HandDisplay>();
         
         var playPoint = FindFirstObjectByType<CardPlayPoint>();
 
@@ -118,10 +124,14 @@ public class CardMovement : MonoBehaviour,
         _rectTransform.localRotation = _originalRotation;
         _rectTransform.localPosition = _originalPosition;
         
-        _cardVisualEffects.HandleGlowEffect(false);
-        _cardVisualEffects.ShowPlayArrow(false);
+        _handDisplay.ClearHoveredCard();
         
         _rectTransform.SetSiblingIndex(_originalSiblingIndex);
+        
+        _handManager.RefreshHandVisuals();
+        
+        _cardVisualEffects.HandleGlowEffect(false);
+        _cardVisualEffects.ShowPlayArrow(false);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -132,6 +142,9 @@ public class CardMovement : MonoBehaviour,
         _originalRotation        = _rectTransform.localRotation;
         _originalSiblingIndex    = _rectTransform.GetSiblingIndex();
 
+        _handDisplay.SetHoveredCard(_originalSiblingIndex);
+        _handManager.RefreshHandVisuals();
+        
         BringCardToFront();
         _currentState = CardState.Hovering;
     }

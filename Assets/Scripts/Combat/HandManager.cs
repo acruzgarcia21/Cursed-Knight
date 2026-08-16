@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using CursedKnight;
-using UnityEngine.XR;
 
 public class HandManager : MonoBehaviour
 {
@@ -157,5 +156,10 @@ public class HandManager : MonoBehaviour
     public bool IsHandFull()
     {
         return _cardsInHand.Count >= maxCardsInHand;
+    }
+
+    public void RefreshHandVisuals()
+    {
+        _handDisplay.UpdateHandVisuals(_cardsInHand);
     }
 }
