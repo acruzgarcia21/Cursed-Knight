@@ -142,7 +142,7 @@ public class CardMovement : MonoBehaviour,
         _originalRotation        = _rectTransform.localRotation;
         _originalSiblingIndex    = _rectTransform.GetSiblingIndex();
 
-        _handDisplay.SetHoveredCard(_originalSiblingIndex);
+        _handDisplay.SetHoveredCard(_originalSiblingIndex, gameObject);
         _handManager.RefreshHandVisuals();
         
         BringCardToFront();

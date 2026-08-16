@@ -6,10 +6,45 @@ public class HandDisplay : MonoBehaviour
     public float fanSpread       = 7.5f;
     public float cardSpacing     = 100f;
     public float verticalSpacing = 100f;
-
+    
     private int _hoveredCardIndex = -1;
+    private GameObject _hoveredCard;
 
+    private readonly Dictionary<GameObject, Vector3>    _cardTargetPositions = new();
+    private readonly Dictionary<GameObject, Quaternion> _cardTargetRotations = new();
+
+    [SerializeField] private float handLerpFactor = 10f;
     [SerializeField] private float hoveredCardExtraWidth = 250f;
+    [SerializeField] private float edgeHoveredExtraWidth = 250f;
+
+    public void Update()
+    {
+        foreach (var cardTarget in _cardTargetPositions)
+        {
+            var card = cardTarget.Key;
+            var targetPosition = cardTarget.Value;
+
+            if (card == null) continue;
+
+            if (card == _hoveredCard)
+            {
+                var currentPosition = card.transform.localPosition;
+                var hoveredTargetPosition = new Vector3(targetPosition.x, currentPosition.y, currentPosition.z);
+
+                card.transform.localPosition = Vector3.Lerp(
+                    currentPosition,
+                    hoveredTargetPosition,
+                    handLerpFactor * Time.deltaTime);
+
+                continue;
+            }
+
+            card.transform.localPosition = Vector3.Lerp(
+                card.transform.localPosition,
+                targetPosition,
+                handLerpFactor * Time.deltaTime);
+        }
+    }
 
     public void UpdateHandVisuals(List<GameObject> cardsInHand)
     {
@@ -21,7 +56,10 @@ public class HandDisplay : MonoBehaviour
         if (cardCount == 1)
         {
             cardsInHand[0].transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
-            cardsInHand[0].transform.localPosition = new Vector3(0f, 0f, 0f);
+
+            var targetPosition = new Vector3(0f, 0f, 0f);
+            _cardTargetPositions[cardsInHand[0]] = targetPosition;
+
             return;
         }
 
@@ -29,7 +67,14 @@ public class HandDisplay : MonoBehaviour
 
         if (_hoveredCardIndex >= 0)
         {
-            totalHandWidth += hoveredCardExtraWidth;
+            if (_hoveredCardIndex == 0 || _hoveredCardIndex == cardCount - 1)
+            {
+                totalHandWidth += edgeHoveredExtraWidth;
+            }
+            else
+            {
+                totalHandWidth += hoveredCardExtraWidth;
+            }
         }
 
         var currentX = -totalHandWidth / 2f;
@@ -45,7 +90,7 @@ public class HandDisplay : MonoBehaviour
             {
                 if (_hoveredCardIndex == cardCount - 1)
                 {
-                    currentX += hoveredCardExtraWidth;
+                    currentX += edgeHoveredExtraWidth;
                 }
                 else if (_hoveredCardIndex > 0)
                 {
@@ -60,7 +105,9 @@ public class HandDisplay : MonoBehaviour
             var verticalOffset = verticalSpacing * (1 - normalizedPosition * normalizedPosition);
 
             // Set card positions
-            cardsInHand[i].transform.localPosition = new Vector3(horizontalOffset, verticalOffset, 0f);
+            var targetPosition = new Vector3(horizontalOffset, verticalOffset, 0f);
+
+            _cardTargetPositions[cardsInHand[i]] = targetPosition;
 
             // Move to the next normal card slot
             currentX += cardSpacing;
@@ -70,7 +117,7 @@ public class HandDisplay : MonoBehaviour
             {
                 if (_hoveredCardIndex == 0)
                 {
-                    currentX += hoveredCardExtraWidth;
+                    currentX += edgeHoveredExtraWidth;
                 }
                 else if (_hoveredCardIndex < cardCount - 1)
                 {
@@ -80,13 +127,15 @@ public class HandDisplay : MonoBehaviour
         }
     }
 
-    public void SetHoveredCard(int cardIndex)
+    public void SetHoveredCard(int cardIndex, GameObject hoveredCard)
     {
         _hoveredCardIndex = cardIndex;
+        _hoveredCard = hoveredCard;
     }
 
     public void ClearHoveredCard()
     {
         _hoveredCardIndex = -1;
+        _hoveredCard = null;
     }
 }

@@ -376,8 +376,12 @@ PrefabInstance:
       value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 9055779765195517715, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
-      propertyPath: hoveredCardExtraWidth
+      propertyPath: edgeHoveredExtraWidth
       value: 175
+      objectReference: {fileID: 0}
+    - target: {fileID: 9055779765195517715, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+      propertyPath: hoveredCardExtraWidth
+      value: 300
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
