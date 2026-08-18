@@ -277,7 +277,8 @@ public class CardMovement : MonoBehaviour,
 
             if (holdDuration <= clickThreshold)
             {
-                _handManager.SelectCard(gameObject);
+                _handDisplay.LetActiveCardControlPosition();
+
                 _currentState = CardState.Selected;
                 return;
             }
@@ -316,6 +317,8 @@ public class CardMovement : MonoBehaviour,
             _originalLocalPointerPosition = localPointerPosition;
             _originalPanelLocalPosition = _rectTransform.localPosition;
 
+            _handDisplay.LetActiveCardControlPosition();
+
             _currentState = CardState.Dragging;
             return;
         }
@@ -350,40 +353,40 @@ public class CardMovement : MonoBehaviour,
         {
             HandleCenterPlayState();
         }
-
+    
         if (_playingFromSelection && Input.GetMouseButtonDown(0))
         {
             var runtimeCard = _cardDisplay.runtimeCard;
-
+    
             if (UsesTargetingArrow())
             {
                 var pointerData = new PointerEventData(EventSystem.current)
                 {
                     position = Input.mousePosition
                 };
-
+    
                 var targetEnemy = GetEnemyUnderPointer(pointerData);
-
+    
                 if (targetEnemy == null) return;
-
+    
                 if (_cardPlayManager.TryPlayCard(_player, runtimeCard, gameObject, targetEnemy))
                 {
                     _cardHasBeenPlayed = true;
                 }
-
+    
                 return;
             }
-
+    
             if (_cardPlayManager.TryPlayCard(_player, runtimeCard, gameObject, null))
             {
                 _cardHasBeenPlayed = true;
             }
-
+    
             return;
         }
-
+    
         if (Input.mousePosition.y >= cardPlay.y) return;
-
+    
         if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
                 _canvasRectTransform,
                 Input.mousePosition,
@@ -391,13 +394,11 @@ public class CardMovement : MonoBehaviour,
                 out var localPointerPosition))
         {
             localPointerPosition /= _canvas.scaleFactor;
-
+    
             _originalLocalPointerPosition = localPointerPosition;
             _originalPanelLocalPosition = _rectTransform.localPosition;
         }
-
-        _handDisplay.LetHandControlPosition();
-
+    
         _currentState = CardState.Dragging;
         _cardVisualEffects.ShowPlayArrow(false);
     }
