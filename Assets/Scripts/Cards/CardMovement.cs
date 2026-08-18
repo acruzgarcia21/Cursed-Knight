@@ -161,7 +161,8 @@ public class CardMovement : MonoBehaviour,
         _rectTransform.localPosition = _originalPosition;
 
         _playingFromSelection = false;
-        
+
+        _handManager.ClearSelectedCard(gameObject);
         _handDisplay.ClearHoveredCard();
         
         _rectTransform.SetSiblingIndex(_originalSiblingIndex);
@@ -275,6 +276,7 @@ public class CardMovement : MonoBehaviour,
 
             if (holdDuration <= clickThreshold)
             {
+                _handManager.SelectCard(gameObject);
                 _currentState = CardState.Selected;
                 return;
             }
@@ -508,5 +510,17 @@ public class CardMovement : MonoBehaviour,
 
         _playingFromSelection = true;
         EnterPlayState();
+    }
+    
+    public void DeselectCard()
+    {
+        if (_currentState != CardState.Selected && 
+            !(_currentState == CardState.Playing && 
+              _playingFromSelection))
+        {
+            return;
+        }
+
+        ReturnToIdleState();
     }
 }

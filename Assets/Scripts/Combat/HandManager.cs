@@ -4,7 +4,9 @@ using CursedKnight;
 
 public class HandManager : MonoBehaviour
 {
-    public GameObject cardPrefab;
+    public GameObject  cardPrefab;
+    private GameObject _selectedCard;
+    
     public Transform handTransform;
     
     public int maxCardsInHand;
@@ -152,6 +154,7 @@ public class HandManager : MonoBehaviour
         if (cardToRemove == null) return;
 
         _cardsInHand.Remove(cardToRemove);
+        ClearSelectedCard(cardToRemove);
         _handDisplay.RemoveCard(cardToRemove);
         _handDisplay.UpdateHandVisuals(_cardsInHand);
     }
@@ -164,5 +167,30 @@ public class HandManager : MonoBehaviour
     public void RefreshHandVisuals()
     {
         _handDisplay.UpdateHandVisuals(_cardsInHand);
+    }
+    
+    public void SelectCard(GameObject card)
+    {
+        if (card == null) return;
+        if (_selectedCard == card) return;
+
+        if (_selectedCard != null)
+        {
+            var cardMovement = _selectedCard.GetComponent<CardMovement>();
+
+            if (cardMovement != null)
+            {
+                cardMovement.DeselectCard();
+            }
+        }
+
+        _selectedCard = card;
+    }
+
+    public void ClearSelectedCard(GameObject card)
+    {
+        if (_selectedCard != card) return;
+
+        _selectedCard = null;
     }
 }
