@@ -179,4 +179,9 @@ public class HandDisplay : MonoBehaviour
     {
         _activeCardControlsOwnPosition = false;
     }
+    
+    public bool CanHoverCard(GameObject card)
+    {
+        return _hoveredCard == null || _hoveredCard == card;
+    }
 }

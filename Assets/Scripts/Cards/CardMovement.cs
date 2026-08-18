@@ -176,6 +176,7 @@ public class CardMovement : MonoBehaviour,
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (_currentState != CardState.Idle) return;
+        if (!_handDisplay.CanHoverCard(gameObject)) return;
 
         _originalPosition     = _rectTransform.localPosition;
         _originalRotation     = _rectTransform.localRotation;
