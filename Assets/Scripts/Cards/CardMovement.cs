@@ -254,6 +254,8 @@ public class CardMovement : MonoBehaviour,
         }
 
         if (Input.mousePosition.y >= cardPlay.y) return;
+        
+        _handDisplay.LetHandControlPosition();
 
         _currentState = CardState.Dragging;
         _cardVisualEffects.ShowPlayArrow(false);
@@ -297,6 +299,11 @@ public class CardMovement : MonoBehaviour,
     {
         _currentState = CardState.Playing;
 
+        if (UsesTargetingArrow())
+        {
+            _handDisplay.LetActiveCardControlPosition();
+        }
+        
         _cardVisualEffects.ShowPlayArrow(UsesTargetingArrow());
     }
 

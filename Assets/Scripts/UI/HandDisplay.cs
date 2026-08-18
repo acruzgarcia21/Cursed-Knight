@@ -8,7 +8,10 @@ public class HandDisplay : MonoBehaviour
     public float verticalSpacing = 100f;
     
     private int _hoveredCardIndex = -1;
+    
     private GameObject _hoveredCard;
+
+    private bool _activeCardControlsOwnPosition;
 
     private readonly Dictionary<GameObject, Vector3>    _cardTargetPositions = new();
     private readonly Dictionary<GameObject, Quaternion> _cardTargetRotations = new();
@@ -25,6 +28,8 @@ public class HandDisplay : MonoBehaviour
 
             if (card == _hoveredCard)
             {
+                if (_activeCardControlsOwnPosition) continue;
+                
                 var currentPosition = card.transform.localPosition;
                 var hoveredTargetPosition = new Vector3(targetPosition.x, currentPosition.y, currentPosition.z);
 
@@ -146,6 +151,8 @@ public class HandDisplay : MonoBehaviour
     {
         _hoveredCardIndex = -1;
         _hoveredCard = null;
+        
+        LetHandControlPosition();
     }
 
     public void RemoveCard(GameObject card)
@@ -157,6 +164,19 @@ public class HandDisplay : MonoBehaviour
         {
             _hoveredCardIndex = -1;
             _hoveredCard = null;
+            
+            LetHandControlPosition();
         }
+        
+    }
+
+    public void LetActiveCardControlPosition()
+    {
+        _activeCardControlsOwnPosition = true;      
+    }
+
+    public void LetHandControlPosition()
+    {
+        _activeCardControlsOwnPosition = false;
     }
 }
