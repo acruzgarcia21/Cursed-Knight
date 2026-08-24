@@ -44,8 +44,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2747350141779629589}
+  - component: {fileID: 2205055739322809468}
   m_Layer: 5
-  m_Name: DiscardCountUI
+  m_Name: DiscardPileUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -72,6 +73,22 @@ RectTransform:
   m_AnchoredPosition: {x: 640, y: -490}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2205055739322809468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 98974401675244398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a104fcee0ff56d4998e5b46c36b26b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TooltipTrigger
+  tooltipData:
+    title: 
+    description: 
+  tooltipDisplay: {fileID: 8485563259153732089}
 --- !u!1 &467282946540906230
 GameObject:
   m_ObjectHideFlags: 0
@@ -280,6 +297,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6483915627137779292}
   - component: {fileID: 4882241929063823615}
+  - component: {fileID: 4231951046259577977}
   m_Layer: 5
   m_Name: EndTurnUI
   m_TagString: Untagged
@@ -364,6 +382,22 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &4231951046259577977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 908305894885990058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a104fcee0ff56d4998e5b46c36b26b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TooltipTrigger
+  tooltipData:
+    title: 
+    description: 
+  tooltipDisplay: {fileID: 8485563259153732089}
 --- !u!1 &1367551099630962760
 GameObject:
   m_ObjectHideFlags: 0
@@ -373,6 +407,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4168917700958173338}
+  - component: {fileID: 8485563259153732089}
   m_Layer: 5
   m_Name: ToolTipPanel
   m_TagString: Untagged
@@ -402,6 +437,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &8485563259153732089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1367551099630962760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 191eede973eff314294f9da79892967f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TooltipDisplay
+  toolTipPanel: {fileID: 1367551099630962760}
+  titleText: {fileID: 6604575450239477590}
+  descriptionText: {fileID: 4052221124051888535}
 --- !u!1 &1380187115329250953
 GameObject:
   m_ObjectHideFlags: 0
@@ -549,8 +599,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7819056212672925710}
+  - component: {fileID: 7923627974677954331}
   m_Layer: 5
-  m_Name: DrawPileCountUI
+  m_Name: DrawPileUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -577,6 +628,22 @@ RectTransform:
   m_AnchoredPosition: {x: -881.3, y: -477}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &7923627974677954331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1681330390054989339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a104fcee0ff56d4998e5b46c36b26b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TooltipTrigger
+  tooltipData:
+    title: 
+    description: 
+  tooltipDisplay: {fileID: 8485563259153732089}
 --- !u!1 &1822890852462318554
 GameObject:
   m_ObjectHideFlags: 0
@@ -1893,7 +1960,7 @@ GameObject:
   - component: {fileID: 4105622841831132579}
   - component: {fileID: 2326510179523281025}
   m_Layer: 5
-  m_Name: EnergyText
+  m_Name: EnergyTitleText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2027,6 +2094,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 471954708840488213}
+  - component: {fileID: 2089453352959911763}
   m_Layer: 5
   m_Name: ExhaustPileCountUI
   m_TagString: Untagged
@@ -2056,6 +2124,22 @@ RectTransform:
   m_AnchoredPosition: {x: 856, y: -490}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2089453352959911763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4636883903576877163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a104fcee0ff56d4998e5b46c36b26b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TooltipTrigger
+  tooltipData:
+    title: 
+    description: 
+  tooltipDisplay: {fileID: 8485563259153732089}
 --- !u!1 &4917408360382836340
 GameObject:
   m_ObjectHideFlags: 0
@@ -3572,6 +3656,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4634690903293728541}
+  - component: {fileID: 6701574625314341889}
   m_Layer: 5
   m_Name: CorruptionUI
   m_TagString: Untagged
@@ -3602,6 +3687,22 @@ RectTransform:
   m_AnchoredPosition: {x: -833, y: 456}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &6701574625314341889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8927621871790823504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a104fcee0ff56d4998e5b46c36b26b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TooltipTrigger
+  tooltipData:
+    title: 
+    description: 
+  tooltipDisplay: {fileID: 8485563259153732089}
 --- !u!1 &8938711840403900874
 GameObject:
   m_ObjectHideFlags: 0
@@ -3659,6 +3760,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 615094075324601843}
+  - component: {fileID: 7835559261648201872}
   m_Layer: 5
   m_Name: EnergyUI
   m_TagString: Untagged
@@ -3688,6 +3790,22 @@ RectTransform:
   m_AnchoredPosition: {x: -760, y: -389}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &7835559261648201872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8989753932288902753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a104fcee0ff56d4998e5b46c36b26b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TooltipTrigger
+  tooltipData:
+    title: 
+    description: 
+  tooltipDisplay: {fileID: 8485563259153732089}
 --- !u!1 &9119433651258637930
 GameObject:
   m_ObjectHideFlags: 0
