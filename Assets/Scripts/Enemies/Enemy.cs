@@ -16,10 +16,13 @@ public class Enemy : MonoBehaviour
     
     public EnemyData enemyData;
 
-    private EnemyDisplay  _enemyDisplay;
-    private StatusManager _statusManager;
-    private EnemyManager  _enemyManager;
+    private EnemyDisplay _enemyDisplay;
+    
+    private StatusManager         _statusManager;
+    private EnemyManager          _enemyManager;
     private CombatFeedbackManager _combatFeedbackManager;
+    
+    private EnemyVisualEffects    _enemyVisualEffects;
 
     private EnemyActionData _currentAction;
     private List<EnemyActionData> _availableActions;
@@ -37,10 +40,13 @@ public class Enemy : MonoBehaviour
     private void Awake()
     {
         _enemyDisplay          = GetComponent<EnemyDisplay>();
+        
         _statusManager         = GetComponent<StatusManager>();
         _combatFeedbackManager = GetComponent<CombatFeedbackManager>();
-
+        
         _enemyManager = FindAnyObjectByType<EnemyManager>();
+
+        _enemyVisualEffects = GetComponent<EnemyVisualEffects>();
     }
 
     public void BattleSetup()
@@ -429,6 +435,8 @@ public class Enemy : MonoBehaviour
 
                 var damageTaken = initialHp - currentEnemyHealth;
                 _combatFeedbackManager.ShowDamageNumber(damageTaken);
+                
+                _enemyVisualEffects.ApplyShake();
             }
         }
         else
@@ -437,6 +445,8 @@ public class Enemy : MonoBehaviour
 
             var damageTaken = initialHp - currentEnemyHealth;
             _combatFeedbackManager.ShowDamageNumber(damageTaken);
+            
+            _enemyVisualEffects.ApplyShake();
         }
 
         currentEnemyHealth = Mathf.Clamp(currentEnemyHealth, 0, enemyData.enemyMaxHealth);

@@ -86,6 +86,7 @@ GameObject:
   - component: {fileID: -8450013649451895071}
   - component: {fileID: -7276984443892743945}
   - component: {fileID: 5843339634897976796}
+  - component: {fileID: 7699032556255035868}
   m_Layer: 0
   m_Name: EnemyPrefab
   m_TagString: Untagged
@@ -212,6 +213,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CombatFeedbackManager
   damageNumberPrefab: {fileID: 3199462357588498077, guid: 3b72b35554a989a458fa6e309b55d594, type: 3}
   combatFeedbackPoint: {fileID: 2584768435673813534}
+--- !u!114 &7699032556255035868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 478064832413887238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b07d4257002dad04987c192d28c72150, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyVisualEffects
+  shakeDuration: 0.2
+  shakeStrength: 0.05
+  enemySpritePosition: {fileID: 3115518788143565174}
 --- !u!1 &600054750811521350
 GameObject:
   m_ObjectHideFlags: 0
