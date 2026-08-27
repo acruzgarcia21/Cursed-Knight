@@ -8,11 +8,20 @@ public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     [SerializeField] private TooltipDisplay tooltipDisplay;
 
+    [SerializeField] private RectTransform tooltipAnchor;
+
     private RectTransform _sourceRectTransform;
 
     private void Awake()
     {
-        _sourceRectTransform = GetComponent<RectTransform>();
+        if (tooltipAnchor != null)
+        {
+            _sourceRectTransform = tooltipAnchor;
+        }
+        else
+        {
+            _sourceRectTransform = GetComponent<RectTransform>();
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
