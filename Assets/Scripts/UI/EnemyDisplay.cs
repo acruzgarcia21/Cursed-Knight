@@ -102,7 +102,12 @@ public class EnemyDisplay : MonoBehaviour
 
         if (enemy.CurrentAction.blockAmount > 0)
         {
-            AddIntentEntry(blockIcon, enemy.CurrentAction.blockAmount.ToString(), null, ref entryIndex);
+            var tooltipData = new TooltipData(
+                "Block", 
+                "This enemy intends to gain " + enemy.CurrentAction.blockAmount + " block."
+            );
+            
+            AddIntentEntry(blockIcon, enemy.CurrentAction.blockAmount.ToString(), tooltipData, ref entryIndex);
         }
         
         if (enemy.CurrentAction.healingAmount > 0)
