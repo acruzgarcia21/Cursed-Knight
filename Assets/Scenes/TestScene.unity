@@ -119,11 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!224 &56429928 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 5309986525408934344, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
-  m_PrefabInstance: {fileID: 255966898}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &118185199
 GameObject:
   m_ObjectHideFlags: 0
@@ -280,6 +275,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 763974585786445045, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+      propertyPath: tooltipDisplay
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1320971971814414872, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+      propertyPath: tooltipDisplay
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2089453352959911763, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+      propertyPath: tooltipDisplay
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2205055739322809468, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+      propertyPath: tooltipDisplay
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3296399788481362234, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+      propertyPath: tooltipDisplay
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3539048143653428136, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+      propertyPath: tooltipDisplay
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3614524282135360082, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+      propertyPath: tooltipDisplay
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4231951046259577977, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+      propertyPath: tooltipDisplay
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4351492304481255019, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
       propertyPath: m_Name
       value: Canvas
@@ -288,6 +315,18 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1226077229}
+    - target: {fileID: 5577813787116542490, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+      propertyPath: tooltipDisplay
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5622601929555891186, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+      propertyPath: tooltipDisplay
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6701574625314341889, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+      propertyPath: tooltipDisplay
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6892807619614968781, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -368,18 +407,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8485563259153732089, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
-      propertyPath: m_Enabled
-      value: 0
+    - target: {fileID: 7835559261648201872, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+      propertyPath: tooltipDisplay
+      value: 
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 8485563259153732089, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+    - target: {fileID: 7923627974677954331, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+      propertyPath: tooltipDisplay
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7944542495248444407, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+      propertyPath: tooltipDisplay
+      value: 
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4351492304481255019, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2015822841}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
 --- !u!224 &255966899 stripped
 RectTransform:
@@ -463,11 +506,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1371076648}
   m_SourcePrefab: {fileID: 100100000, guid: 51af12a75ceee60468f78138d76bd8a1, type: 3}
---- !u!224 &475578109 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 5112098410219059373, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
-  m_PrefabInstance: {fileID: 255966898}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &651257800
 GameObject:
   m_ObjectHideFlags: 0
@@ -552,17 +590,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2364496811444987580, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
   m_PrefabInstance: {fileID: 255966898}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1031754828 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6604575450239477590, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
-  m_PrefabInstance: {fileID: 255966898}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!114 &1201896290 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4211091096141139433, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
@@ -596,11 +623,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
---- !u!1 &1353279593 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1367551099630962760, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
-  m_PrefabInstance: {fileID: 255966898}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1371076646 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8021190111436586399, guid: 51af12a75ceee60468f78138d76bd8a1, type: 3}
@@ -621,60 +643,11 @@ MonoBehaviour:
   playerEnergyText: {fileID: 1201896290}
   playerCorruptionText: {fileID: 134950845}
   playerCorruptionRoundsText: {fileID: 1314260802}
---- !u!114 &1399461679 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4052221124051888535, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
-  m_PrefabInstance: {fileID: 255966898}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!224 &1455403557 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 944293790578884605, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
   m_PrefabInstance: {fileID: 255966898}
   m_PrefabAsset: {fileID: 0}
---- !u!224 &1895449180 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 579857723517063994, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
-  m_PrefabInstance: {fileID: 255966898}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &2015822836 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4351492304481255019, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
-  m_PrefabInstance: {fileID: 255966898}
-  m_PrefabAsset: {fileID: 0}
---- !u!224 &2015822837 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 6892807619614968781, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
-  m_PrefabInstance: {fileID: 255966898}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2015822841
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2015822836}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 191eede973eff314294f9da79892967f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TooltipDisplay
-  toolTipPanel: {fileID: 1353279593}
-  titleText: {fileID: 1031754828}
-  descriptionText: {fileID: 1399461679}
-  tooltipOffsetX: 160
-  backgroundPadding: 10
-  bottomPadding: 25
-  borderPadding: 5
-  canvasTransform: {fileID: 2015822837}
-  contentTransform: {fileID: 475578109}
-  borderTransform: {fileID: 1895449180}
-  mainBackgroundTransform: {fileID: 56429928}
 --- !u!224 &2074218211 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5447367602443561, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}

@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EnemyDisplay : MonoBehaviour, ITooltipProvider
+public class EnemyDisplay : MonoBehaviour
 {
     public Enemy enemy;
 
@@ -76,36 +76,53 @@ public class EnemyDisplay : MonoBehaviour, ITooltipProvider
             var intentDamage = enemy.GetCurrentIntentDamage();
             var hitCount = Mathf.Max(1, enemy.CurrentAction.hitCount);
 
+            TooltipData tooltipData;
+            
+            if (hitCount == 1)
+            {
+                tooltipData = new TooltipData(
+                    "Attack", 
+                    "This enemy intends to deal " + intentDamage + " damage."
+                );
+            }
+            else
+            {
+                tooltipData = new TooltipData(
+                    "Attack", 
+                    "This enemy intends to deal " + intentDamage + " damage " + hitCount + " times."
+                );
+            }
+
             var formattedDamage = hitCount > 1
                 ? $"{intentDamage} x {hitCount}"
                 : intentDamage.ToString();
 
-            AddIntentEntry(attackIcon, formattedDamage, ref entryIndex);
+            AddIntentEntry(attackIcon, formattedDamage, tooltipData, ref entryIndex);
         }
 
         if (enemy.CurrentAction.blockAmount > 0)
         {
-            AddIntentEntry(blockIcon, enemy.CurrentAction.blockAmount.ToString(), ref entryIndex);
+            AddIntentEntry(blockIcon, enemy.CurrentAction.blockAmount.ToString(), null, ref entryIndex);
         }
         
         if (enemy.CurrentAction.healingAmount > 0)
         {
-            AddIntentEntry(healIcon, enemy.CurrentAction.healingAmount.ToString(), ref entryIndex);
+            AddIntentEntry(healIcon, enemy.CurrentAction.healingAmount.ToString(), null, ref entryIndex);
         }
 
         if (enemy.CurrentAction.nextAttackBonusDamage > 0)
         {
-            AddIntentEntry(bonusDamageIcon, "", ref entryIndex);
+            AddIntentEntry(bonusDamageIcon, "", null, ref entryIndex);
         }
         
         if (enemy.CurrentAction.hidesEnemy)
         {
-            AddIntentEntry(hideIntentIcon, "", ref entryIndex);
+            AddIntentEntry(hideIntentIcon, "", null, ref entryIndex);
         }
         
         if (enemy.CurrentAction.enemyToSummon != null && enemy.CurrentAction.enemiesToSummon > 0)
         {
-            AddIntentEntry(summonEnemyIcon, enemy.CurrentAction.enemiesToSummon.ToString(), ref entryIndex);
+            AddIntentEntry(summonEnemyIcon, enemy.CurrentAction.enemiesToSummon.ToString(), null, ref entryIndex);
         }
 
         if (enemy.CurrentAction.appliesStatus && enemy.CurrentAction.statusAmount > 0)
@@ -115,49 +132,24 @@ public class EnemyDisplay : MonoBehaviour, ITooltipProvider
                 case EnemyActionData.StatusTargetType.Self:
                 case EnemyActionData.StatusTargetType.RandomAlly:
                 case EnemyActionData.StatusTargetType.AllOtherAllies:
-                    AddIntentEntry(buffIcon, enemy.CurrentAction.statusDuration.ToString(), ref entryIndex);
+                    AddIntentEntry(buffIcon, enemy.CurrentAction.statusDuration.ToString(), null, ref entryIndex);
                     break;
                 case EnemyActionData.StatusTargetType.Player:
-                    AddIntentEntry(debuffIcon, enemy.CurrentAction.statusAmount.ToString(), ref entryIndex);
+                    AddIntentEntry(debuffIcon, enemy.CurrentAction.statusAmount.ToString(), null, ref entryIndex);
                     break;
             }
         }
     }
     
-    private void AddIntentEntry(Sprite icon, string text, ref int entryIndex)
+    private void AddIntentEntry(Sprite icon, string text, TooltipData tooltipData, ref int entryIndex)
     {
         if (icon == null || intentEntries == null || entryIndex >= intentEntries.Length)
         {
             return;
         }
 
-        intentEntries[entryIndex].DisplayIntent(icon, text);
+        intentEntries[entryIndex].DisplayIntent(icon, text, tooltipData);
         entryIndex++;
     }
-
-    public TooltipData GetTooltipData()
-    {
-        if (enemy.CurrentAction == null) return null;
-
-        if (enemy.CurrentAction.damage > 0)
-        {
-            var intentDamage = enemy.GetCurrentIntentDamage();
-            var hitCount = enemy.CurrentAction.hitCount;
-
-            if (hitCount == 1)
-            {
-                return new TooltipData(
-                    "Attack", 
-                    "This enemy intends to deal " + intentDamage + " damage"
-                    );
-            }
-
-            return new TooltipData(
-                "Attack", 
-                "This enemy intends to deal " + intentDamage + " damage " + hitCount + " times."
-            );
-        }
-        
-        return null;
-    }
+    
 }
