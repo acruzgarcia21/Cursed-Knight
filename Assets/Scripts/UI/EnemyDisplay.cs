@@ -104,7 +104,7 @@ public class EnemyDisplay : MonoBehaviour
         {
             var tooltipData = new TooltipData(
                 "Block", 
-                "This enemy intends to gain " + enemy.CurrentAction.blockAmount + " block."
+                "This enemy intends to gain " + enemy.CurrentAction.blockAmount + " Block."
             );
             
             AddIntentEntry(blockIcon, enemy.CurrentAction.blockAmount.ToString(), tooltipData, ref entryIndex);
@@ -112,22 +112,48 @@ public class EnemyDisplay : MonoBehaviour
         
         if (enemy.CurrentAction.healingAmount > 0)
         {
-            AddIntentEntry(healIcon, enemy.CurrentAction.healingAmount.ToString(), null, ref entryIndex);
+            var tooltipData = new TooltipData(
+                "Heal", 
+                "This enemy intends to heal for " + enemy.CurrentAction.healingAmount + " HP."
+            );
+            
+            AddIntentEntry(healIcon, enemy.CurrentAction.healingAmount.ToString(), tooltipData, ref entryIndex);
         }
 
         if (enemy.CurrentAction.nextAttackBonusDamage > 0)
         {
-            AddIntentEntry(bonusDamageIcon, "", null, ref entryIndex);
+            var tooltipData = new TooltipData(
+                "Bonus Damage", 
+                "This enemy intends to increase the damage of its next attack by " 
+                + enemy.CurrentAction.nextAttackBonusDamage + "."
+            );
+            
+            AddIntentEntry(bonusDamageIcon, "", tooltipData, ref entryIndex);
         }
         
         if (enemy.CurrentAction.hidesEnemy)
         {
-            AddIntentEntry(hideIntentIcon, "", null, ref entryIndex);
+            var tooltipData = new TooltipData(
+                "Hide", 
+                "This enemy intends to hide."
+            );
+            
+            AddIntentEntry(hideIntentIcon, "", tooltipData, ref entryIndex);
         }
         
         if (enemy.CurrentAction.enemyToSummon != null && enemy.CurrentAction.enemiesToSummon > 0)
         {
-            AddIntentEntry(summonEnemyIcon, enemy.CurrentAction.enemiesToSummon.ToString(), null, ref entryIndex);
+            var tooltipData = new TooltipData(
+                "Summon", 
+                "This enemy intends to summon " + enemy.CurrentAction.enemiesToSummon + " allies."
+            );
+            
+            AddIntentEntry(
+                summonEnemyIcon, 
+                enemy.CurrentAction.enemiesToSummon.ToString(), 
+                tooltipData,
+                ref entryIndex
+                );
         }
 
         if (enemy.CurrentAction.appliesStatus && enemy.CurrentAction.statusAmount > 0)
@@ -137,10 +163,32 @@ public class EnemyDisplay : MonoBehaviour
                 case EnemyActionData.StatusTargetType.Self:
                 case EnemyActionData.StatusTargetType.RandomAlly:
                 case EnemyActionData.StatusTargetType.AllOtherAllies:
-                    AddIntentEntry(buffIcon, enemy.CurrentAction.statusDuration.ToString(), null, ref entryIndex);
+                    var tooltipBuffData = new TooltipData(
+                        "Buff", 
+                        "This enemy intends to buff."
+                    );
+                    
+                    AddIntentEntry(
+                        buffIcon, 
+                        enemy.CurrentAction.statusDuration.ToString(), 
+                        tooltipBuffData, 
+                        ref entryIndex
+                        );
+                    
                     break;
                 case EnemyActionData.StatusTargetType.Player:
-                    AddIntentEntry(debuffIcon, enemy.CurrentAction.statusAmount.ToString(), null, ref entryIndex);
+                    var tooltipDebuffData = new TooltipData(
+                        "Debuff", 
+                        "This enemy intends to debuff."
+                    );
+                    
+                    AddIntentEntry(
+                        debuffIcon, 
+                        enemy.CurrentAction.statusAmount.ToString(), 
+                        tooltipDebuffData, 
+                        ref entryIndex
+                        );
+                    
                     break;
             }
         }
