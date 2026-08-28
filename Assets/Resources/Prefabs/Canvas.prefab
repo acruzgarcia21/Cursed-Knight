@@ -4879,66 +4879,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6892807619614968781}
     m_Modifications:
-    - target: {fileID: 874935782101063739, guid: 89d829daba9b82a42a8731d3fa90ddd0, type: 3}
-      propertyPath: m_ChildControlHeight
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 874935782101063739, guid: 89d829daba9b82a42a8731d3fa90ddd0, type: 3}
-      propertyPath: m_ChildForceExpandHeight
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1487986465597356407, guid: 89d829daba9b82a42a8731d3fa90ddd0, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1675364693357949913, guid: 89d829daba9b82a42a8731d3fa90ddd0, type: 3}
-      propertyPath: borderPadding
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1675364693357949913, guid: 89d829daba9b82a42a8731d3fa90ddd0, type: 3}
-      propertyPath: bottomPadding
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 1675364693357949913, guid: 89d829daba9b82a42a8731d3fa90ddd0, type: 3}
-      propertyPath: tooltipOffsetX
-      value: 160
-      objectReference: {fileID: 0}
-    - target: {fileID: 1675364693357949913, guid: 89d829daba9b82a42a8731d3fa90ddd0, type: 3}
-      propertyPath: borderTransform
-      value: 
-      objectReference: {fileID: 579857723517063994}
     - target: {fileID: 1675364693357949913, guid: 89d829daba9b82a42a8731d3fa90ddd0, type: 3}
       propertyPath: canvasTransform
       value: 
       objectReference: {fileID: 6892807619614968781}
-    - target: {fileID: 1675364693357949913, guid: 89d829daba9b82a42a8731d3fa90ddd0, type: 3}
-      propertyPath: contentTransform
-      value: 
-      objectReference: {fileID: 5112098410219059373}
-    - target: {fileID: 1675364693357949913, guid: 89d829daba9b82a42a8731d3fa90ddd0, type: 3}
-      propertyPath: mainBackgroundTransform
-      value: 
-      objectReference: {fileID: 5309986525408934344}
-    - target: {fileID: 2626447370464795277, guid: 89d829daba9b82a42a8731d3fa90ddd0, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 275
-      objectReference: {fileID: 0}
-    - target: {fileID: 3112564586339769320, guid: 89d829daba9b82a42a8731d3fa90ddd0, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 277.9489
-      objectReference: {fileID: 0}
-    - target: {fileID: 3112564586339769320, guid: 89d829daba9b82a42a8731d3fa90ddd0, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -8.67
-      objectReference: {fileID: 0}
-    - target: {fileID: 3286278838528167550, guid: 89d829daba9b82a42a8731d3fa90ddd0, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4469395215096914764, guid: 89d829daba9b82a42a8731d3fa90ddd0, type: 3}
-      propertyPath: m_HorizontalFit
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6582056017709832890, guid: 89d829daba9b82a42a8731d3fa90ddd0, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -5019,14 +4963,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7678285634538205466, guid: 89d829daba9b82a42a8731d3fa90ddd0, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 282.6599
-      objectReference: {fileID: 0}
-    - target: {fileID: 7678285634538205466, guid: 89d829daba9b82a42a8731d3fa90ddd0, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -8.67
-      objectReference: {fileID: 0}
     - target: {fileID: 8104321977085389416, guid: 89d829daba9b82a42a8731d3fa90ddd0, type: 3}
       propertyPath: m_Name
       value: ToolTipPanel
@@ -5034,46 +4970,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8104321977085389416, guid: 89d829daba9b82a42a8731d3fa90ddd0, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 7144199312238167543}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 89d829daba9b82a42a8731d3fa90ddd0, type: 3}
---- !u!224 &579857723517063994 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 7678285634538205466, guid: 89d829daba9b82a42a8731d3fa90ddd0, type: 3}
-  m_PrefabInstance: {fileID: 7098466432985473568}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1367551099630962760 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8104321977085389416, guid: 89d829daba9b82a42a8731d3fa90ddd0, type: 3}
-  m_PrefabInstance: {fileID: 7098466432985473568}
-  m_PrefabAsset: {fileID: 0}
---- !u!225 &7144199312238167543
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1367551099630962760}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 0
-  m_BlocksRaycasts: 0
-  m_IgnoreParentGroups: 0
 --- !u!224 &4168917700958173338 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6582056017709832890, guid: 89d829daba9b82a42a8731d3fa90ddd0, type: 3}
-  m_PrefabInstance: {fileID: 7098466432985473568}
-  m_PrefabAsset: {fileID: 0}
---- !u!224 &5112098410219059373 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 2626447370464795277, guid: 89d829daba9b82a42a8731d3fa90ddd0, type: 3}
-  m_PrefabInstance: {fileID: 7098466432985473568}
-  m_PrefabAsset: {fileID: 0}
---- !u!224 &5309986525408934344 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 3112564586339769320, guid: 89d829daba9b82a42a8731d3fa90ddd0, type: 3}
   m_PrefabInstance: {fileID: 7098466432985473568}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &8485563259153732089 stripped
@@ -5081,7 +4982,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1675364693357949913, guid: 89d829daba9b82a42a8731d3fa90ddd0, type: 3}
   m_PrefabInstance: {fileID: 7098466432985473568}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1367551099630962760}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 191eede973eff314294f9da79892967f, type: 3}

@@ -1,9 +1,8 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EnemyDisplay : MonoBehaviour
+public class EnemyDisplay : MonoBehaviour, ITooltipProvider
 {
     public Enemy enemy;
 
@@ -134,5 +133,31 @@ public class EnemyDisplay : MonoBehaviour
 
         intentEntries[entryIndex].DisplayIntent(icon, text);
         entryIndex++;
+    }
+
+    public TooltipData GetTooltipData()
+    {
+        if (enemy.CurrentAction == null) return null;
+
+        if (enemy.CurrentAction.damage > 0)
+        {
+            var intentDamage = enemy.GetCurrentIntentDamage();
+            var hitCount = enemy.CurrentAction.hitCount;
+
+            if (hitCount == 1)
+            {
+                return new TooltipData(
+                    "Attack", 
+                    "This enemy intends to deal " + intentDamage + " damage"
+                    );
+            }
+
+            return new TooltipData(
+                "Attack", 
+                "This enemy intends to deal " + intentDamage + " damage " + hitCount + " times."
+            );
+        }
+        
+        return null;
     }
 }

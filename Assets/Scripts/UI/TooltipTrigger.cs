@@ -12,6 +12,8 @@ public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     private RectTransform _sourceRectTransform;
 
+    private ITooltipProvider _tooltipProvider;
+
     private void Awake()
     {
         if (tooltipAnchor != null)
@@ -22,11 +24,29 @@ public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         {
             _sourceRectTransform = GetComponent<RectTransform>();
         }
+
+        _tooltipProvider = GetComponentInParent<ITooltipProvider>();
+
+        if (tooltipDisplay == null)
+        {
+            tooltipDisplay = FindFirstObjectByType<TooltipDisplay>(FindObjectsInactive.Include);
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        tooltipDisplay.ShowTooltip(tooltipData, _sourceRectTransform);
+        if (_tooltipProvider != null)
+        {
+            var tooltipProviderData = _tooltipProvider.GetTooltipData();
+
+            if (tooltipProviderData == null) return;
+            
+            tooltipDisplay.ShowTooltip(tooltipProviderData, _sourceRectTransform);
+        }
+        else
+        {
+            tooltipDisplay.ShowTooltip(tooltipData, _sourceRectTransform);
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)

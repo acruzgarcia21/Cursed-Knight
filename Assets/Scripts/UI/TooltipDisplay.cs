@@ -38,6 +38,7 @@ public class TooltipDisplay : MonoBehaviour
         titleText.ForceMeshUpdate();
         descriptionText.ForceMeshUpdate();
         
+        Canvas.ForceUpdateCanvases();
         LayoutRebuilder.ForceRebuildLayoutImmediate(contentTransform);
 
         var sourcePointInCanvas = canvasTransform.InverseTransformPoint(sourcePoint.position);
