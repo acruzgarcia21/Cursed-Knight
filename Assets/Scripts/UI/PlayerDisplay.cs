@@ -75,7 +75,6 @@ public class PlayerDisplay : MonoBehaviour
         CheckBlockTransitionFinished();
     }
 
-
     public void UpdatePlayerDisplay()
     {
         playerHealthText.text = player.playerHealth + "/" + player.playerMaxHealth;
@@ -121,7 +120,6 @@ public class PlayerDisplay : MonoBehaviour
         }
     }
 
-
     private void UpdateAnimationProgress()
     {
         _elapsedTime += Time.deltaTime;
@@ -131,30 +129,25 @@ public class PlayerDisplay : MonoBehaviour
         _blockProgress = Mathf.Clamp01(_elapsedTime / blockTransitionTime);
     }
 
-
     private void UpdateBlockColorTransition()
     {
         playerHealthBarFill.color = Color.Lerp(_startColor, _targetColor, _colorProgress);
     }
-
-
+    
     private void UpdateBlockFade()
     {
         blockCanvasGroup.alpha = _blockIsAppearing ? _blockProgress : 1f - _blockProgress;
     }
-
-
+    
     private void UpdateBlockPosition()
     {
         blockUI.transform.localPosition = Vector3.Lerp(_blockStartPosition, _blockTargetPosition, _blockProgress);
     }
 
-
     private void UpdateBlockScale()
     {
         blockUI.transform.localScale = Vector3.Lerp(Vector3.one * blockStartScale, Vector3.one, _blockProgress);
     }
-
 
     private void CheckBlockTransitionFinished()
     {

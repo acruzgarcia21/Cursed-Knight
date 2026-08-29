@@ -1,11 +1,14 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIDisplay : MonoBehaviour
 {
     public TMP_Text playerEnergyText;
     public TMP_Text playerCorruptionText;
     public TMP_Text playerCorruptionRoundsText;
+
+    [SerializeField] private Image playerCorruptionFill;
 
     public void UpdatePlayerEnergyText(Player player)
     {
@@ -20,5 +23,9 @@ public class UIDisplay : MonoBehaviour
 
         playerCorruptionText.text = player.playerCorruption + " / " + player.playerMaxCorruption;
         playerCorruptionRoundsText.text = player.GetStatusDuration(StatusEffect.StatusType.Corruption).ToString();
+
+        var corruptionPercent = (float)player.playerCorruption / player.playerMaxCorruption;
+
+        playerCorruptionFill.fillAmount = corruptionPercent;
     }
 }

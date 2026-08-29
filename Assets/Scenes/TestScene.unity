@@ -267,6 +267,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!114 &192447104 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2638785444724903614, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+  m_PrefabInstance: {fileID: 255966898}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1001 &255966898
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -587,6 +598,7 @@ MonoBehaviour:
   playerEnergyText: {fileID: 1201896290}
   playerCorruptionText: {fileID: 134950845}
   playerCorruptionRoundsText: {fileID: 1314260802}
+  playerCorruptionFill: {fileID: 192447104}
 --- !u!224 &1455403557 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 944293790578884605, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
