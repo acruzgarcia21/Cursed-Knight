@@ -86,8 +86,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TooltipTrigger
   tooltipData:
-    title: 
-    description: 
+    title: Block
+    description: Absorbs damage before Health is lost.
   tooltipDisplay: {fileID: 0}
   tooltipAnchor: {fileID: 0}
 --- !u!1 &478064832413887238
