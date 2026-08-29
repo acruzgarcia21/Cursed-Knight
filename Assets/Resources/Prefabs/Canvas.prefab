@@ -3443,6 +3443,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4634690903293728541}
   - component: {fileID: 6701574625314341889}
+  - component: {fileID: 6287251392197118376}
   m_Layer: 5
   m_Name: CorruptionUI
   m_TagString: Untagged
@@ -3492,6 +3493,22 @@ MonoBehaviour:
       damage, gain debuffs, and your Corruption resets.
   tooltipDisplay: {fileID: 0}
   tooltipAnchor: {fileID: 6369876349758763172}
+--- !u!114 &6287251392197118376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8927621871790823504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 628454807b9f6004ba8efa2298d3f4c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorruptionVisualEffects
+  corruptionUI: {fileID: 6369391096289405423}
+  pulseScale: 1.125
+  pulseSpeed: 6
+  scaleIncreaseThreshold: 0.01
 --- !u!1 &8938711840403900874
 GameObject:
   m_ObjectHideFlags: 0

@@ -32,6 +32,7 @@ public class Player : MonoBehaviour
     private StatusManager _statusManager;
     private EnemyManager _enemyManager;
     private CombatFeedbackManager _combatFeedbackManager;
+    private CorruptionVisualEffects _corruptionVisualEffects;
 
     private void Awake()
     {
@@ -39,8 +40,9 @@ public class Player : MonoBehaviour
         _statusManager         = GetComponent<StatusManager>();
         _combatFeedbackManager = GetComponent<CombatFeedbackManager>();
 
-        _uiDisplay   = FindFirstObjectByType<UIDisplay>();
-        _enemyManager = FindFirstObjectByType<EnemyManager>();
+        _uiDisplay               = FindFirstObjectByType<UIDisplay>();
+        _enemyManager            = FindFirstObjectByType<EnemyManager>();
+        _corruptionVisualEffects = FindFirstObjectByType<CorruptionVisualEffects>();
 
         _playerDisplay.UpdatePlayerDisplay();
     }
@@ -241,6 +243,8 @@ public class Player : MonoBehaviour
 
         ProcessMaxCorruptionTriggeredEffects();
         TriggerCorruptionOverflow();
+        
+        _corruptionVisualEffects.PlayActivationPulse();
 
         if (HasStatus(StatusEffect.StatusType.Corruption))
         {
