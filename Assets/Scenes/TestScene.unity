@@ -283,6 +283,14 @@ PrefabInstance:
       propertyPath: tooltipDisplay
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 1764737364213232239, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 81
+      objectReference: {fileID: 0}
+    - target: {fileID: 1764737364213232239, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 211
+      objectReference: {fileID: 0}
     - target: {fileID: 2089453352959911763, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
       propertyPath: tooltipDisplay
       value: 
