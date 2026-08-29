@@ -263,6 +263,14 @@ public class EnemyManager : MonoBehaviour
         return false;
     }
 
+    public void RefreshEnemyDisplays()
+    {
+        foreach (var enemy in GetLivingEnemies())
+        {
+            enemy.UpdateEnemyDisplay();
+        }
+    }
+
     private void RefreshEnemyIntents()
     {
         foreach (var enemy in GetLivingEnemies())

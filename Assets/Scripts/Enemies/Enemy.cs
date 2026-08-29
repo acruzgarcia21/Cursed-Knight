@@ -489,6 +489,11 @@ public class Enemy : MonoBehaviour
             BattleManager.Instance.EnemyManager.RemoveEnemy(this);
         }
     }
+
+    public void UpdateEnemyDisplay()
+    {
+        _enemyDisplay.UpdateEnemyDisplay();
+    }
     
 
     // Allows for smarter enemy AI (Can be updated...)

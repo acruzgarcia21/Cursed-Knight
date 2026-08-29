@@ -25,9 +25,14 @@ public class EnemyDisplay : MonoBehaviour
 
     [SerializeField] private IntentEntryDisplay[] intentEntries;
 
+    private Player _player;
+
     private void Awake()
     {
-        enemy = GetComponent<Enemy>();
+        enemy   = GetComponent<Enemy>();
+        
+        _player = FindFirstObjectByType<Player>();
+        
         enemySprite = transform.Find("EnemyCanvas/EnemyImage").GetComponent<Image>();
     }
 
@@ -62,6 +67,8 @@ public class EnemyDisplay : MonoBehaviour
 
     private void UpdateIntentDisplay()
     {
+        var isPlayerCorrupted = _player.HasStatus(StatusEffect.StatusType.Corruption);
+        
         foreach (var intentEntryDisplay in intentEntries)
         {
             intentEntryDisplay.Clear();
@@ -80,55 +87,138 @@ public class EnemyDisplay : MonoBehaviour
             
             if (hitCount == 1)
             {
-                tooltipData = new TooltipData(
-                    "Attack", 
-                    "This enemy intends to deal " + intentDamage + " damage."
-                );
+                if (isPlayerCorrupted)
+                {
+                    tooltipData = new TooltipData(
+                        "Attack", 
+                        "This enemy intends to deal ??? damage."
+                    );
+                }
+                else
+                {
+                    tooltipData = new TooltipData(
+                        "Attack", 
+                        "This enemy intends to deal " + intentDamage + " damage."
+                    );
+                }
             }
             else
             {
-                tooltipData = new TooltipData(
-                    "Attack", 
-                    "This enemy intends to deal " + intentDamage + " damage " + hitCount + " times."
-                );
+                if (isPlayerCorrupted)
+                {
+                    tooltipData = new TooltipData(
+                        "Attack", 
+                        "This enemy intends to deal ??? damage ??? times."
+                    );
+                }
+                else
+                {
+                    tooltipData = new TooltipData(
+                        "Attack", 
+                        "This enemy intends to deal " + intentDamage + " damage " + hitCount + " times."
+                    );
+                }
             }
 
             var formattedDamage = hitCount > 1
                 ? $"{intentDamage} x {hitCount}"
                 : intentDamage.ToString();
 
-            AddIntentEntry(attackIcon, formattedDamage, tooltipData, ref entryIndex);
+            if (isPlayerCorrupted)
+            {
+                AddIntentEntry(attackIcon, "???", tooltipData, ref entryIndex);
+            }
+            else
+            {
+                AddIntentEntry(attackIcon, formattedDamage, tooltipData, ref entryIndex);
+            }
         }
 
         if (enemy.CurrentAction.blockAmount > 0)
         {
-            var tooltipData = new TooltipData(
-                "Block", 
-                "This enemy intends to gain " + enemy.CurrentAction.blockAmount + " Block."
-            );
+            TooltipData tooltipData;
+            if (isPlayerCorrupted)
+            {
+                tooltipData = new TooltipData(
+                    "Block", 
+                    "This enemy intends to gain ??? Block."
+                );
+            }
+            else
+            {
+                tooltipData = new TooltipData(
+                    "Block", 
+                    "This enemy intends to gain " + enemy.CurrentAction.blockAmount + " Block."
+                );   
+            }
             
-            AddIntentEntry(blockIcon, enemy.CurrentAction.blockAmount.ToString(), tooltipData, ref entryIndex);
+            if (isPlayerCorrupted)
+            {
+                AddIntentEntry(blockIcon, "???", tooltipData, ref entryIndex);
+            }
+            else
+            {
+                AddIntentEntry(blockIcon, enemy.CurrentAction.blockAmount.ToString(), tooltipData, ref entryIndex);
+            }
         }
         
         if (enemy.CurrentAction.healingAmount > 0)
         {
-            var tooltipData = new TooltipData(
-                "Heal", 
-                "This enemy intends to heal for " + enemy.CurrentAction.healingAmount + " HP."
-            );
-            
-            AddIntentEntry(healIcon, enemy.CurrentAction.healingAmount.ToString(), tooltipData, ref entryIndex);
+            TooltipData tooltipData;
+
+            if (isPlayerCorrupted)
+            {
+                tooltipData = new TooltipData(
+                    "Heal", 
+                    "This enemy intends to heal for ??? HP."
+                );
+            }
+            else
+            {
+                tooltipData = new TooltipData(
+                    "Heal", 
+                    "This enemy intends to heal for " + enemy.CurrentAction.healingAmount + " HP."
+                );
+            }
+
+            if (isPlayerCorrupted)
+            {
+                AddIntentEntry(healIcon, "???", tooltipData, ref entryIndex);
+            }
+            else
+            {
+                AddIntentEntry(healIcon, enemy.CurrentAction.healingAmount.ToString(), tooltipData, ref entryIndex);
+            }
         }
 
         if (enemy.CurrentAction.nextAttackBonusDamage > 0)
         {
-            var tooltipData = new TooltipData(
-                "Bonus Damage", 
-                "This enemy intends to increase the damage of its next attack by " 
-                + enemy.CurrentAction.nextAttackBonusDamage + "."
-            );
-            
-            AddIntentEntry(bonusDamageIcon, "", tooltipData, ref entryIndex);
+            TooltipData tooltipData;
+
+            if (isPlayerCorrupted)
+            {
+                tooltipData = new TooltipData(
+                    "Bonus Damage", 
+                    "This enemy intends to increase the damage of its next attack by ???."
+                );
+            }
+            else
+            {
+                tooltipData = new TooltipData(
+                    "Bonus Damage", 
+                    "This enemy intends to increase the damage of its next attack by " 
+                    + enemy.CurrentAction.nextAttackBonusDamage + "."
+                );
+            }
+
+            if (isPlayerCorrupted)
+            {
+                AddIntentEntry(bonusDamageIcon, "???", tooltipData, ref entryIndex);
+            }
+            else
+            {
+                AddIntentEntry(bonusDamageIcon, enemy.CurrentAction.nextAttackBonusDamage.ToString(), tooltipData, ref entryIndex);
+            }
         }
         
         if (enemy.CurrentAction.hidesEnemy)
@@ -143,17 +233,41 @@ public class EnemyDisplay : MonoBehaviour
         
         if (enemy.CurrentAction.enemyToSummon != null && enemy.CurrentAction.enemiesToSummon > 0)
         {
-            var tooltipData = new TooltipData(
-                "Summon", 
-                "This enemy intends to summon " + enemy.CurrentAction.enemiesToSummon + " allies."
-            );
-            
-            AddIntentEntry(
-                summonEnemyIcon, 
-                enemy.CurrentAction.enemiesToSummon.ToString(), 
-                tooltipData,
-                ref entryIndex
+            TooltipData tooltipData;
+
+            if (isPlayerCorrupted)
+            {
+                tooltipData = new TooltipData(
+                    "Summon", 
+                    "This enemy intends to summon ??? allies."
                 );
+            }
+            else
+            {
+                tooltipData = new TooltipData(
+                    "Summon", 
+                    "This enemy intends to summon " + enemy.CurrentAction.enemiesToSummon + " allies."
+                );
+            }
+
+            if (isPlayerCorrupted)
+            {
+                AddIntentEntry(
+                    summonEnemyIcon, 
+                    "???", 
+                    tooltipData,
+                    ref entryIndex
+                );
+            }
+            else
+            {
+                AddIntentEntry(
+                    summonEnemyIcon, 
+                    enemy.CurrentAction.enemiesToSummon.ToString(), 
+                    tooltipData,
+                    ref entryIndex
+                );
+            }
         }
 
         if (enemy.CurrentAction.appliesStatus && enemy.CurrentAction.statusAmount > 0)
@@ -167,13 +281,25 @@ public class EnemyDisplay : MonoBehaviour
                         "Buff", 
                         "This enemy intends to buff."
                     );
-                    
-                    AddIntentEntry(
-                        buffIcon, 
-                        enemy.CurrentAction.statusDuration.ToString(), 
-                        tooltipBuffData, 
-                        ref entryIndex
+
+                    if (isPlayerCorrupted)
+                    {
+                        AddIntentEntry(
+                            buffIcon, 
+                            "???", 
+                            tooltipBuffData, 
+                            ref entryIndex
                         );
+                    }
+                    else
+                    {
+                        AddIntentEntry(
+                            buffIcon, 
+                            enemy.CurrentAction.statusDuration.ToString(), 
+                            tooltipBuffData, 
+                            ref entryIndex
+                        );   
+                    }
                     
                     break;
                 case EnemyActionData.StatusTargetType.Player:
@@ -182,12 +308,24 @@ public class EnemyDisplay : MonoBehaviour
                         "This enemy intends to debuff."
                     );
                     
-                    AddIntentEntry(
-                        debuffIcon, 
-                        enemy.CurrentAction.statusAmount.ToString(), 
-                        tooltipDebuffData, 
-                        ref entryIndex
+                    if (isPlayerCorrupted)
+                    {
+                        AddIntentEntry(
+                            debuffIcon, 
+                            "???", 
+                            tooltipDebuffData, 
+                            ref entryIndex
                         );
+                    }
+                    else
+                    {
+                        AddIntentEntry(
+                            debuffIcon, 
+                            enemy.CurrentAction.statusAmount.ToString(), 
+                            tooltipDebuffData, 
+                            ref entryIndex
+                        );
+                    }
                     
                     break;
             }
