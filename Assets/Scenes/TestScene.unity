@@ -286,10 +286,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2638785444724903614, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
-      propertyPath: m_FillAmount
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4351492304481255019, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
       propertyPath: m_Name
       value: Canvas
@@ -298,10 +294,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1226077229}
-    - target: {fileID: 6369391096289405423, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6892807619614968781, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -385,37 +377,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8927621871790823504, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 258111061}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
 --- !u!224 &255966899 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1764737364213232239, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
   m_PrefabInstance: {fileID: 255966898}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &258111058 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8927621871790823504, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
-  m_PrefabInstance: {fileID: 255966898}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &258111061
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 258111058}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 628454807b9f6004ba8efa2298d3f4c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CorruptionVisualEffects
-  corruptionUI: {fileID: 1433641229}
-  pulseScale: 1.125
-  pulseSpeed: 6
-  scaleIncreaseThreshold: 0.01
 --- !u!224 &353007379 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4207413169975408394, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
@@ -631,11 +599,6 @@ MonoBehaviour:
   playerCorruptionText: {fileID: 134950845}
   playerCorruptionRoundsText: {fileID: 1314260802}
   playerCorruptionFill: {fileID: 192447104}
---- !u!224 &1433641229 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 6369391096289405423, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
-  m_PrefabInstance: {fileID: 255966898}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1455403557 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 944293790578884605, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}

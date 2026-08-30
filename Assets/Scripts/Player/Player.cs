@@ -78,6 +78,12 @@ public class Player : MonoBehaviour
     {
         ProcessEndTurnStatuses();
         _statusManager.TickDurations();
+
+        if (!HasStatus(StatusEffect.StatusType.Corruption))
+        {
+            _corruptionVisualEffects.SetPlayerIsNotCorrupted();
+        }
+        
         _enemyManager.RefreshEnemyDisplays();
     }
 
@@ -245,6 +251,7 @@ public class Player : MonoBehaviour
         TriggerCorruptionOverflow();
         
         _corruptionVisualEffects.PlayActivationPulse();
+        _corruptionVisualEffects.SetPlayerIsCorrupted();
 
         if (HasStatus(StatusEffect.StatusType.Corruption))
         {
