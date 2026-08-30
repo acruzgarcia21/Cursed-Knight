@@ -945,7 +945,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04e38710fe2f6854d97af48bb6b76b3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardDisplay
-  cardData: {fileID: 11400000, guid: ef39f6255d9b6854794ee8cb09f67e20, type: 2}
   cardSprite: {fileID: 0}
   cardName: {fileID: 8730886251862115523}
   cardEnergyCost: {fileID: 7062302301614616358}
@@ -1011,7 +1010,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardMovement
   cardPlay: {x: 0, y: 400}
-  playPosition: {x: -400, y: 400, z: 0}
   lerpFactor: 10
 --- !u!114 &-1304797705736605461
 MonoBehaviour:
@@ -1028,6 +1026,7 @@ MonoBehaviour:
   selectScale: 1.1
   glowEffect: {fileID: 3775796030281368749}
   playArrow: {fileID: 4465909117950649025}
+  hoverBottomPadding: 12
 --- !u!1 &7182899804292988232
 GameObject:
   m_ObjectHideFlags: 0

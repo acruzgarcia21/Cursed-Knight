@@ -16,9 +16,13 @@ public class Enemy : MonoBehaviour
     
     public EnemyData enemyData;
 
-    private EnemyDisplay  _enemyDisplay;
-    private StatusManager _statusManager;
-    private EnemyManager  _enemyManager;
+    private EnemyDisplay _enemyDisplay;
+    
+    private StatusManager         _statusManager;
+    private EnemyManager          _enemyManager;
+    private CombatFeedbackManager _combatFeedbackManager;
+    
+    private EnemyVisualEffects    _enemyVisualEffects;
 
     private EnemyActionData _currentAction;
     private List<EnemyActionData> _availableActions;
@@ -35,10 +39,14 @@ public class Enemy : MonoBehaviour
 
     private void Awake()
     {
-        _enemyDisplay  = GetComponent<EnemyDisplay>();
-        _statusManager = GetComponent<StatusManager>();
-
+        _enemyDisplay          = GetComponent<EnemyDisplay>();
+        
+        _statusManager         = GetComponent<StatusManager>();
+        _combatFeedbackManager = GetComponent<CombatFeedbackManager>();
+        
         _enemyManager = FindAnyObjectByType<EnemyManager>();
+
+        _enemyVisualEffects = GetComponent<EnemyVisualEffects>();
     }
 
     public void BattleSetup()
@@ -409,6 +417,7 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(int damage, bool triggersCounterAttack, Player player)
     {
         var modifiedDamage = GetModifiedIncomingDamage(damage);
+        var initialHp = currentEnemyHealth;
 
         if (currentEnemyBlock > 0)
         {
@@ -420,12 +429,24 @@ public class Enemy : MonoBehaviour
             {
                 modifiedDamage -= currentEnemyBlock;
                 currentEnemyBlock = 0;
-                currentEnemyHealth -= modifiedDamage;
+                
+                /*currentEnemyHealth -= modifiedDamage;*/
+                currentEnemyHealth = Mathf.Max(0, currentEnemyHealth - modifiedDamage);
+
+                var damageTaken = initialHp - currentEnemyHealth;
+                _combatFeedbackManager.ShowDamageNumber(damageTaken);
+                
+                _enemyVisualEffects.ApplyShake();
             }
         }
         else
         {
-            currentEnemyHealth -= modifiedDamage;
+            currentEnemyHealth = Mathf.Max(0, currentEnemyHealth - modifiedDamage);
+
+            var damageTaken = initialHp - currentEnemyHealth;
+            _combatFeedbackManager.ShowDamageNumber(damageTaken);
+            
+            _enemyVisualEffects.ApplyShake();
         }
 
         currentEnemyHealth = Mathf.Clamp(currentEnemyHealth, 0, enemyData.enemyMaxHealth);
@@ -454,9 +475,11 @@ public class Enemy : MonoBehaviour
     
     public void LoseHealth(int healthToLose)
     {
-        currentEnemyHealth -= healthToLose;
-
-        currentEnemyHealth = Mathf.Clamp(currentEnemyHealth, 0, enemyData.enemyMaxHealth);
+        var initialHp = currentEnemyHealth;
+        currentEnemyHealth = Mathf.Max(0, currentEnemyHealth - healthToLose);
+        
+        var damageTaken = initialHp - currentEnemyHealth;
+        _combatFeedbackManager.ShowDamageNumber(damageTaken);
 
         CheckHealthPhases();
         _enemyDisplay.UpdateEnemyDisplay();
@@ -465,6 +488,11 @@ public class Enemy : MonoBehaviour
         {
             BattleManager.Instance.EnemyManager.RemoveEnemy(this);
         }
+    }
+
+    public void UpdateEnemyDisplay()
+    {
+        _enemyDisplay.UpdateEnemyDisplay();
     }
     
 
@@ -627,16 +655,19 @@ public class Enemy : MonoBehaviour
     
     private void ProcessEndTurnStatuses()
     {
+        var initialHp = currentEnemyHealth;
+        
         if (_statusManager.HasStatus(StatusEffect.StatusType.Poison))
         {
             var poisonDamage = 
                 _statusManager.GetStatusAmount(StatusEffect.StatusType.Poison);
             
-            currentEnemyHealth -= poisonDamage;
+            currentEnemyHealth = Mathf.Max(0, currentEnemyHealth - poisonDamage);
+            
+            var damageTaken = initialHp - currentEnemyHealth;
+            _combatFeedbackManager.ShowDamageNumber(damageTaken);
         }
         
-        currentEnemyHealth = Mathf.Clamp(currentEnemyHealth, 0, enemyData.enemyMaxHealth);
-
         _enemyDisplay.UpdateEnemyDisplay();
 
         if (EnemyIsDead())
@@ -647,6 +678,8 @@ public class Enemy : MonoBehaviour
     
     private void ProcessOnActionStatuses(Player player)
     {
+        var initialHp = currentEnemyHealth;
+        
         if (_statusManager.HasStatus(StatusEffect.StatusType.Bleed))
         {
             var baseBleedAmount = 
@@ -654,13 +687,10 @@ public class Enemy : MonoBehaviour
 
             var finalBleedAmount = player.GetModifiedBleedDamage(baseBleedAmount);
             
-            currentEnemyHealth -= finalBleedAmount;
-            currentEnemyHealth = Mathf.Clamp(currentEnemyHealth, 0, enemyData.enemyMaxHealth);
-
-            Debug.Log(
-                $"Player Bleed | Damage: {currentEnemyHealth - finalBleedAmount} | " +
-                $"Health: {finalBleedAmount} -> {currentEnemyHealth}"
-            );
+            currentEnemyHealth = Mathf.Max(0, currentEnemyHealth - finalBleedAmount);
+            
+            var damageTaken = initialHp - currentEnemyHealth;
+            _combatFeedbackManager.ShowDamageNumber(damageTaken);
         }
         
         _enemyDisplay.UpdateEnemyDisplay();

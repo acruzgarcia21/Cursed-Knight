@@ -30,13 +30,19 @@ public class Player : MonoBehaviour
     private PlayerDisplay _playerDisplay;
     private UIDisplay _uiDisplay;
     private StatusManager _statusManager;
+    private EnemyManager _enemyManager;
+    private CombatFeedbackManager _combatFeedbackManager;
+    private CorruptionVisualEffects _corruptionVisualEffects;
 
     private void Awake()
     {
-        _playerDisplay = GetComponent<PlayerDisplay>();
-        _statusManager = GetComponent<StatusManager>();
+        _playerDisplay         = GetComponent<PlayerDisplay>();
+        _statusManager         = GetComponent<StatusManager>();
+        _combatFeedbackManager = GetComponent<CombatFeedbackManager>();
 
-        _uiDisplay = FindFirstObjectByType<UIDisplay>();
+        _uiDisplay               = FindFirstObjectByType<UIDisplay>();
+        _enemyManager            = FindFirstObjectByType<EnemyManager>();
+        _corruptionVisualEffects = FindFirstObjectByType<CorruptionVisualEffects>();
 
         _playerDisplay.UpdatePlayerDisplay();
     }
@@ -72,6 +78,13 @@ public class Player : MonoBehaviour
     {
         ProcessEndTurnStatuses();
         _statusManager.TickDurations();
+
+        if (!HasStatus(StatusEffect.StatusType.Corruption))
+        {
+            _corruptionVisualEffects.SetPlayerIsNotCorrupted();
+        }
+        
+        _enemyManager.RefreshEnemyDisplays();
     }
 
 
@@ -81,8 +94,8 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        var healthBefore   = playerHealth;
-        var blockBefore    = playerBlock;
+        var initialHp = playerHealth;
+        var blockBefore = playerBlock;
         var modifiedDamage = GetModifiedIncomingDamage(damage);
 
         if (playerBlock > 0)
@@ -105,13 +118,15 @@ public class Player : MonoBehaviour
 
         playerHealth = Mathf.Clamp(playerHealth, 0, playerMaxHealth);
 
-        var healthLost = healthBefore - playerHealth;
-        var blockLost  = blockBefore - playerBlock;
+        var healthLost = initialHp - playerHealth;
+        var blockLost = blockBefore - playerBlock;
+
+        _combatFeedbackManager.ShowDamageNumber(healthLost);
 
         Debug.Log(
             $"Player Damage | Raw: {damage} | " +
             $"HP Lost: {healthLost} | Block Lost: {blockLost} | " +
-            $"Health: {healthBefore} -> {playerHealth}"
+            $"Health: {initialHp} -> {playerHealth}"
         );
 
         if (PlayerIsDead())
@@ -124,9 +139,12 @@ public class Player : MonoBehaviour
 
     public void LoseHealth(int healthToLose)
     {
-        playerHealth -= healthToLose;
+        var initialHp = playerHealth;
 
-        playerHealth = Mathf.Clamp(playerHealth, 0, playerMaxHealth);
+        playerHealth = Mathf.Max(0, playerHealth - healthToLose);
+
+        var healthLost = initialHp - playerHealth;
+        _combatFeedbackManager.ShowDamageNumber(healthLost);
 
         if (PlayerIsDead())
         {
@@ -231,6 +249,14 @@ public class Player : MonoBehaviour
 
         ProcessMaxCorruptionTriggeredEffects();
         TriggerCorruptionOverflow();
+        
+        _corruptionVisualEffects.PlayActivationPulse();
+        _corruptionVisualEffects.SetPlayerIsCorrupted();
+
+        if (HasStatus(StatusEffect.StatusType.Corruption))
+        {
+            _enemyManager.RefreshEnemyDisplays();
+        }
     }
 
     private void TriggerCorruptionOverflow()
@@ -385,11 +411,13 @@ public class Player : MonoBehaviour
             var statusAmount =
                 _statusManager.GetStatusAmount(StatusEffect.StatusType.Poison);
 
-            playerHealth -= statusAmount;
-            playerHealth = Mathf.Clamp(playerHealth, 0, playerMaxHealth);
+            playerHealth = Mathf.Max(0, playerHealth - statusAmount);
+
+            var healthLost = healthBefore - playerHealth;
+            _combatFeedbackManager.ShowDamageNumber(healthLost);
 
             Debug.Log(
-                $"Player Poison | Damage: {healthBefore - playerHealth} | " +
+                $"Player Poison | Damage: {healthLost} | " +
                 $"Health: {healthBefore} -> {playerHealth}"
             );
         }
@@ -406,20 +434,28 @@ public class Player : MonoBehaviour
     {
         if (_statusManager.HasStatus(StatusEffect.StatusType.Bleed))
         {
+            var healthBefore = playerHealth;
+
             var statusAmount =
                 _statusManager.GetStatusAmount(StatusEffect.StatusType.Bleed);
 
-            playerHealth -= statusAmount;
-            playerHealth = Mathf.Clamp(playerHealth, 0, playerMaxHealth);
+            playerHealth = Mathf.Max(0, playerHealth - statusAmount);
+
+            var healthLost = healthBefore - playerHealth;
+            _combatFeedbackManager.ShowDamageNumber(healthLost);
         }
 
         if (_statusManager.HasStatus(StatusEffect.StatusType.Corruption))
         {
+            var healthBefore = playerHealth;
+
             var statusAmount =
                 _statusManager.GetStatusAmount(StatusEffect.StatusType.Corruption);
 
-            playerHealth -= statusAmount;
-            playerHealth = Mathf.Clamp(playerHealth, 0, playerMaxHealth);
+            playerHealth = Mathf.Max(0, playerHealth - statusAmount);
+
+            var healthLost = healthBefore - playerHealth;
+            _combatFeedbackManager.ShowDamageNumber(healthLost);
         }
 
         if (PlayerIsDead())
