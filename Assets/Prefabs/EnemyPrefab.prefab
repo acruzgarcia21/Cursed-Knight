@@ -146,14 +146,14 @@ MonoBehaviour:
   enemyBlock: {fileID: 7551062527987560670}
   enemySprite: {fileID: 0}
   blockDisplay: {fileID: 229024436392589935}
-  attackIcon: {fileID: 21300000, guid: eac1d5505725036409fa6a41117cca59, type: 3}
-  blockIcon: {fileID: 21300000, guid: 0ffb1d54af626734bb04646511bdb35f, type: 3}
-  healIcon: {fileID: 21300000, guid: 38ccb312cd46ee743b83c92ed52f300b, type: 3}
-  buffIcon: {fileID: 21300000, guid: e6f990adef408f04898ccce3441b2b1f, type: 3}
-  debuffIcon: {fileID: 21300000, guid: ec5ab42de05fbda4fb4f7288587faa2f, type: 3}
-  bonusDamageIcon: {fileID: 21300000, guid: 3398b8887ffde4b4186956e52a6171ea, type: 3}
-  hideIntentIcon: {fileID: 21300000, guid: 07bbd3c8e6bc2ef428bafc3e638fa7b4, type: 3}
-  summonEnemyIcon: {fileID: 21300000, guid: d718704e074ccbe44ba1f6097b25db18, type: 3}
+  attackIcon: {fileID: 21300000, guid: fe38d36c86e9e634f9ccbcaf49009810, type: 3}
+  blockIcon: {fileID: 21300000, guid: e2b692e5cc5e83b4284173ea30b31917, type: 3}
+  healIcon: {fileID: 21300000, guid: ea6454da3c44619468c9ea49fbfccc72, type: 3}
+  buffIcon: {fileID: 21300000, guid: 3fdb3087ea4129e4cbc821094295094f, type: 3}
+  debuffIcon: {fileID: 21300000, guid: 003554c858393514cb535bda1a5536df, type: 3}
+  bonusDamageIcon: {fileID: 21300000, guid: 46ac80a4e0eae18458eec225e836dee5, type: 3}
+  hideIntentIcon: {fileID: 21300000, guid: 6a80ff3d5865cdc48a3773575a937823, type: 3}
+  summonEnemyIcon: {fileID: 21300000, guid: dc799afee9ec83c4d85d43a946c59f7d, type: 3}
   intentEntries:
   - {fileID: 4989535592054780097}
   - {fileID: 7630705422904230738}

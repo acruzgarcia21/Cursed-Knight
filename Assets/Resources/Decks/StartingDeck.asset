@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: StartingDeck
   m_EditorClassIdentifier: Assembly-CSharp::DeckData
   deckCards:
-  - {fileID: 11400000, guid: 5f8401e9ae2b1c6409dab71377bd7703, type: 2}
-  - {fileID: 11400000, guid: 5f8401e9ae2b1c6409dab71377bd7703, type: 2}
-  - {fileID: 11400000, guid: 5f8401e9ae2b1c6409dab71377bd7703, type: 2}
-  - {fileID: 11400000, guid: 5f8401e9ae2b1c6409dab71377bd7703, type: 2}
+  - {fileID: 11400000, guid: bc7f94d824db71345b6aa0885a152a49, type: 2}
+  - {fileID: 11400000, guid: c044122adb9ed9344a485685f869fda2, type: 2}
+  - {fileID: 11400000, guid: dee85a52058bce349902ee734f5a0b00, type: 2}
+  - {fileID: 11400000, guid: c1bd8720c7a266246a6d24c9acc459a1, type: 2}
   - {fileID: 11400000, guid: db5bbf7718a37ef44897537f950cdc5e, type: 2}
   - {fileID: 11400000, guid: 09bd47b681c3a504f99d2f5dc10c7597, type: 2}
   - {fileID: 11400000, guid: 53bfdea46944fcd42b07130f779adcf7, type: 2}
