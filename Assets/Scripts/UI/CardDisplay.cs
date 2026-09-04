@@ -1,3 +1,4 @@
+using CursedKnight;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,13 +7,18 @@ public class CardDisplay : MonoBehaviour
 {
     public RuntimeCard runtimeCard;
 
-    public Image cardSprite;
+    [SerializeField] private TMP_Text cardName;
+    [SerializeField] private TMP_Text cardEnergyCost;
+    [SerializeField] private TMP_Text cardDescription;
+    [SerializeField] private TMP_Text cardCorruptionGain;
+    [SerializeField] private TMP_Text cardType;
+    
+    [SerializeField] private Image cardFrame;
 
-    public TMP_Text cardName;
-    public TMP_Text cardEnergyCost;
-    public TMP_Text cardDescription;
-    public TMP_Text cardCorruptionGain;
-    public TMP_Text cardType;
+    [SerializeField] private Sprite attackCardFrame;
+    [SerializeField] private Sprite defenseCardFrame;
+    [SerializeField] private Sprite utilityCardFrame;
+    [SerializeField] private Sprite powerCardFrame;
 
     private void Start()
     {
@@ -35,9 +41,16 @@ public class CardDisplay : MonoBehaviour
         cardCorruptionGain.text = cardData.cardCorruptionGain.ToString();
         cardType.text = cardData.cardType.ToString();
 
-        if (cardSprite != null)
+        if (cardFrame != null)
         {
-            cardSprite.sprite = cardData.cardSprite;
+            cardFrame.sprite = cardData.cardType switch
+            {
+                Card.CardType.Attack => attackCardFrame,
+                Card.CardType.Defense => defenseCardFrame,
+                Card.CardType.Utility => utilityCardFrame,
+                Card.CardType.Power => powerCardFrame,
+                _ => cardFrame.sprite
+            };
         }
     }
 }
