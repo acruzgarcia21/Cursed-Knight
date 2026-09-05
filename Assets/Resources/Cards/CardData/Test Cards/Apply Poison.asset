@@ -15,7 +15,7 @@ MonoBehaviour:
   cardName: Test Poison
   cardDescription: Apply 2 poison for 2 turns
   cardType: 2
-  targetType: 3
+  targetType: 1
   cardSprite: {fileID: 0}
   cardEnergyCost: 0
   cardCorruptionGain: 0
@@ -26,7 +26,7 @@ MonoBehaviour:
   cardHealthLoss: 0
   cardEnergyGain: 0
   appliesStatus: 1
-  statusTargetType: 3
+  statusTargetType: 1
   statusType: 3
   statusAmount: 2
   statusDuration: 2

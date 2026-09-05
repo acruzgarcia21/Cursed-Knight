@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Strength Display Data
   m_EditorClassIdentifier: Assembly-CSharp::StatusDisplayData
   statusType: 0
-  icon: {fileID: 21300000, guid: b82fb718f405e624d9f19fbdc93abf42, type: 3}
+  icon: {fileID: 21300000, guid: 8f216c01a47b09847892f4903640f2e5, type: 3}
   countDisplayType: 0
   displayName: Strength
   description: 
