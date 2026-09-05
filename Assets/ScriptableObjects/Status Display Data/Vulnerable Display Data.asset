@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Vulnerable Display Data
   m_EditorClassIdentifier: Assembly-CSharp::StatusDisplayData
   statusType: 2
-  icon: {fileID: 21300000, guid: 8a4aa6818a6a0c84f80b5036069eb5ee, type: 3}
+  icon: {fileID: 21300000, guid: c94d99b057844f242867c6c416c1b61e, type: 3}
   countDisplayType: 1
   displayName: Vulnerable
   description: 
