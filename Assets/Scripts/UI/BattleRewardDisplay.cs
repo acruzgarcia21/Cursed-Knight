@@ -51,6 +51,9 @@ public class BattleRewardDisplay : MonoBehaviour
                 rewardCardPoints[i]);
             
             var cardDisplay = newCard.GetComponent<CardDisplay>();
+            var cardMovement = newCard.GetComponent<CardMovement>();
+            
+            cardMovement.SetCardToRewardMode();
 
             if (cardDisplay == null)
             {
