@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using CursedKnight;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class RewardManager : MonoBehaviour
 {
@@ -9,6 +11,13 @@ public class RewardManager : MonoBehaviour
     [SerializeField] private RewardPoolData rewardPoolData;
 
     private readonly List<Card> _rewardPool = new();
+
+    private DeckManager _deckManager;
+
+    private void Awake()
+    {
+        _deckManager = FindFirstObjectByType<DeckManager>();
+    }
 
     public void StartRewards()
     {
@@ -39,5 +48,10 @@ public class RewardManager : MonoBehaviour
         }
         
         battleRewardDisplay.DisplayRewardCard(_rewardPool);
+    }
+
+    public void AddSelectedRewardCardToDeck(Card card)
+    {
+        _deckManager.AddCardToDeck(card);
     }
 }

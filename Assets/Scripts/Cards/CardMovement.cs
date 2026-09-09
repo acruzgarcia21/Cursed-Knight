@@ -34,7 +34,8 @@ public class CardMovement : MonoBehaviour,
         Pressed,
         Dragging,
         Selected,
-        Playing
+        Playing,
+        RewardSelected
     }
 
     private enum CardMode
@@ -55,6 +56,7 @@ public class CardMovement : MonoBehaviour,
     
     private CardPlayManager _cardPlayManager;
     private HandManager     _handManager;
+    private RewardManager   _rewardManager;
     
     private CardVisualEffects _cardVisualEffects;
 
@@ -91,6 +93,7 @@ public class CardMovement : MonoBehaviour,
         _player          = FindFirstObjectByType<Player>();
         _cardPlayManager = FindFirstObjectByType<CardPlayManager>();
         _handManager     = FindFirstObjectByType<HandManager>();
+        _rewardManager   = FindFirstObjectByType<RewardManager>();
         _handDisplay     = FindFirstObjectByType<HandDisplay>();
         
         var playPoint = FindFirstObjectByType<CardPlayPoint>();
@@ -150,6 +153,11 @@ public class CardMovement : MonoBehaviour,
                 
                 HandleSelectedState();
                 
+                break;
+            
+            case CardState.RewardSelected:
+                _cardVisualEffects.HandleGlowEffect(false);
+                _cardVisualEffects.HandleScaleToNormal(_rectTransform, _originalScale, lerpFactor);
                 break;
 
             case CardState.Playing:
@@ -232,6 +240,15 @@ public class CardMovement : MonoBehaviour,
         }
 
         if (_currentState != CardState.Hovering) return;
+
+        if (_cardMode == CardMode.Reward)
+        {
+            _currentState = CardState.RewardSelected;
+
+            var rewardCardSelected = _cardDisplay.runtimeCard.cardData;
+            _rewardManager.AddSelectedRewardCardToDeck(rewardCardSelected);
+            return;
+        }
 
         _timeMouseClicked = Time.time;
         _pointerDownScreenPosition = eventData.position;

@@ -64,4 +64,11 @@ public class DeckManager : MonoBehaviour
                 break;
         }
     }
+
+    public void AddCardToDeck(Card cardToAdd)
+    {
+        if (cardToAdd == null) return;
+        
+        playerDeck.Add(cardToAdd);
+    }
 }
