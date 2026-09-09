@@ -12,7 +12,6 @@ public class DeckManager : MonoBehaviour
     private DrawPileManager _drawPileManager;
     private DiscardManager _discardManager;
     
-
     [SerializeField] private DeckData startingDeck;
 
     private void Awake()
