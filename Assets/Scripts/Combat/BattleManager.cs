@@ -4,8 +4,11 @@ public class BattleManager : MonoBehaviour
 {
     public static BattleManager Instance  { get; private set; }
     public EnemyManager EnemyManager { get; private set; }
+    
     private TurnManager _turnManager;
     private DeckManager _deckManager;
+    private RewardManager _rewardManager;
+    
     private Player _player;
     
     private void Awake()
@@ -18,9 +21,10 @@ public class BattleManager : MonoBehaviour
             Debug.Log("EnemyManager not found under BattleManager");
         }
 
-        _turnManager = FindFirstObjectByType<TurnManager>();
-        _deckManager = FindFirstObjectByType<DeckManager>();
-        _player      = FindFirstObjectByType<Player>();
+        _turnManager   = FindFirstObjectByType<TurnManager>();
+        _deckManager   = FindFirstObjectByType<DeckManager>();
+        _rewardManager = FindFirstObjectByType<RewardManager>();
+        _player        = FindFirstObjectByType<Player>();
     }
 
     private void Start()
@@ -40,6 +44,7 @@ public class BattleManager : MonoBehaviour
     public void WinBattle()
     {
         Debug.Log("Battle won");
+        _rewardManager.StartRewards();
     }
 
     public void LoseBattle()

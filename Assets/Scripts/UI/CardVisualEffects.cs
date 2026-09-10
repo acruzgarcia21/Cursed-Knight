@@ -4,9 +4,11 @@ using UnityEngine.Rendering;
 public class CardVisualEffects : MonoBehaviour
 {
     [SerializeField] private float selectScale = 5f;
+    [SerializeField] private float hoverBottomPadding = 1f;
+    
     [SerializeField] private GameObject glowEffect;
     [SerializeField] private GameObject playArrow;
-    [SerializeField] private float hoverBottomPadding = 1f;
+    
     
     public void HandleHoverState(RectTransform rectTransform, Vector3 originalScale, float lerpFactor)
     {

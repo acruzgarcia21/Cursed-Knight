@@ -34,10 +34,19 @@ public class CardMovement : MonoBehaviour,
         Pressed,
         Dragging,
         Selected,
-        Playing
+        Playing,
+        RewardSelected
+    }
+
+    private enum CardMode
+    {
+        Combat,
+        Reward
     }
 
     private CardState _currentState = CardState.Idle;
+
+    private CardMode _cardMode = CardMode.Combat;
 
     private Quaternion _originalRotation;
     private Vector3    _originalPosition;
@@ -47,6 +56,7 @@ public class CardMovement : MonoBehaviour,
     
     private CardPlayManager _cardPlayManager;
     private HandManager     _handManager;
+    private RewardManager   _rewardManager;
     
     private CardVisualEffects _cardVisualEffects;
 
@@ -83,6 +93,7 @@ public class CardMovement : MonoBehaviour,
         _player          = FindFirstObjectByType<Player>();
         _cardPlayManager = FindFirstObjectByType<CardPlayManager>();
         _handManager     = FindFirstObjectByType<HandManager>();
+        _rewardManager   = FindFirstObjectByType<RewardManager>();
         _handDisplay     = FindFirstObjectByType<HandDisplay>();
         
         var playPoint = FindFirstObjectByType<CardPlayPoint>();
@@ -112,10 +123,14 @@ public class CardMovement : MonoBehaviour,
         switch (_currentState)
         {
             case CardState.Hovering:
-                
+
                 _cardVisualEffects.HandleHoverState(_rectTransform, _originalScale, lerpFactor);
-                _cardVisualEffects.HandleRotationToUpright(_rectTransform, lerpFactor);
-                _cardVisualEffects.HandleHoverPosition(_rectTransform, _canvasRectTransform, lerpFactor);
+
+                if (_cardMode == CardMode.Combat)
+                {
+                    _cardVisualEffects.HandleRotationToUpright(_rectTransform, lerpFactor);
+                    _cardVisualEffects.HandleHoverPosition(_rectTransform, _canvasRectTransform, lerpFactor);
+                }
                 
                 break;
 
@@ -138,6 +153,11 @@ public class CardMovement : MonoBehaviour,
                 
                 HandleSelectedState();
                 
+                break;
+            
+            case CardState.RewardSelected:
+                _cardVisualEffects.HandleGlowEffect(false);
+                _cardVisualEffects.HandleScaleToNormal(_rectTransform, _originalScale, lerpFactor);
                 break;
 
             case CardState.Playing:
@@ -162,6 +182,13 @@ public class CardMovement : MonoBehaviour,
 
         _playingFromSelection = false;
 
+        if (_cardMode == CardMode.Reward)
+        {
+            _cardVisualEffects.HandleGlowEffect(false);
+            _cardVisualEffects.ShowPlayArrow(false);
+            return;
+        }
+
         _handManager.ClearSelectedCard(gameObject);
         _handDisplay.ClearHoveredCard();
         
@@ -176,7 +203,15 @@ public class CardMovement : MonoBehaviour,
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (_currentState != CardState.Idle) return;
+        
+        if (_cardMode == CardMode.Reward)
+        {
+            _currentState = CardState.Hovering;
+            return;
+        }
+        
         if (!_handDisplay.CanHoverCard(gameObject)) return;
+
 
         _originalPosition     = _rectTransform.localPosition;
         _originalRotation     = _rectTransform.localRotation;
@@ -205,6 +240,15 @@ public class CardMovement : MonoBehaviour,
         }
 
         if (_currentState != CardState.Hovering) return;
+
+        if (_cardMode == CardMode.Reward)
+        {
+            _currentState = CardState.RewardSelected;
+
+            var rewardCardSelected = _cardDisplay.runtimeCard.cardData;
+            _rewardManager.AddSelectedRewardCardToDeck(rewardCardSelected);
+            return;
+        }
 
         _timeMouseClicked = Time.time;
         _pointerDownScreenPosition = eventData.position;
@@ -525,4 +569,10 @@ public class CardMovement : MonoBehaviour,
 
         ReturnToIdleState();
     }
+
+    public void SetCardToRewardMode()
+    {
+        _cardMode = CardMode.Reward;
+    }
+    
 }

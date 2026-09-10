@@ -12,7 +12,6 @@ public class DeckManager : MonoBehaviour
     private DrawPileManager _drawPileManager;
     private DiscardManager _discardManager;
     
-
     [SerializeField] private DeckData startingDeck;
 
     private void Awake()
@@ -24,6 +23,21 @@ public class DeckManager : MonoBehaviour
 
     public void BattleSetup()
     {
+        NewGameBattleSetup();
+        
+        var runtimeCards = new List<RuntimeCard>();
+
+        foreach (var card in playerDeck)
+        {
+            runtimeCards.Add(new RuntimeCard(card));
+        }
+
+        _handManager.BattleSetup(maxHandSize);
+        _drawPileManager.MakeDrawPile(runtimeCards);
+    }
+
+    public void NewGameBattleSetup()
+    {
         if (startingDeck == null) return;
 
         playerDeck.Clear();
@@ -34,16 +48,6 @@ public class DeckManager : MonoBehaviour
 
             playerDeck.Add(card);
         }
-
-        var runtimeCards = new List<RuntimeCard>();
-
-        foreach (var card in playerDeck)
-        {
-            runtimeCards.Add(new RuntimeCard(card));
-        }
-
-        _handManager.BattleSetup(maxHandSize);
-        _drawPileManager.MakeDrawPile(runtimeCards);
     }
 
     public void CreateCardDuringCombat(Card cardData, Card.CreatedCardDestination destination)
@@ -64,5 +68,12 @@ public class DeckManager : MonoBehaviour
                 _discardManager.AddToDiscardPile(createdCard);
                 break;
         }
+    }
+
+    public void AddCardToDeck(Card cardToAdd)
+    {
+        if (cardToAdd == null) return;
+        
+        playerDeck.Add(cardToAdd);
     }
 }
