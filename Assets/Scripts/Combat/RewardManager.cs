@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using CursedKnight;
 using UnityEngine;
@@ -14,6 +13,8 @@ public class RewardManager : MonoBehaviour
 
     private DeckManager _deckManager;
 
+    private bool _rewardCardHasBeenCollected;
+
     private void Awake()
     {
         _deckManager = FindFirstObjectByType<DeckManager>();
@@ -26,6 +27,10 @@ public class RewardManager : MonoBehaviour
 
     public void OnOpenCardRewards()
     {
+        if (_rewardCardHasBeenCollected) return;
+        
+        _rewardCardHasBeenCollected = false;
+        
         Debug.Log("Opening Card Rewards");
         battleRewardDisplay.DisplayCardRewardsScreen();
         
@@ -52,6 +57,12 @@ public class RewardManager : MonoBehaviour
 
     public void AddSelectedRewardCardToDeck(Card card)
     {
+        if (_rewardCardHasBeenCollected) return;
+        
         _deckManager.AddCardToDeck(card);
+
+        _rewardCardHasBeenCollected = true;
+        
+        battleRewardDisplay.CompleteCardRewardSelection();
     }
 }

@@ -9,10 +9,15 @@ public class BattleRewardDisplay : MonoBehaviour
     [SerializeField] private GameObject continueButton;
     [SerializeField] private GameObject victoryText;
     [SerializeField] private GameObject cardsRewardScreen;
+    [SerializeField] private GameObject cardRewardsButton;
 
     [SerializeField] private List<RectTransform> rewardCardPoints;
 
     [SerializeField] private GameObject cardPrefab;
+
+    private readonly List<GameObject> _rewardCardObjects = new();
+
+    private bool _cardRewardSelectionCompleted;
     
     private void Awake()
     {
@@ -50,6 +55,8 @@ public class BattleRewardDisplay : MonoBehaviour
                 Quaternion.identity, 
                 rewardCardPoints[i]);
             
+            _rewardCardObjects.Add(newCard);
+            
             var cardDisplay = newCard.GetComponent<CardDisplay>();
             var cardMovement = newCard.GetComponent<CardMovement>();
             
@@ -66,5 +73,31 @@ public class BattleRewardDisplay : MonoBehaviour
 
             cardDisplay.runtimeCard = runtimeCard;
         }
+    }
+
+    public void CompleteCardRewardSelection()
+    {
+        cardsRewardScreen.SetActive(false);
+        rewardsContainer.SetActive(true);
+        continueButton.SetActive(true);
+        victoryText.SetActive(true);
+        cardRewardsButton.SetActive(false);
+
+        CleanUpCardSelection();
+    }
+
+    public void OnSkipRewardCardSelection()
+    {
+        CompleteCardRewardSelection();
+    }
+
+    private void CleanUpCardSelection()
+    {
+        foreach (var card in _rewardCardObjects)
+        {
+            Destroy(card);
+        }
+        
+        _rewardCardObjects.Clear();
     }
 }
