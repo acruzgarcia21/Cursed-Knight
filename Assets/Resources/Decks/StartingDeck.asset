@@ -14,3 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DeckData
   deckCards:
   - {fileID: 11400000, guid: 43941d1601077ba43aa22f3016a899a5, type: 2}
+  - {fileID: 11400000, guid: 43941d1601077ba43aa22f3016a899a5, type: 2}
+  - {fileID: 11400000, guid: 43941d1601077ba43aa22f3016a899a5, type: 2}
+  - {fileID: 11400000, guid: 43941d1601077ba43aa22f3016a899a5, type: 2}
+  - {fileID: 11400000, guid: 43941d1601077ba43aa22f3016a899a5, type: 2}
+  - {fileID: 11400000, guid: 43941d1601077ba43aa22f3016a899a5, type: 2}
+  - {fileID: 11400000, guid: 43941d1601077ba43aa22f3016a899a5, type: 2}
+  - {fileID: 11400000, guid: 43941d1601077ba43aa22f3016a899a5, type: 2}
+  - {fileID: 11400000, guid: 43941d1601077ba43aa22f3016a899a5, type: 2}
+  - {fileID: 11400000, guid: 43941d1601077ba43aa22f3016a899a5, type: 2}

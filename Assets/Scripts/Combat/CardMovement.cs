@@ -41,7 +41,8 @@ public class CardMovement : MonoBehaviour,
     private enum CardMode
     {
         Combat,
-        Reward
+        Reward,
+        Deck
     }
 
     private CardState _currentState = CardState.Idle;
@@ -176,13 +177,20 @@ public class CardMovement : MonoBehaviour,
     private void ReturnToIdleState()
     {
         _currentState = CardState.Idle;
+        
+        if (_cardMode == CardMode.Deck )
+        {
+            _cardVisualEffects.HandleGlowEffect(false);
+            _cardVisualEffects.ShowPlayArrow(false);
+            return;
+        }
 
         _rectTransform.localRotation = _originalRotation;
         _rectTransform.localPosition = _originalPosition;
 
         _playingFromSelection = false;
 
-        if (_cardMode == CardMode.Reward)
+        if (_cardMode == CardMode.Reward )
         {
             _cardVisualEffects.HandleGlowEffect(false);
             _cardVisualEffects.ShowPlayArrow(false);
@@ -205,6 +213,12 @@ public class CardMovement : MonoBehaviour,
         if (_currentState != CardState.Idle) return;
         
         if (_cardMode == CardMode.Reward)
+        {
+            _currentState = CardState.Hovering;
+            return;
+        }
+
+        if (_cardMode == CardMode.Deck)
         {
             _currentState = CardState.Hovering;
             return;
@@ -247,6 +261,13 @@ public class CardMovement : MonoBehaviour,
 
             var rewardCardSelected = _cardDisplay.runtimeCard.cardData;
             _rewardManager.AddSelectedRewardCardToDeck(rewardCardSelected);
+            return;
+        }
+
+        if (_cardMode == CardMode.Deck)
+        {
+            _currentState = CardState.Idle;
+            _cardVisualEffects.HandleGlowEffect(false);
             return;
         }
 
@@ -573,6 +594,11 @@ public class CardMovement : MonoBehaviour,
     public void SetCardToRewardMode()
     {
         _cardMode = CardMode.Reward;
+    }
+
+    public void SetCardToDeckMode()
+    {
+        _cardMode = CardMode.Deck;
     }
     
 }
