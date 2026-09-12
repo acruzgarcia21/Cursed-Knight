@@ -17,5 +17,7 @@ public class DeckViewTrigger : MonoBehaviour, IPointerClickHandler
         cardViewDisplay.SetTitleText("Deck View");
         
         cardViewDisplay.DisplayCardDefinitions(_deckManager.playerDeck);
+        
+        cardViewDisplay.SetCurrentViewerToDeck();
     }
 }

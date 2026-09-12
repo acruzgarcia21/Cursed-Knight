@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class ExhaustManager : MonoBehaviour
 {
+    public event System.Action OnExhaustPileChanged;
+    
     private ExhaustPileDisplay _exhaustPileDisplay;
     private readonly List<RuntimeCard> _exhaustPile = new();
     
@@ -18,8 +20,14 @@ public class ExhaustManager : MonoBehaviour
 
         _exhaustPile.Add(runtimeCard);
         UpdateExhaustCount();
+        
+        OnExhaustPileChanged?.Invoke();
     }
 
+    public IReadOnlyList<RuntimeCard> GetExhaustPile()
+    {
+        return _exhaustPile;
+    }
     
     private void UpdateExhaustCount()
     {

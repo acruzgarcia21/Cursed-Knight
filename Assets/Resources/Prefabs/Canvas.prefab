@@ -45,6 +45,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2747350141779629589}
   - component: {fileID: 2205055739322809468}
+  - component: {fileID: 6334787897118765252}
   m_Layer: 5
   m_Name: DiscardPileUI
   m_TagString: Untagged
@@ -91,6 +92,19 @@ MonoBehaviour:
     description: Cards discarded or played during combat are placed here.
   tooltipDisplay: {fileID: 0}
   tooltipAnchor: {fileID: 389471096686018254}
+--- !u!114 &6334787897118765252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 98974401675244398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84c72999e51ba424f88a29c4e16c69f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DiscardPileViewTrigger
+  cardViewDisplay: {fileID: 8280301360390411467}
 --- !u!1 &125226741282092523
 GameObject:
   m_ObjectHideFlags: 0
@@ -271,7 +285,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 0
-  m_ActiveFontFeatures: 6e72656b
+  m_ActiveFontFeatures: 6e72656bu
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -1011,7 +1025,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 0
-  m_ActiveFontFeatures: 6e72656b
+  m_ActiveFontFeatures: 6e72656bu
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -1148,7 +1162,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 0
-  m_ActiveFontFeatures: 6e72656b
+  m_ActiveFontFeatures: 6e72656bu
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -1218,6 +1232,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7819056212672925710}
   - component: {fileID: 7923627974677954331}
+  - component: {fileID: 7582269998487402776}
   m_Layer: 5
   m_Name: DrawPileUI
   m_TagString: Untagged
@@ -1261,10 +1276,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TooltipTrigger
   tooltipData:
     title: Draw Pile
-    description: Contains cards that can be drawn. When empty, your Discard Pile
-      is shuffled into your Draw Pile.
+    description: Contains cards that can be drawn. When empty, your Discard Pile is shuffled into your Draw Pile.
   tooltipDisplay: {fileID: 0}
   tooltipAnchor: {fileID: 3278417443594889764}
+--- !u!114 &7582269998487402776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1681330390054989339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97f4fe149f08fe64eb15378a83fa144f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DrawPileViewTrigger
+  cardViewDisplay: {fileID: 8280301360390411467}
 --- !u!1 &1718956776060076185
 GameObject:
   m_ObjectHideFlags: 0
@@ -1490,7 +1517,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 0
-  m_ActiveFontFeatures: 6e72656b
+  m_ActiveFontFeatures: 6e72656bu
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -1633,8 +1660,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6754165285759179500}
-        m_TargetAssemblyTypeName: DeckDisplay, Assembly-CSharp
+      - m_Target: {fileID: 8280301360390411467}
+        m_TargetAssemblyTypeName: CardViewDisplay, Assembly-CSharp
         m_MethodName: OnExitButton
         m_Mode: 1
         m_Arguments:
@@ -1654,8 +1681,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6620278120881877460}
+  - component: {fileID: 8280301360390411467}
   m_Layer: 5
-  m_Name: DeckViewScreen
+  m_Name: CardViewScreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1677,7 +1705,6 @@ RectTransform:
   - {fileID: 4816083843914450323}
   - {fileID: 3859296846811640646}
   - {fileID: 5466075979306085387}
-  - {fileID: 2483081866427669330}
   m_Father: {fileID: 6892807619614968781}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1685,6 +1712,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &8280301360390411467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1857417528121676675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98e1f95f84f2dcd4e85574a4dccf65a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CardViewDisplay
+  cardViewScreen: {fileID: 1857417528121676675}
+  cardContainer: {fileID: 4966045648953411803}
+  cardPrefab: {fileID: 6768943529909351548, guid: ea57f702e7a45ac4abe9cfeda2a24c03, type: 3}
+  titleText: {fileID: 2152316982980372113}
 --- !u!1 &1958860463243497091
 GameObject:
   m_ObjectHideFlags: 0
@@ -2065,7 +2108,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 0
-  m_ActiveFontFeatures: 6e72656b
+  m_ActiveFontFeatures: 6e72656bu
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -2202,7 +2245,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 0
-  m_ActiveFontFeatures: 6e72656b
+  m_ActiveFontFeatures: 6e72656bu
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -2659,7 +2702,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 0
-  m_ActiveFontFeatures: 6e72656b
+  m_ActiveFontFeatures: 6e72656bu
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -2831,7 +2874,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 0
-  m_ActiveFontFeatures: 6e72656b
+  m_ActiveFontFeatures: 6e72656bu
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -3153,7 +3196,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 0
-  m_ActiveFontFeatures: 6e72656b
+  m_ActiveFontFeatures: 6e72656bu
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -3387,7 +3430,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 0
-  m_ActiveFontFeatures: 6e72656b
+  m_ActiveFontFeatures: 6e72656bu
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -3421,7 +3464,7 @@ GameObject:
   - component: {fileID: 4530767096957557854}
   - component: {fileID: 2152316982980372113}
   m_Layer: 5
-  m_Name: DeckTitle
+  m_Name: ViewTitle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3474,7 +3517,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Deck View
+  m_text: View Title
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3524,7 +3567,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 0
-  m_ActiveFontFeatures: 6e72656b
+  m_ActiveFontFeatures: 6e72656bu
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -3741,7 +3784,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 0
-  m_ActiveFontFeatures: 6e72656b
+  m_ActiveFontFeatures: 6e72656bu
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -3839,6 +3882,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 1
+  m_UseReflectionProbes: 0
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
@@ -3917,6 +3961,7 @@ GameObject:
   m_Component:
   - component: {fileID: 471954708840488213}
   - component: {fileID: 2089453352959911763}
+  - component: {fileID: 36763038168594445}
   m_Layer: 5
   m_Name: ExhaustPileCountUI
   m_TagString: Untagged
@@ -3961,10 +4006,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TooltipTrigger
   tooltipData:
     title: Exhaust Pile
-    description: Contains cards that have been Exhausted. Exhausted cards cannot
-      be drawn again this combat.
+    description: Contains cards that have been Exhausted. Exhausted cards cannot be drawn again this combat.
   tooltipDisplay: {fileID: 0}
   tooltipAnchor: {fileID: 8246868318255889578}
+--- !u!114 &36763038168594445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4636883903576877163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e13364bbe2e9c5241bfa33715c1f8164, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ExhaustPileViewTrigger
+  cardViewDisplay: {fileID: 8280301360390411467}
 --- !u!1 &4710032180976432567
 GameObject:
   m_ObjectHideFlags: 0
@@ -4105,7 +4162,6 @@ GameObject:
   m_Component:
   - component: {fileID: 9126516208027357915}
   - component: {fileID: 208547817636816586}
-  - component: {fileID: 6754165285759179500}
   - component: {fileID: 8573468621774943978}
   m_Layer: 5
   m_Name: DeckUI
@@ -4154,21 +4210,6 @@ MonoBehaviour:
     description: A viewable list when clicked on to display the current deck.
   tooltipDisplay: {fileID: 0}
   tooltipAnchor: {fileID: 2378675821313076937}
---- !u!114 &6754165285759179500
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5177377018921869757}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98e1f95f84f2dcd4e85574a4dccf65a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DeckDisplay
-  deckViewScreen: {fileID: 1857417528121676675}
-  cardContainer: {fileID: 4966045648953411803}
-  cardPrefab: {fileID: 6768943529909351548, guid: ea57f702e7a45ac4abe9cfeda2a24c03, type: 3}
 --- !u!114 &8573468621774943978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4181,7 +4222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a587e0d568bd3642abe4dea3de9410d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DeckViewTrigger
-  deckDisplay: {fileID: 6754165285759179500}
+  cardViewDisplay: {fileID: 8280301360390411467}
 --- !u!1 &5338408661737730389
 GameObject:
   m_ObjectHideFlags: 0
@@ -4539,7 +4580,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 0
-  m_ActiveFontFeatures: 6e72656b
+  m_ActiveFontFeatures: 6e72656bu
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -4676,7 +4717,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 0
-  m_ActiveFontFeatures: 6e72656b
+  m_ActiveFontFeatures: 6e72656bu
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -4813,7 +4854,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 0
-  m_ActiveFontFeatures: 6e72656b
+  m_ActiveFontFeatures: 6e72656bu
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -4950,7 +4991,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 0
-  m_ActiveFontFeatures: 6e72656b
+  m_ActiveFontFeatures: 6e72656bu
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -5400,7 +5441,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 0
-  m_ActiveFontFeatures: 6e72656b
+  m_ActiveFontFeatures: 6e72656bu
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -5456,41 +5497,6 @@ RectTransform:
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 743, y: 60}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &7462460577059461053
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2483081866427669330}
-  m_Layer: 5
-  m_Name: CardViewScreen
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &2483081866427669330
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7462460577059461053}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6620278120881877460}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &7469933351174671610
 GameObject:
@@ -5607,7 +5613,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 0
-  m_ActiveFontFeatures: 6e72656b
+  m_ActiveFontFeatures: 6e72656bu
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -5744,7 +5750,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 0
-  m_ActiveFontFeatures: 6e72656b
+  m_ActiveFontFeatures: 6e72656bu
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -5881,7 +5887,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 0
-  m_ActiveFontFeatures: 6e72656b
+  m_ActiveFontFeatures: 6e72656bu
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -6018,7 +6024,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 0
-  m_ActiveFontFeatures: 6e72656b
+  m_ActiveFontFeatures: 6e72656bu
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -6224,8 +6230,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TooltipTrigger
   tooltipData:
     title: Corruption
-    description: Certain cards increase Corruption. At maximum Corruption, you take
-      damage, gain debuffs, and your Corruption resets.
+    description: Certain cards increase Corruption. At maximum Corruption, you take damage, gain debuffs, and your Corruption resets.
   tooltipDisplay: {fileID: 0}
   tooltipAnchor: {fileID: 6369876349758763172}
 --- !u!114 &6287251392197118376
@@ -6347,8 +6352,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TooltipTrigger
   tooltipData:
     title: Energy
-    description: Energy is used to play cards. Your Energy is restored at the start
-      of each turn.
+    description: Energy is used to play cards. Your Energy is restored at the start of each turn.
   tooltipDisplay: {fileID: 0}
   tooltipAnchor: {fileID: 4995659772065862281}
 --- !u!1 &9049307858851162483
@@ -7496,7 +7500,7 @@ MonoBehaviour:
     title: Health
     description: When your Health reaches 0, you die.
   tooltipDisplay: {fileID: 0}
-  tooltipAnchor: {fileID: 0}
+  tooltipAnchor: {fileID: 5598214787995040085}
 --- !u!1 &556644198091743039 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3894402963841512277, guid: 404bedb6efb2e474cb60307b2621680b, type: 3}

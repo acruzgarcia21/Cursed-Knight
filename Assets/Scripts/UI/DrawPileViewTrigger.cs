@@ -15,7 +15,7 @@ public class DrawPileViewTrigger : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         cardViewDisplay.SetTitleText("Draw Pile View");
-        
+        cardViewDisplay.SetCurrentViewerToDrawPile();
         cardViewDisplay.DisplayCards(_drawPileManager.GetDrawPile());
     }
 }

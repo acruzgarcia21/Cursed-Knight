@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Last Rites
   m_EditorClassIdentifier: Assembly-CSharp::Attack
   cardName: Last Rites
-  cardDescription: Deal 24 Damage
+  cardDescription: Deal 24 Damage. Exhaust.
   cardType: 0
   targetType: 0
   cardSprite: {fileID: 0}
@@ -22,7 +22,11 @@ MonoBehaviour:
   cardsToDraw: 0
   cardsToDiscardRandomly: 0
   cardsToDrawFromDiscard: 0
+  cardHealthGain: 0
+  cardHealthLoss: 0
+  cardEnergyGain: 0
   appliesStatus: 0
+  statusTargetType: 0
   statusType: 0
   statusAmount: 0
   statusDuration: 0
@@ -33,5 +37,9 @@ MonoBehaviour:
   cardToCreate: {fileID: 0}
   cardsToCreate: 0
   createdCardDestination: 0
+  reducesNextAttackEnergy: 0
+  energyToReduce: 0
   cardDamage: 24
   hitCount: 1
+  scalesWithCorruption: 0
+  corruptionDamagePerPoint: 0
