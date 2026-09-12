@@ -40,9 +40,9 @@ public class Player : MonoBehaviour
         _statusManager         = GetComponent<StatusManager>();
         _combatFeedbackManager = GetComponent<CombatFeedbackManager>();
 
-        _uiDisplay               = FindFirstObjectByType<UIDisplay>();
-        _enemyManager            = FindFirstObjectByType<EnemyManager>();
-        _corruptionVisualEffects = FindFirstObjectByType<CorruptionVisualEffects>();
+        _uiDisplay               = FindAnyObjectByType<UIDisplay>();
+        _enemyManager            = FindAnyObjectByType<EnemyManager>();
+        _corruptionVisualEffects = FindAnyObjectByType<CorruptionVisualEffects>();
 
         _playerDisplay.UpdatePlayerDisplay();
     }

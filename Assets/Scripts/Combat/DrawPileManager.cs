@@ -15,7 +15,7 @@ public class DrawPileManager : MonoBehaviour
 
     private void Awake()
     {
-        _discardManager = FindFirstObjectByType<DiscardManager>();
+        _discardManager = FindAnyObjectByType<DiscardManager>();
     }
 
     public void MakeDrawPile(List<RuntimeCard> cardsToAdd)

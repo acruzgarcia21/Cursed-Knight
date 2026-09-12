@@ -1,26 +1,28 @@
-using System;
 using System.Collections.Generic;
 using CursedKnight;
+using TMPro;
 using UnityEngine;
 
-public class DeckDisplay : MonoBehaviour
+public class CardViewDisplay : MonoBehaviour
 {
-    [SerializeField] private GameObject deckViewScreen;
+    [SerializeField] private GameObject cardViewScreen;
     [SerializeField] private GameObject cardContainer;
     [SerializeField] private GameObject cardPrefab;
+
+    [SerializeField] private TMP_Text titleText;
 
     private readonly List<GameObject> _cardsList = new();
 
     private void Awake()
     {
-        deckViewScreen.SetActive(false);
+        cardViewScreen.SetActive(false);
     }
 
-    public void DisplayDeck(List<Card> deckToDisplay)
+    public void DisplayCards(List<Card> cardsToDisplay)
     {
         ClearCardsList();
 
-        foreach (var card in deckToDisplay)
+        foreach (var card in cardsToDisplay)
         {
             var newCard = Instantiate(cardPrefab, cardContainer.transform);
             
@@ -43,7 +45,7 @@ public class DeckDisplay : MonoBehaviour
             cardDisplay.runtimeCard = runtimeCard;
         }
         
-        deckViewScreen.SetActive(true);
+        cardViewScreen.SetActive(true);
     }
 
     private void ClearCardsList()
@@ -58,6 +60,11 @@ public class DeckDisplay : MonoBehaviour
 
     public void OnExitButton()
     {
-        deckViewScreen.SetActive(false);
+        cardViewScreen.SetActive(false);
+    }
+
+    public void SetTitleText(string text)
+    {
+        titleText.text = text;
     }
 }

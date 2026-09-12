@@ -8,7 +8,7 @@ public class ExhaustManager : MonoBehaviour
     
     private void Awake()
     {
-        _exhaustPileDisplay = FindFirstObjectByType<ExhaustPileDisplay>();
+        _exhaustPileDisplay = FindAnyObjectByType<ExhaustPileDisplay>();
         UpdateExhaustCount();
     }
     

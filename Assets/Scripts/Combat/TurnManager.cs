@@ -14,9 +14,9 @@ public class TurnManager : MonoBehaviour
 
     private void Awake()
     {
-        _player          = FindFirstObjectByType<Player>();
-        _enemyManager    = FindFirstObjectByType<EnemyManager>();
-        _handManager     = FindFirstObjectByType<HandManager>();
+        _player       = FindAnyObjectByType<Player>();
+        _enemyManager = FindAnyObjectByType<EnemyManager>();
+        _handManager  = FindAnyObjectByType<HandManager>();
     }
 
     public void EndTurn()

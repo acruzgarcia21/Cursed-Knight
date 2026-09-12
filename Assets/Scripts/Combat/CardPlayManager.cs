@@ -20,11 +20,11 @@ public class CardPlayManager : MonoBehaviour
 
     private void Awake()
     {
-        _handManager    = FindFirstObjectByType<HandManager>();
-        _discardManager = FindFirstObjectByType<DiscardManager>();
-        _enemyManager   = FindFirstObjectByType<EnemyManager>();
-        _exhaustManager = FindFirstObjectByType<ExhaustManager>();
-        _deckManager    = FindFirstObjectByType<DeckManager>();
+        _handManager    = FindAnyObjectByType<HandManager>();
+        _discardManager = FindAnyObjectByType<DiscardManager>();
+        _enemyManager   = FindAnyObjectByType<EnemyManager>();
+        _exhaustManager = FindAnyObjectByType<ExhaustManager>();
+        _deckManager    = FindAnyObjectByType<DeckManager>();
     }
 
     public bool TryPlayCard(Player player, RuntimeCard runtimeCard, GameObject cardObject, Enemy targetEnemy)

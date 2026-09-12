@@ -20,10 +20,10 @@ public class HandManager : MonoBehaviour
 
     private void Awake()
     {
-        _discardManager  = FindFirstObjectByType<DiscardManager>();
-        _drawPileManager = FindFirstObjectByType<DrawPileManager>();
-        _handDisplay     = FindFirstObjectByType<HandDisplay>();
-        _exhaustManager  = FindFirstObjectByType<ExhaustManager>();
+        _discardManager  = FindAnyObjectByType<DiscardManager>();
+        _drawPileManager = FindAnyObjectByType<DrawPileManager>();
+        _handDisplay     = FindAnyObjectByType<HandDisplay>();
+        _exhaustManager  = FindAnyObjectByType<ExhaustManager>();
     }
     
     public void BattleSetup(int setMaxHandSize)

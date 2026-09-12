@@ -21,10 +21,10 @@ public class BattleManager : MonoBehaviour
             Debug.Log("EnemyManager not found under BattleManager");
         }
 
-        _turnManager   = FindFirstObjectByType<TurnManager>();
-        _deckManager   = FindFirstObjectByType<DeckManager>();
-        _rewardManager = FindFirstObjectByType<RewardManager>();
-        _player        = FindFirstObjectByType<Player>();
+        _turnManager   = FindAnyObjectByType<TurnManager>();
+        _deckManager   = FindAnyObjectByType<DeckManager>();
+        _rewardManager = FindAnyObjectByType<RewardManager>();
+        _player        = FindAnyObjectByType<Player>();
     }
 
     private void Start()

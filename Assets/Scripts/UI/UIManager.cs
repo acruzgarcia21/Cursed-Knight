@@ -6,7 +6,7 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
-        _turnManager = FindFirstObjectByType<TurnManager>();
+        _turnManager = FindAnyObjectByType<TurnManager>();
     }
 
     public void OnEndTurnButtonClicked()

@@ -91,20 +91,20 @@ public class CardMovement : MonoBehaviour,
         _originalPosition = _rectTransform.localPosition;
         _originalRotation = _rectTransform.localRotation;
 
-        _player          = FindFirstObjectByType<Player>();
-        _cardPlayManager = FindFirstObjectByType<CardPlayManager>();
-        _handManager     = FindFirstObjectByType<HandManager>();
-        _rewardManager   = FindFirstObjectByType<RewardManager>();
-        _handDisplay     = FindFirstObjectByType<HandDisplay>();
+        _player          = FindAnyObjectByType<Player>();
+        _cardPlayManager = FindAnyObjectByType<CardPlayManager>();
+        _handManager     = FindAnyObjectByType<HandManager>();
+        _rewardManager   = FindAnyObjectByType<RewardManager>();
+        _handDisplay     = FindAnyObjectByType<HandDisplay>();
         
-        var playPoint = FindFirstObjectByType<CardPlayPoint>();
+        var playPoint = FindAnyObjectByType<CardPlayPoint>();
 
         if (playPoint != null)
         {
             _cardPlayPoint = playPoint.GetComponent<RectTransform>();
         }
 
-        var targetPlayPoint = FindFirstObjectByType<TargetingCardPoint>();
+        var targetPlayPoint = FindAnyObjectByType<TargetingCardPoint>();
 
         if (targetPlayPoint != null)
         {

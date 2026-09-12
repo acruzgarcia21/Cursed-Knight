@@ -31,7 +31,7 @@ public class EnemyDisplay : MonoBehaviour
     {
         enemy   = GetComponent<Enemy>();
         
-        _player = FindFirstObjectByType<Player>();
+        _player = FindAnyObjectByType<Player>();
         
         enemySprite = transform.Find("EnemyCanvas/EnemyImage").GetComponent<Image>();
     }

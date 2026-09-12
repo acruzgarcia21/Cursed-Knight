@@ -8,7 +8,7 @@ public class DiscardManager : MonoBehaviour
 
     private void Awake()
     {
-        _discardPileDisplay = FindFirstObjectByType<DiscardPileDisplay>();
+        _discardPileDisplay = FindAnyObjectByType<DiscardPileDisplay>();
         UpdateDiscardCount();
     }
 

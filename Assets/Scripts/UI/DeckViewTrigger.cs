@@ -3,17 +3,19 @@ using UnityEngine.EventSystems;
 
 public class DeckViewTrigger : MonoBehaviour, IPointerClickHandler
 {
-    [SerializeField] private DeckDisplay deckDisplay;
+    [SerializeField] private CardViewDisplay cardViewDisplay;
     
     private DeckManager _deckManager;
 
     private void Awake()
     {
-        _deckManager = FindFirstObjectByType<DeckManager>();
+        _deckManager = FindAnyObjectByType<DeckManager>();
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        deckDisplay.DisplayDeck(_deckManager.playerDeck);
+        cardViewDisplay.SetTitleText("Deck View");
+        
+        cardViewDisplay.DisplayCards(_deckManager.playerDeck);
     }
 }

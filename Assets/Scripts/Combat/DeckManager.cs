@@ -16,9 +16,9 @@ public class DeckManager : MonoBehaviour
 
     private void Awake()
     {
-        _drawPileManager = FindFirstObjectByType<DrawPileManager>();
-        _handManager     = FindFirstObjectByType<HandManager>();
-        _discardManager  = FindFirstObjectByType<DiscardManager>();
+        _drawPileManager = FindAnyObjectByType<DrawPileManager>();
+        _handManager     = FindAnyObjectByType<HandManager>();
+        _discardManager  = FindAnyObjectByType<DiscardManager>();
     }
 
     public void BattleSetup()
