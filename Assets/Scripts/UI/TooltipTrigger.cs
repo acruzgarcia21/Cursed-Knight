@@ -28,7 +28,7 @@ public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
         if (tooltipDisplay == null)
         {
-            tooltipDisplay = FindFirstObjectByType<TooltipDisplay>(FindObjectsInactive.Include);
+            tooltipDisplay = FindAnyObjectByType<TooltipDisplay>(FindObjectsInactive.Include);
         }
     }
 

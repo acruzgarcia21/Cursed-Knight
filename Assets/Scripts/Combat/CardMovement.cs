@@ -11,6 +11,8 @@ public class CardMovement : MonoBehaviour,
     IPointerEnterHandler,
     IPointerExitHandler
 {
+    public event System.Action<RuntimeCard> OnCardViewClicked;
+    
     private RectTransform _rectTransform;
     private Canvas        _canvas;
     private RectTransform _canvasRectTransform;
@@ -41,7 +43,9 @@ public class CardMovement : MonoBehaviour,
     private enum CardMode
     {
         Combat,
-        Reward
+        Reward,
+        CardView,
+        CardPopupView
     }
 
     private CardState _currentState = CardState.Idle;
@@ -74,6 +78,7 @@ public class CardMovement : MonoBehaviour,
     [SerializeField] private float selectedLerpFactor = 25f;
     [SerializeField] private float dragThreshold      = 15f;
     [SerializeField] private float clickThreshold     = 0.3f;
+    [SerializeField] private float popupScale         = 1.5f;
     
     private void Awake()
     {
@@ -90,20 +95,20 @@ public class CardMovement : MonoBehaviour,
         _originalPosition = _rectTransform.localPosition;
         _originalRotation = _rectTransform.localRotation;
 
-        _player          = FindFirstObjectByType<Player>();
-        _cardPlayManager = FindFirstObjectByType<CardPlayManager>();
-        _handManager     = FindFirstObjectByType<HandManager>();
-        _rewardManager   = FindFirstObjectByType<RewardManager>();
-        _handDisplay     = FindFirstObjectByType<HandDisplay>();
+        _player          = FindAnyObjectByType<Player>();
+        _cardPlayManager = FindAnyObjectByType<CardPlayManager>();
+        _handManager     = FindAnyObjectByType<HandManager>();
+        _rewardManager   = FindAnyObjectByType<RewardManager>();
+        _handDisplay     = FindAnyObjectByType<HandDisplay>();
         
-        var playPoint = FindFirstObjectByType<CardPlayPoint>();
+        var playPoint = FindAnyObjectByType<CardPlayPoint>();
 
         if (playPoint != null)
         {
             _cardPlayPoint = playPoint.GetComponent<RectTransform>();
         }
 
-        var targetPlayPoint = FindFirstObjectByType<TargetingCardPoint>();
+        var targetPlayPoint = FindAnyObjectByType<TargetingCardPoint>();
 
         if (targetPlayPoint != null)
         {
@@ -167,6 +172,7 @@ public class CardMovement : MonoBehaviour,
 
             case CardState.Idle:
                 
+                if (_cardMode == CardMode.CardPopupView) break;
                 _cardVisualEffects.HandleScaleToNormal(_rectTransform, _originalScale, lerpFactor);
                 
                 break;
@@ -176,13 +182,22 @@ public class CardMovement : MonoBehaviour,
     private void ReturnToIdleState()
     {
         _currentState = CardState.Idle;
+        
+        if (_cardMode == CardMode.CardView )
+        {
+            _cardVisualEffects.HandleGlowEffect(false);
+            _cardVisualEffects.ShowPlayArrow(false);
+            return;
+        }
+
+        if (_cardMode == CardMode.CardPopupView) return;
 
         _rectTransform.localRotation = _originalRotation;
         _rectTransform.localPosition = _originalPosition;
 
         _playingFromSelection = false;
 
-        if (_cardMode == CardMode.Reward)
+        if (_cardMode == CardMode.Reward )
         {
             _cardVisualEffects.HandleGlowEffect(false);
             _cardVisualEffects.ShowPlayArrow(false);
@@ -207,6 +222,18 @@ public class CardMovement : MonoBehaviour,
         if (_cardMode == CardMode.Reward)
         {
             _currentState = CardState.Hovering;
+            return;
+        }
+
+        if (_cardMode == CardMode.CardView)
+        {
+            _currentState = CardState.Hovering;
+            return;
+        }
+        
+        if (_cardMode == CardMode.CardPopupView)
+        {
+            _currentState = CardState.Idle;
             return;
         }
         
@@ -247,6 +274,21 @@ public class CardMovement : MonoBehaviour,
 
             var rewardCardSelected = _cardDisplay.runtimeCard.cardData;
             _rewardManager.AddSelectedRewardCardToDeck(rewardCardSelected);
+            return;
+        }
+
+        if (_cardMode == CardMode.CardView)
+        {
+            _currentState = CardState.Idle;
+            _cardVisualEffects.HandleGlowEffect(false);
+            
+            OnCardViewClicked?.Invoke(_cardDisplay.runtimeCard);
+            return;
+        }
+        
+        if (_cardMode == CardMode.CardPopupView)
+        {
+            _currentState = CardState.Idle;
             return;
         }
 
@@ -574,5 +616,15 @@ public class CardMovement : MonoBehaviour,
     {
         _cardMode = CardMode.Reward;
     }
-    
+
+    public void SetCardToCardViewMode()
+    {
+        _cardMode = CardMode.CardView;
+    }
+
+    public void SetCardToCardPopupViewMode()
+    {
+        _cardMode = CardMode.CardPopupView;
+        _rectTransform.localScale = Vector3.one * popupScale;
+    }
 }

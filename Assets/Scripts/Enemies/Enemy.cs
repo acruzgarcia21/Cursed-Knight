@@ -105,7 +105,7 @@ public class Enemy : MonoBehaviour
             _nextAttackBonusDamage = 0;
             
             
-            Debug.Log($"{enemyData.enemyName} ({GetInstanceID()}) uses {_currentAction.actionName} for {modifiedDamage} damage x{hitCount}.");
+            Debug.Log($"{enemyData.enemyName} ({GetEntityId()}) uses {_currentAction.actionName} for {modifiedDamage} damage x{hitCount}.");
         }
 
         if (_currentAction.blockAmount > 0)
@@ -180,12 +180,12 @@ public class Enemy : MonoBehaviour
         ProcessEndTurnStatuses();
         if (EnemyIsDead()) return;
 
-        Debug.Log($"{enemyData.enemyName} ({GetInstanceID()}) BEFORE Tick");
+        Debug.Log($"{enemyData.enemyName} ({GetEntityId()}) BEFORE Tick");
         _statusManager.DebugPrintStatuses();
         
         _statusManager.TickDurations();
         
-        Debug.Log($"{enemyData.enemyName} ({GetInstanceID()}) AFTER Tick");
+        Debug.Log($"{enemyData.enemyName} ({GetEntityId()}) AFTER Tick");
         _statusManager.DebugPrintStatuses();
         
         Debug.Log(
@@ -577,8 +577,8 @@ public class Enemy : MonoBehaviour
                 }
 
                 Debug.Log(
-                    $"{enemyData.enemyName} ({GetInstanceID()}) buffs " +
-                    $"{randomAlly.enemyData.enemyName} ({randomAlly.GetInstanceID()}) " +
+                    $"{enemyData.enemyName} ({GetEntityId()}) buffs " +
+                    $"{randomAlly.enemyData.enemyName} ({randomAlly.GetEntityId()}) " +
                     $"with {_currentAction.statusType} " +
                     $"Amount: {_currentAction.statusAmount} | Duration: {_currentAction.statusDuration}"
                 );

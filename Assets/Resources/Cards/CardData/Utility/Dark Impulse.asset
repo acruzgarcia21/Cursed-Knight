@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Dark Impulse
   m_EditorClassIdentifier: Assembly-CSharp::UtilityCard
   cardName: Dark Impulse
-  cardDescription: Gain 2 Energy
-  cardType: 0
-  targetType: 0
+  cardDescription: Gain 2 Energy. Spectral
+  cardType: 2
+  targetType: 3
   cardSprite: {fileID: 0}
   cardEnergyCost: 0
   cardCorruptionGain: 2
@@ -26,6 +26,7 @@ MonoBehaviour:
   cardHealthLoss: 0
   cardEnergyGain: 0
   appliesStatus: 0
+  statusTargetType: 0
   statusType: 0
   statusAmount: 0
   statusDuration: 0
@@ -36,3 +37,5 @@ MonoBehaviour:
   cardToCreate: {fileID: 0}
   cardsToCreate: 0
   createdCardDestination: 0
+  reducesNextAttackEnergy: 0
+  energyToReduce: 0

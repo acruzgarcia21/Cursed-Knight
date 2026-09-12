@@ -3,12 +3,14 @@ using UnityEngine;
 
 public class DiscardManager : MonoBehaviour
 {
+    public event System.Action OnDiscardPileChanged;
+    
     private DiscardPileDisplay _discardPileDisplay;
     private readonly List<RuntimeCard> _discardPile = new();
 
     private void Awake()
     {
-        _discardPileDisplay = FindFirstObjectByType<DiscardPileDisplay>();
+        _discardPileDisplay = FindAnyObjectByType<DiscardPileDisplay>();
         UpdateDiscardCount();
     }
 
@@ -18,6 +20,8 @@ public class DiscardManager : MonoBehaviour
 
         _discardPile.Add(runtimeCard);
         UpdateDiscardCount();
+        
+        OnDiscardPileChanged?.Invoke();
     }
 
     public RuntimeCard PullFromDiscardPile()
@@ -28,6 +32,8 @@ public class DiscardManager : MonoBehaviour
 
         _discardPile.RemoveAt(_discardPile.Count - 1);
         UpdateDiscardCount();
+        
+        OnDiscardPileChanged?.Invoke();
 
         return cardToReturn;
     }
@@ -38,6 +44,8 @@ public class DiscardManager : MonoBehaviour
         if (!_discardPile.Remove(runtimeCard)) return false;
 
         UpdateDiscardCount();
+        
+        OnDiscardPileChanged?.Invoke();
         return true;
     }
 
@@ -47,6 +55,8 @@ public class DiscardManager : MonoBehaviour
 
         _discardPile.Clear();
         UpdateDiscardCount();
+        
+        OnDiscardPileChanged?.Invoke();
 
         return cardsToReturn;
     }
@@ -60,6 +70,8 @@ public class DiscardManager : MonoBehaviour
 
         _discardPile.RemoveAt(randomCardIndex);
         UpdateDiscardCount();
+        
+        OnDiscardPileChanged?.Invoke();
 
         return randomCardToReturn;
     }
@@ -67,6 +79,11 @@ public class DiscardManager : MonoBehaviour
     public bool IsDiscardPileEmpty()
     {
         return _discardPile.Count == 0;
+    }
+
+    public IReadOnlyList<RuntimeCard> GetDiscardPile()
+    {
+        return _discardPile;
     }
 
     private void UpdateDiscardCount()

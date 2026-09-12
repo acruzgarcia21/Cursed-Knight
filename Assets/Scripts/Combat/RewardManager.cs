@@ -17,7 +17,7 @@ public class RewardManager : MonoBehaviour
 
     private void Awake()
     {
-        _deckManager = FindFirstObjectByType<DeckManager>();
+        _deckManager = FindAnyObjectByType<DeckManager>();
     }
 
     public void StartRewards()

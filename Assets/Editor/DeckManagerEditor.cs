@@ -13,7 +13,7 @@ public class DrawPileManagerEditor : Editor
 
         if (GUILayout.Button("Draw Next Card"))
         {
-            HandManager handManager = Object.FindFirstObjectByType<HandManager>();
+            var handManager = FindAnyObjectByType<HandManager>();
 
             if (handManager != null)
             {

@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class CardDisplay : MonoBehaviour
 {
-    public RuntimeCard runtimeCard;
-
+    [System.NonSerialized] public RuntimeCard runtimeCard;
+    
     [SerializeField] private TMP_Text cardName;
     [SerializeField] private TMP_Text cardEnergyCost;
     [SerializeField] private TMP_Text cardDescription;

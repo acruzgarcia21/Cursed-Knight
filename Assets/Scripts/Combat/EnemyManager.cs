@@ -20,7 +20,7 @@ public class EnemyManager : MonoBehaviour
     {
         if (_battleManager == null)
         {
-            _battleManager = FindFirstObjectByType<BattleManager>();
+            _battleManager = FindAnyObjectByType<BattleManager>();
         }
     }
 

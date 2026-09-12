@@ -5,9 +5,11 @@ using UnityEngine;
 
 public class DrawPileManager : MonoBehaviour
 {
-    private List<RuntimeCard> _drawPile = new();
-    
     public TextMeshProUGUI drawPileCounter;
+
+    public event System.Action OnDrawPileChanged;
+    
+    private List<RuntimeCard> _drawPile = new();
     
     private int _currentIndex;
     
@@ -15,7 +17,7 @@ public class DrawPileManager : MonoBehaviour
 
     private void Awake()
     {
-        _discardManager = FindFirstObjectByType<DiscardManager>();
+        _discardManager = FindAnyObjectByType<DiscardManager>();
     }
 
     public void MakeDrawPile(List<RuntimeCard> cardsToAdd)
@@ -27,6 +29,8 @@ public class DrawPileManager : MonoBehaviour
 
         _currentIndex = 0;
         UpdateDrawPileCount();
+        
+        OnDrawPileChanged?.Invoke();
     }
 
     public void AddToDrawPile(RuntimeCard cardToAdd)
@@ -39,6 +43,8 @@ public class DrawPileManager : MonoBehaviour
 
         _currentIndex = 0;
         UpdateDrawPileCount();
+        
+        OnDrawPileChanged?.Invoke();
     }
 
     public RuntimeCard DrawCard()
@@ -64,6 +70,8 @@ public class DrawPileManager : MonoBehaviour
         }
 
         UpdateDrawPileCount();
+        
+        OnDrawPileChanged?.Invoke();
 
         return nextCard;
     }
@@ -78,10 +86,17 @@ public class DrawPileManager : MonoBehaviour
         
         _currentIndex = 0;
         UpdateDrawPileCount();
+        
+        OnDrawPileChanged?.Invoke();
     }
 
     private void UpdateDrawPileCount()
     {
         drawPileCounter.text = _drawPile.Count.ToString();
+    }
+
+    public IReadOnlyList<RuntimeCard> GetDrawPile()
+    {
+        return _drawPile;
     }
 }
