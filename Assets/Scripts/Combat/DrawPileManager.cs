@@ -11,7 +11,6 @@ public class DrawPileManager : MonoBehaviour
     
     private List<RuntimeCard> _drawPile = new();
     
-    
     private int _currentIndex;
     
     private DiscardManager _discardManager;

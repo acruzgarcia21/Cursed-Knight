@@ -11,6 +11,8 @@ public class CardMovement : MonoBehaviour,
     IPointerEnterHandler,
     IPointerExitHandler
 {
+    public event System.Action<RuntimeCard> OnCardViewClicked;
+    
     private RectTransform _rectTransform;
     private Canvas        _canvas;
     private RectTransform _canvasRectTransform;
@@ -42,7 +44,8 @@ public class CardMovement : MonoBehaviour,
     {
         Combat,
         Reward,
-        CardView
+        CardView,
+        CardPopupView
     }
 
     private CardState _currentState = CardState.Idle;
@@ -75,6 +78,7 @@ public class CardMovement : MonoBehaviour,
     [SerializeField] private float selectedLerpFactor = 25f;
     [SerializeField] private float dragThreshold      = 15f;
     [SerializeField] private float clickThreshold     = 0.3f;
+    [SerializeField] private float popupScale         = 1.5f;
     
     private void Awake()
     {
@@ -168,6 +172,7 @@ public class CardMovement : MonoBehaviour,
 
             case CardState.Idle:
                 
+                if (_cardMode == CardMode.CardPopupView) break;
                 _cardVisualEffects.HandleScaleToNormal(_rectTransform, _originalScale, lerpFactor);
                 
                 break;
@@ -184,6 +189,8 @@ public class CardMovement : MonoBehaviour,
             _cardVisualEffects.ShowPlayArrow(false);
             return;
         }
+
+        if (_cardMode == CardMode.CardPopupView) return;
 
         _rectTransform.localRotation = _originalRotation;
         _rectTransform.localPosition = _originalPosition;
@@ -221,6 +228,12 @@ public class CardMovement : MonoBehaviour,
         if (_cardMode == CardMode.CardView)
         {
             _currentState = CardState.Hovering;
+            return;
+        }
+        
+        if (_cardMode == CardMode.CardPopupView)
+        {
+            _currentState = CardState.Idle;
             return;
         }
         
@@ -268,6 +281,14 @@ public class CardMovement : MonoBehaviour,
         {
             _currentState = CardState.Idle;
             _cardVisualEffects.HandleGlowEffect(false);
+            
+            OnCardViewClicked?.Invoke(_cardDisplay.runtimeCard);
+            return;
+        }
+        
+        if (_cardMode == CardMode.CardPopupView)
+        {
+            _currentState = CardState.Idle;
             return;
         }
 
@@ -600,5 +621,10 @@ public class CardMovement : MonoBehaviour,
     {
         _cardMode = CardMode.CardView;
     }
-    
+
+    public void SetCardToCardPopupViewMode()
+    {
+        _cardMode = CardMode.CardPopupView;
+        _rectTransform.localScale = Vector3.one * popupScale;
+    }
 }

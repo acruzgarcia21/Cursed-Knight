@@ -5,11 +5,17 @@ using UnityEngine;
 
 public class CardViewDisplay : MonoBehaviour
 {
+    [Header("Card View Screen")] 
     [SerializeField] private GameObject cardViewScreen;
     [SerializeField] private GameObject cardContainer;
     [SerializeField] private GameObject cardPrefab;
-
+    
     [SerializeField] private TMP_Text titleText;
+    
+    [Space(10)] [Header("Card Preview Popup")]
+    [SerializeField] private GameObject cardPreviewPopup;
+    
+    [SerializeField] private RectTransform previewCardPoint;
 
     private readonly List<GameObject> _cardsList = new();
 
@@ -18,6 +24,8 @@ public class CardViewDisplay : MonoBehaviour
     private ExhaustManager  _exhaustManager;
 
     private CurrentViewer _currentViewer;
+    
+    private GameObject _currentPreviewCard;
 
     private enum CurrentViewer
     {
@@ -34,6 +42,7 @@ public class CardViewDisplay : MonoBehaviour
         _exhaustManager  = FindAnyObjectByType<ExhaustManager>();
 
         cardViewScreen.SetActive(false);
+        cardPreviewPopup.SetActive(false);
     }
 
     public void DisplayCardDefinitions(List<Card> cardsToDisplay)
@@ -59,6 +68,7 @@ public class CardViewDisplay : MonoBehaviour
             var cardMovement = newCard.GetComponent<CardMovement>();
 
             cardMovement.SetCardToCardViewMode();
+            cardMovement.OnCardViewClicked += HandleCardViewClicked;
 
             cardDisplay.runtimeCard = runtimeCard;
         }
@@ -88,6 +98,7 @@ public class CardViewDisplay : MonoBehaviour
             var cardMovement = newCard.GetComponent<CardMovement>();
 
             cardMovement.SetCardToCardViewMode();
+            cardMovement.OnCardViewClicked += HandleCardViewClicked;
 
             cardDisplay.runtimeCard = card;
         }
@@ -99,6 +110,9 @@ public class CardViewDisplay : MonoBehaviour
     {
         foreach (var card in _cardsList)
         {
+            var cardMovement = card.GetComponent<CardMovement>();
+            cardMovement.OnCardViewClicked -= HandleCardViewClicked;
+            
             Destroy(card);
         }
 
@@ -108,6 +122,14 @@ public class CardViewDisplay : MonoBehaviour
     public void OnExitButton()
     {
         cardViewScreen.SetActive(false);
+    }
+
+    public void OnCardPopupExitButton()
+    {
+        cardPreviewPopup.SetActive(false);
+        
+        Destroy(_currentPreviewCard);
+        _currentPreviewCard = null;
     }
 
     public void SetTitleText(string text)
@@ -168,5 +190,25 @@ public class CardViewDisplay : MonoBehaviour
         if (_currentViewer != CurrentViewer.ExhaustPile) return;
 
         DisplayCards(_exhaustManager.GetExhaustPile());
+    }
+
+    private void HandleCardViewClicked(RuntimeCard runtimeCard)
+    {
+        if (_currentPreviewCard != null)
+        {
+            Destroy(_currentPreviewCard);
+            _currentPreviewCard = null;
+        }
+        
+        cardPreviewPopup.SetActive(true);
+        
+        _currentPreviewCard = Instantiate(cardPrefab, previewCardPoint);
+        
+        var cardDisplay = _currentPreviewCard.GetComponent<CardDisplay>();
+        var cardMovement = _currentPreviewCard.GetComponent<CardMovement>();
+        
+        cardMovement.SetCardToCardPopupViewMode();
+        
+        cardDisplay.runtimeCard = runtimeCard;
     }
 }

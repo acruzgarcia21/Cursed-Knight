@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using CursedKnight;
+using TMPro;
 using UnityEngine;
 
 public class DeckManager : MonoBehaviour
@@ -13,6 +14,8 @@ public class DeckManager : MonoBehaviour
     private DiscardManager _discardManager;
     
     [SerializeField] private DeckData startingDeck;
+
+    [SerializeField] private TMP_Text deckCount;
 
     private void Awake()
     {
@@ -31,6 +34,8 @@ public class DeckManager : MonoBehaviour
         {
             runtimeCards.Add(new RuntimeCard(card));
         }
+        
+        UpdateDeckCount();
 
         _handManager.BattleSetup(maxHandSize);
         _drawPileManager.MakeDrawPile(runtimeCards);
@@ -75,5 +80,10 @@ public class DeckManager : MonoBehaviour
         if (cardToAdd == null) return;
         
         playerDeck.Add(cardToAdd);
+    }
+
+    public void UpdateDeckCount()
+    {
+        deckCount.text = playerDeck.Count.ToString();
     }
 }
