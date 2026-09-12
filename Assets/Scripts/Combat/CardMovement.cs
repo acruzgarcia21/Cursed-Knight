@@ -42,7 +42,7 @@ public class CardMovement : MonoBehaviour,
     {
         Combat,
         Reward,
-        Deck
+        CardView
     }
 
     private CardState _currentState = CardState.Idle;
@@ -178,7 +178,7 @@ public class CardMovement : MonoBehaviour,
     {
         _currentState = CardState.Idle;
         
-        if (_cardMode == CardMode.Deck )
+        if (_cardMode == CardMode.CardView )
         {
             _cardVisualEffects.HandleGlowEffect(false);
             _cardVisualEffects.ShowPlayArrow(false);
@@ -218,7 +218,7 @@ public class CardMovement : MonoBehaviour,
             return;
         }
 
-        if (_cardMode == CardMode.Deck)
+        if (_cardMode == CardMode.CardView)
         {
             _currentState = CardState.Hovering;
             return;
@@ -264,7 +264,7 @@ public class CardMovement : MonoBehaviour,
             return;
         }
 
-        if (_cardMode == CardMode.Deck)
+        if (_cardMode == CardMode.CardView)
         {
             _currentState = CardState.Idle;
             _cardVisualEffects.HandleGlowEffect(false);
@@ -596,9 +596,9 @@ public class CardMovement : MonoBehaviour,
         _cardMode = CardMode.Reward;
     }
 
-    public void SetCardToDeckMode()
+    public void SetCardToCardViewMode()
     {
-        _cardMode = CardMode.Deck;
+        _cardMode = CardMode.CardView;
     }
     
 }

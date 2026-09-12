@@ -84,4 +84,9 @@ public class DrawPileManager : MonoBehaviour
     {
         drawPileCounter.text = _drawPile.Count.ToString();
     }
+
+    public IReadOnlyList<RuntimeCard> GetDrawPile()
+    {
+        return _drawPile;
+    }
 }

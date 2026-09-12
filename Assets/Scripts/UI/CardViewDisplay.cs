@@ -18,7 +18,7 @@ public class CardViewDisplay : MonoBehaviour
         cardViewScreen.SetActive(false);
     }
 
-    public void DisplayCards(List<Card> cardsToDisplay)
+    public void DisplayCardDefinitions(List<Card> cardsToDisplay)
     {
         ClearCardsList();
 
@@ -40,9 +40,38 @@ public class CardViewDisplay : MonoBehaviour
             var runtimeCard = new RuntimeCard(card);
             var cardMovement = newCard.GetComponent<CardMovement>();
             
-            cardMovement.SetCardToDeckMode();
+            cardMovement.SetCardToCardViewMode();
 
             cardDisplay.runtimeCard = runtimeCard;
+        }
+        
+        cardViewScreen.SetActive(true);
+    }
+
+    public void DisplayCards(IReadOnlyList<RuntimeCard> cardsToDisplay)
+    {
+        ClearCardsList();
+
+        foreach (var card in cardsToDisplay)
+        {
+            var newCard = Instantiate(cardPrefab, cardContainer.transform);
+            
+            var cardDisplay = newCard.GetComponent<CardDisplay>();
+            
+            if (cardDisplay == null)
+            {
+                Destroy(newCard);
+                Debug.LogError("Card prefab is missing CardDisplay.");
+                return;
+            }
+            
+            _cardsList.Add(newCard);
+            
+            var cardMovement = newCard.GetComponent<CardMovement>();
+            
+            cardMovement.SetCardToCardViewMode();
+
+            cardDisplay.runtimeCard = card;
         }
         
         cardViewScreen.SetActive(true);
