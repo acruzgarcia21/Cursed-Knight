@@ -16,4 +16,10 @@ public class Map : MonoBehaviour
         Elite,
         Boss
     }
+
+    public IReadOnlyList<MapNode> GetAllMapNodes()
+    {
+        return allMapNodes;
+    }
+    
 }
