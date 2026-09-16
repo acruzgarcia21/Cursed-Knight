@@ -21,5 +21,9 @@ public class Map : MonoBehaviour
     {
         return allMapNodes;
     }
-    
+
+    public  MapNode GetStartingMapNode()
+    {
+        return startingMapNode; 
+    }
 }

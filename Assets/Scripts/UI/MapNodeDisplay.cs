@@ -1,8 +1,11 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class MapNodeDisplay : MonoBehaviour
+public class MapNodeDisplay : MonoBehaviour, IPointerClickHandler
 {
+    public event System.Action<MapNode> OnNodeClicked;
+    
     [SerializeField] private MapNode currentNode;
 
     [SerializeField] private Image currentNodeImage;
@@ -27,5 +30,10 @@ public class MapNodeDisplay : MonoBehaviour
             Map.MapNodeType.Boss => bossNodeSprite,
             _ => currentNodeImage.sprite
         };
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        OnNodeClicked?.Invoke(currentNode);
     }
 }

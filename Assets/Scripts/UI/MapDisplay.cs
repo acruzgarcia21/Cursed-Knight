@@ -3,12 +3,13 @@ using UnityEngine;
 public class MapDisplay : MonoBehaviour
 {
     [SerializeField] private Map map;
-
+    
     [SerializeField] private RectTransform connectionsContainer;
     
     [SerializeField] private GameObject connectionLinePrefab;
+    
+    [SerializeField] private float connectionEndGap = 60f;
 
-    [SerializeField] private float connectionBetweenNodesGap = 30f;
 
     private void Awake()
     {
@@ -19,42 +20,38 @@ public class MapDisplay : MonoBehaviour
     {
         foreach (var node in map.GetAllMapNodes())
         {
-            var nodeRectTransform = node.GetComponent<RectTransform>();
-            
             foreach (var nextNode in node.nextNodes)
             {
-                var nextNodeRectTransform = nextNode.GetComponent<RectTransform>();
-                
-                var startPosition = nodeRectTransform.anchoredPosition;
-                var endPosition = nextNodeRectTransform.anchoredPosition;
-
-                var midPoint = (endPosition + startPosition) / 2;
-                
-                var connectionBetweenNodes = Instantiate(connectionLinePrefab, connectionsContainer);
-
-                var connectionBetweenNodesRectTransform =
-                    connectionBetweenNodes.GetComponent<RectTransform>();
-                
-                connectionBetweenNodesRectTransform.anchoredPosition = midPoint;
-
-                var distanceBetweenNodes = Vector2.Distance(startPosition, endPosition);
-
-                distanceBetweenNodes -= (2 * connectionBetweenNodesGap);
-
-                var currentSize = connectionBetweenNodesRectTransform.sizeDelta;
-                
-                currentSize.x = distanceBetweenNodes;
-
-                connectionBetweenNodesRectTransform.sizeDelta = currentSize;
-
-                var directionBetweenNodes = endPosition - startPosition;
-
-                var angleInRadians = Mathf.Atan2(directionBetweenNodes.y, directionBetweenNodes.x);
-
-                var angleInDegrees = angleInRadians * Mathf.Rad2Deg;
-
-                connectionBetweenNodesRectTransform.localRotation = Quaternion.Euler(0f, 0f, angleInDegrees);
+                CreateConnectionLine(node, nextNode);
             }
         }
+    }
+
+    private void CreateConnectionLine(MapNode startNode, MapNode endNode)
+    {
+        var startRect = startNode.GetComponent<RectTransform>();
+        var endRect = endNode.GetComponent<RectTransform>();
+
+        var startPosition = startRect.anchoredPosition;
+        var endPosition = endRect.anchoredPosition;
+
+        var connectionLine = Instantiate(connectionLinePrefab, connectionsContainer);
+        var connectionRect = connectionLine.GetComponent<RectTransform>();
+
+        var midpoint = (startPosition + endPosition) / 2;
+        connectionRect.anchoredPosition = midpoint;
+
+        var connectionLength = Vector2.Distance(startPosition, endPosition) - (connectionEndGap * 2);
+        
+        var connectionSize = connectionRect.sizeDelta;
+        
+        connectionSize.x = connectionLength;
+        connectionRect.sizeDelta = connectionSize;
+
+        var direction = endPosition - startPosition;
+        
+        var angleInDegrees = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        
+        connectionRect.localRotation = Quaternion.Euler(0f, 0f, angleInDegrees);
     }
 }
