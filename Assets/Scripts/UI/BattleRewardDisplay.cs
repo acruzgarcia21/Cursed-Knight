@@ -10,6 +10,7 @@ public class BattleRewardDisplay : MonoBehaviour
     [SerializeField] private GameObject victoryText;
     [SerializeField] private GameObject cardsRewardScreen;
     [SerializeField] private GameObject cardRewardsButton;
+    [SerializeField] private MapDisplay _mapDisplay;
 
     [SerializeField] private List<RectTransform> rewardCardPoints;
 
@@ -89,6 +90,12 @@ public class BattleRewardDisplay : MonoBehaviour
     public void OnSkipRewardCardSelection()
     {
         CompleteCardRewardSelection();
+    }
+
+    public void ContinueAfterRewards()
+    {
+        HideVictoryScreen();
+        _mapDisplay.OpenSelectMode();
     }
 
     private void CleanUpCardSelection()

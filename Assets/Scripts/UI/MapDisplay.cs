@@ -7,13 +7,43 @@ public class MapDisplay : MonoBehaviour
     [SerializeField] private RectTransform connectionsContainer;
     
     [SerializeField] private GameObject connectionLinePrefab;
+    [SerializeField] private GameObject mapScreen;
+    [SerializeField] private GameObject closeButton;
     
     [SerializeField] private float connectionEndGap = 60f;
 
+    private MapMode _mapMode;
+
+    public enum MapMode
+    {
+        View,
+        Select
+    }
 
     private void Awake()
     {
+        mapScreen.SetActive(false);
+        closeButton.SetActive(false);
         CreateNodeConnectionLines();
+    }
+
+    public void OpenViewMode()
+    {
+        _mapMode = MapMode.View;
+        mapScreen.SetActive(true);
+        closeButton.SetActive(true);
+    }
+
+    public void OnCloseButton()
+    {
+        mapScreen.SetActive(false);
+        closeButton.SetActive(false);
+    }
+
+    public void OpenSelectMode()
+    {
+        _mapMode = MapMode.Select;
+        mapScreen.SetActive(true);
     }
 
     private void CreateNodeConnectionLines()
@@ -25,6 +55,11 @@ public class MapDisplay : MonoBehaviour
                 CreateConnectionLine(node, nextNode);
             }
         }
+    }
+
+    public bool IsSelectionMode()
+    {
+        return _mapMode == MapMode.Select;
     }
 
     private void CreateConnectionLine(MapNode startNode, MapNode endNode)

@@ -6,6 +6,7 @@ public class RunManager : MonoBehaviour
     public event System.Action<MapNode> OnNodeChanged;
     
     [SerializeField] private Map currentMap;
+    [SerializeField] private MapDisplay mapDisplay;
 
     private MapNode _currentNode;
     private HashSet<MapNode> _visitedNodes = new();
@@ -32,17 +33,12 @@ public class RunManager : MonoBehaviour
 
     private void HandleNodeClicked(MapNode clickedNode)
     {
-        if (CanMoveToNode(clickedNode))
-        {
-            MoveToNode(clickedNode);
-        }
-    }
+        if (!mapDisplay.IsSelectionMode()) return;
+        if (!CanMoveToNode(clickedNode)) return;
+        
 
-    private void MarkCurrentNodeVisited()
-    {
-        _visitedNodes.Add(_currentNode);
+        MoveToNode(clickedNode);
     }
-
     private bool CanMoveToNode(MapNode node)
     {
         return _currentNode.nextNodes.Contains(node);
@@ -52,6 +48,12 @@ public class RunManager : MonoBehaviour
     {
         MarkCurrentNodeVisited();
         _currentNode = requestedNode;
+        
         OnNodeChanged?.Invoke(_currentNode);
+    }
+
+    private void MarkCurrentNodeVisited()
+    {
+        _visitedNodes.Add(_currentNode);
     }
 }
