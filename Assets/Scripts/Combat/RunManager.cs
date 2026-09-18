@@ -9,12 +9,24 @@ public class RunManager : MonoBehaviour
     [SerializeField] private MapDisplay mapDisplay;
 
     private MapNode _currentNode;
-    private HashSet<MapNode> _visitedNodes = new();
+    
+    private readonly HashSet<MapNode> _visitedNodes = new();
 
+    private readonly List<MapNodeDisplay> _nodeDisplays = new();
     private void Awake()
     {
         StartRun();
         SubscribeToNodeClicks();
+    }
+
+    public bool IsCurrentNode(MapNode node)
+    {
+        return node == _currentNode;
+    }
+
+    public bool HasVisitedNode(MapNode node)
+    {
+        return _visitedNodes.Contains(node);
     }
 
     private void StartRun()
@@ -28,6 +40,18 @@ public class RunManager : MonoBehaviour
         {
             var nodeDisplay = node.GetComponent<MapNodeDisplay>();
             nodeDisplay.OnNodeClicked += HandleNodeClicked;
+            _nodeDisplays.Add(nodeDisplay);
+        }
+    }
+    
+    private void OnDestroy()
+    {
+        foreach (var nodeDisplay in _nodeDisplays)
+        {
+            if (nodeDisplay != null)
+            {
+                nodeDisplay.OnNodeClicked -= HandleNodeClicked;
+            }
         }
     }
 

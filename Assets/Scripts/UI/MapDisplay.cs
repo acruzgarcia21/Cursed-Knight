@@ -14,6 +14,8 @@ public class MapDisplay : MonoBehaviour
 
     private MapMode _mapMode;
 
+    private RunManager _runManager;
+
     public enum MapMode
     {
         View,
@@ -22,6 +24,9 @@ public class MapDisplay : MonoBehaviour
 
     private void Awake()
     {
+        _runManager = FindAnyObjectByType<RunManager>();
+        _runManager.OnNodeChanged += HandleNodeChanged;
+        
         mapScreen.SetActive(false);
         closeButton.SetActive(false);
         CreateNodeConnectionLines();
@@ -32,6 +37,7 @@ public class MapDisplay : MonoBehaviour
         _mapMode = MapMode.View;
         mapScreen.SetActive(true);
         closeButton.SetActive(true);
+        RefreshNodeVisuals();
     }
 
     public void OnCloseButton()
@@ -44,6 +50,32 @@ public class MapDisplay : MonoBehaviour
     {
         _mapMode = MapMode.Select;
         mapScreen.SetActive(true);
+        RefreshNodeVisuals();
+    }
+    public bool IsSelectionMode()
+    {
+        return _mapMode == MapMode.Select;
+    }
+
+    public void RefreshNodeVisuals()
+    {
+        foreach (var node in map.GetAllMapNodes())
+        {
+            var nodeDisplay = node.GetComponent<MapNodeDisplay>();
+            
+            if (_runManager.IsCurrentNode(node))
+            {
+                nodeDisplay.ApplyCurrentNodeEffects();
+            }
+            else if (_runManager.HasVisitedNode(node))
+            {
+                nodeDisplay.ApplyVisitedNodeEffects();
+            }
+            else
+            {
+                nodeDisplay.ApplyNormalNodeEffects();
+            }
+        }
     }
 
     private void CreateNodeConnectionLines()
@@ -57,9 +89,17 @@ public class MapDisplay : MonoBehaviour
         }
     }
 
-    public bool IsSelectionMode()
+    private void HandleNodeChanged(MapNode node)
     {
-        return _mapMode == MapMode.Select;
+        RefreshNodeVisuals();
+    }
+    
+    private void OnDestroy()
+    {
+        if (_runManager != null)
+        {
+            _runManager.OnNodeChanged -= HandleNodeChanged;
+        }
     }
 
     private void CreateConnectionLine(MapNode startNode, MapNode endNode)
