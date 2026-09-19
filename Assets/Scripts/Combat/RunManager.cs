@@ -31,6 +31,8 @@ public class RunManager : MonoBehaviour
 
     private void StartRun()
     {
+        currentMap.InitializeMap();
+        
         _currentNode = currentMap.GetStartingMapNode();
     }
 
