@@ -31,9 +31,28 @@ public class Map : MonoBehaviour
         return startingMapNode; 
     }
 
-    private MapNodeType SelectRandomNodeType(int eliteNodeCount, int currentNodesStage, int protectedStageCount)
+    private MapNodeType SelectRandomNodeType(int eliteNodeCount, MapNode currentNode, int protectedStageCount)
     {
         List<RandomNodeType> eligibleRandomNodeTypes = new();
+        
+        var currentNodePreviousNodes = DetermineNodesLeadingToGivenNode(currentNode);
+
+        var hasPreviousRest = false;
+        var hasPreviousElite = false;
+
+        foreach (var previousNode in currentNodePreviousNodes)
+        {
+            switch (previousNode.nodeType)
+            {
+                case MapNodeType.Rest:
+                    hasPreviousRest = true;
+                    break;
+                case MapNodeType.Elite:
+                    hasPreviousElite = true;
+                    break;
+            }
+        }
+        
         
         // Calculate the total weight of the pool
         var totalWeight = 0;
@@ -41,9 +60,18 @@ public class Map : MonoBehaviour
         foreach (var randomNodeType in randomNodeTypes)
         {
             if (randomNodeType.GetSelectionWeight() <= 0) continue;
-            if (eliteNodeCount >= maxEliteNodeCount && randomNodeType.GetNodeType() == MapNodeType.Elite) continue;
-            if (currentNodesStage < protectedStageCount && randomNodeType.GetNodeType() == MapNodeType.Elite) continue;
-            if (currentNodesStage < protectedStageCount && randomNodeType.GetNodeType() == MapNodeType.Rest) continue;
+            
+            if (eliteNodeCount >= maxEliteNodeCount 
+                && randomNodeType.GetNodeType() == MapNodeType.Elite) continue;
+            
+            if (currentNode.GetStageNumber() < protectedStageCount 
+                && randomNodeType.GetNodeType() == MapNodeType.Elite) continue;
+            
+            if (currentNode.GetStageNumber() < protectedStageCount 
+                && randomNodeType.GetNodeType() == MapNodeType.Rest) continue;
+            
+            if (hasPreviousElite && randomNodeType.GetNodeType() == MapNodeType.Elite) continue;
+            if (hasPreviousRest && randomNodeType.GetNodeType() == MapNodeType.Rest) continue;
             
             eligibleRandomNodeTypes.Add(randomNodeType);
             
@@ -55,8 +83,6 @@ public class Map : MonoBehaviour
             Debug.Log("There are no valid weighted node types!");
             return MapNodeType.None;
         }
-        
-        
         
         var roll = Random.Range(0, totalWeight);
         var runningWeight = 0;
@@ -80,12 +106,17 @@ public class Map : MonoBehaviour
 
         var totalStageCount = GetTotalStageCount();
         var protectedStageCount = Mathf.CeilToInt(totalStageCount * 0.25f);
+
+        var copyOfAllMapNodes = new List<MapNode>(allMapNodes);
         
-        foreach (var node in allMapNodes)
+        copyOfAllMapNodes.Sort((a, b) 
+            => a.GetStageNumber().CompareTo(b.GetStageNumber()));
+        
+        foreach (var node in copyOfAllMapNodes)
         {
             if (!node.CanRandomizeNodeType()) continue;
             
-            var randomNodeType = SelectRandomNodeType(eliteNodeCount, node.GetStageNumber(), protectedStageCount);
+            var randomNodeType = SelectRandomNodeType(eliteNodeCount, node, protectedStageCount);
 
             if (randomNodeType == MapNodeType.Elite) eliteNodeCount++;
             
@@ -108,5 +139,20 @@ public class Map : MonoBehaviour
         }
 
         return totalStageNum + 1;
+    }
+
+    private List<MapNode> DetermineNodesLeadingToGivenNode(MapNode givenNode)
+    {
+        List<MapNode> nodesLeadingToGivenNode = new();
+            
+        foreach (var node in GetAllMapNodes())
+        {
+            if (node.nextNodes.Contains(givenNode))
+            {
+                nodesLeadingToGivenNode.Add(node);
+            }
+        }
+
+        return nodesLeadingToGivenNode;
     }
 }
