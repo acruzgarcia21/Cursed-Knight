@@ -29,6 +29,10 @@ public class MapDisplay : MonoBehaviour
         
         mapScreen.SetActive(false);
         closeButton.SetActive(false);
+    }
+
+    private void Start()
+    {
         CreateNodeConnectionLines();
     }
 

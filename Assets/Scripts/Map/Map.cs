@@ -9,6 +9,8 @@ public class Map : MonoBehaviour
     
     // private MapNode _bossNode;
     [SerializeField] private List<RandomNodeType> randomNodeTypes;
+
+    [SerializeField] private int maxEliteNodeCount = 5;
     
     public enum MapNodeType
     {
@@ -29,14 +31,21 @@ public class Map : MonoBehaviour
         return startingMapNode; 
     }
 
-    public MapNodeType SelectRandomNodeType()
+    private MapNodeType SelectRandomNodeType(int eliteNodeCount, int currentNodesStage, int protectedStageCount)
     {
+        List<RandomNodeType> eligibleRandomNodeTypes = new();
+        
         // Calculate the total weight of the pool
         var totalWeight = 0;
 
         foreach (var randomNodeType in randomNodeTypes)
         {
             if (randomNodeType.GetSelectionWeight() <= 0) continue;
+            if (eliteNodeCount >= maxEliteNodeCount && randomNodeType.GetNodeType() == MapNodeType.Elite) continue;
+            if (currentNodesStage < protectedStageCount && randomNodeType.GetNodeType() == MapNodeType.Elite) continue;
+            if (currentNodesStage < protectedStageCount && randomNodeType.GetNodeType() == MapNodeType.Rest) continue;
+            
+            eligibleRandomNodeTypes.Add(randomNodeType);
             
             totalWeight += randomNodeType.GetSelectionWeight();
         }
@@ -47,13 +56,14 @@ public class Map : MonoBehaviour
             return MapNodeType.None;
         }
         
+        
+        
         var roll = Random.Range(0, totalWeight);
         var runningWeight = 0;
         
         // Roll somewhere inside the total weight
-        foreach (var randomNodeType in randomNodeTypes)
+        foreach (var randomNodeType in eligibleRandomNodeTypes)
         {
-            if (randomNodeType.GetSelectionWeight() <= 0) continue;
             runningWeight += randomNodeType.GetSelectionWeight();
 
             if (roll >= runningWeight) continue;
@@ -66,15 +76,37 @@ public class Map : MonoBehaviour
 
     public void InitializeMap()
     {
+        var eliteNodeCount = 0;
+
+        var totalStageCount = GetTotalStageCount();
+        var protectedStageCount = Mathf.CeilToInt(totalStageCount * 0.25f);
+        
         foreach (var node in allMapNodes)
         {
             if (!node.CanRandomizeNodeType()) continue;
+            
+            var randomNodeType = SelectRandomNodeType(eliteNodeCount, node.GetStageNumber(), protectedStageCount);
 
-            var randomNodeType = SelectRandomNodeType();
+            if (randomNodeType == MapNodeType.Elite) eliteNodeCount++;
             
             if (randomNodeType == MapNodeType.None) continue;
 
             node.nodeType = randomNodeType;
         }
+    }
+
+    private int GetTotalStageCount()
+    {
+        var totalStageNum = 0;
+        
+        foreach (var node in GetAllMapNodes())
+        {
+            if (node.GetStageNumber() > totalStageNum)
+            {
+                totalStageNum = node.GetStageNumber();
+            }
+        }
+
+        return totalStageNum + 1;
     }
 }

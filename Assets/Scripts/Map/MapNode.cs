@@ -9,12 +9,18 @@ public class MapNode : MonoBehaviour
     public List<MapNode> nextNodes;
 
     [SerializeField] private bool randomizeNodeType;
+
+    [SerializeField] private int stageNumber;
     
     public bool CanRandomizeNodeType()
     {
         return randomizeNodeType;
     }
     
+    public int GetStageNumber()
+    {
+        return stageNumber;
+    }
 }
 
 [Serializable]
