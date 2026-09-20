@@ -27,17 +27,12 @@ public class BattleManager : MonoBehaviour
         _player        = FindAnyObjectByType<Player>();
     }
 
-    private void Start()
-    {
-        StartBattle();
-    }
-
-    private void StartBattle()
+    public void StartBattle(EncounterData encounter)
     {
         _player.BattleSetup();
         
         _deckManager.BattleSetup();
-        EnemyManager.BattleSetup();
+        EnemyManager.BattleSetup(encounter);
         _turnManager.StartPlayerTurn();
     }
 

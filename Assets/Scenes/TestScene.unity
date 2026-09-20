@@ -1062,6 +1062,14 @@ PrefabInstance:
       propertyPath: randomNodeTypes.Array.data[2].selectionWeight
       value: 50
       objectReference: {fileID: 0}
+    - target: {fileID: 9162933566373899001, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.0007324219
+      objectReference: {fileID: 0}
+    - target: {fileID: 9162933566373899001, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -42
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 5105710441444562108, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}

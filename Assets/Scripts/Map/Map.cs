@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Map : MonoBehaviour
 {
@@ -10,8 +12,11 @@ public class Map : MonoBehaviour
     // private MapNode _bossNode;
     [SerializeField] private List<RandomNodeType> randomNodeTypes;
 
+    [SerializeField] private List<EncounterData> encounterPool;
+
     [SerializeField] private int maxEliteNodeCount = 5;
-    
+
+
     public enum MapNodeType
     {
         Battle,
@@ -124,6 +129,16 @@ public class Map : MonoBehaviour
 
             node.nodeType = randomNodeType;
         }
+    }
+
+    public EncounterData GenerateRandomEncounter()
+    {
+        if (encounterPool == null) return null;
+        
+        var randomNum = Random.Range(0, encounterPool.Count);
+        var randomEncounter = encounterPool[randomNum];
+
+        return randomEncounter;
     }
 
     private int GetTotalStageCount()

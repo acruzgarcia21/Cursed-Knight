@@ -13,8 +13,13 @@ public class RunManager : MonoBehaviour
     private readonly HashSet<MapNode> _visitedNodes = new();
 
     private readonly List<MapNodeDisplay> _nodeDisplays = new();
+
+    private BattleManager _battleManager;
+    
     private void Awake()
     {
+        _battleManager = FindAnyObjectByType<BattleManager>();
+        
         StartRun();
         SubscribeToNodeClicks();
     }
@@ -29,11 +34,30 @@ public class RunManager : MonoBehaviour
         return _visitedNodes.Contains(node);
     }
 
+    private void EnterCurrentNode()
+    {
+        switch (_currentNode.nodeType)
+        {
+            case Map.MapNodeType.Battle:
+                
+                var encounter = currentMap.GenerateRandomEncounter();
+                _battleManager.StartBattle(encounter);
+                break;
+            case Map.MapNodeType.Rest:
+            case Map.MapNodeType.Elite:
+            case Map.MapNodeType.Boss:
+            case Map.MapNodeType.None:
+                break;
+        }
+    }
+
     private void StartRun()
     {
         currentMap.InitializeMap();
         
         _currentNode = currentMap.GetStartingMapNode();
+        
+        EnterCurrentNode();
     }
 
     private void SubscribeToNodeClicks()
@@ -74,6 +98,8 @@ public class RunManager : MonoBehaviour
     {
         MarkCurrentNodeVisited();
         _currentNode = requestedNode;
+        
+        EnterCurrentNode();
         
         OnNodeChanged?.Invoke(_currentNode);
     }
