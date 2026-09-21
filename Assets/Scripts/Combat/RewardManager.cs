@@ -22,6 +22,7 @@ public class RewardManager : MonoBehaviour
 
     public void StartRewards()
     {
+        _rewardCardHasBeenCollected = false;
         battleRewardDisplay.DisplayVictoryScreen();
     }
 

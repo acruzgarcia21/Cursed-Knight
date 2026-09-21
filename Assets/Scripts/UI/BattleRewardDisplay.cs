@@ -10,7 +10,7 @@ public class BattleRewardDisplay : MonoBehaviour
     [SerializeField] private GameObject victoryText;
     [SerializeField] private GameObject cardsRewardScreen;
     [SerializeField] private GameObject cardRewardsButton;
-    [SerializeField] private MapDisplay _mapDisplay;
+    [SerializeField] private MapDisplay mapDisplay;
 
     [SerializeField] private List<RectTransform> rewardCardPoints;
 
@@ -28,6 +28,7 @@ public class BattleRewardDisplay : MonoBehaviour
     public void DisplayVictoryScreen()
     {
         victoryScreen.SetActive(true);
+        cardRewardsButton.SetActive(true);
         cardsRewardScreen.SetActive(false);
     }
 
@@ -95,7 +96,7 @@ public class BattleRewardDisplay : MonoBehaviour
     public void ContinueAfterRewards()
     {
         HideVictoryScreen();
-        _mapDisplay.OpenSelectMode();
+        mapDisplay.OpenSelectMode();
     }
 
     private void CleanUpCardSelection()
