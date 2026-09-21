@@ -29,6 +29,8 @@ public class BattleManager : MonoBehaviour
 
     public void StartBattle(EncounterData encounter)
     {
+        if (encounter == null) return;
+        
         _player.BattleSetup();
         
         _deckManager.BattleSetup();

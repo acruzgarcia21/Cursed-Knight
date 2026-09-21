@@ -14,6 +14,14 @@ public class DiscardManager : MonoBehaviour
         UpdateDiscardCount();
     }
 
+    public void BattleSetup()
+    {
+        _discardPile.Clear();
+        UpdateDiscardCount();
+        
+        OnDiscardPileChanged?.Invoke();
+    }
+
     public void AddToDiscardPile(RuntimeCard runtimeCard)
     {
         if (runtimeCard == null) return;
@@ -90,6 +98,6 @@ public class DiscardManager : MonoBehaviour
     {
         if (_discardPileDisplay == null) return;
 
-        _discardPileDisplay.UpdateDiscardCount(_discardPile.Count);
+        _discardPileDisplay.UpdateVisuals(_discardPile.Count);
     }
 }

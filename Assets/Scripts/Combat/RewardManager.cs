@@ -65,11 +65,4 @@ public class RewardManager : MonoBehaviour
         
         battleRewardDisplay.CompleteCardRewardSelection();
     }
-    
-    public void OnContinueRewardCompletion()
-    {
-        battleRewardDisplay.HideVictoryScreen();
-
-        Debug.Log("Reward Selection Completed!");
-    }
 }

@@ -36,6 +36,12 @@ public class MapDisplay : MonoBehaviour
         CreateNodeConnectionLines();
     }
 
+    public void HandlePostSelectNode()
+    {
+        mapScreen.SetActive(false);
+        closeButton.SetActive(false);
+    }
+
     public void OpenViewMode()
     {
         _mapMode = MapMode.View;

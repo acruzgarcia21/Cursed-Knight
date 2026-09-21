@@ -5,7 +5,7 @@ public class DiscardPileDisplay : MonoBehaviour
 {
     public TextMeshProUGUI discardCount;
 
-    public void UpdateDiscardCount(int count)
+    public void UpdateVisuals(int count)
     {
         if (discardCount == null) return;
 

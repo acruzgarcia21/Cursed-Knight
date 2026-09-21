@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,11 +16,16 @@ public class RunManager : MonoBehaviour
     private readonly List<MapNodeDisplay> _nodeDisplays = new();
 
     private BattleManager _battleManager;
+    private DeckManager _deckManager;
     
     private void Awake()
     {
         _battleManager = FindAnyObjectByType<BattleManager>();
-        
+        _deckManager  = FindAnyObjectByType<DeckManager>();
+    }
+
+    private void Start()
+    {
         StartRun();
         SubscribeToNodeClicks();
     }
@@ -39,13 +45,12 @@ public class RunManager : MonoBehaviour
         switch (_currentNode.nodeType)
         {
             case Map.MapNodeType.Battle:
-                
-                var encounter = currentMap.GenerateRandomEncounter();
+            case Map.MapNodeType.Elite:
+            case Map.MapNodeType.Boss:
+                var encounter = currentMap.GenerateRandomEncounter(_currentNode);
                 _battleManager.StartBattle(encounter);
                 break;
             case Map.MapNodeType.Rest:
-            case Map.MapNodeType.Elite:
-            case Map.MapNodeType.Boss:
             case Map.MapNodeType.None:
                 break;
         }
@@ -53,6 +58,8 @@ public class RunManager : MonoBehaviour
 
     private void StartRun()
     {
+        _deckManager.InitializeRunDeck();
+        
         currentMap.InitializeMap();
         
         _currentNode = currentMap.GetStartingMapNode();
@@ -86,7 +93,6 @@ public class RunManager : MonoBehaviour
         if (!mapDisplay.IsSelectionMode()) return;
         if (!CanMoveToNode(clickedNode)) return;
         
-
         MoveToNode(clickedNode);
     }
     private bool CanMoveToNode(MapNode node)
@@ -98,6 +104,8 @@ public class RunManager : MonoBehaviour
     {
         MarkCurrentNodeVisited();
         _currentNode = requestedNode;
+        
+        mapDisplay.HandlePostSelectNode();
         
         EnterCurrentNode();
         

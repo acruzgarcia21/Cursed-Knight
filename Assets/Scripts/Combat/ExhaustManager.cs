@@ -13,6 +13,14 @@ public class ExhaustManager : MonoBehaviour
         _exhaustPileDisplay = FindAnyObjectByType<ExhaustPileDisplay>();
         UpdateExhaustCount();
     }
+
+    public void BattleSetup()
+    {
+        _exhaustPile.Clear();
+        UpdateExhaustCount();
+        
+        OnExhaustPileChanged?.Invoke();
+    }
     
     public void AddToExhaustPile(RuntimeCard runtimeCard)
     {
@@ -33,6 +41,6 @@ public class ExhaustManager : MonoBehaviour
     {
         if (_exhaustPileDisplay == null) return;
 
-        _exhaustPileDisplay.UpdateExhaustCount(_exhaustPile.Count);
+        _exhaustPileDisplay.UpdateVisuals(_exhaustPile.Count);
     }
 }

@@ -5,16 +5,24 @@ using Random = UnityEngine.Random;
 
 public class Map : MonoBehaviour
 {
+    [Header("Map Node Data")] 
     [SerializeField] private List<MapNode> allMapNodes;
     
     [SerializeField] private MapNode startingMapNode;
     
     // private MapNode _bossNode;
+    
+    [Space(10)] [Header("Random Node Generation Data")]
     [SerializeField] private List<RandomNodeType> randomNodeTypes;
-
-    [SerializeField] private List<EncounterData> encounterPool;
-
+    
+    [Space(10)] [Header("Restrictions")]
     [SerializeField] private int maxEliteNodeCount = 5;
+
+    [Space(10)] [Header("Pool Data")]
+    [SerializeField] private List<EncounterData> battleEncounterPool;
+    [SerializeField] private List<EncounterData> eliteEncounterPool;
+    [SerializeField] private List<EncounterData> bossEncounterPool;
+
 
 
     public enum MapNodeType
@@ -131,12 +139,34 @@ public class Map : MonoBehaviour
         }
     }
 
-    public EncounterData GenerateRandomEncounter()
+    public EncounterData GenerateRandomEncounter(MapNode currentNode)
     {
-        if (encounterPool == null) return null;
+        EncounterData randomEncounter = null;
+        var randomNum = 0;
         
-        var randomNum = Random.Range(0, encounterPool.Count);
-        var randomEncounter = encounterPool[randomNum];
+        switch (currentNode.nodeType)
+        {
+            case MapNodeType.Battle:
+                if (battleEncounterPool == null || battleEncounterPool.Count == 0) return null;
+
+                randomNum = Random.Range(0, battleEncounterPool.Count);
+                randomEncounter = battleEncounterPool[randomNum];
+                break;
+
+            case MapNodeType.Elite:
+                if (eliteEncounterPool == null || eliteEncounterPool.Count == 0) return null;
+
+                randomNum = Random.Range(0, eliteEncounterPool.Count);
+                randomEncounter = eliteEncounterPool[randomNum];
+                break;
+
+            case MapNodeType.Boss:
+                if (bossEncounterPool == null || bossEncounterPool.Count == 0) return null;
+
+                randomNum = Random.Range(0, bossEncounterPool.Count);
+                randomEncounter = bossEncounterPool[randomNum];
+                break;
+        }
 
         return randomEncounter;
     }
