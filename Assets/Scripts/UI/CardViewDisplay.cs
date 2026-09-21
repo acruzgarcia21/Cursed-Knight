@@ -19,9 +19,10 @@ public class CardViewDisplay : MonoBehaviour
 
     private readonly List<GameObject> _cardsList = new();
 
-    private DrawPileManager _drawPileManager;
-    private DiscardManager  _discardManager;
-    private ExhaustManager  _exhaustManager;
+    private DrawPileManager    _drawPileManager;
+    private DiscardManager     _discardManager;
+    private ExhaustManager     _exhaustManager;
+    private CardRemovalManager _cardRemovalManager;
 
     private CurrentViewer _currentViewer;
     
@@ -32,14 +33,16 @@ public class CardViewDisplay : MonoBehaviour
         Deck,
         DrawPile,
         DiscardPile,
-        ExhaustPile
+        ExhaustPile,
+        CardRemoval
     }
 
     private void Awake()
     {
-        _drawPileManager = FindAnyObjectByType<DrawPileManager>();
-        _discardManager  = FindAnyObjectByType<DiscardManager>();
-        _exhaustManager  = FindAnyObjectByType<ExhaustManager>();
+        _drawPileManager    = FindAnyObjectByType<DrawPileManager>();
+        _discardManager     = FindAnyObjectByType<DiscardManager>();
+        _exhaustManager     = FindAnyObjectByType<ExhaustManager>();
+        _cardRemovalManager = FindAnyObjectByType<CardRemovalManager>();
 
         cardViewScreen.SetActive(false);
         cardPreviewPopup.SetActive(false);
@@ -156,6 +159,11 @@ public class CardViewDisplay : MonoBehaviour
     {
         _currentViewer = CurrentViewer.ExhaustPile;
     }
+
+    public void SetCurrentViewerToCardRemoval()
+    {
+        _currentViewer = CurrentViewer.CardRemoval;
+    }
     
     private void OnEnable()
     {
@@ -199,16 +207,23 @@ public class CardViewDisplay : MonoBehaviour
             Destroy(_currentPreviewCard);
             _currentPreviewCard = null;
         }
+
+        if (_currentViewer == CurrentViewer.CardRemoval)
+        {
+            _cardRemovalManager.SelectCard(runtimeCard.cardData);
+        }
+        else
+        {
+            cardPreviewPopup.SetActive(true);
         
-        cardPreviewPopup.SetActive(true);
+            _currentPreviewCard = Instantiate(cardPrefab, previewCardPoint);
         
-        _currentPreviewCard = Instantiate(cardPrefab, previewCardPoint);
+            var cardDisplay = _currentPreviewCard.GetComponent<CardDisplay>();
+            var cardMovement = _currentPreviewCard.GetComponent<CardMovement>();
         
-        var cardDisplay = _currentPreviewCard.GetComponent<CardDisplay>();
-        var cardMovement = _currentPreviewCard.GetComponent<CardMovement>();
+            cardMovement.SetCardToCardPopupViewMode();
         
-        cardMovement.SetCardToCardPopupViewMode();
-        
-        cardDisplay.runtimeCard = runtimeCard;
+            cardDisplay.runtimeCard = runtimeCard;
+        }
     }
 }
