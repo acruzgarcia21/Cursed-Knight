@@ -525,4 +525,9 @@ public class Player : MonoBehaviour
     {
         endlessAssaultTriggeredThisTurn = true;
     }
+
+    public int GetMaxHealth()
+    {
+        return playerMaxHealth;
+    }
 }
