@@ -1019,6 +1019,7 @@ MonoBehaviour:
   dragThreshold: 15
   clickThreshold: 0.3
   popupScale: 200
+  removeCardSelectedScale: 1
 --- !u!114 &-1304797705736605461
 MonoBehaviour:
   m_ObjectHideFlags: 0

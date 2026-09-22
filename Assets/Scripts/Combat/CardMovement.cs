@@ -11,7 +11,7 @@ public class CardMovement : MonoBehaviour,
     IPointerEnterHandler,
     IPointerExitHandler
 {
-    public event System.Action<RuntimeCard> OnCardViewClicked;
+    public event System.Action<RuntimeCard, CardMovement> OnCardViewClicked;
     
     private RectTransform _rectTransform;
     private Canvas        _canvas;
@@ -37,7 +37,8 @@ public class CardMovement : MonoBehaviour,
         Dragging,
         Selected,
         Playing,
-        RewardSelected
+        RewardSelected,
+        RemovalSelected
     }
 
     private enum CardMode
@@ -79,6 +80,7 @@ public class CardMovement : MonoBehaviour,
     [SerializeField] private float dragThreshold      = 15f;
     [SerializeField] private float clickThreshold     = 0.3f;
     [SerializeField] private float popupScale         = 1.5f;
+    [SerializeField] private float removeCardSelectedScale = 1.15f;
     
     private void Awake()
     {
@@ -163,6 +165,14 @@ public class CardMovement : MonoBehaviour,
             case CardState.RewardSelected:
                 _cardVisualEffects.HandleGlowEffect(false);
                 _cardVisualEffects.HandleScaleToNormal(_rectTransform, _originalScale, lerpFactor);
+                break;
+            
+            case CardState.RemovalSelected:
+                _cardVisualEffects.HandleHoverState(
+                    _rectTransform, 
+                    _originalScale * removeCardSelectedScale, 
+                    lerpFactor
+                    );
                 break;
 
             case CardState.Playing:
@@ -282,7 +292,7 @@ public class CardMovement : MonoBehaviour,
             _currentState = CardState.Idle;
             _cardVisualEffects.HandleGlowEffect(false);
             
-            OnCardViewClicked?.Invoke(_cardDisplay.runtimeCard);
+            OnCardViewClicked?.Invoke(_cardDisplay.runtimeCard, this);
             return;
         }
         
@@ -422,6 +432,16 @@ public class CardMovement : MonoBehaviour,
         _playingFromSelection = false;
 
         EnterPlayState();
+    }
+    
+    public void SetCardToRemovalSelectedState()
+    {
+        _currentState = CardState.RemovalSelected;
+    }
+
+    public void ClearRemovalSelectedState()
+    {
+        _currentState = CardState.Idle;
     }
 
     private void HandleDragState()
