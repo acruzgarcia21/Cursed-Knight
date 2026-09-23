@@ -7,14 +7,12 @@ public class EnemyManager : MonoBehaviour
 
     public Transform enemyContainer;
     
-    
     public List<Transform> enemySpawnPositions = new();
     
     private readonly List<Enemy> _currentEnemies = new();
     
     private BattleManager _battleManager;
 
-    [SerializeField] private EncounterData encounter;
 
     private void Awake()
     {
@@ -24,9 +22,9 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    public void BattleSetup()
+    public void BattleSetup(EncounterData encounter)
     {
-        SpawnEncounter();
+        SpawnEncounter(encounter);
 
         foreach (var enemy in _currentEnemies)
         {
@@ -34,7 +32,7 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    private void SpawnEncounter()
+    private void SpawnEncounter(EncounterData encounter)
     {
         if (encounter == null) return;
 

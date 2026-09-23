@@ -9,24 +9,29 @@ public class DeckManager : MonoBehaviour
 
     public int maxHandSize = 10;
 
-    private HandManager _handManager;
-    private DrawPileManager _drawPileManager;
-    private DiscardManager _discardManager;
-    
     [SerializeField] private DeckData startingDeck;
 
     [SerializeField] private TMP_Text deckCount;
+    
+    private HandManager     _handManager;
+    private DrawPileManager _drawPileManager;
+    private DiscardManager  _discardManager;
+    private ExhaustManager  _exhaustManager;
+    
 
     private void Awake()
     {
-        _drawPileManager = FindAnyObjectByType<DrawPileManager>();
         _handManager     = FindAnyObjectByType<HandManager>();
+        _drawPileManager = FindAnyObjectByType<DrawPileManager>();
         _discardManager  = FindAnyObjectByType<DiscardManager>();
+        _exhaustManager  = FindAnyObjectByType<ExhaustManager>();
     }
 
     public void BattleSetup()
     {
-        NewGameBattleSetup();
+        _handManager.BattleSetup(maxHandSize);
+        _discardManager.BattleSetup();
+        _exhaustManager.BattleSetup();
         
         var runtimeCards = new List<RuntimeCard>();
 
@@ -37,11 +42,10 @@ public class DeckManager : MonoBehaviour
         
         UpdateDeckCount();
 
-        _handManager.BattleSetup(maxHandSize);
         _drawPileManager.MakeDrawPile(runtimeCards);
     }
 
-    public void NewGameBattleSetup()
+    public void InitializeRunDeck()
     {
         if (startingDeck == null) return;
 
@@ -53,6 +57,8 @@ public class DeckManager : MonoBehaviour
 
             playerDeck.Add(card);
         }
+        
+        UpdateDeckCount();
     }
 
     public void CreateCardDuringCombat(Card cardData, Card.CreatedCardDestination destination)
@@ -80,9 +86,20 @@ public class DeckManager : MonoBehaviour
         if (cardToAdd == null) return;
         
         playerDeck.Add(cardToAdd);
+        
+        UpdateDeckCount();
     }
 
-    public void UpdateDeckCount()
+    public void RemoveCardFromDeck(Card cardToRemove)
+    {
+        if (cardToRemove == null) return;
+
+        playerDeck.Remove(cardToRemove);
+        
+        UpdateDeckCount();
+    }
+
+    private void UpdateDeckCount()
     {
         deckCount.text = playerDeck.Count.ToString();
     }

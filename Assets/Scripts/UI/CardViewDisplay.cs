@@ -5,44 +5,54 @@ using UnityEngine;
 
 public class CardViewDisplay : MonoBehaviour
 {
-    [Header("Card View Screen")] 
-    [SerializeField] private GameObject cardViewScreen;
+    [Header("Card View Screen")] [SerializeField]
+    private GameObject cardViewScreen;
+
     [SerializeField] private GameObject cardContainer;
     [SerializeField] private GameObject cardPrefab;
-    
+
     [SerializeField] private TMP_Text titleText;
-    
-    [Space(10)] [Header("Card Preview Popup")]
-    [SerializeField] private GameObject cardPreviewPopup;
-    
+
+    [Space(10)] [Header("Card Preview Popup")] [SerializeField]
+    private GameObject cardPreviewPopup;
+
     [SerializeField] private RectTransform previewCardPoint;
+
+    [Space(10)] [Header("RemoveCardPopup")] [SerializeField]
+    private GameObject removeCardPopup;
 
     private readonly List<GameObject> _cardsList = new();
 
     private DrawPileManager _drawPileManager;
-    private DiscardManager  _discardManager;
-    private ExhaustManager  _exhaustManager;
+    private DiscardManager _discardManager;
+    private ExhaustManager _exhaustManager;
+    private CardRemovalManager _cardRemovalManager;
 
     private CurrentViewer _currentViewer;
-    
+
     private GameObject _currentPreviewCard;
+
+    private CardMovement _currentRemovalCard;
 
     private enum CurrentViewer
     {
         Deck,
         DrawPile,
         DiscardPile,
-        ExhaustPile
+        ExhaustPile,
+        CardRemoval
     }
 
     private void Awake()
     {
         _drawPileManager = FindAnyObjectByType<DrawPileManager>();
-        _discardManager  = FindAnyObjectByType<DiscardManager>();
-        _exhaustManager  = FindAnyObjectByType<ExhaustManager>();
+        _discardManager = FindAnyObjectByType<DiscardManager>();
+        _exhaustManager = FindAnyObjectByType<ExhaustManager>();
+        _cardRemovalManager = FindAnyObjectByType<CardRemovalManager>();
 
         cardViewScreen.SetActive(false);
         cardPreviewPopup.SetActive(false);
+        removeCardPopup.SetActive(false);
     }
 
     public void DisplayCardDefinitions(List<Card> cardsToDisplay)
@@ -112,7 +122,7 @@ public class CardViewDisplay : MonoBehaviour
         {
             var cardMovement = card.GetComponent<CardMovement>();
             cardMovement.OnCardViewClicked -= HandleCardViewClicked;
-            
+
             Destroy(card);
         }
 
@@ -127,7 +137,7 @@ public class CardViewDisplay : MonoBehaviour
     public void OnCardPopupExitButton()
     {
         cardPreviewPopup.SetActive(false);
-        
+
         Destroy(_currentPreviewCard);
         _currentPreviewCard = null;
     }
@@ -156,12 +166,23 @@ public class CardViewDisplay : MonoBehaviour
     {
         _currentViewer = CurrentViewer.ExhaustPile;
     }
+
+    public void SetCurrentViewerToCardRemoval()
+    {
+        _currentViewer = CurrentViewer.CardRemoval;
+    }
+
+    private void ShowCardRemovalConfirmation()
+    {
+        removeCardPopup.SetActive(true);
+    }
     
     private void OnEnable()
     {
         _drawPileManager.OnDrawPileChanged   += HandleDrawPileChanged;
         _discardManager.OnDiscardPileChanged += HandleDiscardPileChanged;
         _exhaustManager.OnExhaustPileChanged += HandleExhaustPileChanged;
+        _cardRemovalManager.OnCardRemoved    += HandleCardRemoved;
     }
 
     private void OnDisable()
@@ -169,6 +190,20 @@ public class CardViewDisplay : MonoBehaviour
         _drawPileManager.OnDrawPileChanged   -= HandleDrawPileChanged;
         _discardManager.OnDiscardPileChanged -= HandleDiscardPileChanged;
         _exhaustManager.OnExhaustPileChanged -= HandleExhaustPileChanged;
+        _cardRemovalManager.OnCardRemoved    -= HandleCardRemoved;
+    }
+
+    public void OnCardRemovalCancel()
+    {
+        removeCardPopup.SetActive(false);
+
+        if (_currentRemovalCard != null)
+        {
+            _currentRemovalCard.ClearRemovalSelectedState();
+            _currentRemovalCard = null;
+        }
+
+        _cardRemovalManager.ClearSelectedCard();
     }
     
     private void HandleDrawPileChanged()
@@ -192,23 +227,40 @@ public class CardViewDisplay : MonoBehaviour
         DisplayCards(_exhaustManager.GetExhaustPile());
     }
 
-    private void HandleCardViewClicked(RuntimeCard runtimeCard)
+    private void HandleCardViewClicked(RuntimeCard runtimeCard, CardMovement cardMovement)
     {
         if (_currentPreviewCard != null)
         {
             Destroy(_currentPreviewCard);
             _currentPreviewCard = null;
         }
-        
+
+        if (_currentViewer == CurrentViewer.CardRemoval)
+        {
+            _currentRemovalCard = cardMovement;
+            _currentRemovalCard.SetCardToRemovalSelectedState();
+
+            _cardRemovalManager.SelectCard(runtimeCard.cardData);
+            ShowCardRemovalConfirmation();
+            return;
+        }
+
         cardPreviewPopup.SetActive(true);
-        
+
         _currentPreviewCard = Instantiate(cardPrefab, previewCardPoint);
-        
+
         var cardDisplay = _currentPreviewCard.GetComponent<CardDisplay>();
-        var cardMovement = _currentPreviewCard.GetComponent<CardMovement>();
-        
-        cardMovement.SetCardToCardPopupViewMode();
-        
+        var previewCardMovement = _currentPreviewCard.GetComponent<CardMovement>();
+
+        previewCardMovement.SetCardToCardPopupViewMode();
+
         cardDisplay.runtimeCard = runtimeCard;
+    }
+    
+    private void HandleCardRemoved()
+    {
+        removeCardPopup.SetActive(false);
+        cardViewScreen.SetActive(false);
+        _currentRemovalCard = null;
     }
 }

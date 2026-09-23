@@ -5,10 +5,10 @@ public class ExhaustPileDisplay : MonoBehaviour
 {
     public TextMeshProUGUI exhaustCount;
 
-    public void UpdateExhaustCount(int count)
+    public void UpdateVisuals(int currentExhaustCount)
     {
         if (exhaustCount == null) return;
 
-        exhaustCount.text = count.ToString();
+        exhaustCount.text = currentExhaustCount.ToString();
     }
 }

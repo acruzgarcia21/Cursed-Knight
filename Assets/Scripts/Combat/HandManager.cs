@@ -28,6 +28,9 @@ public class HandManager : MonoBehaviour
     
     public void BattleSetup(int setMaxHandSize)
     {
+        ResetHand();
+
+        _selectedCard  = null;
         maxCardsInHand = setMaxHandSize;
     }
 
@@ -192,5 +195,24 @@ public class HandManager : MonoBehaviour
         if (_selectedCard != card) return;
 
         _selectedCard = null;
+    }
+
+    private void ResetHand()
+    {
+        var cardsToRemove = new List<GameObject>();
+
+        foreach (var cardObject in _cardsInHand)
+        {
+            cardsToRemove.Add(cardObject);
+        }
+
+        foreach (var cardObject in cardsToRemove)
+        {
+            _cardsInHand.Remove(cardObject);
+            _handDisplay.RemoveCard(cardObject);
+            Destroy(cardObject);
+        }
+
+        _handDisplay.UpdateHandVisuals(_cardsInHand);
     }
 }

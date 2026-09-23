@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class BattleRewardDisplay : MonoBehaviour
 {
+    public event System.Action OnRewardSelectionCompleted;
+    
+    [Header("Reward Screen Attributes")]
     [SerializeField] private GameObject victoryScreen;
     [SerializeField] private GameObject rewardsContainer;
     [SerializeField] private GameObject continueButton;
@@ -11,13 +14,12 @@ public class BattleRewardDisplay : MonoBehaviour
     [SerializeField] private GameObject cardsRewardScreen;
     [SerializeField] private GameObject cardRewardsButton;
 
+    [Space(10)] [Header("Card Reward Attributes")]
     [SerializeField] private List<RectTransform> rewardCardPoints;
 
     [SerializeField] private GameObject cardPrefab;
 
     private readonly List<GameObject> _rewardCardObjects = new();
-
-    private bool _cardRewardSelectionCompleted;
     
     private void Awake()
     {
@@ -27,14 +29,10 @@ public class BattleRewardDisplay : MonoBehaviour
     public void DisplayVictoryScreen()
     {
         victoryScreen.SetActive(true);
+        cardRewardsButton.SetActive(true);
         cardsRewardScreen.SetActive(false);
     }
-
-    public void HideVictoryScreen()
-    {
-        victoryScreen.SetActive(false);
-    }
-
+    
     public void DisplayCardRewardsScreen()
     {
         rewardsContainer.SetActive(false);
@@ -89,6 +87,17 @@ public class BattleRewardDisplay : MonoBehaviour
     public void OnSkipRewardCardSelection()
     {
         CompleteCardRewardSelection();
+    }
+
+    public void ContinueAfterRewards()
+    {
+        HideVictoryScreen();
+        
+        OnRewardSelectionCompleted?.Invoke();
+    }
+    private void HideVictoryScreen()
+    {
+        victoryScreen.SetActive(false);
     }
 
     private void CleanUpCardSelection()

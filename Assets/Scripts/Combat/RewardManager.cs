@@ -22,6 +22,7 @@ public class RewardManager : MonoBehaviour
 
     public void StartRewards()
     {
+        _rewardCardHasBeenCollected = false;
         battleRewardDisplay.DisplayVictoryScreen();
     }
 
@@ -64,12 +65,5 @@ public class RewardManager : MonoBehaviour
         _rewardCardHasBeenCollected = true;
         
         battleRewardDisplay.CompleteCardRewardSelection();
-    }
-    
-    public void OnContinueRewardCompletion()
-    {
-        battleRewardDisplay.HideVictoryScreen();
-
-        Debug.Log("Reward Selection Completed!");
     }
 }
