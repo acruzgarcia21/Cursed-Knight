@@ -639,10 +639,25 @@ PrefabInstance:
       propertyPath: removeCardPopup
       value: 
       objectReference: {fileID: 255966902}
+    - target: {fileID: 8832627009760292150, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+      propertyPath: randomNodeTypes.Array.data[0].selectionWeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8832627009760292150, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+      propertyPath: randomNodeTypes.Array.data[1].selectionWeight
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 8832627009760292150, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+      propertyPath: randomNodeTypes.Array.data[2].selectionWeight
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3757538247742272204, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1012649546}
   m_SourcePrefab: {fileID: 100100000, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
 --- !u!224 &255966899 stripped
 RectTransform:
@@ -879,6 +894,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a88e157cbfee2d43a9a4c86bfda9bc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardRemovalManager
+--- !u!1 &1012649544 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3757538247742272204, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+  m_PrefabInstance: {fileID: 255966898}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1012649546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1012649544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed212ab28953f3348964b4548b5e2d87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RestScreenDisplay
+  restScreen: {fileID: 1012649544}
 --- !u!114 &1144152940 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7315752335906968240, guid: 32da3d5058a3e9c4c9de9370bae55014, type: 3}
@@ -1068,6 +1101,10 @@ PrefabInstance:
       propertyPath: mapDisplay
       value: 
       objectReference: {fileID: 255966901}
+    - target: {fileID: 8432141938383268800, guid: f43b02c05f27c9a41908d750511f439f, type: 3}
+      propertyPath: restScreenDisplay
+      value: 
+      objectReference: {fileID: 1012649546}
     - target: {fileID: 8894701392508778453, guid: f43b02c05f27c9a41908d750511f439f, type: 3}
       propertyPath: m_Name
       value: RunManager
@@ -1210,6 +1247,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8336910801670010986, guid: c11acf6302c22314ea16f125052195fa, type: 3}
+      propertyPath: restScreenDisplay
+      value: 
+      objectReference: {fileID: 1012649546}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -86,6 +86,8 @@ public class DeckManager : MonoBehaviour
         if (cardToAdd == null) return;
         
         playerDeck.Add(cardToAdd);
+        
+        UpdateDeckCount();
     }
 
     public void RemoveCardFromDeck(Card cardToRemove)

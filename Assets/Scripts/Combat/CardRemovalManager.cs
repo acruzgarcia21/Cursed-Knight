@@ -8,7 +8,7 @@ public class CardRemovalManager : MonoBehaviour
     private Card _selectedCard;
 
     private DeckManager _deckManager;
-
+    
     private void Awake()
     {
         _deckManager = FindAnyObjectByType<DeckManager>();
