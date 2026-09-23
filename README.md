@@ -1,10 +1,12 @@
 # Cursed Knight
 
-Cursed Knight is a dark fantasy deck-building roguelike developed in Unity. Battle through cursed enemies, manage limited resources, and harness forbidden corruption to survive increasingly dangerous encounters.
+Cursed Knight is a dark fantasy deck-building roguelike developed in Unity. Battle through cursed enemies, manage limited resources, navigate branching encounters, and harness forbidden corruption to survive increasingly dangerous runs.
 
 ## Overview
 
 Built as a solo development project, Cursed Knight emphasizes clean gameplay architecture, modular systems, and data-driven design. Combat revolves around strategic turn-based decision making, where players balance offense, defense, status effects, and corruption while facing enemies with unique behaviors, abilities, and boss mechanics.
+
+Outside of combat, players progress through a branching map, encounter Battles, Elites, Rest Sites, and Bosses, earn new cards, modify their deck, and manage persistent resources throughout the run.
 
 ---
 
@@ -32,6 +34,17 @@ Built as a solo development project, Cursed Knight emphasizes clean gameplay arc
 - Custom card frames based on card type
 - Energy and Corruption indicators
 - Improved card description and gameplay readability
+
+### Card & Pile Viewer
+
+- Reusable Card View system
+- Current Deck viewer
+- Draw Pile viewer
+- Discard Pile viewer
+- Exhaust Pile viewer
+- Live pile updates during combat
+- Card preview functionality
+- Scrollable multi-row card layouts
 
 ### Enemy System
 
@@ -72,6 +85,34 @@ Built as a solo development project, Cursed Knight emphasizes clean gameplay arc
 - Corruption visual feedback
 - Enemy intent values obscured while Corrupted
 - Risk-versus-reward combat centered around corruption management
+
+### Run Progression
+
+- Branching node-based map
+- Connected-path map traversal
+- Battle, Elite, Rest, and Boss nodes
+- Randomized encounters based on node type
+- Current and visited node tracking
+- Persistent player Health and Corruption between encounters
+- Persistent deck changes throughout a run
+- Battle-to-reward-to-map progression
+- Boss completion and Act Complete flow
+
+### Card Rewards
+
+- Post-battle card reward selection
+- Ability to skip card rewards
+- Reward cards permanently added to the current run deck
+- Reward selection integrated into run progression
+
+### Rest Nodes
+
+- Functional Rest encounters
+- Heal for 30% of maximum Health
+- Permanent card removal
+- Card removal selection and confirmation
+- Rest actions integrated into map progression
+- Completed Rest encounters return the player to the map
 
 ### Combat UI
 
@@ -115,7 +156,7 @@ Each encounter is designed to teach, reinforce, or test a different combat mecha
 
 ## Development Status
 
-### Completed (v0.3.0)
+### Completed (v0.4.0)
 
 - Core combat architecture
 - Runtime card system
@@ -145,6 +186,20 @@ Each encounter is designed to teach, reinforce, or test a different combat mecha
 - Custom status effect icons
 - Combat UI polish
 - Victory and defeat states
+- Card and pile viewer system
+- Card preview system
+- Post-battle card rewards
+- Persistent run deck
+- Branching map progression
+- Battle, Elite, Rest, and Boss nodes
+- Encounter routing based on node type
+- Persistent player state between encounters
+- Rest healing
+- Permanent card removal
+- Rest node progression
+- Boss completion handling
+- Act Complete state
+- Complete start-to-finish run progression loop
 
 ### In Progress
 
@@ -154,11 +209,7 @@ Each encounter is designed to teach, reinforce, or test a different combat mecha
 
 ### Planned
 
-- Card rewards
 - Relic system
-- Map progression
-- Elite encounters
-- Run progression
 - Save / Load
 - Player, enemy, and card artwork
 - Additional visual polish
@@ -178,3 +229,9 @@ Completed the core combat architecture, including the runtime card system, turn 
 ### v0.3.0 — Combat Polish Complete
 
 Overhauled the presentation and readability of combat with custom card frames, combat HUD elements, enemy intent icons, status icons, tooltips, card interaction feedback, enemy hit feedback, and improved Corruption presentation. This milestone establishes a cohesive dark fantasy visual language for combat and brings the core battle experience significantly closer to its intended final presentation.
+
+### v0.4.0 — Run Progression Complete
+
+Expanded Cursed Knight from individual combat encounters into a complete roguelike run structure. Added branching map progression, Battle, Elite, Rest, and Boss nodes, persistent player and deck state, post-battle card rewards, card and pile viewers, Rest healing, permanent card removal, encounter routing, and Boss completion handling.
+
+Cursed Knight now supports a complete start-to-finish run loop: navigate the map, fight encounters, earn and modify cards, recover at Rest nodes, defeat the Boss, and complete the act.
