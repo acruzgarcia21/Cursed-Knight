@@ -5,9 +5,12 @@ public class RunManager : MonoBehaviour
 {
     public event System.Action<MapNode> OnNodeChanged;
     
+    [Header("Displays")]
     [SerializeField] private Map currentMap;
     [SerializeField] private MapDisplay mapDisplay;
     [SerializeField] private RestScreenDisplay restScreenDisplay;
+    [SerializeField] private BattleRewardDisplay battleRewardDisplay;
+    [SerializeField] private RunCompleteScreenDisplay runCompleteScreenDisplay;
 
     private MapNode _currentNode;
     
@@ -124,16 +127,32 @@ public class RunManager : MonoBehaviour
     private void OnEnable()
     {
         _restManager.OnRestCompleted += OnRestCompleted;
+        battleRewardDisplay.OnRewardSelectionCompleted += OnRewardSelectionCompleted;
     }
 
     private void OnDisable()
     {
         _restManager.OnRestCompleted -= OnRestCompleted;
+        battleRewardDisplay.OnRewardSelectionCompleted -= OnRewardSelectionCompleted;
     }
 
     private void OnRestCompleted()
     {
         restScreenDisplay.HideRestScreen();
         mapDisplay.OpenSelectMode();
+    }
+
+    private void OnRewardSelectionCompleted()
+    {
+        Debug.Log(_currentNode.nodeType);
+        
+        if (_currentNode.nodeType == Map.MapNodeType.Boss)
+        {
+            runCompleteScreenDisplay.DisplayRunCompleteScreen();
+        }
+        else
+        {
+            mapDisplay.OpenSelectMode();
+        }
     }
 }
