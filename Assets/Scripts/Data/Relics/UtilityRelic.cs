@@ -23,4 +23,8 @@ public class UtilityRelic : RelicData
     public bool reducesNextAttackEnergy;
 
     public int energyToReduce;
+    public override void ResolveEffect(Player player)
+    {
+        
+    }
 }

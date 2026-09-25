@@ -35,13 +35,14 @@ public class BattleManager : MonoBehaviour
         
         _deckManager.BattleSetup();
         EnemyManager.BattleSetup(encounter);
-        _turnManager.StartPlayerTurn();
+        _turnManager.StartCombat();
     }
 
     public void WinBattle()
     {
         Debug.Log("Battle won");
         _rewardManager.StartRewards();
+        Debug.Log("Reached Start Rewards");
     }
 
     public void LoseBattle()

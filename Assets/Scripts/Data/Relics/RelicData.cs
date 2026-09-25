@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Relic", menuName = "Relic")]
-public class RelicData : ScriptableObject
+public abstract class RelicData : ScriptableObject
 {
     [Header("General")]
     [SerializeField] private string relicName;
@@ -38,4 +38,16 @@ public class RelicData : ScriptableObject
         Self,
         None
     }
+
+    public RelicType GetRelicType()
+    {
+        return relicType;
+    }
+
+    public TriggerTime GetTriggerTime()
+    {
+        return triggerTime;
+    }
+
+    public abstract void ResolveEffect(Player player);
 }

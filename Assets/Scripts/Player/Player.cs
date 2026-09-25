@@ -32,6 +32,8 @@ public class Player : MonoBehaviour
     private StatusManager _statusManager;
     private EnemyManager _enemyManager;
     private CombatFeedbackManager _combatFeedbackManager;
+    private RelicManager _relicManager;
+    
     private CorruptionVisualEffects _corruptionVisualEffects;
 
     private void Awake()
@@ -40,8 +42,11 @@ public class Player : MonoBehaviour
         _statusManager         = GetComponent<StatusManager>();
         _combatFeedbackManager = GetComponent<CombatFeedbackManager>();
 
-        _uiDisplay               = FindAnyObjectByType<UIDisplay>();
-        _enemyManager            = FindAnyObjectByType<EnemyManager>();
+        _uiDisplay = FindAnyObjectByType<UIDisplay>();
+        
+        _enemyManager = FindAnyObjectByType<EnemyManager>();
+        _relicManager = FindAnyObjectByType<RelicManager>();
+        
         _corruptionVisualEffects = FindAnyObjectByType<CorruptionVisualEffects>();
 
         _playerDisplay.UpdatePlayerDisplay();
@@ -61,6 +66,15 @@ public class Player : MonoBehaviour
         playerEnergy     = playerEnergyPerTurn;
         playerBlock      = 0;
         playerCorruption = 0;
+    }
+
+    public void StartCombat()
+    {
+        _relicManager.TriggerStartOfCombatEffects(this);
+        
+        _uiDisplay.UpdatePlayerEnergyText(this);
+        _uiDisplay.UpdatePlayerCorruptionText(this);
+        
     }
 
     public void StartTurn()
@@ -529,5 +543,10 @@ public class Player : MonoBehaviour
     public int GetMaxHealth()
     {
         return playerMaxHealth;
+    }
+
+    public int GetCurrentBlockAmount()
+    {
+        return playerBlock;
     }
 }
