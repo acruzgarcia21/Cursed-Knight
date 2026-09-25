@@ -19,12 +19,25 @@ public class UtilityRelic : RelicData
         Self
     }
     
-    [Space(10)] [Header("Energy Reduction")]
+    /*[Space(10)] [Header("Energy Reduction")]
     public bool reducesNextAttackEnergy;
+    public int energyToReduce;*/
 
-    public int energyToReduce;
+    [Space(10)] [Header("Relic Cost")] 
+    public int corruptionCost;
+
+    
     public override void ResolveEffect(Player player)
     {
+        if (!appliesStatus || statusTargetType != StatusTargetType.Self) return;
         
+        player.ApplyStatus(new StatusEffect
+        {
+            statusType = statusType,
+            amount = statusAmount,
+            duration = statusDuration
+        });
+            
+        if (corruptionCost > 0) player.GainCorruption(corruptionCost);
     }
 }

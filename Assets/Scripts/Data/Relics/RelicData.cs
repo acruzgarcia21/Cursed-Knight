@@ -26,8 +26,7 @@ public abstract class RelicData : ScriptableObject
     {
         Attack,
         Defense,
-        Utility,
-        Power
+        Utility
     }
     
     public enum TargetType
