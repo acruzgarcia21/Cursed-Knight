@@ -41,8 +41,8 @@ public class BattleManager : MonoBehaviour
     public void WinBattle()
     {
         Debug.Log("Battle won");
+        _turnManager.EndCombat();
         _rewardManager.StartRewards();
-        Debug.Log("Reached Start Rewards");
     }
 
     public void LoseBattle()

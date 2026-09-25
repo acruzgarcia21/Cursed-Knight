@@ -26,17 +26,24 @@ public class UtilityRelic : RelicData
     [Space(10)] [Header("Relic Cost")] 
     public int corruptionCost;
 
+    [Space(10)] [Header("Heal")] 
+    public int hpToGain;
     
     public override void ResolveEffect(Player player)
     {
-        if (!appliesStatus || statusTargetType != StatusTargetType.Self) return;
-        
-        player.ApplyStatus(new StatusEffect
+        if (appliesStatus && statusTargetType == StatusTargetType.Self)
         {
-            statusType = statusType,
-            amount = statusAmount,
-            duration = statusDuration
-        });
+            player.ApplyStatus(new StatusEffect
+            {
+                statusType = statusType,
+                amount = statusAmount,
+                duration = statusDuration
+            });
+        }
+        else if (hpToGain > 0)
+        {
+            player.Heal(hpToGain);
+        }
             
         if (corruptionCost > 0) player.GainCorruption(corruptionCost);
     }

@@ -18,15 +18,18 @@ public class RunManager : MonoBehaviour
 
     private readonly List<MapNodeDisplay> _nodeDisplays = new();
 
-    private BattleManager      _battleManager;
-    private DeckManager        _deckManager;
-    private RestManager        _restManager;
+    private BattleManager _battleManager;
+    private DeckManager   _deckManager;
+    private RestManager   _restManager;
+
+    private Player _player;
     
     private void Awake()
     {
         _battleManager = FindAnyObjectByType<BattleManager>();
         _deckManager   = FindAnyObjectByType<DeckManager>();
         _restManager   = FindAnyObjectByType<RestManager>();
+        _player        = FindAnyObjectByType<Player>();
     }
 
     private void Start()
@@ -66,6 +69,8 @@ public class RunManager : MonoBehaviour
     private void StartRun()
     {
         _deckManager.InitializeRunDeck();
+        
+        _player.StartRun();
         
         currentMap.InitializeMap();
         

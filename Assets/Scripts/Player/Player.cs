@@ -56,16 +56,20 @@ public class Player : MonoBehaviour
     // =========================================================
     // BATTLE / TURN LIFECYCLE
     // =========================================================
-
+    
     public void BattleSetup()
     {
         ClearNextAttackEnergyReduction();
         ResetEndlessAssaultTrigger();
-
-        playerHealth     = playerMaxHealth;
-        playerEnergy     = playerEnergyPerTurn;
-        playerBlock      = 0;
+        ClearBlock();
+        ResetEnergy();
+        
         playerCorruption = 0;
+    }
+    
+    public void StartRun()
+    {
+        playerHealth = playerMaxHealth;
     }
 
     public void StartCombat()
@@ -74,7 +78,6 @@ public class Player : MonoBehaviour
         
         _uiDisplay.UpdatePlayerEnergyText(this);
         _uiDisplay.UpdatePlayerCorruptionText(this);
-        
     }
 
     public void StartTurn()
@@ -101,7 +104,11 @@ public class Player : MonoBehaviour
         _enemyManager.RefreshEnemyDisplays();
     }
 
-
+    public void EndCombat()
+    {
+        _relicManager.TriggerEndOfCombatEffects(this);
+    }
+    
     // =========================================================
     // HEALTH
     // =========================================================

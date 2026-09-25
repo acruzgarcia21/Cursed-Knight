@@ -35,6 +35,11 @@ public class TurnManager : MonoBehaviour
         _handManager.PrepareHandForTurn(targetHandSize);
         Debug.Log("Start of Combat, player's turn");
     }
+
+    public void EndCombat()
+    {
+        _player.EndCombat();
+    }
     private void StartPlayerTurn()
     {
         currentState = TurnState.Player;

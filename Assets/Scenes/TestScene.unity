@@ -937,7 +937,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 459285789710865801, guid: 32da3d5058a3e9c4c9de9370bae55014, type: 3}
       propertyPath: relicCollection.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 459285789710865801, guid: 32da3d5058a3e9c4c9de9370bae55014, type: 3}
       propertyPath: 'relicCollection.Array.data[0]'
@@ -947,6 +947,10 @@ PrefabInstance:
       propertyPath: 'relicCollection.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 0ab2ffb34336230429b386b6387e920e, type: 2}
+    - target: {fileID: 459285789710865801, guid: 32da3d5058a3e9c4c9de9370bae55014, type: 3}
+      propertyPath: 'relicCollection.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 5b63e8174e5dfb94782b15d07c378fad, type: 2}
     - target: {fileID: 1340954379826553622, guid: 32da3d5058a3e9c4c9de9370bae55014, type: 3}
       propertyPath: m_LocalPosition.x
       value: 406.83826
