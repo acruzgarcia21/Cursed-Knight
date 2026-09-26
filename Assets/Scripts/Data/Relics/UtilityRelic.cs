@@ -6,8 +6,10 @@ public class UtilityRelic : RelicData
 {
     [Space(10)] [Header("Status Effects")] 
     [SerializeField] private bool appliesStatus;
+    
     [SerializeField] private StatusTargetType statusTargetType;
     [SerializeField] private StatusEffect.StatusType statusType;
+    
     [SerializeField] private int statusAmount;
     [SerializeField] private int statusDuration;
     
