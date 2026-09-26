@@ -24,7 +24,8 @@ public class UtilityRelic : RelicData
     public int energyToReduce;*/
     
     
-    [Space(10)] [Header("Heal")] 
+    [Space(10)] [Header("Heal")]
+    [SerializeField] private bool conditionalHeal;
     [SerializeField] private int hpToGain;
 
     [Space(10)] [Header("Energy")] 
@@ -65,7 +66,14 @@ public class UtilityRelic : RelicData
             }
         }
         
-        if (hpToGain > 0)
+        if (hpToGain > 0 && conditionalHeal)
+        {
+            var amountToHeal = hpToGain * enemyManager.GetNumEnemiesKilled();
+            
+            player.Heal(amountToHeal);
+        }
+        
+        if (hpToGain > 0 && !conditionalHeal)
         {
             player.Heal(hpToGain);
         }
