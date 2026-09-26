@@ -26,6 +26,10 @@ public class Player : MonoBehaviour
 
     private int storedDamageToUse;
 
+    private bool criticalHealthTriggered;
+
+    private float criticalHealthThreshold = 0.3f;
+
     // =========================================================
     // REFERENCES
     // =========================================================
@@ -67,6 +71,8 @@ public class Player : MonoBehaviour
         ResetEndlessAssaultTrigger();
         ClearBlock();
         ResetEnergy();
+        
+        criticalHealthTriggered = false;
     }
     
     public void StartRun()
@@ -145,6 +151,13 @@ public class Player : MonoBehaviour
         }
 
         playerHealth = Mathf.Clamp(playerHealth, 0, playerMaxHealth);
+
+
+        if (playerHealth <= playerMaxHealth * criticalHealthThreshold && !criticalHealthTriggered)
+        {
+            criticalHealthTriggered = true;
+            _relicManager.TriggerCriticalHealthEffects(this, _enemyManager);
+        }
 
         var healthLost = initialHp - playerHealth;
         var blockLost = blockBefore - playerBlock;

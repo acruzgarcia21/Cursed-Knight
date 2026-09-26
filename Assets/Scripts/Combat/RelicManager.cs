@@ -82,4 +82,17 @@ public class RelicManager : MonoBehaviour
             }
         }
     }
+    
+    public void TriggerCriticalHealthEffects(Player player, EnemyManager enemyManager)
+    {
+        if (relicCollection.Count <= 0) return;
+        
+        foreach (var relic in relicCollection)
+        {
+            if (relic.GetTriggerTime() == RelicData.TriggerTime.CriticalHealth)
+            {
+                relic.ResolveEffect(player, enemyManager);
+            }
+        }
+    }
 }

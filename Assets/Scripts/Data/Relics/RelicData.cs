@@ -25,6 +25,7 @@ public abstract class RelicData : ScriptableObject
         StartOfTurn,
         EndOfCombat,
         CorruptionOverflow,
+        CriticalHealth,
         None
     }
     
