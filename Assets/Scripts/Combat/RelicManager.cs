@@ -3,14 +3,34 @@ using UnityEngine;
 
 public class RelicManager : MonoBehaviour
 {
-    [SerializeField] private List<RelicData> relicCollection;
+    [SerializeField] private List<RelicData> actOneRelicPool;
+    [SerializeField] private List<RelicData> actTwoRelicPool;
+    [SerializeField] private List<RelicData> actThreeRelicPool;
+    
+    private List<RelicData> relicCollection  = new();
+    private List<RelicData> currentRelicPool = new();
 
+    public void RunSetup()
+    {
+        currentRelicPool.Clear();
+        relicCollection.Clear();
+
+        foreach (var relic in actOneRelicPool)
+        {
+            currentRelicPool.Add(relic);
+        }
+    }
+    
     public void AddRelicToCollection(RelicData relic)
     {
         if (relic == null) return;
         if (relicCollection.Contains(relic)) return;
         
         relicCollection.Add(relic);
+
+        if (!currentRelicPool.Contains(relic)) return;
+        
+        currentRelicPool.Remove(relic);
     }
 
     public IReadOnlyList<RelicData> GetRelicCollection()

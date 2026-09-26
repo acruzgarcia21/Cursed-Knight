@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93e1c864b784df246bdcc4d34a38aec7, type: 3}
+  m_Name: Act3_RelicPool
+  m_EditorClassIdentifier: Assembly-CSharp::RelicPoolData
+  rewardPool:
+  - {fileID: 11400000, guid: 0d798485c79f23c4781880c1562a1c32, type: 2}
+  - {fileID: 11400000, guid: b27d00ca666024148a2800537d726047, type: 2}
+  - {fileID: 11400000, guid: 11ddbe8fb9225d747bed95a1ba748078, type: 2}
+  - {fileID: 11400000, guid: 4ccf49c3161107d46b9d5c58c3755d21, type: 2}
+  - {fileID: 11400000, guid: 7e0b9c9696673d1478ff8a6f352b2de7, type: 2}
