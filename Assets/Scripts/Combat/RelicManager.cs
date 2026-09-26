@@ -43,4 +43,17 @@ public class RelicManager : MonoBehaviour
             }
         }
     }
+
+    public void TriggerAttackThresholdHitEffect(Player player)
+    {
+        if (relicCollection.Count <= 0) return;
+        
+        foreach (var relic in relicCollection)
+        {
+            if (relic.GetRelicType() == RelicData.RelicType.Attack)
+            {
+                relic.ResolveEffect(player);
+            }
+        }
+    }
 }

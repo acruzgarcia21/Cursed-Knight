@@ -19,7 +19,8 @@ public abstract class RelicData : ScriptableObject
     public enum TriggerTime
     {
         StartOfCombat,
-        EndOfCombat
+        EndOfCombat,
+        None
     }
     
     public enum RelicType

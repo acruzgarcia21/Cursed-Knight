@@ -361,6 +361,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8888750984666669955, guid: 7d604ba0502de1b4fb87e699fb1d1d3a, type: 3}
+      propertyPath: relicCollection.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8888750984666669955, guid: 7d604ba0502de1b4fb87e699fb1d1d3a, type: 3}
+      propertyPath: 'relicCollection.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: e6b70a5972de69a4cb59e670411406d8, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

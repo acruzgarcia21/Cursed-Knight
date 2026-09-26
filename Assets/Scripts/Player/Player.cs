@@ -1,3 +1,4 @@
+using System;
 using CursedKnight;
 using UnityEngine;
 
@@ -23,6 +24,8 @@ public class Player : MonoBehaviour
 
     public bool endlessAssaultTriggeredThisTurn;
 
+    private int storedDamageToUse;
+
     // =========================================================
     // REFERENCES
     // =========================================================
@@ -33,6 +36,7 @@ public class Player : MonoBehaviour
     private EnemyManager _enemyManager;
     private CombatFeedbackManager _combatFeedbackManager;
     private RelicManager _relicManager;
+    private CardPlayManager _cardPlayManager;
     
     private CorruptionVisualEffects _corruptionVisualEffects;
 
@@ -44,14 +48,14 @@ public class Player : MonoBehaviour
 
         _uiDisplay = FindAnyObjectByType<UIDisplay>();
         
-        _enemyManager = FindAnyObjectByType<EnemyManager>();
-        _relicManager = FindAnyObjectByType<RelicManager>();
+        _enemyManager    = FindAnyObjectByType<EnemyManager>();
+        _relicManager    = FindAnyObjectByType<RelicManager>();
+        _cardPlayManager = FindAnyObjectByType<CardPlayManager>();
         
         _corruptionVisualEffects = FindAnyObjectByType<CorruptionVisualEffects>();
 
         _playerDisplay.UpdatePlayerDisplay();
     }
-
 
     // =========================================================
     // BATTLE / TURN LIFECYCLE
@@ -334,10 +338,18 @@ public class Player : MonoBehaviour
             modifiedDamage += corruptionScale;
         }
 
+        if (storedDamageToUse > 0)
+        {
+            Debug.Log(storedDamageToUse);
+            modifiedDamage += storedDamageToUse;
+        }
+
         if (modifiedDamage < 0)
         {
             modifiedDamage = 0;
         }
+        
+        Debug.Log(modifiedDamage);
 
         return modifiedDamage;
     }
@@ -492,6 +504,20 @@ public class Player : MonoBehaviour
     // POWER / TRIGGERED EFFECTS
     // =========================================================
 
+    public void TriggerEndlessAssault()
+    {
+        endlessAssaultTriggeredThisTurn = true;
+    }
+
+    public int GetMaxHealth()
+    {
+        return playerMaxHealth;
+    }
+
+    public int GetCurrentBlockAmount()
+    {
+        return playerBlock;
+    }
     public void ProcessCardTypeTriggeredEffects(Card.CardType cardType)
     {
         if (cardType != Card.CardType.Attack) return;
@@ -514,6 +540,16 @@ public class Player : MonoBehaviour
         
         if (bleedBonusDamage < 0) return;
         enemy.LoseHealth(bleedBonusDamage);
+    }
+
+    public void StoreRelicDamage(int damageToStore)
+    {
+        storedDamageToUse = damageToStore;
+    }
+
+    public void ResetRelicDamage()
+    {
+        storedDamageToUse = 0;
     }
 
     private void ProcessMaxCorruptionTriggeredEffects()
@@ -542,18 +578,23 @@ public class Player : MonoBehaviour
         endlessAssaultTriggeredThisTurn = false;
     }
 
-    public void TriggerEndlessAssault()
+    private void OnEnable()
     {
-        endlessAssaultTriggeredThisTurn = true;
+        _cardPlayManager.OnAttackThresholdHit += TriggerAttackThresholdHitEffect;
     }
 
-    public int GetMaxHealth()
+    private void OnDisable()
     {
-        return playerMaxHealth;
+        _cardPlayManager.OnAttackThresholdHit -= TriggerAttackThresholdHitEffect;
     }
 
-    public int GetCurrentBlockAmount()
+    private void TriggerAttackThresholdHitEffect()
     {
-        return playerBlock;
+        _relicManager.TriggerAttackThresholdHitEffect(this);
+    }
+
+    public int GetStoredRelicDamage()
+    {
+        return storedDamageToUse;
     }
 }
