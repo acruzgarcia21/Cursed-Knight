@@ -5,11 +5,11 @@ using UnityEngine;
 public class UtilityRelic : RelicData
 {
     [Space(10)] [Header("Status Effects")] 
-    public bool appliesStatus;
-    public StatusTargetType statusTargetType;
-    public StatusEffect.StatusType statusType;
-    public int statusAmount;
-    public int statusDuration;
+    [SerializeField] private bool appliesStatus;
+    [SerializeField] private StatusTargetType statusTargetType;
+    [SerializeField] private StatusEffect.StatusType statusType;
+    [SerializeField] private int statusAmount;
+    [SerializeField] private int statusDuration;
     
     public enum StatusTargetType
     {
@@ -22,15 +22,16 @@ public class UtilityRelic : RelicData
     /*[Space(10)] [Header("Energy Reduction")]
     public bool reducesNextAttackEnergy;
     public int energyToReduce;*/
-
-    [Space(10)] [Header("Relic Cost")] 
-    public int corruptionCost;
-
+    
+    
     [Space(10)] [Header("Heal")] 
-    public int hpToGain;
+    [SerializeField] private int hpToGain;
 
     [Space(10)] [Header("Energy")] 
-    public int energyToGain;
+    [SerializeField] private bool conditionalEnergy;
+    [SerializeField] private int energyToGain;
+    [SerializeField] private int corruptionRequiredForEnergy;
+    
     
     public override void ResolveEffect(Player player, EnemyManager enemyManager)
     {
@@ -69,7 +70,15 @@ public class UtilityRelic : RelicData
             player.Heal(hpToGain);
         }
 
-        if (energyToGain > 0)
+        if (energyToGain > 0 && conditionalEnergy)
+        {
+            if (player.playerCorruption >= corruptionRequiredForEnergy)
+            {
+                player.GainEnergy(energyToGain);
+            }
+        }
+        
+        if (energyToGain > 0 && !conditionalEnergy)
         {
             player.GainEnergy(energyToGain);
         }
@@ -78,5 +87,6 @@ public class UtilityRelic : RelicData
         {
             player.GainCorruption(corruptionCost);
         }
+        
     }
 }

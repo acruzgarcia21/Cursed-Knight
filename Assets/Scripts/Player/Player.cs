@@ -67,13 +67,12 @@ public class Player : MonoBehaviour
         ResetEndlessAssaultTrigger();
         ClearBlock();
         ResetEnergy();
-        
-        playerCorruption = 0;
     }
     
     public void StartRun()
     {
-        playerHealth = playerMaxHealth;
+        playerHealth     = playerMaxHealth;
+        playerCorruption = 0;
     }
 
     public void StartCombat()

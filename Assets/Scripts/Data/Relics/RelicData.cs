@@ -15,6 +15,9 @@ public abstract class RelicData : ScriptableObject
     [SerializeField] private RelicType relicType;
 
     [SerializeField] private TargetType targetType;
+    
+    [Space(10)] [Header("Relic Cost")] 
+    [SerializeField] protected int corruptionCost;
 
     public enum TriggerTime
     {

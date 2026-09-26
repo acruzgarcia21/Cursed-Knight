@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Gain Corruption
   m_EditorClassIdentifier: Assembly-CSharp::UtilityCard
   cardName: Gain Corruption
-  cardDescription: Gain max corruption
+  cardDescription: Gain 5 corruption
   cardType: 2
   targetType: 3
   cardSprite: {fileID: 0}
   cardEnergyCost: 0
-  cardCorruptionGain: 10
+  cardCorruptionGain: 5
   cardsToDraw: 0
   cardsToDiscardRandomly: 0
   cardsToDrawFromDiscard: 0

@@ -11,9 +11,8 @@ public class DefenseRelic : RelicData
     {
         if (player == null) return;
         
-        player.GainBlock(relicBlock);
+        if (relicBlock > 0) player.GainBlock(relicBlock);
         
-        Debug.Log(relicBlock);
-        Debug.Log(player.GetCurrentBlockAmount());
+        if (corruptionCost > 0) player.GainCorruption(corruptionCost);
     }
 }
