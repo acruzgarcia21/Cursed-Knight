@@ -43,6 +43,8 @@ public class PlayerDisplay : MonoBehaviour
     {
         player = GetComponent<Player>();
 
+        _blockTargetPosition = blockUI.transform.localPosition;
+        
         blockUI.SetActive(false);
 
         playerHealthBarFill.color = healthColor;
@@ -52,8 +54,6 @@ public class PlayerDisplay : MonoBehaviour
 
     private void Start()
     {
-        _blockTargetPosition = blockUI.transform.localPosition;
-
         UpdatePlayerDisplay();
     }
 

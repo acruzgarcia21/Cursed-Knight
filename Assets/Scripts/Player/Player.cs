@@ -78,7 +78,8 @@ public class Player : MonoBehaviour
 
     public void StartCombat()
     {
-        _relicManager.TriggerStartOfCombatEffects(this);
+        _relicManager.TriggerStartOfCombatEffects(this, _enemyManager);
+        _relicManager.TriggerStartOfTurnEffects(this, _enemyManager);
         
         _uiDisplay.UpdatePlayerEnergyText(this);
         _uiDisplay.UpdatePlayerCorruptionText(this);
@@ -88,8 +89,11 @@ public class Player : MonoBehaviour
     {
         ClearBlock();
         ResetEnergy();
-        ProcessStartTurnEffects();
         ResetEndlessAssaultTrigger();
+        
+        ProcessStartTurnEffects();
+        
+        _relicManager.TriggerStartOfTurnEffects(this, _enemyManager);
 
         _uiDisplay.UpdatePlayerEnergyText(this);
         _uiDisplay.UpdatePlayerCorruptionText(this);
@@ -110,7 +114,7 @@ public class Player : MonoBehaviour
 
     public void EndCombat()
     {
-        _relicManager.TriggerEndOfCombatEffects(this);
+        _relicManager.TriggerEndOfCombatEffects(this, _enemyManager);
     }
     
     // =========================================================
@@ -299,7 +303,7 @@ public class Player : MonoBehaviour
 
         ApplyStatus(corruptedStatus);
 
-        _relicManager.TriggerCorruptionOverflowEffect(this);
+        _relicManager.TriggerCorruptionOverflowEffect(this, _enemyManager);
 
         _playerDisplay.UpdatePlayerDisplay();
         _uiDisplay.UpdatePlayerCorruptionText(this);
@@ -592,7 +596,7 @@ public class Player : MonoBehaviour
 
     private void TriggerAttackThresholdHitEffect()
     {
-        _relicManager.TriggerAttackThresholdHitEffect(this);
+        _relicManager.TriggerAttackThresholdHitEffect(this, _enemyManager);
     }
 
     public int GetStoredRelicDamage()

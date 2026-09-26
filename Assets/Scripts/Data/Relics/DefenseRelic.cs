@@ -7,7 +7,7 @@ public class DefenseRelic : RelicData
     [Space(10)] [Header("Card Block")]
     [SerializeField] private int relicBlock;
 
-    public override void ResolveEffect(Player player)
+    public override void ResolveEffect(Player player, EnemyManager enemyManager)
     {
         if (player == null) return;
         

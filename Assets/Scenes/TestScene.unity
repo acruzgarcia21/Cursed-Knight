@@ -938,7 +938,7 @@ PrefabInstance:
     - target: {fileID: 459285789710865801, guid: 32da3d5058a3e9c4c9de9370bae55014, type: 3}
       propertyPath: 'relicCollection.Array.data[0]'
       value: 
-      objectReference: {fileID: 11400000, guid: e545bc05a2683344ba14f6ed6a45d3ab, type: 2}
+      objectReference: {fileID: 11400000, guid: aa05d4ba88ff50542b377ad0bb07a206, type: 2}
     - target: {fileID: 1340954379826553622, guid: 32da3d5058a3e9c4c9de9370bae55014, type: 3}
       propertyPath: m_LocalPosition.x
       value: 406.83826

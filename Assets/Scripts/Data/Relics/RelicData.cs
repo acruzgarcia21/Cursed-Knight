@@ -19,6 +19,7 @@ public abstract class RelicData : ScriptableObject
     public enum TriggerTime
     {
         StartOfCombat,
+        StartOfTurn,
         EndOfCombat,
         CorruptionOverflow,
         None
@@ -50,5 +51,5 @@ public abstract class RelicData : ScriptableObject
         return triggerTime;
     }
 
-    public abstract void ResolveEffect(Player player);
+    public abstract void ResolveEffect(Player player, EnemyManager enemyManager);
 }

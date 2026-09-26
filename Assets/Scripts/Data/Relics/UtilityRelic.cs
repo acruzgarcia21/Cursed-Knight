@@ -32,16 +32,36 @@ public class UtilityRelic : RelicData
     [Space(10)] [Header("Energy")] 
     public int energyToGain;
     
-    public override void ResolveEffect(Player player)
+    public override void ResolveEffect(Player player, EnemyManager enemyManager)
     {
-        if (appliesStatus && statusTargetType == StatusTargetType.Self)
+        if (appliesStatus)
         {
-            player.ApplyStatus(new StatusEffect
+            switch (statusTargetType)
             {
-                statusType = statusType,
-                amount = statusAmount,
-                duration = statusDuration
-            });
+                case StatusTargetType.AllEnemies:
+                    var enemies = enemyManager.GetLivingEnemies();
+                    foreach (var enemy in enemies)
+                    {
+                        enemy.ApplyStatus(new StatusEffect
+                        {
+                            statusType = statusType,
+                            amount = statusAmount,
+                            duration = statusDuration
+                        });
+                    }
+                    
+                    break;
+                    
+                case StatusTargetType.Self:
+                    player.ApplyStatus(new StatusEffect
+                    {
+                        statusType = statusType,
+                        amount = statusAmount,
+                        duration = statusDuration
+                    });
+                    
+                    break;
+            }
         }
         
         if (hpToGain > 0)

@@ -18,7 +18,7 @@ public class RelicManager : MonoBehaviour
         return relicCollection;
     }
 
-    public void TriggerStartOfCombatEffects(Player player)
+    public void TriggerStartOfCombatEffects(Player player, EnemyManager enemyManager)
     {
         if (relicCollection.Count <= 0) return;
         
@@ -26,12 +26,12 @@ public class RelicManager : MonoBehaviour
         {
             if (relic.GetTriggerTime() == RelicData.TriggerTime.StartOfCombat)
             {
-                relic.ResolveEffect(player);
+                relic.ResolveEffect(player, enemyManager);
             }
         }
     }
 
-    public void TriggerEndOfCombatEffects(Player player)
+    public void TriggerEndOfCombatEffects(Player player, EnemyManager enemyManager)
     {
         if (relicCollection.Count <= 0) return;
         
@@ -39,12 +39,12 @@ public class RelicManager : MonoBehaviour
         {
             if (relic.GetTriggerTime() == RelicData.TriggerTime.EndOfCombat)
             {
-                relic.ResolveEffect(player);
+                relic.ResolveEffect(player, enemyManager);
             }
         }
     }
 
-    public void TriggerAttackThresholdHitEffect(Player player)
+    public void TriggerAttackThresholdHitEffect(Player player, EnemyManager enemyManager)
     {
         if (relicCollection.Count <= 0) return;
         
@@ -52,12 +52,12 @@ public class RelicManager : MonoBehaviour
         {
             if (relic.GetRelicType() == RelicData.RelicType.Attack)
             {
-                relic.ResolveEffect(player);
+                relic.ResolveEffect(player, enemyManager);
             }
         }
     }
 
-    public void TriggerCorruptionOverflowEffect(Player player)
+    public void TriggerCorruptionOverflowEffect(Player player, EnemyManager enemyManager)
     {
         if (relicCollection.Count <= 0) return;
         
@@ -65,7 +65,20 @@ public class RelicManager : MonoBehaviour
         {
             if (relic.GetTriggerTime() == RelicData.TriggerTime.CorruptionOverflow)
             {
-                relic.ResolveEffect(player);
+                relic.ResolveEffect(player, enemyManager);
+            }
+        }
+    }
+
+    public void TriggerStartOfTurnEffects(Player player, EnemyManager enemyManager)
+    {
+        if (relicCollection.Count <= 0) return;
+        
+        foreach (var relic in relicCollection)
+        {
+            if (relic.GetTriggerTime() == RelicData.TriggerTime.StartOfTurn)
+            {
+                relic.ResolveEffect(player, enemyManager);
             }
         }
     }
