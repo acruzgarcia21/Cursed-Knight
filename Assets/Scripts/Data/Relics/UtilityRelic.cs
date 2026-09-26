@@ -28,6 +28,9 @@ public class UtilityRelic : RelicData
 
     [Space(10)] [Header("Heal")] 
     public int hpToGain;
+
+    [Space(10)] [Header("Energy")] 
+    public int energyToGain;
     
     public override void ResolveEffect(Player player)
     {
@@ -40,11 +43,20 @@ public class UtilityRelic : RelicData
                 duration = statusDuration
             });
         }
-        else if (hpToGain > 0)
+        
+        if (hpToGain > 0)
         {
             player.Heal(hpToGain);
         }
+
+        if (energyToGain > 0)
+        {
+            player.GainEnergy(energyToGain);
+        }
             
-        if (corruptionCost > 0) player.GainCorruption(corruptionCost);
+        if (corruptionCost > 0)
+        {
+            player.GainCorruption(corruptionCost);
+        }
     }
 }

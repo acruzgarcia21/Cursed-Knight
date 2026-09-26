@@ -299,6 +299,8 @@ public class Player : MonoBehaviour
 
         ApplyStatus(corruptedStatus);
 
+        _relicManager.TriggerCorruptionOverflowEffect(this);
+
         _playerDisplay.UpdatePlayerDisplay();
         _uiDisplay.UpdatePlayerCorruptionText(this);
     }

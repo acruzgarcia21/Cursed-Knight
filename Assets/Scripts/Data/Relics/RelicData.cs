@@ -20,6 +20,7 @@ public abstract class RelicData : ScriptableObject
     {
         StartOfCombat,
         EndOfCombat,
+        CorruptionOverflow,
         None
     }
     

@@ -56,4 +56,17 @@ public class RelicManager : MonoBehaviour
             }
         }
     }
+
+    public void TriggerCorruptionOverflowEffect(Player player)
+    {
+        if (relicCollection.Count <= 0) return;
+        
+        foreach (var relic in relicCollection)
+        {
+            if (relic.GetTriggerTime() == RelicData.TriggerTime.CorruptionOverflow)
+            {
+                relic.ResolveEffect(player);
+            }
+        }
+    }
 }
