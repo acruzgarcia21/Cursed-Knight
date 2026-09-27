@@ -64,13 +64,16 @@ public class RunManager : MonoBehaviour
 
     private void EnterCurrentNode()
     {
+        var finalStageNum = currentMap.GetTotalStageCount();
+        var isFinalStage = (_currentNode.GetStageNumber() - 1) == finalStageNum;
+        
         switch (_currentNode.nodeType)
         {
             case Map.MapNodeType.Battle:
             case Map.MapNodeType.Elite:
             case Map.MapNodeType.Boss:
                 var encounter = currentMap.GenerateRandomEncounter(_currentNode);
-                _battleManager.StartBattle(encounter, _currentNode.nodeType);
+                _battleManager.StartBattle(encounter, _currentNode.nodeType, isFinalStage);
                 break;
             case Map.MapNodeType.Rest:
                 _restManager.StartRestNode();

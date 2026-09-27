@@ -33,23 +33,27 @@ public class RewardManager : MonoBehaviour
         _relicsAwardedThisAct = 0;
     }
 
-    public void StartRewards(Map.MapNodeType currentNode)
+    public void StartRewards(Map.MapNodeType currentNode, bool isFinalStage)
     {
         _rewardCardHasBeenCollected = false;
 
-        RelicData selectedRelic;
+        RelicData selectedRelic = null;
 
-        if (RollRelicSelection() || currentNode == Map.MapNodeType.Boss)
+        if (currentNode == Map.MapNodeType.Boss)
+        {
+            selectedRelic = _relicManager.SelectRelic();
+        }
+        else if (isFinalStage && _relicsAwardedThisAct == 0 || RollRelicSelection())
         {
             selectedRelic = _relicManager.SelectRelic();
 
-            if (selectedRelic != null && currentNode != Map.MapNodeType.Boss)
+            if (selectedRelic != null)
             {
                 _relicsAwardedThisAct++;
             }
         }
-        
-        battleRewardDisplay.DisplayVictoryScreen();
+
+        battleRewardDisplay.DisplayVictoryScreen(selectedRelic);
     }
 
     public void OnOpenCardRewards()
