@@ -55,5 +55,15 @@ public abstract class RelicData : ScriptableObject
         return triggerTime;
     }
 
+    public string GetRelicName()
+    {
+        return relicName;
+    }
+
+    public string GetRelicDescription()
+    {
+        return relicDescription;
+    }
+
     public abstract void ResolveEffect(Player player, EnemyManager enemyManager);
 }

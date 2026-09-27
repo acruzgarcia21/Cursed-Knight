@@ -23,6 +23,8 @@ public class BattleRewardDisplay : MonoBehaviour
 
     [Space(10)] [Header("Relic Reward Attributes")] 
     [SerializeField] private GameObject relicRewardsButton;
+
+    [SerializeField] private RelicRewardDisplay relicRewardDisplay;
     
     private void Awake()
     {
@@ -36,6 +38,7 @@ public class BattleRewardDisplay : MonoBehaviour
         cardsRewardScreen.SetActive(false);
 
         relicRewardsButton.SetActive(relicData != null);
+        relicRewardDisplay.DisplayRelic(relicData);
     }
     
     public void DisplayCardRewardsScreen()
