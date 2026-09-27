@@ -171,7 +171,7 @@ public class Map : MonoBehaviour
         return randomEncounter;
     }
 
-    private int GetTotalStageCount()
+    public int GetTotalStageCount()
     {
         var totalStageNum = 0;
         

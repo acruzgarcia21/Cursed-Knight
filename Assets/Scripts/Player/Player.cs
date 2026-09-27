@@ -1,3 +1,4 @@
+using System;
 using CursedKnight;
 using UnityEngine;
 
@@ -23,6 +24,12 @@ public class Player : MonoBehaviour
 
     public bool endlessAssaultTriggeredThisTurn;
 
+    private int storedDamageToUse;
+
+    private bool criticalHealthTriggered;
+
+    private float criticalHealthThreshold = 0.3f;
+
     // =========================================================
     // REFERENCES
     // =========================================================
@@ -32,6 +39,9 @@ public class Player : MonoBehaviour
     private StatusManager _statusManager;
     private EnemyManager _enemyManager;
     private CombatFeedbackManager _combatFeedbackManager;
+    private RelicManager _relicManager;
+    private CardPlayManager _cardPlayManager;
+    
     private CorruptionVisualEffects _corruptionVisualEffects;
 
     private void Awake()
@@ -40,35 +50,55 @@ public class Player : MonoBehaviour
         _statusManager         = GetComponent<StatusManager>();
         _combatFeedbackManager = GetComponent<CombatFeedbackManager>();
 
-        _uiDisplay               = FindAnyObjectByType<UIDisplay>();
-        _enemyManager            = FindAnyObjectByType<EnemyManager>();
+        _uiDisplay = FindAnyObjectByType<UIDisplay>();
+        
+        _enemyManager    = FindAnyObjectByType<EnemyManager>();
+        _relicManager    = FindAnyObjectByType<RelicManager>();
+        _cardPlayManager = FindAnyObjectByType<CardPlayManager>();
+        
         _corruptionVisualEffects = FindAnyObjectByType<CorruptionVisualEffects>();
 
         _playerDisplay.UpdatePlayerDisplay();
     }
 
-
     // =========================================================
     // BATTLE / TURN LIFECYCLE
     // =========================================================
-
+    
     public void BattleSetup()
     {
         ClearNextAttackEnergyReduction();
         ResetEndlessAssaultTrigger();
-
+        ClearBlock();
+        ResetEnergy();
+        
+        criticalHealthTriggered = false;
+    }
+    
+    public void StartRun()
+    {
         playerHealth     = playerMaxHealth;
-        playerEnergy     = playerEnergyPerTurn;
-        playerBlock      = 0;
         playerCorruption = 0;
+    }
+
+    public void StartCombat()
+    {
+        _relicManager.TriggerStartOfCombatEffects(this, _enemyManager);
+        _relicManager.TriggerStartOfTurnEffects(this, _enemyManager);
+        
+        _uiDisplay.UpdatePlayerEnergyText(this);
+        _uiDisplay.UpdatePlayerCorruptionText(this);
     }
 
     public void StartTurn()
     {
         ClearBlock();
         ResetEnergy();
-        ProcessStartTurnEffects();
         ResetEndlessAssaultTrigger();
+        
+        ProcessStartTurnEffects();
+        
+        _relicManager.TriggerStartOfTurnEffects(this, _enemyManager);
 
         _uiDisplay.UpdatePlayerEnergyText(this);
         _uiDisplay.UpdatePlayerCorruptionText(this);
@@ -87,7 +117,11 @@ public class Player : MonoBehaviour
         _enemyManager.RefreshEnemyDisplays();
     }
 
-
+    public void EndCombat()
+    {
+        _relicManager.TriggerEndOfCombatEffects(this, _enemyManager);
+    }
+    
     // =========================================================
     // HEALTH
     // =========================================================
@@ -117,6 +151,13 @@ public class Player : MonoBehaviour
         }
 
         playerHealth = Mathf.Clamp(playerHealth, 0, playerMaxHealth);
+
+
+        if (playerHealth <= playerMaxHealth * criticalHealthThreshold && !criticalHealthTriggered)
+        {
+            criticalHealthTriggered = true;
+            _relicManager.TriggerCriticalHealthEffects(this, _enemyManager);
+        }
 
         var healthLost = initialHp - playerHealth;
         var blockLost = blockBefore - playerBlock;
@@ -274,6 +315,8 @@ public class Player : MonoBehaviour
 
         ApplyStatus(corruptedStatus);
 
+        _relicManager.TriggerCorruptionOverflowEffect(this, _enemyManager);
+
         _playerDisplay.UpdatePlayerDisplay();
         _uiDisplay.UpdatePlayerCorruptionText(this);
     }
@@ -313,10 +356,18 @@ public class Player : MonoBehaviour
             modifiedDamage += corruptionScale;
         }
 
+        if (storedDamageToUse > 0)
+        {
+            Debug.Log(storedDamageToUse);
+            modifiedDamage += storedDamageToUse;
+        }
+
         if (modifiedDamage < 0)
         {
             modifiedDamage = 0;
         }
+        
+        Debug.Log(modifiedDamage);
 
         return modifiedDamage;
     }
@@ -471,6 +522,20 @@ public class Player : MonoBehaviour
     // POWER / TRIGGERED EFFECTS
     // =========================================================
 
+    public void TriggerEndlessAssault()
+    {
+        endlessAssaultTriggeredThisTurn = true;
+    }
+
+    public int GetMaxHealth()
+    {
+        return playerMaxHealth;
+    }
+
+    public int GetCurrentBlockAmount()
+    {
+        return playerBlock;
+    }
     public void ProcessCardTypeTriggeredEffects(Card.CardType cardType)
     {
         if (cardType != Card.CardType.Attack) return;
@@ -493,6 +558,16 @@ public class Player : MonoBehaviour
         
         if (bleedBonusDamage < 0) return;
         enemy.LoseHealth(bleedBonusDamage);
+    }
+
+    public void StoreRelicDamage(int damageToStore)
+    {
+        storedDamageToUse = damageToStore;
+    }
+
+    public void ResetRelicDamage()
+    {
+        storedDamageToUse = 0;
     }
 
     private void ProcessMaxCorruptionTriggeredEffects()
@@ -521,13 +596,23 @@ public class Player : MonoBehaviour
         endlessAssaultTriggeredThisTurn = false;
     }
 
-    public void TriggerEndlessAssault()
+    private void OnEnable()
     {
-        endlessAssaultTriggeredThisTurn = true;
+        _cardPlayManager.OnAttackThresholdHit += TriggerAttackThresholdHitEffect;
     }
 
-    public int GetMaxHealth()
+    private void OnDisable()
     {
-        return playerMaxHealth;
+        _cardPlayManager.OnAttackThresholdHit -= TriggerAttackThresholdHitEffect;
+    }
+
+    private void TriggerAttackThresholdHitEffect()
+    {
+        _relicManager.TriggerAttackThresholdHitEffect(this, _enemyManager);
+    }
+
+    public int GetStoredRelicDamage()
+    {
+        return storedDamageToUse;
     }
 }

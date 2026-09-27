@@ -18,15 +18,32 @@ public class RunManager : MonoBehaviour
 
     private readonly List<MapNodeDisplay> _nodeDisplays = new();
 
-    private BattleManager      _battleManager;
-    private DeckManager        _deckManager;
-    private RestManager        _restManager;
+    private BattleManager _battleManager;
+    private DeckManager   _deckManager;
+    private RestManager   _restManager;
+    private RelicManager  _relicManager;
+    private RewardManager _rewardManager;
+
+    private Player _player;
+    
+    public enum CurrentAct
+    {
+        ActOne,
+        ActTwo,
+        ActThree
+    }
+
+    private CurrentAct _currentAct;
     
     private void Awake()
     {
         _battleManager = FindAnyObjectByType<BattleManager>();
         _deckManager   = FindAnyObjectByType<DeckManager>();
         _restManager   = FindAnyObjectByType<RestManager>();
+        _relicManager  = FindAnyObjectByType<RelicManager>();
+        _rewardManager = FindAnyObjectByType<RewardManager>();
+        
+        _player = FindAnyObjectByType<Player>();
     }
 
     private void Start()
@@ -47,13 +64,16 @@ public class RunManager : MonoBehaviour
 
     private void EnterCurrentNode()
     {
+        var finalStageNum = currentMap.GetTotalStageCount();
+        var isFinalStage = (_currentNode.GetStageNumber() - 1) == finalStageNum;
+        
         switch (_currentNode.nodeType)
         {
             case Map.MapNodeType.Battle:
             case Map.MapNodeType.Elite:
             case Map.MapNodeType.Boss:
                 var encounter = currentMap.GenerateRandomEncounter(_currentNode);
-                _battleManager.StartBattle(encounter);
+                _battleManager.StartBattle(encounter, _currentNode.nodeType, isFinalStage);
                 break;
             case Map.MapNodeType.Rest:
                 _restManager.StartRestNode();
@@ -65,7 +85,15 @@ public class RunManager : MonoBehaviour
 
     private void StartRun()
     {
+        _currentAct = CurrentAct.ActOne;
+        
         _deckManager.InitializeRunDeck();
+        
+        _relicManager.RunSetup(_currentAct);
+        
+        _rewardManager.ActSetup();
+        
+        _player.StartRun();
         
         currentMap.InitializeMap();
         
@@ -148,11 +176,32 @@ public class RunManager : MonoBehaviour
         
         if (_currentNode.nodeType == Map.MapNodeType.Boss)
         {
-            runCompleteScreenDisplay.DisplayRunCompleteScreen();
+            MoveToNextAct();
         }
         else
         {
             mapDisplay.OpenSelectMode();
+        }
+    }
+
+    private void MoveToNextAct()
+    {
+        switch (_currentAct)
+        {
+            case CurrentAct.ActOne:
+                _currentAct = CurrentAct.ActTwo;
+                _relicManager.LoadRelicPool(_currentAct);
+                _rewardManager.ActSetup();
+                break;
+            
+            case CurrentAct.ActTwo:
+                _currentAct = CurrentAct.ActThree;
+                _relicManager.LoadRelicPool(_currentAct);
+                _rewardManager.ActSetup();
+                break;
+            case CurrentAct.ActThree:
+                runCompleteScreenDisplay.DisplayRunCompleteScreen();
+                break;
         }
     }
 }

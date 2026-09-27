@@ -20,17 +20,25 @@ public class BattleRewardDisplay : MonoBehaviour
     [SerializeField] private GameObject cardPrefab;
 
     private readonly List<GameObject> _rewardCardObjects = new();
+
+    [Space(10)] [Header("Relic Reward Attributes")] 
+    [SerializeField] private GameObject relicRewardsButton;
+
+    [SerializeField] private RelicRewardDisplay relicRewardDisplay;
     
     private void Awake()
     {
         victoryScreen.SetActive(false);
     }
 
-    public void DisplayVictoryScreen()
+    public void DisplayVictoryScreen(RelicData relicData)
     {
         victoryScreen.SetActive(true);
         cardRewardsButton.SetActive(true);
         cardsRewardScreen.SetActive(false);
+
+        relicRewardsButton.SetActive(relicData != null);
+        relicRewardDisplay.DisplayRelic(relicData);
     }
     
     public void DisplayCardRewardsScreen()

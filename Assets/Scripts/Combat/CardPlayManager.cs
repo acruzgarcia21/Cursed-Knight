@@ -5,11 +5,17 @@ using UnityEngine.Rendering;
 
 public class CardPlayManager : MonoBehaviour
 {
+    public event System.Action OnAttackThresholdHit;
+    
     private HandManager _handManager;
     private DiscardManager _discardManager;
     private EnemyManager _enemyManager;
     private ExhaustManager _exhaustManager;
     private DeckManager _deckManager;
+
+    private int attacksPlayed;
+
+    private bool consumesRelicDamage;
 
     private enum PostPlayDestination
     {
@@ -71,6 +77,9 @@ public class CardPlayManager : MonoBehaviour
         BeginCardPlay(player, attackCard, cardEnergyCost);
         
         player.ClearNextAttackEnergyReduction();
+
+        if (player.GetStoredRelicDamage() > 0) consumesRelicDamage = true;
+        player.ResetRelicDamage();
 
         Debug.Log(
             $"Played attack card: {attackCard.cardName}," +
@@ -199,6 +208,18 @@ public class CardPlayManager : MonoBehaviour
     private void CompleteCardPlay(RuntimeCard runtimeCard, GameObject cardObject, Player player)
     {
         var cardData = runtimeCard.cardData;
+
+        const int attackThreshold = 3;
+        
+        if (cardData.cardType == Card.CardType.Attack && !consumesRelicDamage) attacksPlayed++;
+        
+        if (attacksPlayed == attackThreshold)
+        {
+            OnAttackThresholdHit?.Invoke();
+            attacksPlayed = 0;
+        }
+
+        consumesRelicDamage = false;
 
         ApplyCardHealthLoss(player, cardData);
         DrawCardsFromCard(cardData);

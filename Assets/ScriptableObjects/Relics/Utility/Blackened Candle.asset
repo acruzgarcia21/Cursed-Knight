@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b31d3fea18ec7744b81c6a2d22c52c52, type: 3}
+  m_Name: Blackened Candle
+  m_EditorClassIdentifier: Assembly-CSharp::UtilityRelic
+  relicName: Blackened Candle
+  relicDescription: At the start of combat, Gain 2 Corruption and 1 Strength.
+  relicSprite: {fileID: 0}
+  triggerTime: 0
+  relicType: 2
+  targetType: 3
+  appliesStatus: 1
+  statusTargetType: 3
+  statusType: 0
+  statusAmount: 1
+  statusDuration: -1
+  corruptionCost: 2

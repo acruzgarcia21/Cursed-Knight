@@ -10,6 +10,10 @@ public class BattleManager : MonoBehaviour
     private RewardManager _rewardManager;
     
     private Player _player;
+
+    private Map.MapNodeType _currentNodeType;
+
+    private bool isFinalStage;
     
     private void Awake()
     {
@@ -27,21 +31,26 @@ public class BattleManager : MonoBehaviour
         _player        = FindAnyObjectByType<Player>();
     }
 
-    public void StartBattle(EncounterData encounter)
+    public void StartBattle(EncounterData encounter, Map.MapNodeType currentNodeType, bool stageComparison)
     {
         if (encounter == null) return;
+
+        _currentNodeType = currentNodeType;
+
+        isFinalStage = stageComparison;
         
         _player.BattleSetup();
         
         _deckManager.BattleSetup();
         EnemyManager.BattleSetup(encounter);
-        _turnManager.StartPlayerTurn();
+        _turnManager.StartCombat();
     }
 
     public void WinBattle()
     {
         Debug.Log("Battle won");
-        _rewardManager.StartRewards();
+        _turnManager.EndCombat();
+        _rewardManager.StartRewards(_currentNodeType, isFinalStage);
     }
 
     public void LoseBattle()

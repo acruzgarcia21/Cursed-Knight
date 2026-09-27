@@ -13,7 +13,8 @@ public class EnemyManager : MonoBehaviour
     
     private BattleManager _battleManager;
 
-
+    private int enemiesKilled;
+    
     private void Awake()
     {
         if (_battleManager == null)
@@ -24,6 +25,8 @@ public class EnemyManager : MonoBehaviour
 
     public void BattleSetup(EncounterData encounter)
     {
+        enemiesKilled = 0;
+        
         SpawnEncounter(encounter);
 
         foreach (var enemy in _currentEnemies)
@@ -131,6 +134,8 @@ public class EnemyManager : MonoBehaviour
 
         RefreshEnemyIntents();
 
+        enemiesKilled++;
+
         // Okay for now, will change later
         if (AllEnemiesDead())
         {
@@ -230,6 +235,11 @@ public class EnemyManager : MonoBehaviour
         }
 
         return livingCount;
+    }
+
+    public int GetNumEnemiesKilled()
+    {
+        return enemiesKilled;
     }
 
     public bool CanSummonToDesiredCount(EnemyData enemyToSummon, int desiredLivingCount)

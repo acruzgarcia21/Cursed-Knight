@@ -27,7 +27,20 @@ public class TurnManager : MonoBehaviour
         EnemyTurn();
         StartPlayerTurn();
     }
-    public void StartPlayerTurn()
+
+    public void StartCombat()
+    {
+        currentState = TurnState.Player;
+        _player.StartCombat();
+        _handManager.PrepareHandForTurn(targetHandSize);
+        Debug.Log("Start of Combat, player's turn");
+    }
+
+    public void EndCombat()
+    {
+        _player.EndCombat();
+    }
+    private void StartPlayerTurn()
     {
         currentState = TurnState.Player;
         _player.StartTurn();
