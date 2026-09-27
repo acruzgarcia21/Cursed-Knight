@@ -10,6 +10,8 @@ public class BattleManager : MonoBehaviour
     private RewardManager _rewardManager;
     
     private Player _player;
+
+    private Map.MapNodeType _currentNodeType;
     
     private void Awake()
     {
@@ -27,9 +29,11 @@ public class BattleManager : MonoBehaviour
         _player        = FindAnyObjectByType<Player>();
     }
 
-    public void StartBattle(EncounterData encounter)
+    public void StartBattle(EncounterData encounter, Map.MapNodeType currentNodeType)
     {
         if (encounter == null) return;
+
+        _currentNodeType = currentNodeType;
         
         _player.BattleSetup();
         
@@ -42,7 +46,7 @@ public class BattleManager : MonoBehaviour
     {
         Debug.Log("Battle won");
         _turnManager.EndCombat();
-        _rewardManager.StartRewards();
+        _rewardManager.StartRewards(_currentNodeType);
     }
 
     public void LoseBattle()

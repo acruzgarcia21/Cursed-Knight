@@ -3,46 +3,79 @@ using UnityEngine;
 
 public class RelicManager : MonoBehaviour
 {
-    [SerializeField] private List<RelicData> actOneRelicPool;
-    [SerializeField] private List<RelicData> actTwoRelicPool;
-    [SerializeField] private List<RelicData> actThreeRelicPool;
+    [SerializeField] private RelicPoolData actOneRelicPool;
+    [SerializeField] private RelicPoolData actTwoRelicPool;
+    [SerializeField] private RelicPoolData actThreeRelicPool;
     
-    private List<RelicData> relicCollection  = new();
-    private List<RelicData> currentRelicPool = new();
+    private readonly List<RelicData> _relicCollection  = new();
+    private readonly List<RelicData> _currentRelicPool = new();
 
-    public void RunSetup()
+    public void RunSetup(RunManager.CurrentAct currentAct)
     {
-        currentRelicPool.Clear();
-        relicCollection.Clear();
+        _currentRelicPool.Clear();
+        _relicCollection.Clear();
 
-        foreach (var relic in actOneRelicPool)
+        LoadRelicPool(currentAct);
+    }
+
+    public void LoadRelicPool(RunManager.CurrentAct currentAct)
+    {
+        switch (currentAct)
         {
-            currentRelicPool.Add(relic);
+            case RunManager.CurrentAct.ActOne:
+                foreach (var relic in actOneRelicPool.GetRewardPool())
+                {
+                    _currentRelicPool.Add(relic);
+                }
+                break;
+            case RunManager.CurrentAct.ActTwo:
+                foreach (var relic in actTwoRelicPool.GetRewardPool())
+                {
+                    _currentRelicPool.Add(relic);
+                }
+                break;
+            case RunManager.CurrentAct.ActThree:
+                foreach (var relic in actThreeRelicPool.GetRewardPool())
+                {
+                    _currentRelicPool.Add(relic);
+                }
+                break;
         }
     }
+
+    public RelicData SelectRelic()
+    {
+        if (_currentRelicPool.Count <= 0) return null;
+        
+        var randomIndex = Random.Range(0, _currentRelicPool.Count);
+        var randomRelicToAdd = _currentRelicPool[randomIndex];
+        
+        AddRelicToCollection(randomRelicToAdd);
+        return randomRelicToAdd;
+    }
     
-    public void AddRelicToCollection(RelicData relic)
+    private void AddRelicToCollection(RelicData relic)
     {
         if (relic == null) return;
-        if (relicCollection.Contains(relic)) return;
+        if (_relicCollection.Contains(relic)) return;
         
-        relicCollection.Add(relic);
+        _relicCollection.Add(relic);
 
-        if (!currentRelicPool.Contains(relic)) return;
+        if (!_currentRelicPool.Contains(relic)) return;
         
-        currentRelicPool.Remove(relic);
+        _currentRelicPool.Remove(relic);
     }
 
     public IReadOnlyList<RelicData> GetRelicCollection()
     {
-        return relicCollection;
+        return _relicCollection;
     }
 
     public void TriggerStartOfCombatEffects(Player player, EnemyManager enemyManager)
     {
-        if (relicCollection.Count <= 0) return;
+        if (_relicCollection.Count <= 0) return;
         
-        foreach (var relic in relicCollection)
+        foreach (var relic in _relicCollection)
         {
             if (relic.GetTriggerTime() == RelicData.TriggerTime.StartOfCombat)
             {
@@ -53,9 +86,9 @@ public class RelicManager : MonoBehaviour
 
     public void TriggerEndOfCombatEffects(Player player, EnemyManager enemyManager)
     {
-        if (relicCollection.Count <= 0) return;
+        if (_relicCollection.Count <= 0) return;
         
-        foreach (var relic in relicCollection)
+        foreach (var relic in _relicCollection)
         {
             if (relic.GetTriggerTime() == RelicData.TriggerTime.EndOfCombat)
             {
@@ -66,9 +99,9 @@ public class RelicManager : MonoBehaviour
 
     public void TriggerAttackThresholdHitEffect(Player player, EnemyManager enemyManager)
     {
-        if (relicCollection.Count <= 0) return;
+        if (_relicCollection.Count <= 0) return;
         
-        foreach (var relic in relicCollection)
+        foreach (var relic in _relicCollection)
         {
             if (relic.GetRelicType() == RelicData.RelicType.Attack)
             {
@@ -79,9 +112,9 @@ public class RelicManager : MonoBehaviour
 
     public void TriggerCorruptionOverflowEffect(Player player, EnemyManager enemyManager)
     {
-        if (relicCollection.Count <= 0) return;
+        if (_relicCollection.Count <= 0) return;
         
-        foreach (var relic in relicCollection)
+        foreach (var relic in _relicCollection)
         {
             if (relic.GetTriggerTime() == RelicData.TriggerTime.CorruptionOverflow)
             {
@@ -92,9 +125,9 @@ public class RelicManager : MonoBehaviour
 
     public void TriggerStartOfTurnEffects(Player player, EnemyManager enemyManager)
     {
-        if (relicCollection.Count <= 0) return;
+        if (_relicCollection.Count <= 0) return;
         
-        foreach (var relic in relicCollection)
+        foreach (var relic in _relicCollection)
         {
             if (relic.GetTriggerTime() == RelicData.TriggerTime.StartOfTurn)
             {
@@ -105,9 +138,9 @@ public class RelicManager : MonoBehaviour
     
     public void TriggerCriticalHealthEffects(Player player, EnemyManager enemyManager)
     {
-        if (relicCollection.Count <= 0) return;
+        if (_relicCollection.Count <= 0) return;
         
-        foreach (var relic in relicCollection)
+        foreach (var relic in _relicCollection)
         {
             if (relic.GetTriggerTime() == RelicData.TriggerTime.CriticalHealth)
             {

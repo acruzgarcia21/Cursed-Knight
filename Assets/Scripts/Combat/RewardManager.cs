@@ -12,17 +12,43 @@ public class RewardManager : MonoBehaviour
     private readonly List<Card> _rewardPool = new();
 
     private DeckManager _deckManager;
+    private RelicManager _relicManager;
 
     private bool _rewardCardHasBeenCollected;
 
+    [Space(10)] [Header("Relic Rewards")]
+    [SerializeField] private float relicRewardChance = 0.2f;
+
+    private int _relicsAwardedThisAct;
+    private const int MaxPossibleRelicsThisAct = 2;
+
     private void Awake()
     {
-        _deckManager = FindAnyObjectByType<DeckManager>();
+        _deckManager  = FindAnyObjectByType<DeckManager>();
+        _relicManager = FindAnyObjectByType<RelicManager>();
     }
 
-    public void StartRewards()
+    public void ActSetup()
+    {
+        _relicsAwardedThisAct = 0;
+    }
+
+    public void StartRewards(Map.MapNodeType currentNode)
     {
         _rewardCardHasBeenCollected = false;
+
+        RelicData selectedRelic;
+
+        if (RollRelicSelection() || currentNode == Map.MapNodeType.Boss)
+        {
+            selectedRelic = _relicManager.SelectRelic();
+
+            if (selectedRelic != null && currentNode != Map.MapNodeType.Boss)
+            {
+                _relicsAwardedThisAct++;
+            }
+        }
+        
         battleRewardDisplay.DisplayVictoryScreen();
     }
 
@@ -65,5 +91,13 @@ public class RewardManager : MonoBehaviour
         _rewardCardHasBeenCollected = true;
         
         battleRewardDisplay.CompleteCardRewardSelection();
+    }
+
+    private bool RollRelicSelection()
+    {
+        if (_relicsAwardedThisAct >= MaxPossibleRelicsThisAct) return false;
+        
+        var randomFloat = Random.Range(0f, 1f);
+        return randomFloat < relicRewardChance;
     }
 }
