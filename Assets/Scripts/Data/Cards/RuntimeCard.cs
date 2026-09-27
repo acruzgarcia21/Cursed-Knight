@@ -7,7 +7,9 @@ public class RuntimeCard
     public readonly bool retain;
     public readonly bool exhaust;
     public readonly bool spectral;
+    
     public bool createdDuringCombat;
+    public bool isUpgraded;
 
     public RuntimeCard(Card cardData, bool createdDuringCombat = false)
     {

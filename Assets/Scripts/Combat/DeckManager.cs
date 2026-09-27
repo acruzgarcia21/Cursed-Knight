@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class DeckManager : MonoBehaviour
 {
-    public List<Card> playerDeck = new();
+    [SerializeField] private List<Card> playerDeck = new();
 
-    public int maxHandSize = 10;
+    [SerializeField] private int maxHandSize = 10;
 
     [SerializeField] private DeckData startingDeck;
 
@@ -17,7 +17,7 @@ public class DeckManager : MonoBehaviour
     private DrawPileManager _drawPileManager;
     private DiscardManager  _discardManager;
     private ExhaustManager  _exhaustManager;
-    
+
 
     private void Awake()
     {
@@ -97,6 +97,11 @@ public class DeckManager : MonoBehaviour
         playerDeck.Remove(cardToRemove);
         
         UpdateDeckCount();
+    }
+
+    public List<Card> GetPlayerDeck()
+    {
+        return playerDeck;
     }
 
     private void UpdateDeckCount()
