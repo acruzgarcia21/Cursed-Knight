@@ -24,4 +24,14 @@ public class Defense : Card
 
     [Header("Upgrade - Bonus Block")]
     [SerializeField] private int upgradedBonusBlockIfEnemyHasBleed;
+
+    public int GetCardBlock(bool isUpgraded)
+    {
+        return isUpgraded ? upgradedCardBlock : cardBlock;
+    }
+
+    public int GetBonusBlockIfEnemyHasBleed(bool isUpgraded)
+    {
+        return isUpgraded ? upgradedBonusBlockIfEnemyHasBleed : bonusBlockIfEnemyHasBleed;
+    }
 }

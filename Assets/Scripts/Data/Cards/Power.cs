@@ -22,4 +22,14 @@ public class StatusDefinition
     [Header("Upgrade - Status Creation")]
     [SerializeField] private int upgradedStatusAmount;
     [SerializeField] private int upgradedStatusDuration;
-}
+    
+    public int GetStatusAmount(bool isUpgraded)
+    {
+        return isUpgraded ? upgradedStatusAmount : amount;
+    }
+
+    public int GetStatusDuration(bool isUpgraded)
+    {
+        return isUpgraded ? upgradedStatusDuration : duration;
+    }
+}   

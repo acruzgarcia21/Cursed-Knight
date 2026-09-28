@@ -147,7 +147,7 @@ public class CardPlayManager : MonoBehaviour
         }
 
         player.ProcessCardTypeTriggeredEffects(attackCard.cardType);
-        ApplyCardStatus(player, attackCard, targetEnemy);
+        ApplyCardStatus(player, runtimeCard, targetEnemy);
         ApplyCardAdditionalStatus(player, targetEnemy, attackCard);
         CompleteCardPlay(runtimeCard, cardObject, player);
 
@@ -160,10 +160,10 @@ public class CardPlayManager : MonoBehaviour
         if (defenseCard == null) return false;
 
         BeginCardPlay(player, defenseCard, cardEnergyCost);
-        ApplyCardStatus(player, defenseCard, targetEnemy);
+        ApplyCardStatus(player, runtimeCard, targetEnemy);
         ApplyAdditionalStatusToAllEnemies(player, defenseCard);
 
-        var finalBlockToGain = CalculateFinalBlock(defenseCard);
+        var finalBlockToGain = CalculateFinalBlock(runtimeCard);
 
         player.GainBlock(finalBlockToGain);
     
@@ -178,7 +178,7 @@ public class CardPlayManager : MonoBehaviour
         if (utilityCard == null) return false;
 
         BeginCardPlay(player, utilityCard, cardEnergyCost);
-        ApplyCardStatus(player, utilityCard, targetEnemy);
+        ApplyCardStatus(player, runtimeCard, targetEnemy);
         ProcessNextCardEnergyReduction(utilityCard, player);
 
         if (utilityCard.cardEnergyGain > 0)
@@ -202,7 +202,7 @@ public class CardPlayManager : MonoBehaviour
         if (powerCard == null) return false;
 
         BeginCardPlay(player, powerCard, cardEnergyCost);
-        ApplyCardStatus(player, powerCard, null);
+        ApplyCardStatus(player, runtimeCard, null);
         CompleteCardPlay(runtimeCard, cardObject, player);
 
         return true;
@@ -369,15 +369,20 @@ public class CardPlayManager : MonoBehaviour
         return scaledDamage;
     }
     
-    private int CalculateFinalBlock(Defense cardData)
+    private int CalculateFinalBlock(RuntimeCard runtimeCard)
     {
-        var baseBlock   = cardData.cardBlock;
+        var defenseCard = runtimeCard.cardData as Defense;
+        if (defenseCard == null) return 0;
+        
+        
+        var baseBlock   = defenseCard.GetCardBlock(runtimeCard.isUpgraded);
         var scaledBlock = baseBlock;
+        var bonusBlock  = defenseCard.GetBonusBlockIfEnemyHasBleed(runtimeCard.isUpgraded);
         
         // Blood Guard
-        if (_enemyManager.DoesAnyEnemyHaveStatus(StatusEffect.StatusType.Bleed) && cardData.bonusBlockIfEnemyHasBleed > 0)
+        if (_enemyManager.DoesAnyEnemyHaveStatus(StatusEffect.StatusType.Bleed) && bonusBlock > 0)
         {
-            scaledBlock += cardData.bonusBlockIfEnemyHasBleed;
+            scaledBlock += bonusBlock;
         }
 
         return scaledBlock;
@@ -439,106 +444,108 @@ public class CardPlayManager : MonoBehaviour
             _handManager.AddCardToHand(runtimeCard);
         }
     }
-
-    private void ApplyCardStatus(Player player, Card cardData, Enemy targetEnemy)
-{
-    if (!cardData.appliesStatus) return;
-    
-    var statusEffect = new StatusEffect
+    private void ApplyCardStatus(Player player, RuntimeCard runtimeCard, Enemy targetEnemy) 
     {
-        statusType = cardData.statusType,
-        amount     = cardData.statusAmount,
-        duration   = cardData.statusDuration
-    };
+        var cardData = runtimeCard.cardData;
     
-    if (cardData is Power powerCard && powerCard.statusToCreate != null)
-    {
-        statusEffect.statusToCreate = new StatusEffect
+        if (!cardData.appliesStatus) return;
+    
+        var statusEffect = new StatusEffect
         {
-            statusType = powerCard.statusToCreate.statusType,
-            amount     = powerCard.statusToCreate.amount,
-            duration   = powerCard.statusToCreate.duration
+            statusType = cardData.statusType,
+            amount     = cardData.statusAmount,
+            duration   = cardData.statusDuration
         };
-    }
-
-    switch (cardData.statusTargetType)
-    {
-        case Card.StatusTargetType.Self:
+    
+        if (cardData is Power powerCard && powerCard.statusToCreate != null)
         {
-            player.ApplyStatus(statusEffect);
-            break;
+            statusEffect.statusToCreate = new StatusEffect
+            {
+                statusType = powerCard.statusToCreate.statusType,
+                amount     = powerCard.statusToCreate.GetStatusAmount(runtimeCard.isUpgraded),
+                duration   = powerCard.statusToCreate.GetStatusDuration(runtimeCard.isUpgraded)
+            };
         }
 
-        case Card.StatusTargetType.SingleEnemy:
+
+        switch (cardData.statusTargetType)
         {
-            if (targetEnemy == null) break;
-
-            targetEnemy.ApplyStatus(statusEffect);
-
-            if (statusEffect.statusType == StatusEffect.StatusType.Bleed)
+            case Card.StatusTargetType.Self:
             {
-                player.ProcessBleedAppliedTriggerEffects(targetEnemy);
+                player.ApplyStatus(statusEffect);
+                break;
             }
 
-            break;
-        }
-
-        case Card.StatusTargetType.AllEnemies:
-        {
-            var livingEnemies = _enemyManager.GetLivingEnemies();
-
-            foreach (var enemy in livingEnemies)
+            case Card.StatusTargetType.SingleEnemy:
             {
-                if (enemy == null) continue;
-                if (enemy.isHidden) continue;
+                if (targetEnemy == null) break;
 
-                var statusToApply = new StatusEffect
+                targetEnemy.ApplyStatus(statusEffect);
+
+                if (statusEffect.statusType == StatusEffect.StatusType.Bleed)
                 {
-                    statusType = statusEffect.statusType,
-                    amount     = statusEffect.amount,
-                    duration   = statusEffect.duration
-                };
-
-                enemy.ApplyStatus(statusToApply);
-
-                if (statusToApply.statusType == StatusEffect.StatusType.Bleed)
-                {
-                    player.ProcessBleedAppliedTriggerEffects(enemy);
+                    player.ProcessBleedAppliedTriggerEffects(targetEnemy);
                 }
+
+                break;
             }
 
-            break;
-        }
-
-        case Card.StatusTargetType.RandomEnemy:
-        {
-            var livingEnemies = _enemyManager.GetLivingEnemies();
-            var visibleEnemies = new List<Enemy>();
-
-            foreach (var enemy in livingEnemies)
+            case Card.StatusTargetType.AllEnemies:
             {
-                if (enemy == null) continue;
-                if (enemy.isHidden) continue;
+                var livingEnemies = _enemyManager.GetLivingEnemies();
 
-                visibleEnemies.Add(enemy);
+                foreach (var enemy in livingEnemies)
+                {
+                    if (enemy == null) continue;
+                    if (enemy.isHidden) continue;
+
+                    var statusToApply = new StatusEffect
+                    {
+                        statusType = statusEffect.statusType,
+                        amount     = statusEffect.amount,
+                        duration   = statusEffect.duration
+                    };
+
+                    enemy.ApplyStatus(statusToApply);
+
+                    if (statusToApply.statusType == StatusEffect.StatusType.Bleed)
+                    {
+                        player.ProcessBleedAppliedTriggerEffects(enemy);
+                    }
+                }
+
+                break;
             }
 
-            if (visibleEnemies.Count == 0) break;
-
-            var randomEnemyIndex = Random.Range(0, visibleEnemies.Count);
-            var randomEnemy = visibleEnemies[randomEnemyIndex];
-
-            randomEnemy.ApplyStatus(statusEffect);
-
-            if (statusEffect.statusType == StatusEffect.StatusType.Bleed)
+            case Card.StatusTargetType.RandomEnemy:
             {
-                player.ProcessBleedAppliedTriggerEffects(randomEnemy);
-            }
+                var livingEnemies = _enemyManager.GetLivingEnemies();
+                var visibleEnemies = new List<Enemy>();
 
-            break;
+                foreach (var enemy in livingEnemies)
+                {
+                    if (enemy == null) continue;
+                    if (enemy.isHidden) continue;
+
+                    visibleEnemies.Add(enemy);
+                }
+
+                if (visibleEnemies.Count == 0) break;
+
+                var randomEnemyIndex = Random.Range(0, visibleEnemies.Count);
+                var randomEnemy = visibleEnemies[randomEnemyIndex];
+
+                randomEnemy.ApplyStatus(statusEffect);
+
+                if (statusEffect.statusType == StatusEffect.StatusType.Bleed)
+                {
+                    player.ProcessBleedAppliedTriggerEffects(randomEnemy);
+                }
+
+                break;
+            }
         }
     }
-}
     
     private void ApplyAdditionalStatusToAllEnemies(Player player, Defense cardData)
     {
