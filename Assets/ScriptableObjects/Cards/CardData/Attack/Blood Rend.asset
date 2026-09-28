@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Blood Rend
   m_EditorClassIdentifier: Assembly-CSharp::Attack
   cardName: Blood Rend
-  cardDescription: Deal 2 x 5 Damage
+  cardDescription: Deal {hitCount} x {damage} Damage. Gain {corruption} Corruption.
   cardType: 0
   targetType: 0
   cardSprite: {fileID: 0}
@@ -22,7 +22,11 @@ MonoBehaviour:
   cardsToDraw: 0
   cardsToDiscardRandomly: 0
   cardsToDrawFromDiscard: 0
+  cardHealthGain: 0
+  cardHealthLoss: 0
+  cardEnergyGain: 0
   appliesStatus: 0
+  statusTargetType: 0
   statusType: 0
   statusAmount: 0
   statusDuration: 0
@@ -33,5 +37,24 @@ MonoBehaviour:
   cardToCreate: {fileID: 0}
   cardsToCreate: 0
   createdCardDestination: 0
+  reducesNextAttackEnergy: 0
+  energyToReduce: 0
+  upgradedEnergyCost: 1
+  upgradedCorruptionGain: 1
+  upgradedCardsToDraw: 0
+  upgradedCardsToDiscardRandomly: 0
+  upgradedCardsToDrawFromDiscard: 0
+  upgradedCardHealthGain: 0
+  upgradedCardHealthLoss: 0
+  upgradedCardEnergyGain: 0
+  upgradedStatusAmount: 0
+  upgradedStatusDuration: 0
+  upgradedCardsToCreate: 0
+  upgradedEnergyToReduce: 0
   cardDamage: 5
   hitCount: 2
+  scalesWithCorruption: 0
+  corruptionDamagePerPoint: 0
+  upgradedCardDamage: 5
+  upgradedHitCount: 3
+  upgradedCorruptionDamagePerPoint: 0

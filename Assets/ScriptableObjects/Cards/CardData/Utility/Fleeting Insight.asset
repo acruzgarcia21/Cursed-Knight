@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Fleeting Insight
   m_EditorClassIdentifier: Assembly-CSharp::UtilityCard
   cardName: Fleeting Insight
-  cardDescription: Draw 2 Cards. Reduce the cost of the next Attack by 1
+  cardDescription: Draw {draw} cards. Reduce the cost of your next Attack by {energyReduction}. Spectral.
   cardType: 2
   targetType: 3
   cardSprite: {fileID: 0}
@@ -26,6 +26,7 @@ MonoBehaviour:
   cardHealthLoss: 0
   cardEnergyGain: 0
   appliesStatus: 0
+  statusTargetType: 0
   statusType: 0
   statusAmount: 0
   statusDuration: 0
@@ -38,3 +39,15 @@ MonoBehaviour:
   createdCardDestination: 0
   reducesNextAttackEnergy: 1
   energyToReduce: 1
+  upgradedEnergyCost: 0
+  upgradedCorruptionGain: 0
+  upgradedCardsToDraw: 0
+  upgradedCardsToDiscardRandomly: 0
+  upgradedCardsToDrawFromDiscard: 0
+  upgradedCardHealthGain: 0
+  upgradedCardHealthLoss: 0
+  upgradedCardEnergyGain: 0
+  upgradedStatusAmount: 0
+  upgradedStatusDuration: 0
+  upgradedCardsToCreate: 0
+  upgradedEnergyToReduce: 1

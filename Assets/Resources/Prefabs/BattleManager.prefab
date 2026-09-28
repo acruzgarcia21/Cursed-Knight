@@ -362,6 +362,18 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8888750984666669955, guid: 7d604ba0502de1b4fb87e699fb1d1d3a, type: 3}
+      propertyPath: actOneRelicPool
+      value: 
+      objectReference: {fileID: 11400000, guid: 14a8095c7bf5edf4ab714e29122e01e7, type: 2}
+    - target: {fileID: 8888750984666669955, guid: 7d604ba0502de1b4fb87e699fb1d1d3a, type: 3}
+      propertyPath: actTwoRelicPool
+      value: 
+      objectReference: {fileID: 11400000, guid: 083d3ab383ce6244cb882548ac1e7a21, type: 2}
+    - target: {fileID: 8888750984666669955, guid: 7d604ba0502de1b4fb87e699fb1d1d3a, type: 3}
+      propertyPath: actThreeRelicPool
+      value: 
+      objectReference: {fileID: 11400000, guid: 0f38f5d067daf46488d794efec22782c, type: 2}
+    - target: {fileID: 8888750984666669955, guid: 7d604ba0502de1b4fb87e699fb1d1d3a, type: 3}
       propertyPath: relicCollection.Array.size
       value: 1
       objectReference: {fileID: 0}

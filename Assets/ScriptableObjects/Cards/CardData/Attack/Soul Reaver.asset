@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Soul Reaver
   m_EditorClassIdentifier: Assembly-CSharp::Attack
   cardName: Soul Reaver
-  cardDescription: Deal 10 damage.  Deal 2 additional damage for each Corruption
-    you have.
+  cardDescription: Deal {damage} damage. Increase this damage by {corruptionDamage} for each Corruption you have.
   cardType: 0
   targetType: 0
   cardSprite: {fileID: 0}
@@ -27,6 +26,7 @@ MonoBehaviour:
   cardHealthLoss: 0
   cardEnergyGain: 0
   appliesStatus: 0
+  statusTargetType: 0
   statusType: 0
   statusAmount: 0
   statusDuration: 0
@@ -37,7 +37,24 @@ MonoBehaviour:
   cardToCreate: {fileID: 0}
   cardsToCreate: 0
   createdCardDestination: 0
+  reducesNextAttackEnergy: 0
+  energyToReduce: 0
+  upgradedEnergyCost: 2
+  upgradedCorruptionGain: 0
+  upgradedCardsToDraw: 0
+  upgradedCardsToDiscardRandomly: 0
+  upgradedCardsToDrawFromDiscard: 0
+  upgradedCardHealthGain: 0
+  upgradedCardHealthLoss: 0
+  upgradedCardEnergyGain: 0
+  upgradedStatusAmount: 0
+  upgradedStatusDuration: 0
+  upgradedCardsToCreate: 0
+  upgradedEnergyToReduce: 0
   cardDamage: 10
   hitCount: 1
   scalesWithCorruption: 1
   corruptionDamagePerPoint: 2
+  upgradedCardDamage: 10
+  upgradedHitCount: 1
+  upgradedCorruptionDamagePerPoint: 3

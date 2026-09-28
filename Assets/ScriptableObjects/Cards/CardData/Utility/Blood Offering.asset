@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Blood Offering
   m_EditorClassIdentifier: Assembly-CSharp::UtilityCard
   cardName: Blood Offering
-  cardDescription: Lose 6 HP. Draw 3 cards. Gain 1 energy . Exhaust
+  cardDescription: Lose {healthLoss} HP. Draw {draw} cards. Gain {energyGain} Energy. Exhaust.
   cardType: 2
   targetType: 3
   cardSprite: {fileID: 0}
@@ -26,6 +26,7 @@ MonoBehaviour:
   cardHealthLoss: 6
   cardEnergyGain: 1
   appliesStatus: 0
+  statusTargetType: 0
   statusType: 0
   statusAmount: 0
   statusDuration: 0
@@ -36,3 +37,17 @@ MonoBehaviour:
   cardToCreate: {fileID: 0}
   cardsToCreate: 0
   createdCardDestination: 0
+  reducesNextAttackEnergy: 0
+  energyToReduce: 0
+  upgradedEnergyCost: 0
+  upgradedCorruptionGain: 0
+  upgradedCardsToDraw: 3
+  upgradedCardsToDiscardRandomly: 0
+  upgradedCardsToDrawFromDiscard: 0
+  upgradedCardHealthGain: 0
+  upgradedCardHealthLoss: 0
+  upgradedCardEnergyGain: 1
+  upgradedStatusAmount: 0
+  upgradedStatusDuration: 0
+  upgradedCardsToCreate: 0
+  upgradedEnergyToReduce: 0

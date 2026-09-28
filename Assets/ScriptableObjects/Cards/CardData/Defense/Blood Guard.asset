@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Blood Guard
   m_EditorClassIdentifier: Assembly-CSharp::Defense
   cardName: Blood Guard
-  cardDescription: Gain 6 Block. If any enemy has Bleed, gain 3 additional Block.
+  cardDescription: Gain {block} Block. If any enemy has Bleed, gain {bonusBlock} additional Block.
   cardType: 1
   targetType: 3
   cardSprite: {fileID: 0}
@@ -26,6 +26,7 @@ MonoBehaviour:
   cardHealthLoss: 0
   cardEnergyGain: 0
   appliesStatus: 0
+  statusTargetType: 0
   statusType: 0
   statusAmount: 0
   statusDuration: 0
@@ -36,5 +37,22 @@ MonoBehaviour:
   cardToCreate: {fileID: 0}
   cardsToCreate: 0
   createdCardDestination: 0
+  reducesNextAttackEnergy: 0
+  energyToReduce: 0
+  upgradedEnergyCost: 1
+  upgradedCorruptionGain: 0
+  upgradedCardsToDraw: 0
+  upgradedCardsToDiscardRandomly: 0
+  upgradedCardsToDrawFromDiscard: 0
+  upgradedCardHealthGain: 0
+  upgradedCardHealthLoss: 0
+  upgradedCardEnergyGain: 0
+  upgradedStatusAmount: 0
+  upgradedStatusDuration: 0
+  upgradedCardsToCreate: 0
+  upgradedEnergyToReduce: 0
   cardBlock: 6
-  bonusBlock: 3
+  bonusBlockIfEnemyHasBleed: 0
+  appliesStatusToAllEnemies: 0
+  upgradedCardBlock: 9
+  upgradedBonusBlockIfEnemyHasBleed: 5

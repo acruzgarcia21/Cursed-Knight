@@ -6,13 +6,13 @@ using UnityEngine.UI;
 public class CardDisplay : MonoBehaviour
 {
     [System.NonSerialized] public RuntimeCard runtimeCard;
-    
+
     [SerializeField] private TMP_Text cardName;
     [SerializeField] private TMP_Text cardEnergyCost;
     [SerializeField] private TMP_Text cardDescription;
     [SerializeField] private TMP_Text cardCorruptionGain;
     [SerializeField] private TMP_Text cardType;
-    
+
     [SerializeField] private Image cardFrame;
 
     [SerializeField] private Sprite attackCardFrame;
@@ -20,8 +20,22 @@ public class CardDisplay : MonoBehaviour
     [SerializeField] private Sprite utilityCardFrame;
     [SerializeField] private Sprite powerCardFrame;
 
+    private DisplayState _displayState = DisplayState.Current;
+
+    private enum DisplayState
+    {
+        Current,
+        UpgradePreview
+    }
+
     private void Start()
     {
+        UpdateCardDisplay();
+    }
+
+    public void SetToUpgradePreview()
+    {
+        _displayState = DisplayState.UpgradePreview;
         UpdateCardDisplay();
     }
 
@@ -34,9 +48,11 @@ public class CardDisplay : MonoBehaviour
         }
 
         var cardData = runtimeCard.cardData;
-        var isUpgraded = runtimeCard.isUpgraded;
 
-        cardName.text = runtimeCard.isUpgraded ? $"{cardData.cardName}+" : cardData.cardName;
+        var isUpgraded = _displayState == DisplayState.UpgradePreview || runtimeCard.isUpgraded;
+
+        cardName.text = isUpgraded ? $"{cardData.cardName}+" : cardData.cardName;
+
         cardEnergyCost.text = cardData.GetCardEnergyCost(isUpgraded).ToString();
         cardDescription.text = GetCardDescription(cardData, isUpgraded);
         cardCorruptionGain.text = cardData.GetCardCorruptionGain(isUpgraded).ToString();

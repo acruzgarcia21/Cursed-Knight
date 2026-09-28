@@ -22,6 +22,13 @@ public class CardViewDisplay : MonoBehaviour
 
     [Space(10)] [Header("card Manipulation Popup")] [SerializeField]
     private GameObject cardManipulationPopup;
+
+    [SerializeField] private GameObject backgroundDim;
+    [SerializeField] private RectTransform currentCardPoint;
+    [SerializeField] private RectTransform upgradedCardPoint;
+
+    private GameObject _currentUpgradePreviewCard;
+    private GameObject _upgradedUpgradePreviewCard;
     
     private readonly List<GameObject> _cardsList = new();
 
@@ -58,6 +65,7 @@ public class CardViewDisplay : MonoBehaviour
         cardViewScreen.SetActive(false);
         cardPreviewPopup.SetActive(false);
         cardManipulationPopup.SetActive(false);
+        backgroundDim.SetActive(false);
     }
 
     public void DisplayCards(IReadOnlyList<RuntimeCard> cardsToDisplay)
@@ -211,6 +219,8 @@ public class CardViewDisplay : MonoBehaviour
         _cardRemovalManager.ClearSelectedCard();
         _cardUpgradeManager.ClearSelectedCard();
 
+        ClearUpgradePreview();
+
         _pendingCardManipulation = null;
     }
     
@@ -267,7 +277,9 @@ public class CardViewDisplay : MonoBehaviour
             _currentCard.SetCardToUpgradeSelectedState();
 
             _cardUpgradeManager.SelectCard(runtimeCard);
+
             ShowCardManipulationPopup(_cardUpgradeManager.ResolveCardUpgradeConfirmation);
+            ShowUpgradePreview(runtimeCard);
             return;
         }
 
@@ -285,9 +297,52 @@ public class CardViewDisplay : MonoBehaviour
     
     private void HandleCardManipulation()
     {
+        ClearUpgradePreview();
+
         cardManipulationPopup.SetActive(false);
         cardViewScreen.SetActive(false);
+        backgroundDim.SetActive(false);
+
         _currentCard = null;
         _pendingCardManipulation = null;
+    }
+    
+    private void ShowUpgradePreview(RuntimeCard runtimeCard)
+    {
+        ClearUpgradePreview();
+
+        backgroundDim.SetActive(true);
+        
+        _currentUpgradePreviewCard = Instantiate(cardPrefab, currentCardPoint);
+
+        var currentCardDisplay = _currentUpgradePreviewCard.GetComponent<CardDisplay>();
+        var currentCardMovement = _currentUpgradePreviewCard.GetComponent<CardMovement>();
+
+        currentCardDisplay.runtimeCard = runtimeCard;
+        currentCardMovement.SetCardToCardPopupViewMode();
+
+        _upgradedUpgradePreviewCard = Instantiate(cardPrefab, upgradedCardPoint);
+
+        var upgradedCardDisplay = _upgradedUpgradePreviewCard.GetComponent<CardDisplay>();
+        var upgradedCardMovement = _upgradedUpgradePreviewCard.GetComponent<CardMovement>();
+
+        upgradedCardDisplay.runtimeCard = runtimeCard;
+        upgradedCardMovement.SetCardToCardPopupViewMode();
+        upgradedCardDisplay.SetToUpgradePreview();
+    }
+    
+    private void ClearUpgradePreview()
+    {
+        if (_currentUpgradePreviewCard != null)
+        {
+            Destroy(_currentUpgradePreviewCard);
+            _currentUpgradePreviewCard = null;
+        }
+
+        if (_upgradedUpgradePreviewCard != null)
+        {
+            Destroy(_upgradedUpgradePreviewCard);
+            _upgradedUpgradePreviewCard = null;
+        }
     }
 }

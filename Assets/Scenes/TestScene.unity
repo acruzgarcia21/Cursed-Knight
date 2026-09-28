@@ -307,10 +307,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 507571991}
-    - target: {fileID: 2565357415529113731, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 2792090864020950470, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -325,7 +321,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3859296846811640646, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0072755315
+      value: -0.00053522264
       objectReference: {fileID: 0}
     - target: {fileID: 4229911980820425716, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
       propertyPath: m_AnchorMax.x
@@ -479,6 +475,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 101076364ebec9f47813ac1c34f3114f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Map
+--- !u!224 &316307557 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4102968709325579415, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+  m_PrefabInstance: {fileID: 255966898}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &353007379 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4207413169975408394, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
@@ -671,6 +672,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!224 &669626273 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4402224111465221352, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+  m_PrefabInstance: {fileID: 255966898}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &707404418 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3405486838320747606, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
@@ -741,6 +747,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!1 &1426307727 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1683346403216937967, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+  m_PrefabInstance: {fileID: 255966898}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1455403557 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 944293790578884605, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
@@ -1053,6 +1064,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1807897997}
     - target: {fileID: 6950094849409193039, guid: 480247e7a1f9d784188d600077f9eb8a, type: 3}
+      propertyPath: backgroundDim
+      value: 
+      objectReference: {fileID: 1426307727}
+    - target: {fileID: 6950094849409193039, guid: 480247e7a1f9d784188d600077f9eb8a, type: 3}
       propertyPath: cardContainer
       value: 
       objectReference: {fileID: 930359861}
@@ -1065,9 +1080,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 609341737}
     - target: {fileID: 6950094849409193039, guid: 480247e7a1f9d784188d600077f9eb8a, type: 3}
+      propertyPath: currentCardPoint
+      value: 
+      objectReference: {fileID: 316307557}
+    - target: {fileID: 6950094849409193039, guid: 480247e7a1f9d784188d600077f9eb8a, type: 3}
       propertyPath: previewCardPoint
       value: 
       objectReference: {fileID: 1614476327}
+    - target: {fileID: 6950094849409193039, guid: 480247e7a1f9d784188d600077f9eb8a, type: 3}
+      propertyPath: upgradedCardPoint
+      value: 
+      objectReference: {fileID: 669626273}
     - target: {fileID: 6950094849409193039, guid: 480247e7a1f9d784188d600077f9eb8a, type: 3}
       propertyPath: cardManipulationPopup
       value: 
@@ -1085,18 +1108,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 459285789710865801, guid: 32da3d5058a3e9c4c9de9370bae55014, type: 3}
-      propertyPath: actOneRelicPool
-      value: 
-      objectReference: {fileID: 11400000, guid: 14a8095c7bf5edf4ab714e29122e01e7, type: 2}
-    - target: {fileID: 459285789710865801, guid: 32da3d5058a3e9c4c9de9370bae55014, type: 3}
-      propertyPath: actTwoRelicPool
-      value: 
-      objectReference: {fileID: 11400000, guid: 083d3ab383ce6244cb882548ac1e7a21, type: 2}
-    - target: {fileID: 459285789710865801, guid: 32da3d5058a3e9c4c9de9370bae55014, type: 3}
-      propertyPath: actThreeRelicPool
-      value: 
-      objectReference: {fileID: 11400000, guid: 0f38f5d067daf46488d794efec22782c, type: 2}
     - target: {fileID: 1340954379826553622, guid: 32da3d5058a3e9c4c9de9370bae55014, type: 3}
       propertyPath: m_LocalPosition.x
       value: 406.83826
