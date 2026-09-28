@@ -38,7 +38,8 @@ public class CardMovement : MonoBehaviour,
         Selected,
         Playing,
         RewardSelected,
-        RemovalSelected
+        RemovalSelected,
+        UpgradeSelected
     }
 
     private enum CardMode
@@ -168,6 +169,7 @@ public class CardMovement : MonoBehaviour,
                 break;
             
             case CardState.RemovalSelected:
+            case CardState.UpgradeSelected:
                 _cardVisualEffects.HandleHoverState(
                     _rectTransform, 
                     _originalScale * removeCardSelectedScale, 
@@ -189,7 +191,7 @@ public class CardMovement : MonoBehaviour,
         }
     }
 
-    private void ReturnToIdleState()
+    public void ReturnToIdleState()
     {
         _currentState = CardState.Idle;
         
@@ -439,9 +441,9 @@ public class CardMovement : MonoBehaviour,
         _currentState = CardState.RemovalSelected;
     }
 
-    public void ClearRemovalSelectedState()
+    public void SetCardToUpgradeSelectedState()
     {
-        _currentState = CardState.Idle;
+        _currentState = CardState.UpgradeSelected;
     }
 
     private void HandleDragState()
