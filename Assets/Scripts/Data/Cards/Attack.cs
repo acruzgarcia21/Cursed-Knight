@@ -23,4 +23,19 @@ public class Attack : Card
 
     [Header("Upgrade - Corruption Scaling")]
     [SerializeField] private int upgradedCorruptionDamagePerPoint;
+
+    public int GetAttackDamage(bool isUpgraded)
+    {
+        return isUpgraded ? upgradedCardDamage : cardDamage;
+    }
+
+    public int GetHitCount(bool isUpgraded)
+    {
+        return isUpgraded ? upgradedHitCount : hitCount;
+    }
+
+    public int GetCorruptionDamagePerPoint(bool isUpgraded)
+    {
+        return isUpgraded ? upgradedCorruptionDamagePerPoint : corruptionDamagePerPoint;
+    }
 }

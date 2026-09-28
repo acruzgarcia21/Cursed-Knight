@@ -65,12 +65,15 @@ public class CardPlayManager : MonoBehaviour
         };
     }
 
-    private bool TryPlayAttack(Player player, RuntimeCard runtimeCard, GameObject cardObject, Enemy targetEnemy, int cardEnergyCost)
+    private bool TryPlayAttack(Player player, RuntimeCard runtimeCard, 
+        GameObject cardObject, Enemy targetEnemy, int cardEnergyCost)
     {
         var attackCard = runtimeCard.cardData as Attack;
         if (attackCard == null) return false;
 
-        var scaledDamage = CalculateScaledAttackDamage(player, attackCard);
+        var hitCount = attackCard.GetHitCount(runtimeCard.isUpgraded);
+
+        var scaledDamage = CalculateScaledAttackDamage(player, runtimeCard);
 
         var finalAttackDamage = player.GetModifiedAttackDamage(scaledDamage);
 
@@ -83,7 +86,7 @@ public class CardPlayManager : MonoBehaviour
 
         Debug.Log(
             $"Played attack card: {attackCard.cardName}," +
-            $" Base Damage: {attackCard.cardDamage}," +
+            $" Base Damage: {attackCard.GetAttackDamage(runtimeCard.isUpgraded)}," +
             $" Modified Damage: {finalAttackDamage}" 
         );
 
@@ -97,7 +100,7 @@ public class CardPlayManager : MonoBehaviour
                 {
                     if (enemy.isHidden) continue;
 
-                    for (var i = 0; i < attackCard.hitCount; i++)
+                    for (var i = 0; i < hitCount; i++)
                     {
                         enemy.TakeDamage(finalAttackDamage, true, player);
                     }
@@ -108,7 +111,7 @@ public class CardPlayManager : MonoBehaviour
 
             case Card.TargetType.RandomEnemy:
             {
-                for (var i = 0; i < attackCard.hitCount; i++)
+                for (var i = 0; i < hitCount; i++)
                 {
                     var allLivingEnemies = _enemyManager.GetLivingEnemies();
                     var visibleEnemies = new List<Enemy>();
@@ -134,7 +137,7 @@ public class CardPlayManager : MonoBehaviour
             case Card.TargetType.SingleEnemy:
             default:
             {
-                for (var i = 0; i < attackCard.hitCount; i++)
+                for (var i = 0; i < hitCount; i++)
                 {
                     targetEnemy.TakeDamage(finalAttackDamage, true, player);
                 }
@@ -225,7 +228,7 @@ public class CardPlayManager : MonoBehaviour
         DrawCardsFromCard(cardData);
         ApplyRandomCardDiscard(cardData);
         DrawRandomCardFromDiscard(cardData);
-        ApplyCardBonusEnergy(player, cardData);
+        ApplyCardBonusEnergy(player, runtimeCard);
 
         player.ProcessOnActionStatuses();
 
@@ -348,14 +351,18 @@ public class CardPlayManager : MonoBehaviour
         }
     }
 
-    private int CalculateScaledAttackDamage(Player player, Attack cardData)
+    private int CalculateScaledAttackDamage(Player player, RuntimeCard runtimeCard)
     {
-        var baseDamage = cardData.cardDamage;
-        var scaledDamage = baseDamage;
-        
-        if (cardData.scalesWithCorruption && cardData.corruptionDamagePerPoint > 0)
+        var attackCard = runtimeCard.cardData as Attack;
+        if (attackCard == null) return 0;
+       
+        var corruptionDamagePerPoint = attackCard.GetCorruptionDamagePerPoint(runtimeCard.isUpgraded);
+        var baseDamage               = attackCard.GetAttackDamage(runtimeCard.isUpgraded);
+        var scaledDamage             = baseDamage;
+       
+        if (attackCard.scalesWithCorruption && corruptionDamagePerPoint > 0)
         {
-            var corruptionBonus = player.playerCorruption * cardData.corruptionDamagePerPoint;
+            var corruptionBonus = player.playerCorruption * corruptionDamagePerPoint;
             scaledDamage += corruptionBonus;
         }
 
@@ -581,7 +588,7 @@ public class CardPlayManager : MonoBehaviour
         }
     }
 
-    private void ApplyCardBonusEnergy(Player player, Card cardData)
+    private void ApplyCardBonusEnergy(Player player, RuntimeCard runtimeCard)
     {
         if (!player.HasStatus(StatusEffect.StatusType.EndlessAssault)) return;
         if (player.endlessAssaultTriggeredThisTurn)
@@ -590,7 +597,7 @@ public class CardPlayManager : MonoBehaviour
             return;
         }
 
-        if (cardData is Attack attackCard && attackCard.hitCount > 1)
+        if (runtimeCard.cardData is Attack attackCard && attackCard.GetHitCount(runtimeCard.isUpgraded) > 1)
         {
             var energyToGain = player.GetStatusAmount(StatusEffect.StatusType.EndlessAssault);
             player.GainEnergy(energyToGain);
