@@ -41,7 +41,8 @@ public class CardPlayManager : MonoBehaviour
         }
 
         var cardData = runtimeCard.cardData;
-        var finalEnergyCardCost = CalculateFinalCardEnergyCost(cardData.cardEnergyCost, player, cardData.cardType);
+        var cardEnergyCost = cardData.GetCardEnergyCost(runtimeCard.isUpgraded);
+        var finalEnergyCardCost = CalculateFinalCardEnergyCost(cardEnergyCost, player, cardData.cardType);
 
         if (player.playerEnergy < finalEnergyCardCost)
         {
@@ -77,7 +78,7 @@ public class CardPlayManager : MonoBehaviour
 
         var finalAttackDamage = player.GetModifiedAttackDamage(scaledDamage);
 
-        BeginCardPlay(player, attackCard, cardEnergyCost);
+        BeginCardPlay(player, runtimeCard, cardEnergyCost);
         
         player.ClearNextAttackEnergyReduction();
 
@@ -159,16 +160,16 @@ public class CardPlayManager : MonoBehaviour
         var defenseCard = runtimeCard.cardData as Defense;
         if (defenseCard == null) return false;
 
-        BeginCardPlay(player, defenseCard, cardEnergyCost);
+        BeginCardPlay(player, runtimeCard, cardEnergyCost);
         ApplyCardStatus(player, runtimeCard, targetEnemy);
-        ApplyAdditionalStatusToAllEnemies(player, defenseCard);
+        ApplyAdditionalStatusToAllEnemies(player, runtimeCard);
 
         var finalBlockToGain = CalculateFinalBlock(runtimeCard);
 
         player.GainBlock(finalBlockToGain);
-    
+
         CompleteCardPlay(runtimeCard, cardObject, player);
-    
+
         return true;
     }
 
@@ -177,18 +178,21 @@ public class CardPlayManager : MonoBehaviour
         var utilityCard = runtimeCard.cardData as UtilityCard;
         if (utilityCard == null) return false;
 
-        BeginCardPlay(player, utilityCard, cardEnergyCost);
+        BeginCardPlay(player, runtimeCard, cardEnergyCost);
         ApplyCardStatus(player, runtimeCard, targetEnemy);
-        ProcessNextCardEnergyReduction(utilityCard, player);
+        ProcessNextCardEnergyReduction(runtimeCard, player);
 
-        if (utilityCard.cardEnergyGain > 0)
+        var cardEnergyGain = utilityCard.GetCardEnergyGain(runtimeCard.isUpgraded);
+        var cardHealthGain = utilityCard.GetCardHealthGain(runtimeCard.isUpgraded);
+
+        if (cardEnergyGain > 0)
         {
-            player.GainEnergy(utilityCard.cardEnergyGain);
+            player.GainEnergy(cardEnergyGain);
         }
 
-        if (utilityCard.cardHealthGain > 0)
+        if (cardHealthGain > 0)
         {
-            player.Heal(utilityCard.cardHealthGain);
+            player.Heal(cardHealthGain);
         }
 
         CompleteCardPlay(runtimeCard, cardObject, player);
@@ -201,7 +205,7 @@ public class CardPlayManager : MonoBehaviour
         var powerCard = runtimeCard.cardData as Power;
         if (powerCard == null) return false;
 
-        BeginCardPlay(player, powerCard, cardEnergyCost);
+        BeginCardPlay(player, runtimeCard, cardEnergyCost);
         ApplyCardStatus(player, runtimeCard, null);
         CompleteCardPlay(runtimeCard, cardObject, player);
 
@@ -213,9 +217,9 @@ public class CardPlayManager : MonoBehaviour
         var cardData = runtimeCard.cardData;
 
         const int attackThreshold = 3;
-        
+    
         if (cardData.cardType == Card.CardType.Attack && !consumesRelicDamage) attacksPlayed++;
-        
+    
         if (attacksPlayed == attackThreshold)
         {
             OnAttackThresholdHit?.Invoke();
@@ -224,10 +228,10 @@ public class CardPlayManager : MonoBehaviour
 
         consumesRelicDamage = false;
 
-        ApplyCardHealthLoss(player, cardData);
-        DrawCardsFromCard(cardData);
-        ApplyRandomCardDiscard(cardData);
-        DrawRandomCardFromDiscard(cardData);
+        ApplyCardHealthLoss(player, runtimeCard);
+        DrawCardsFromCard(runtimeCard);
+        ApplyRandomCardDiscard(runtimeCard);
+        DrawRandomCardFromDiscard(runtimeCard);
         ApplyCardBonusEnergy(player, runtimeCard);
 
         player.ProcessOnActionStatuses();
@@ -243,12 +247,13 @@ public class CardPlayManager : MonoBehaviour
             case PostPlayDestination.OutOfCombat:
                 RemoveCardFromCombat(cardObject);
                 break;
+
             case PostPlayDestination.Exhaust:
                 ExhaustCard(runtimeCard, cardObject, player);
                 break;
         }
-        
-        ResolveCardCreation(cardData);
+    
+        ResolveCardCreation(runtimeCard);
     }
 
     private PostPlayDestination DeterminePostPlayDestination(RuntimeCard runtimeCard)
@@ -329,11 +334,12 @@ public class CardPlayManager : MonoBehaviour
         }
     }
 
-    private void BeginCardPlay(Player player, Card cardData, int cardEnergyCost)
+    private void BeginCardPlay(Player player, RuntimeCard runtimeCard, int cardEnergyCost)
     {
-        ApplyCardCorruption(player, cardData);
+        ApplyCardCorruption(player, runtimeCard);
         SpendCardEnergy(player, cardEnergyCost);
     }
+
 
     private void SpendCardEnergy(Player player, int cardEnergyCost)
     {
@@ -343,11 +349,14 @@ public class CardPlayManager : MonoBehaviour
         }
     }
 
-    private void ApplyCardCorruption(Player player, Card cardData)
+    private void ApplyCardCorruption(Player player, RuntimeCard runtimeCard)
     {
-        if (cardData.cardCorruptionGain > 0)
+        var cardData = runtimeCard.cardData;
+        var corruptionGain = cardData.GetCardCorruptionGain(runtimeCard.isUpgraded);
+
+        if (corruptionGain > 0)
         {
-            player.GainCorruption(cardData.cardCorruptionGain);
+            player.GainCorruption(corruptionGain);
         }
     }
 
@@ -402,61 +411,66 @@ public class CardPlayManager : MonoBehaviour
         return finalCardEnergyCost;
     }
 
-    private void ApplyCardHealthLoss(Player player, Card cardData)
+    private void ApplyCardHealthLoss(Player player, RuntimeCard runtimeCard)
     {
-        if (cardData.cardHealthLoss > 0)
+        var healthLoss = runtimeCard.cardData.GetCardHealthLoss(runtimeCard.isUpgraded);
+
+        if (healthLoss > 0)
         {
-            player.LoseHealth(cardData.cardHealthLoss);
+            player.LoseHealth(healthLoss);
         }
     }
 
-    private void DrawCardsFromCard(Card cardData)
+    private void DrawCardsFromCard(RuntimeCard runtimeCard)
     {
-        if (cardData.cardsToDraw > 0)
+        var cardsToDraw = runtimeCard.cardData.GetCardsToDraw(runtimeCard.isUpgraded);
+
+        if (cardsToDraw > 0)
         {
-            _handManager.DrawCards(cardData.cardsToDraw);
+            _handManager.DrawCards(cardsToDraw);
         }
     }
 
-    private void ApplyRandomCardDiscard(Card cardData)
+    private void ApplyRandomCardDiscard(RuntimeCard runtimeCard)
     {
-        if (cardData.cardsToDiscardRandomly > 0)
+        var cardsToDiscard = runtimeCard.cardData.GetCardsToDiscardRandomly(runtimeCard.isUpgraded);
+
+        if (cardsToDiscard > 0)
         {
-            _handManager.DiscardRandomCards(
-                cardData.cardsToDiscardRandomly
-            );
+            _handManager.DiscardRandomCards(cardsToDiscard);
         }
     }
 
-    private void DrawRandomCardFromDiscard(Card cardData)
+    private void DrawRandomCardFromDiscard(RuntimeCard runtimeCard)
     {
-        if (cardData.cardsToDrawFromDiscard <= 0) return;
+        var cardsToDrawFromDiscard = runtimeCard.cardData.GetCardsToDrawFromDiscard(runtimeCard.isUpgraded);
 
-        for (var i = 0; i < cardData.cardsToDrawFromDiscard; i++)
+        if (cardsToDrawFromDiscard <= 0) return;
+
+        for (var i = 0; i < cardsToDrawFromDiscard; i++)
         {
             if (_handManager.IsHandFull()) break;
 
-            var runtimeCard =
-                _discardManager.PullRandomCardFromDiscard();
+            var cardToDraw = _discardManager.PullRandomCardFromDiscard();
 
-            if (runtimeCard == null) break;
+            if (cardToDraw == null) break;
 
-            _handManager.AddCardToHand(runtimeCard);
+            _handManager.AddCardToHand(cardToDraw);
         }
     }
     private void ApplyCardStatus(Player player, RuntimeCard runtimeCard, Enemy targetEnemy) 
     {
         var cardData = runtimeCard.cardData;
-    
+
         if (!cardData.appliesStatus) return;
-    
+
         var statusEffect = new StatusEffect
         {
             statusType = cardData.statusType,
-            amount     = cardData.statusAmount,
-            duration   = cardData.statusDuration
+            amount     = cardData.GetStatusAmount(runtimeCard.isUpgraded),
+            duration   = cardData.GetStatusDuration(runtimeCard.isUpgraded)
         };
-    
+
         if (cardData is Power powerCard && powerCard.statusToCreate != null)
         {
             statusEffect.statusToCreate = new StatusEffect
@@ -466,7 +480,6 @@ public class CardPlayManager : MonoBehaviour
                 duration   = powerCard.statusToCreate.GetStatusDuration(runtimeCard.isUpgraded)
             };
         }
-
 
         switch (cardData.statusTargetType)
         {
@@ -547,8 +560,11 @@ public class CardPlayManager : MonoBehaviour
         }
     }
     
-    private void ApplyAdditionalStatusToAllEnemies(Player player, Defense cardData)
+    private void ApplyAdditionalStatusToAllEnemies(Player player, RuntimeCard runtimeCard)
     {
+        var cardData = runtimeCard.cardData as Defense;
+        if (cardData == null) return;
+    
         if (!cardData.appliesStatusToAllEnemies) return;
         if (!cardData.appliesStatus) return;
 
@@ -562,8 +578,8 @@ public class CardPlayManager : MonoBehaviour
             var statusEffect = new StatusEffect
             {
                 statusType = cardData.statusType,
-                amount     = cardData.statusAmount,
-                duration   = cardData.statusDuration
+                amount     = cardData.GetStatusAmount(runtimeCard.isUpgraded),
+                duration   = cardData.GetStatusDuration(runtimeCard.isUpgraded)
             };
 
             enemy.ApplyStatus(statusEffect);
@@ -575,21 +591,26 @@ public class CardPlayManager : MonoBehaviour
         }
     }
 
-    private void ProcessNextCardEnergyReduction(Card cardData, Player player)
+    private void ProcessNextCardEnergyReduction(RuntimeCard runtimeCard, Player player)
     {
+        var cardData = runtimeCard.cardData;
+    
         if (!cardData.reducesNextAttackEnergy) return;
 
-        var nextEnergyReduction = cardData.energyToReduce;
+        var nextEnergyReduction = cardData.GetEnergyToReduce(runtimeCard.isUpgraded);
 
         player.AddNextAttackEnergyReduction(nextEnergyReduction);
     }
 
-    private void ResolveCardCreation(Card cardData)
+    private void ResolveCardCreation(RuntimeCard runtimeCard)
     {
-        if (cardData == null) return;
+        var cardData = runtimeCard.cardData;
+
         if (!cardData.createsCards) return;
 
-        for (var i = 0; i < cardData.cardsToCreate; i++)
+        var cardsToCreate = cardData.GetCardsToCreate(runtimeCard.isUpgraded);
+
+        for (var i = 0; i < cardsToCreate; i++)
         {
             _deckManager.CreateCardDuringCombat(cardData.cardToCreate, cardData.createdCardDestination);
         }

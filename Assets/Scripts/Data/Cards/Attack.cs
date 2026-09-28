@@ -5,7 +5,7 @@ using UnityEngine;
 public class Attack : Card
 {
     [Space(10)] 
-    [Header("Damage")]
+    [Header("Attack Attributes")]
     public int cardDamage;
     public int hitCount = 1;
 

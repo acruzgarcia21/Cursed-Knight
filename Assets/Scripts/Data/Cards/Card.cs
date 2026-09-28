@@ -108,5 +108,65 @@ namespace CursedKnight
 
         [Header("Upgrade - Energy Reduction")]
         [SerializeField] private int upgradedEnergyToReduce;
+        
+        public int GetCardEnergyCost(bool isUpgraded)
+        {
+            return isUpgraded ? upgradedEnergyCost : cardEnergyCost;
+        }
+
+        public int GetCardCorruptionGain(bool isUpgraded)
+        {
+            return isUpgraded ? upgradedCorruptionGain : cardCorruptionGain;
+        }
+
+        public int GetCardsToDraw(bool isUpgraded)
+        {
+            return isUpgraded ? upgradedCardsToDraw : cardsToDraw;
+        }
+
+        public int GetCardsToDiscardRandomly(bool isUpgraded)
+        {
+            return isUpgraded ? upgradedCardsToDiscardRandomly : cardsToDiscardRandomly;
+        }
+
+        public int GetCardsToDrawFromDiscard(bool isUpgraded)
+        {
+            return isUpgraded ? upgradedCardsToDrawFromDiscard : cardsToDrawFromDiscard;
+        }
+
+        public int GetCardHealthGain(bool isUpgraded)
+        {
+            return isUpgraded ? upgradedCardHealthGain : cardHealthGain;
+        }
+
+        public int GetCardHealthLoss(bool isUpgraded)
+        {
+            return isUpgraded ? upgradedCardHealthLoss : cardHealthLoss;
+        }
+
+        public int GetCardEnergyGain(bool isUpgraded)
+        {
+            return isUpgraded ? upgradedCardEnergyGain : cardEnergyGain;
+        }
+
+        public int GetStatusAmount(bool isUpgraded)
+        {
+            return isUpgraded ? upgradedStatusAmount : statusAmount;
+        }
+
+        public int GetStatusDuration(bool isUpgraded)
+        {
+            return isUpgraded ? upgradedStatusDuration : statusDuration;
+        }
+
+        public int GetCardsToCreate(bool isUpgraded)
+        {
+            return isUpgraded ? upgradedCardsToCreate : cardsToCreate;
+        }
+
+        public int GetEnergyToReduce(bool isUpgraded)
+        {
+            return isUpgraded ? upgradedEnergyToReduce : energyToReduce;
+        }
     }
 }
