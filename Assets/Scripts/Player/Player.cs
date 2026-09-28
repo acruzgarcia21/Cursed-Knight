@@ -367,8 +367,6 @@ public class Player : MonoBehaviour
             modifiedDamage = 0;
         }
         
-        Debug.Log(modifiedDamage);
-
         return modifiedDamage;
     }
 

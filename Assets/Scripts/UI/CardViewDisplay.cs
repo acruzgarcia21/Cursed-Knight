@@ -55,37 +55,6 @@ public class CardViewDisplay : MonoBehaviour
         removeCardPopup.SetActive(false);
     }
 
-    public void DisplayCardDefinitions(List<Card> cardsToDisplay)
-    {
-        ClearCardsList();
-
-        foreach (var card in cardsToDisplay)
-        {
-            var newCard = Instantiate(cardPrefab, cardContainer.transform);
-
-            var cardDisplay = newCard.GetComponent<CardDisplay>();
-
-            if (cardDisplay == null)
-            {
-                Destroy(newCard);
-                Debug.LogError("Card prefab is missing CardDisplay.");
-                return;
-            }
-
-            _cardsList.Add(newCard);
-
-            var runtimeCard = new RuntimeCard(card);
-            var cardMovement = newCard.GetComponent<CardMovement>();
-
-            cardMovement.SetCardToCardViewMode();
-            cardMovement.OnCardViewClicked += HandleCardViewClicked;
-
-            cardDisplay.runtimeCard = runtimeCard;
-        }
-
-        cardViewScreen.SetActive(true);
-    }
-
     public void DisplayCards(IReadOnlyList<RuntimeCard> cardsToDisplay)
     {
         ClearCardsList();
@@ -240,7 +209,7 @@ public class CardViewDisplay : MonoBehaviour
             _currentRemovalCard = cardMovement;
             _currentRemovalCard.SetCardToRemovalSelectedState();
 
-            _cardRemovalManager.SelectCard(runtimeCard.cardData);
+            _cardRemovalManager.SelectCard(runtimeCard);
             ShowCardRemovalConfirmation();
             return;
         }

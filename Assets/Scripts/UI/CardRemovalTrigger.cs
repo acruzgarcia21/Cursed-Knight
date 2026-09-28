@@ -15,6 +15,6 @@ public class CardRemovalTrigger : MonoBehaviour
     {
         cardViewDisplay.SetTitleText("Card Removal");
         cardViewDisplay.SetCurrentViewerToCardRemoval();
-        cardViewDisplay.DisplayCardDefinitions(_deckManager.GetPlayerDeck());
+        cardViewDisplay.DisplayCards(_deckManager.GetPlayerDeck());
     }
 }
