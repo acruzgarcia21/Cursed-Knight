@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Corrupted Soul
   m_EditorClassIdentifier: Assembly-CSharp::Power
   cardName: Corrupted Soul
-  cardDescription: Your Attack cards deal 1 additional damage for each Corruption
-    you have.
+  cardDescription: Your Attack cards deal {powerStatusAmount} additional damage for each Corruption you have.
   cardType: 3
   targetType: 3
   cardSprite: {fileID: 0}
@@ -27,6 +26,7 @@ MonoBehaviour:
   cardHealthLoss: 0
   cardEnergyGain: 0
   appliesStatus: 1
+  statusTargetType: 0
   statusType: 9
   statusAmount: 1
   statusDuration: -1
@@ -39,7 +39,21 @@ MonoBehaviour:
   createdCardDestination: 0
   reducesNextAttackEnergy: 0
   energyToReduce: 0
+  upgradedEnergyCost: 2
+  upgradedCorruptionGain: 0
+  upgradedCardsToDraw: 0
+  upgradedCardsToDiscardRandomly: 0
+  upgradedCardsToDrawFromDiscard: 0
+  upgradedCardHealthGain: 0
+  upgradedCardHealthLoss: 0
+  upgradedCardEnergyGain: 0
+  upgradedStatusAmount: 2
+  upgradedStatusDuration: -1
+  upgradedCardsToCreate: 0
+  upgradedEnergyToReduce: 0
   statusToCreate:
     statusType: 0
     amount: 0
     duration: 0
+    upgradedStatusAmount: 0
+    upgradedStatusDuration: 0

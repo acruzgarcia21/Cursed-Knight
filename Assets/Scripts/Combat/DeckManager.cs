@@ -5,19 +5,19 @@ using UnityEngine;
 
 public class DeckManager : MonoBehaviour
 {
-    public List<Card> playerDeck = new();
-
-    public int maxHandSize = 10;
+    [SerializeField] private int maxHandSize = 10;
 
     [SerializeField] private DeckData startingDeck;
 
     [SerializeField] private TMP_Text deckCount;
     
+    private List<RuntimeCard> playerDeck = new();
+    
     private HandManager     _handManager;
     private DrawPileManager _drawPileManager;
     private DiscardManager  _discardManager;
     private ExhaustManager  _exhaustManager;
-    
+
 
     private void Awake()
     {
@@ -33,16 +33,9 @@ public class DeckManager : MonoBehaviour
         _discardManager.BattleSetup();
         _exhaustManager.BattleSetup();
         
-        var runtimeCards = new List<RuntimeCard>();
-
-        foreach (var card in playerDeck)
-        {
-            runtimeCards.Add(new RuntimeCard(card));
-        }
-        
         UpdateDeckCount();
 
-        _drawPileManager.MakeDrawPile(runtimeCards);
+        _drawPileManager.MakeDrawPile(playerDeck);
     }
 
     public void InitializeRunDeck()
@@ -55,7 +48,7 @@ public class DeckManager : MonoBehaviour
         {
             if (card == null) continue;
 
-            playerDeck.Add(card);
+            playerDeck.Add(new RuntimeCard(card));
         }
         
         UpdateDeckCount();
@@ -85,18 +78,23 @@ public class DeckManager : MonoBehaviour
     {
         if (cardToAdd == null) return;
         
-        playerDeck.Add(cardToAdd);
+        playerDeck.Add(new RuntimeCard(cardToAdd));
         
         UpdateDeckCount();
     }
 
-    public void RemoveCardFromDeck(Card cardToRemove)
+    public void RemoveCardFromDeck(RuntimeCard cardToRemove)
     {
         if (cardToRemove == null) return;
 
         playerDeck.Remove(cardToRemove);
         
         UpdateDeckCount();
+    }
+
+    public List<RuntimeCard> GetPlayerDeck()
+    {
+        return playerDeck;
     }
 
     private void UpdateDeckCount()

@@ -9,13 +9,16 @@ public class RestManager : MonoBehaviour
     private const float RestHealScale = 0.30f;
     
     private CardRemovalManager _cardRemovalManager;
+    private CardUpgradeManager _cardUpgradeManager;
 
     [SerializeField] private RestScreenDisplay restScreenDisplay;
 
     private void Awake()
     {
         _player = FindAnyObjectByType<Player>();
+        
         _cardRemovalManager = FindAnyObjectByType<CardRemovalManager>();
+        _cardUpgradeManager = FindAnyObjectByType<CardUpgradeManager>();
     }
 
     public void OnHealSelection()
@@ -32,19 +35,27 @@ public class RestManager : MonoBehaviour
 
     private void OnEnable()
     {
-        _cardRemovalManager.OnCardRemoved += HandleCardRemoved;
+        if (_cardRemovalManager != null)
+            _cardRemovalManager.OnCardRemoved += HandleCardManipulation;
+
+        if (_cardUpgradeManager != null)
+            _cardUpgradeManager.OnCardUpgraded += HandleCardManipulation;
     }
 
     private void OnDisable()
     {
-        _cardRemovalManager.OnCardRemoved -= HandleCardRemoved;
+        if (_cardRemovalManager != null)
+            _cardRemovalManager.OnCardRemoved -= HandleCardManipulation;
+
+        if (_cardUpgradeManager != null)
+            _cardUpgradeManager.OnCardUpgraded -= HandleCardManipulation;
     }
 
-    private void HandleCardRemoved()
+    private void HandleCardManipulation()
     {
         OnRestCompleted?.Invoke();
     }
-
+    
     public void StartRestNode()
     {
         restScreenDisplay.DisplayRestScreen();

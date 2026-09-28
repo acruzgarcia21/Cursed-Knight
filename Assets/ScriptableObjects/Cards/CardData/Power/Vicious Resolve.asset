@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Vicious Resolve
   m_EditorClassIdentifier: Assembly-CSharp::Power
   cardName: Vicious Resolve
-  cardDescription: Whenever you play an Attack, gain 1 Block.
+  cardDescription: Whenever you play an Attack, gain {powerStatusAmount} Block.
   cardType: 3
   targetType: 3
   cardSprite: {fileID: 0}
@@ -22,7 +22,11 @@ MonoBehaviour:
   cardsToDraw: 0
   cardsToDiscardRandomly: 0
   cardsToDrawFromDiscard: 0
+  cardHealthGain: 0
+  cardHealthLoss: 0
+  cardEnergyGain: 0
   appliesStatus: 1
+  statusTargetType: 0
   statusType: 6
   statusAmount: 1
   statusDuration: -1
@@ -33,3 +37,23 @@ MonoBehaviour:
   cardToCreate: {fileID: 0}
   cardsToCreate: 0
   createdCardDestination: 0
+  reducesNextAttackEnergy: 0
+  energyToReduce: 0
+  upgradedEnergyCost: 1
+  upgradedCorruptionGain: 0
+  upgradedCardsToDraw: 0
+  upgradedCardsToDiscardRandomly: 0
+  upgradedCardsToDrawFromDiscard: 0
+  upgradedCardHealthGain: 0
+  upgradedCardHealthLoss: 0
+  upgradedCardEnergyGain: 0
+  upgradedStatusAmount: 2
+  upgradedStatusDuration: -1
+  upgradedCardsToCreate: 0
+  upgradedEnergyToReduce: 0
+  statusToCreate:
+    statusType: 0
+    amount: 0
+    duration: 0
+    upgradedStatusAmount: 0
+    upgradedStatusDuration: 0

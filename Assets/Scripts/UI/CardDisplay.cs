@@ -6,13 +6,13 @@ using UnityEngine.UI;
 public class CardDisplay : MonoBehaviour
 {
     [System.NonSerialized] public RuntimeCard runtimeCard;
-    
+
     [SerializeField] private TMP_Text cardName;
     [SerializeField] private TMP_Text cardEnergyCost;
     [SerializeField] private TMP_Text cardDescription;
     [SerializeField] private TMP_Text cardCorruptionGain;
     [SerializeField] private TMP_Text cardType;
-    
+
     [SerializeField] private Image cardFrame;
 
     [SerializeField] private Sprite attackCardFrame;
@@ -20,8 +20,22 @@ public class CardDisplay : MonoBehaviour
     [SerializeField] private Sprite utilityCardFrame;
     [SerializeField] private Sprite powerCardFrame;
 
+    private DisplayState _displayState = DisplayState.Current;
+
+    private enum DisplayState
+    {
+        Current,
+        UpgradePreview
+    }
+
     private void Start()
     {
+        UpdateCardDisplay();
+    }
+
+    public void SetToUpgradePreview()
+    {
+        _displayState = DisplayState.UpgradePreview;
         UpdateCardDisplay();
     }
 
@@ -35,10 +49,13 @@ public class CardDisplay : MonoBehaviour
 
         var cardData = runtimeCard.cardData;
 
-        cardName.text = cardData.cardName;
-        cardEnergyCost.text = cardData.cardEnergyCost.ToString();
-        cardDescription.text = cardData.cardDescription;
-        cardCorruptionGain.text = cardData.cardCorruptionGain.ToString();
+        var isUpgraded = _displayState == DisplayState.UpgradePreview || runtimeCard.isUpgraded;
+
+        cardName.text = isUpgraded ? $"{cardData.cardName}+" : cardData.cardName;
+
+        cardEnergyCost.text = cardData.GetCardEnergyCost(isUpgraded).ToString();
+        cardDescription.text = GetCardDescription(cardData, isUpgraded);
+        cardCorruptionGain.text = cardData.GetCardCorruptionGain(isUpgraded).ToString();
         cardType.text = cardData.cardType.ToString();
 
         if (cardFrame != null)
@@ -52,5 +69,47 @@ public class CardDisplay : MonoBehaviour
                 _ => cardFrame.sprite
             };
         }
+    }
+
+    private string GetCardDescription(Card cardData, bool isUpgraded)
+    {
+        var description = cardData.cardDescription;
+
+        description = description
+            .Replace("{corruption}", cardData.GetCardCorruptionGain(isUpgraded).ToString())
+            .Replace("{draw}", cardData.GetCardsToDraw(isUpgraded).ToString())
+            .Replace("{discard}", cardData.GetCardsToDiscardRandomly(isUpgraded).ToString())
+            .Replace("{drawFromDiscard}", cardData.GetCardsToDrawFromDiscard(isUpgraded).ToString())
+            .Replace("{healthGain}", cardData.GetCardHealthGain(isUpgraded).ToString())
+            .Replace("{healthLoss}", cardData.GetCardHealthLoss(isUpgraded).ToString())
+            .Replace("{energyGain}", cardData.GetCardEnergyGain(isUpgraded).ToString())
+            .Replace("{statusAmount}", cardData.GetStatusAmount(isUpgraded).ToString())
+            .Replace("{statusDuration}", cardData.GetStatusDuration(isUpgraded).ToString())
+            .Replace("{cardsCreated}", cardData.GetCardsToCreate(isUpgraded).ToString())
+            .Replace("{energyReduction}", cardData.GetEnergyToReduce(isUpgraded).ToString());
+
+        if (cardData is Attack attack)
+        {
+            description = description
+                .Replace("{damage}", attack.GetAttackDamage(isUpgraded).ToString())
+                .Replace("{hitCount}", attack.GetHitCount(isUpgraded).ToString())
+                .Replace("{corruptionDamage}", attack.GetCorruptionDamagePerPoint(isUpgraded).ToString());
+        }
+
+        if (cardData is Defense defense)
+        {
+            description = description
+                .Replace("{block}", defense.GetCardBlock(isUpgraded).ToString())
+                .Replace("{bonusBlock}", defense.GetBonusBlockIfEnemyHasBleed(isUpgraded).ToString());
+        }
+
+        if (cardData is Power power && power.statusToCreate != null)
+        {
+            description = description
+                .Replace("{powerStatusAmount}", power.statusToCreate.GetStatusAmount(isUpgraded).ToString())
+                .Replace("{powerStatusDuration}", power.statusToCreate.GetStatusDuration(isUpgraded).ToString());
+        }
+
+        return description;
     }
 }

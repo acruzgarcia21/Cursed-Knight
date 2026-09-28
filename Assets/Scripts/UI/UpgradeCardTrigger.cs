@@ -1,23 +1,20 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-public class DeckViewTrigger : MonoBehaviour, IPointerClickHandler
+public class UpgradeCardTrigger : MonoBehaviour
 {
     [SerializeField] private CardViewDisplay cardViewDisplay;
     
     private DeckManager _deckManager;
-
+    
     private void Awake()
     {
         _deckManager = FindAnyObjectByType<DeckManager>();
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    public void OnCardUpgradeClicked()
     {
-        cardViewDisplay.SetTitleText("Deck View");
-        
+        cardViewDisplay.SetTitleText("Card Upgrade");
+        cardViewDisplay.SetCurrentViewerToUpgradeCard();
         cardViewDisplay.DisplayCards(_deckManager.GetPlayerDeck());
-        
-        cardViewDisplay.SetCurrentViewerToDeck();
     }
 }

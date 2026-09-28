@@ -1,11 +1,10 @@
-using CursedKnight;
 using UnityEngine;
 
 public class CardRemovalManager : MonoBehaviour
 {
     public event System.Action OnCardRemoved;
     
-    private Card _selectedCard;
+    private RuntimeCard _selectedCard;
 
     private DeckManager _deckManager;
     
@@ -14,8 +13,9 @@ public class CardRemovalManager : MonoBehaviour
         _deckManager = FindAnyObjectByType<DeckManager>();
     }
 
-    public void SelectCard(Card cardToRemove)
+    public void SelectCard(RuntimeCard cardToRemove)
     {
+        ClearSelectedCard();
         _selectedCard = cardToRemove;
         Debug.Log("Selected Card: " + _selectedCard + ". Card To Remove: " + cardToRemove + ".");
     }
@@ -31,7 +31,7 @@ public class CardRemovalManager : MonoBehaviour
         
         _deckManager.RemoveCardFromDeck(_selectedCard);
 
-        _selectedCard = null;
+        ClearSelectedCard();
         
         OnCardRemoved?.Invoke();
     }

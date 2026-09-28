@@ -21,5 +21,33 @@ MonoBehaviour:
   cardCorruptionGain: 2
   cardsToDraw: 2
   cardsToDiscardRandomly: 1
+  cardsToDrawFromDiscard: 0
   cardHealthGain: 0
+  cardHealthLoss: 0
   cardEnergyGain: 0
+  appliesStatus: 0
+  statusTargetType: 0
+  statusType: 0
+  statusAmount: 0
+  statusDuration: 0
+  retain: 0
+  exhaust: 0
+  spectral: 0
+  createsCards: 0
+  cardToCreate: {fileID: 0}
+  cardsToCreate: 0
+  createdCardDestination: 0
+  reducesNextAttackEnergy: 0
+  energyToReduce: 0
+  upgradedEnergyCost: 0
+  upgradedCorruptionGain: 2
+  upgradedCardsToDraw: 3
+  upgradedCardsToDiscardRandomly: 0
+  upgradedCardsToDrawFromDiscard: 0
+  upgradedCardHealthGain: 0
+  upgradedCardHealthLoss: 0
+  upgradedCardEnergyGain: 0
+  upgradedStatusAmount: 0
+  upgradedStatusDuration: 0
+  upgradedCardsToCreate: 0
+  upgradedEnergyToReduce: 0
