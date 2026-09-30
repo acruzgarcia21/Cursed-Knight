@@ -321,7 +321,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3859296846811640646, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.00053522264
+      value: -0.015471775
       objectReference: {fileID: 0}
     - target: {fileID: 4229911980820425716, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
       propertyPath: m_AnchorMax.x
@@ -343,6 +343,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1226077229}
+    - target: {fileID: 5071730941894331071, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+      propertyPath: m_Size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6334787897118765252, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
       propertyPath: cardViewDisplay
       value: 

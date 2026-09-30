@@ -204,7 +204,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MapNodeDisplay
   currentNode: {fileID: 3011528626802909975}
   currentNodeImage: {fileID: 8142683991096362311}
-  currentNodeImageColor: {r: 0, g: 0, b: 0, a: 0}
+  currentNodeImageColor: {r: 1, g: 1, b: 1, a: 0.19607843}
   currentNodeHighlight: {fileID: 2643259793458953012}
   battleNodeSprite: {fileID: 21300000, guid: 1a535ec129a3f1941beaa1d6b1d1faed, type: 3}
   restNodeSprite: {fileID: 21300000, guid: c2ffcc6d449c18c489c51d028568fba3, type: 3}
@@ -222,11 +222,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5963630b67e3c114bbc6a6daaae6c36f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MapNode
-  nodeType: 0
-  nextNodes:
-  - {fileID: 0}
-  - {fileID: 0}
+  nodeType: 3
+  nextNodes: []
   randomizeNodeType: 0
+  stageNumber: 6
+  mapNodeID: act1_node_26
 --- !u!222 &3953110494455724904
 CanvasRenderer:
   m_ObjectHideFlags: 0

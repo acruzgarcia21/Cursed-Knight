@@ -11,6 +11,8 @@ public class MapNode : MonoBehaviour
     [SerializeField] private bool randomizeNodeType;
 
     [SerializeField] private int stageNumber;
+
+    [SerializeField] private string mapNodeID;
     
     public bool CanRandomizeNodeType()
     {
@@ -20,6 +22,11 @@ public class MapNode : MonoBehaviour
     public int GetStageNumber()
     {
         return stageNumber;
+    }
+
+    public string GetMapNodeID()
+    {
+        return mapNodeID;
     }
 }
 

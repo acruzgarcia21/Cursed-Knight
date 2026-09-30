@@ -6,6 +6,7 @@ public abstract class RelicData : ScriptableObject
     [Header("General")]
     [SerializeField] private string relicName;
     [SerializeField] private string relicDescription;
+    [SerializeField] private string relicID;
 
     [SerializeField] private Sprite relicSprite;
 
@@ -44,6 +45,39 @@ public abstract class RelicData : ScriptableObject
         Self,
         None
     }
+
+    public string GetRelicID()
+    {
+        return relicID;
+    }
+    
+    #if UNITY_EDITOR
+    private void OnValidate()
+    {
+        if (!string.IsNullOrEmpty(relicID)) return;
+
+        relicID = GenerateId(name);
+    }
+
+    private string GenerateId(string assetName)
+    {
+        if (string.IsNullOrWhiteSpace(assetName)) return string.Empty;
+
+        var id = assetName.Trim().ToLowerInvariant();
+
+        id = id.Replace("'", "");
+        id = id.Replace("’", "");
+        id = id.Replace("-", "_");
+        id = id.Replace(" ", "_");
+
+        while (id.Contains("__"))
+        {
+            id = id.Replace("__", "_");
+        }
+
+        return id;
+    }
+    #endif
 
     public RelicType GetRelicType()
     {

@@ -617,7 +617,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 4229911980820425716}
   m_Direction: 2
   m_Value: 1
-  m_Size: 1
+  m_Size: 0.99999845
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -6056,7 +6056,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 13.5, y: -0.0007927599}
+  m_AnchoredPosition: {x: 13.5, y: -0.0003421739}
   m_SizeDelta: {x: -83, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &8576565343887209046
@@ -7680,28 +7680,28 @@ RectTransform:
   - {fileID: 1912428609350054363}
   - {fileID: 5786299453847002068}
   - {fileID: 4356357454619806553}
-  - {fileID: 6184483702255701650}
-  - {fileID: 8174802440259347571}
-  - {fileID: 4473507495041159080}
   - {fileID: 2849623852154828435}
+  - {fileID: 8174802440259347571}
   - {fileID: 8039545524058549114}
+  - {fileID: 6184483702255701650}
+  - {fileID: 4473507495041159080}
+  - {fileID: 8406304291916432697}
+  - {fileID: 2395058288222563162}
   - {fileID: 1237004715895282495}
   - {fileID: 5589723661978336924}
-  - {fileID: 8406304291916432697}
-  - {fileID: 3517726862550903513}
-  - {fileID: 2395058288222563162}
-  - {fileID: 5317180588989497012}
   - {fileID: 8876000150543828211}
-  - {fileID: 7793605216764008194}
+  - {fileID: 3517726862550903513}
   - {fileID: 8437117954320600909}
+  - {fileID: 7793605216764008194}
   - {fileID: 7265857136947950398}
   - {fileID: 2677089011407116374}
-  - {fileID: 2854668358998865221}
-  - {fileID: 2522925462098299381}
   - {fileID: 1329454305297231146}
   - {fileID: 8772996917665090290}
+  - {fileID: 2854668358998865221}
   - {fileID: 6271204485838318693}
   - {fileID: 8965127234386484681}
+  - {fileID: 2522925462098299381}
+  - {fileID: 5317180588989497012}
   m_Father: {fileID: 2072372019273527668}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
@@ -10844,6 +10844,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
+      propertyPath: mapNodeID
+      value: act1_node_15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: stageNumber
       value: 3
       objectReference: {fileID: 0}
@@ -10945,7 +10949,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9037821415663424256, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: m_Name
-      value: Node13
+      value: Node15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -10991,6 +10995,10 @@ PrefabInstance:
     - target: {fileID: 2068375212824034825, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: currentNodeImageColor.r
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
+      propertyPath: mapNodeID
+      value: act1_node_04
       objectReference: {fileID: 0}
     - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: randomizeNodeType
@@ -11134,6 +11142,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
+      propertyPath: mapNodeID
+      value: act1_node_09
+      objectReference: {fileID: 0}
+    - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: stageNumber
       value: 2
       objectReference: {fileID: 0}
@@ -11231,7 +11243,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9037821415663424256, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: m_Name
-      value: Node7
+      value: Node9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -11277,6 +11289,10 @@ PrefabInstance:
     - target: {fileID: 2068375212824034825, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: currentNodeImageColor.r
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
+      propertyPath: mapNodeID
+      value: act1_node_11
       objectReference: {fileID: 0}
     - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: stageNumber
@@ -11376,7 +11392,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9037821415663424256, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: m_Name
-      value: Node14
+      value: Node11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -11422,6 +11438,10 @@ PrefabInstance:
     - target: {fileID: 2068375212824034825, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: currentNodeImageColor.r
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
+      propertyPath: mapNodeID
+      value: act1_node_25
       objectReference: {fileID: 0}
     - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: stageNumber
@@ -11489,15 +11509,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3593928556260088352, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3593928556260088352, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3593928556260088352, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3593928556260088352, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -11521,7 +11541,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9037821415663424256, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: m_Name
-      value: Node1 (7)
+      value: Node25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -11567,6 +11587,10 @@ PrefabInstance:
     - target: {fileID: 2068375212824034825, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: currentNodeImageColor.r
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
+      propertyPath: mapNodeID
+      value: act1_node_19
       objectReference: {fileID: 0}
     - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: stageNumber
@@ -11666,7 +11690,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9037821415663424256, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: m_Name
-      value: Node1 (5)
+      value: Node19
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -11908,6 +11932,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
+      propertyPath: mapNodeID
+      value: act1_node_05
+      objectReference: {fileID: 0}
+    - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: stageNumber
       value: 1
       objectReference: {fileID: 0}
@@ -12005,7 +12033,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9037821415663424256, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: m_Name
-      value: Node8
+      value: Node5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -12051,6 +12079,10 @@ PrefabInstance:
     - target: {fileID: 2068375212824034825, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: currentNodeImageColor.r
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
+      propertyPath: mapNodeID
+      value: act1_node_22
       objectReference: {fileID: 0}
     - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: stageNumber
@@ -12150,7 +12182,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9037821415663424256, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: m_Name
-      value: Node1 (6)
+      value: Node22
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -12392,6 +12424,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
+      propertyPath: mapNodeID
+      value: act1_node_12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: stageNumber
       value: 2
       objectReference: {fileID: 0}
@@ -12489,7 +12525,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9037821415663424256, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: m_Name
-      value: Node10
+      value: Node12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -12731,6 +12767,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
+      propertyPath: mapNodeID
+      value: act1_node_20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: stageNumber
       value: 5
       objectReference: {fileID: 0}
@@ -12828,7 +12868,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9037821415663424256, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: m_Name
-      value: Node1 (8)
+      value: Node20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -12874,6 +12914,10 @@ PrefabInstance:
     - target: {fileID: 2068375212824034825, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: currentNodeImageColor.r
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
+      propertyPath: mapNodeID
+      value: act1_node_02
       objectReference: {fileID: 0}
     - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: randomizeNodeType
@@ -13585,6 +13629,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
+      propertyPath: mapNodeID
+      value: act1_node_06
+      objectReference: {fileID: 0}
+    - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: stageNumber
       value: 1
       objectReference: {fileID: 0}
@@ -13734,6 +13782,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
+      propertyPath: mapNodeID
+      value: act1_node_16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: stageNumber
       value: 4
       objectReference: {fileID: 0}
@@ -13831,7 +13883,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9037821415663424256, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: m_Name
-      value: Node1 (3)
+      value: Node16
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -13877,6 +13929,10 @@ PrefabInstance:
     - target: {fileID: 2068375212824034825, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: currentNodeImageColor.r
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
+      propertyPath: mapNodeID
+      value: act1_node_10
       objectReference: {fileID: 0}
     - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: stageNumber
@@ -13980,7 +14036,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9037821415663424256, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: m_Name
-      value: Node12
+      value: Node10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -14026,6 +14082,10 @@ PrefabInstance:
     - target: {fileID: 2068375212824034825, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: currentNodeImageColor.r
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
+      propertyPath: mapNodeID
+      value: act1_node_21
       objectReference: {fileID: 0}
     - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: stageNumber
@@ -14125,7 +14185,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9037821415663424256, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: m_Name
-      value: Node1 (9)
+      value: Node21
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -14171,6 +14231,10 @@ PrefabInstance:
     - target: {fileID: 2068375212824034825, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: currentNodeImageColor.r
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
+      propertyPath: mapNodeID
+      value: act1_node_14
       objectReference: {fileID: 0}
     - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: stageNumber
@@ -14270,7 +14334,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9037821415663424256, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: m_Name
-      value: Node1 (1)
+      value: Node14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -14316,6 +14380,10 @@ PrefabInstance:
     - target: {fileID: 2068375212824034825, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: currentNodeImageColor.r
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
+      propertyPath: mapNodeID
+      value: act1_node_25
       objectReference: {fileID: 0}
     - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: stageNumber
@@ -14415,7 +14483,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9037821415663424256, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: m_Name
-      value: Node1 (11)
+      value: Node24
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -14657,6 +14725,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
+      propertyPath: mapNodeID
+      value: act1_node_18
+      objectReference: {fileID: 0}
+    - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: stageNumber
       value: 4
       objectReference: {fileID: 0}
@@ -14754,7 +14826,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9037821415663424256, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: m_Name
-      value: Node1 (4)
+      value: Node18
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -14800,6 +14872,10 @@ PrefabInstance:
     - target: {fileID: 2068375212824034825, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: currentNodeImageColor.r
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
+      propertyPath: mapNodeID
+      value: act1_node_17
       objectReference: {fileID: 0}
     - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: stageNumber
@@ -14899,7 +14975,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9037821415663424256, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: m_Name
-      value: Node1 (2)
+      value: Node 17
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -14945,6 +15021,10 @@ PrefabInstance:
     - target: {fileID: 2068375212824034825, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: currentNodeImageColor.r
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
+      propertyPath: mapNodeID
+      value: act1_node_07
       objectReference: {fileID: 0}
     - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: stageNumber
@@ -15044,7 +15124,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9037821415663424256, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: m_Name
-      value: Node9
+      value: Node7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -15090,6 +15170,10 @@ PrefabInstance:
     - target: {fileID: 2068375212824034825, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: currentNodeImageColor.r
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
+      propertyPath: mapNodeID
+      value: act1_node_03
       objectReference: {fileID: 0}
     - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: randomizeNodeType
@@ -15426,6 +15510,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
+      propertyPath: mapNodeID
+      value: act1_node_08
+      objectReference: {fileID: 0}
+    - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: stageNumber
       value: 1
       objectReference: {fileID: 0}
@@ -15523,7 +15611,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9037821415663424256, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: m_Name
-      value: Node5
+      value: Node8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -15569,6 +15657,10 @@ PrefabInstance:
     - target: {fileID: 2068375212824034825, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: currentNodeImageColor.r
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
+      propertyPath: mapNodeID
+      value: act1_node_23
       objectReference: {fileID: 0}
     - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: stageNumber
@@ -15668,7 +15760,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9037821415663424256, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: m_Name
-      value: Node1 (10)
+      value: Node23
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -15699,38 +15791,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 9162933566373899001}
     m_Modifications:
-    - target: {fileID: 2068375212824034825, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
-      propertyPath: currentNodeImageColor.a
-      value: 0.19607843
-      objectReference: {fileID: 0}
-    - target: {fileID: 2068375212824034825, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
-      propertyPath: currentNodeImageColor.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2068375212824034825, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
-      propertyPath: currentNodeImageColor.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2068375212824034825, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
-      propertyPath: currentNodeImageColor.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
-      propertyPath: nodeType
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
-      propertyPath: stageNumber
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
-      propertyPath: randomizeNodeType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
-      propertyPath: nextNodes.Array.size
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3593928556260088352, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -15813,7 +15873,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9037821415663424256, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: m_Name
-      value: Node15
+      value: Node26
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -15859,6 +15919,10 @@ PrefabInstance:
     - target: {fileID: 2068375212824034825, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: currentNodeImageColor.r
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
+      propertyPath: mapNodeID
+      value: act1_node_01
       objectReference: {fileID: 0}
     - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: nextNodes.Array.size
@@ -16006,6 +16070,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
+      propertyPath: mapNodeID
+      value: act1_node_13
+      objectReference: {fileID: 0}
+    - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: stageNumber
       value: 3
       objectReference: {fileID: 0}
@@ -16103,7 +16171,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9037821415663424256, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: m_Name
-      value: Node11
+      value: Node13
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
