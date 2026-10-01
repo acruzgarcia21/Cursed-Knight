@@ -9,6 +9,8 @@ public class DeckManager : MonoBehaviour
 
     [SerializeField] private DeckData startingDeck;
 
+    [SerializeField] private CardDatabase cardDatabase;
+
     [SerializeField] private TMP_Text deckCount;
     
     private List<RuntimeCard> playerDeck = new();
@@ -95,6 +97,19 @@ public class DeckManager : MonoBehaviour
     public List<RuntimeCard> GetPlayerDeck()
     {
         return playerDeck;
+    }
+
+    public void RestoreCardsToPlayerDeck(string cardID, bool isUpgraded)
+    {
+        var card = cardDatabase.GetCardByID(cardID);
+        if (card == null) return;
+
+        var runtimeCardToRestore = new RuntimeCard(card)
+        {
+            isUpgraded = isUpgraded
+        };
+
+        playerDeck.Add(runtimeCardToRestore);
     }
 
     private void UpdateDeckCount()
