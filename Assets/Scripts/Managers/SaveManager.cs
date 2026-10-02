@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -8,30 +9,45 @@ public class SaveManager : MonoBehaviour
     private DeckManager _deckManager;
     private RelicManager _relicManager;
     private RewardManager _rewardManager;
+    private OptionsManager _optionsManager;
 
     private Player _player;
 
     private string _runSavePath;
+    private string _settingsSavePath;
 
     private bool _canSaveRun;
 
     private void Awake()
     {
-        _runManager = FindAnyObjectByType<RunManager>();
-        _deckManager = FindAnyObjectByType<DeckManager>();
-        _relicManager = FindAnyObjectByType<RelicManager>();
-        _rewardManager = FindAnyObjectByType<RewardManager>();
-
+        _runManager     = FindAnyObjectByType<RunManager>();
+        _deckManager    = FindAnyObjectByType<DeckManager>();
+        _relicManager   = FindAnyObjectByType<RelicManager>();
+        _rewardManager  = FindAnyObjectByType<RewardManager>();
+        _optionsManager = FindAnyObjectByType<OptionsManager>();
+        
         _player = FindAnyObjectByType<Player>();
 
-        _runSavePath = Path.Combine(Application.persistentDataPath, "run_save.json");
+        _runSavePath      = Path.Combine(Application.persistentDataPath, "run_save.json");
+        _settingsSavePath = Path.Combine(Application.persistentDataPath, "settings.json");
     }
-    
+
+    private void Start()
+    {
+        LoadSettings();
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.F1))
         {
             _runManager.StartNewRun();
+        }
+        
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            _optionsManager.SetMutingAudio(!_optionsManager.GetMutingAudio());
+            SaveSettings();
         }
 
         if (Input.GetKeyDown(KeyCode.F5))
@@ -49,6 +65,38 @@ public class SaveManager : MonoBehaviour
     {
         EnableRunSaving();
         SaveRun();
+    }
+    
+    public bool HasRunSave()
+    {
+        return File.Exists(_runSavePath);
+    }
+
+    public void DeleteRunSave()
+    {
+        if (!File.Exists(_runSavePath))
+        {
+            return;
+        }
+
+        File.Delete(_runSavePath);
+
+        Debug.Log("SaveManager: Run save deleted.");
+    }
+    
+    public void EnableRunSaving()
+    {
+        _canSaveRun = true;
+    }
+
+    public void DisableRunSaving()
+    {
+        _canSaveRun = false;
+    }
+
+    public bool CanSaveRun()
+    {
+        return _canSaveRun;
     }
 
     public void SaveRun()
@@ -70,6 +118,12 @@ public class SaveManager : MonoBehaviour
 
     public void LoadRun()
     {
+        if (!HasRunSave())
+        {
+            Debug.LogWarning("SaveManager: No run save exists!");
+            return;
+        }
+        
         var runData = LoadRunData();
 
         if (runData == null)
@@ -109,6 +163,37 @@ public class SaveManager : MonoBehaviour
         _runManager.FinishRunRestoration();
         
         EnableRunSaving();
+    }
+    
+    public void SaveSettings()
+    {
+        var settingsData = new SettingsData(_optionsManager.GetMutingAudio());
+
+        var json = JsonUtility.ToJson(settingsData, true);
+
+        File.WriteAllText(_settingsSavePath, json);
+
+        Debug.Log($"Settings saved to: {_settingsSavePath}");
+    }
+
+    public void LoadSettings()
+    {
+        if (!File.Exists(_settingsSavePath))
+        {
+            return;
+        }
+
+        var json = File.ReadAllText(_settingsSavePath);
+
+        var settingsData = JsonUtility.FromJson<SettingsData>(json);
+
+        if (settingsData == null)
+        {
+            Debug.LogWarning("SaveManager: Failed to load settings.");
+            return;
+        }
+
+        _optionsManager.RestoreSettings(settingsData);
     }
 
     private RunData LoadRunData()
@@ -207,20 +292,5 @@ public class SaveManager : MonoBehaviour
             acquiredRelicIDs,
             cardSaveDataCollection,
             mapNodeSaveDataCollection);
-    }
-    
-    public void EnableRunSaving()
-    {
-        _canSaveRun = true;
-    }
-
-    public void DisableRunSaving()
-    {
-        _canSaveRun = false;
-    }
-
-    public bool CanSaveRun()
-    {
-        return _canSaveRun;
     }
 }

@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8415866207472476075
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6740004705764080027}
+  - component: {fileID: 861742447168454545}
+  m_Layer: 0
+  m_Name: Map
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6740004705764080027
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8415866207472476075}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &861742447168454545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8415866207472476075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 101076364ebec9f47813ac1c34f3114f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Map
+  allMapNodes:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  startingMapNode: {fileID: 0}
+  randomNodeTypes:
+  - nodeType: 0
+    selectionWeight: 50
+  - nodeType: 1
+    selectionWeight: 50
+  - nodeType: 2
+    selectionWeight: 50
+  maxEliteNodeCount: 5
+  battleEncounterPool:
+  - {fileID: 11400000, guid: 6afe5519d08207a4daa77cafc64cc007, type: 2}
+  - {fileID: 11400000, guid: 246dcdbb49c94784da13a44882b373cc, type: 2}
+  - {fileID: 11400000, guid: 351aafb11bfcd5149a32d886df9868ac, type: 2}
+  - {fileID: 11400000, guid: 9dfc0c932c3ba64448227115cdd83e35, type: 2}
+  - {fileID: 11400000, guid: 89604d70cc7999a4e8757fe88158e694, type: 2}
+  - {fileID: 11400000, guid: 88842e1dcc641ed4cbfdf1a5ae2a1488, type: 2}
+  eliteEncounterPool:
+  - {fileID: 11400000, guid: 2462b304df76ab54c95561152294123a, type: 2}
+  - {fileID: 11400000, guid: 2338a6a545b733e4aa3e528c3c38f2c0, type: 2}
+  - {fileID: 11400000, guid: b2cfa8b7fc50df14091d930e1a2f1eb8, type: 2}
+  - {fileID: 11400000, guid: 4a36bd26775b7c144a3324fc2d6d21da, type: 2}
+  bossEncounterPool:
+  - {fileID: 11400000, guid: 0ae2dbb346812a24e98fbba1dd1d442a, type: 2}

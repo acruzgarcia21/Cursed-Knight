@@ -150,7 +150,7 @@ public class RunManager : MonoBehaviour
 
     public void StartNewRun()
     {
-        _saveManager.DisableRunSaving();
+        _saveManager.DeleteRunSave();
         
         _currentAct = CurrentAct.ActOne;
         
