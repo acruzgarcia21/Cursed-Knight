@@ -22,8 +22,8 @@ public class Map : MonoBehaviour
     [SerializeField] private List<EncounterData> battleEncounterPool;
     [SerializeField] private List<EncounterData> eliteEncounterPool;
     [SerializeField] private List<EncounterData> bossEncounterPool;
-
-
+    
+    private readonly Dictionary<string, MapNode> _mapNodeDictionary = new();
 
     public enum MapNodeType
     {
@@ -32,6 +32,44 @@ public class Map : MonoBehaviour
         Elite,
         Boss,
         None
+    }
+    
+    private void Awake()
+    {
+        BuildMapNodeDictionary();
+    }
+
+    private void BuildMapNodeDictionary()
+    {
+        _mapNodeDictionary.Clear();
+
+        foreach (var node in allMapNodes)
+        {
+            if (node == null || string.IsNullOrEmpty(node.GetMapNodeID()))
+            {
+                Debug.LogError("Map Node is not valid!");
+                continue;
+            }
+
+            if (_mapNodeDictionary.ContainsKey(node.GetMapNodeID()))
+            {
+                Debug.LogError($"Dictionary already contains Map Node ID: {node.GetMapNodeID()}");
+                continue;
+            }
+
+            _mapNodeDictionary.Add(node.GetMapNodeID(), node);
+        }
+    }
+
+    public MapNode GetMapNodeByID(string mapNodeID)
+    {
+        if (_mapNodeDictionary.TryGetValue(mapNodeID, out var mapNode))
+        {
+            return mapNode;
+        }
+
+        Debug.LogError($"Dictionary does not contain the Map Node associated with ID: {mapNodeID}");
+        return null;
     }
 
     public IReadOnlyList<MapNode> GetAllMapNodes()
