@@ -140,6 +140,41 @@ Outside of combat, players progress through a branching map, encounter Battles, 
 - Battle-to-reward-to-map progression
 - Boss completion and Act progression flow
 
+### Run Data & Persistence
+
+- JSON-based run save and load system
+- Checkpoint-based saving between encounters
+- Automatic saves after Battle rewards and completed Rest encounters
+- Manual saving restricted to valid between-encounter checkpoints
+- Separate New Run and Continue startup paths
+- Existing run save detection for Continue availability
+- Run save lifecycle management
+- Persistent current Health, maximum Health, and Corruption
+- Exact persistent deck reconstruction
+- Individual card upgrade states restored per card copy
+- Exact acquired Relics restored across sessions
+- Current Act and Relic reward progression persistence
+- Current Map Node and visited node persistence
+- Randomized Map Node types persist across sessions
+- Stable persistent IDs for Cards, Relics, and Map Nodes
+- Card and Relic databases for persistent ID resolution
+- Runtime Map Node lookup through persistent IDs
+- Post-load map visual reconstruction
+- Temporary combat state intentionally excluded from run saves
+- Existing checkpoints remain available until a newer valid checkpoint is reached
+- Starting a New Run clears the previous run save
+- Completed runs clear their active run save
+- Save and load functionality validated across complete game-session restarts
+
+### Settings Persistence
+
+- Settings stored separately from run save data
+- JSON-based settings persistence
+- Persistent audio mute setting
+- Settings automatically restore between game sessions
+- Run save creation and deletion does not affect saved settings
+- Settings persistence architecture supports additional options in future updates
+
 ### Card Rewards
 
 - Post-battle card reward selection
@@ -197,6 +232,7 @@ Each encounter is designed to teach, reinforce, or test a different combat mecha
 - Unity 6.6
 - C#
 - ScriptableObjects
+- JSON serialization
 - Git
 - GitHub
 
@@ -204,7 +240,7 @@ Each encounter is designed to teach, reinforce, or test a different combat mecha
 
 ## Development Status
 
-### Completed (v0.5.0)
+### Completed (v0.6.0)
 
 - Core combat architecture
 - Runtime card system
@@ -266,12 +302,32 @@ Each encounter is designed to teach, reinforce, or test a different combat mecha
 - Card upgrade selection and confirmation
 - Current-versus-upgraded card preview
 - Shared card manipulation confirmation UI
+- Complete run Save & Load system
+- JSON-based run serialization
+- Run state reconstruction across game sessions
+- Checkpoint-based autosaving
+- Manual save checkpoint restrictions
+- Separate New Run and Continue flows
+- Stable Card, Relic, and Map Node IDs
+- Card and Relic persistence databases
+- Exact deck reconstruction
+- Individual upgraded card restoration
+- Health, maximum Health, and Corruption persistence
+- Acquired Relic persistence
+- Current Act persistence
+- Relic reward progression persistence
+- Current and visited Map Node persistence
+- Randomized Map Node type persistence
+- Post-load map visual reconstruction
+- Run save lifecycle management
+- Settings persistence
+- Persistent audio mute setting
+- Cross-session Save & Load validation
 
 ### In Progress
 
 - Gameplay balancing
 - Additional combat content
-- Run persistence / Save & Load
 
 ### Planned
 
@@ -314,3 +370,19 @@ Added permanent card upgrades using the persistent runtime card architecture. In
 Rest nodes now allow players to **Heal, Remove a Card, or Upgrade a Card**, with reusable card selection, confirmation, and side-by-side upgrade preview systems.
 
 Cursed Knight's run structure now supports persistent deck modification through **card rewards, card removal, card upgrades, and Relics**, significantly expanding build progression and decision-making throughout a run.
+
+### v0.6.0 — Run Data & Persistence Complete
+
+Added a complete run persistence system that allows Cursed Knight to save and reconstruct run progression across game sessions.
+
+Runs now automatically save at safe between-encounter checkpoints after Battle rewards and completed Rest encounters. Manual saving is restricted to the same valid checkpoints, while active combat and other temporary encounter state are intentionally excluded from persistence.
+
+Saved runs restore the player's **current Health, maximum Health, Corruption, exact persistent deck, individual card upgrade states, acquired Relics, current Act, Relic reward progression, current Map Node, visited nodes, and randomized Map Node types**.
+
+Added stable persistent IDs for Cards, Relics, and Map Nodes, allowing saved data to reliably resolve back into the correct game definitions and runtime objects without relying on display names or collection positions.
+
+Added separate **New Run and Continue** startup flows, run save detection and deletion, automatic checkpoint replacement as the player progresses, and post-load map reconstruction. Existing checkpoints remain available if the player exits before reaching the next valid checkpoint.
+
+Added separate settings persistence, beginning with persistent audio mute state. Settings remain independent from run data and automatically restore between game sessions.
+
+Cursed Knight can now preserve and reconstruct an active run across game sessions, establishing the save infrastructure required for players to leave the game and continue their progression later.
