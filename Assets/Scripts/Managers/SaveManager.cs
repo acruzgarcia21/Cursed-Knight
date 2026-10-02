@@ -13,6 +13,8 @@ public class SaveManager : MonoBehaviour
 
     private string _runSavePath;
 
+    private bool _canSaveRun;
+
     private void Awake()
     {
         _runManager = FindAnyObjectByType<RunManager>();
@@ -42,9 +44,21 @@ public class SaveManager : MonoBehaviour
             LoadRun();
         }
     }
+    
+    public void SaveCheckpoint()
+    {
+        EnableRunSaving();
+        SaveRun();
+    }
 
     public void SaveRun()
     {
+        if (!_canSaveRun)
+        {
+            Debug.LogWarning("SaveManager: Cannot save run outside of a valid checkpoint!");
+            return;
+        }
+
         var runData = CreateRunData();
 
         var json = JsonUtility.ToJson(runData, true);
@@ -73,12 +87,28 @@ public class SaveManager : MonoBehaviour
         }
         
         currentMap.RestoreMapNodeTypes(runData.GetMapNodeSaveDataCollection());
-        _runManager.RestoreRun(runData.GetCurrentAct(), runData.GetCurrentNodeID(), runData.GetVisitedNodeIDs());
-        _player.RestoreRunState(runData.GetPlayerHp(), runData.GetPlayerMaxHp(), runData.GetPlayerCorruption());
+        
+        _runManager.RestoreRun(
+            runData.GetCurrentAct(), 
+            runData.GetCurrentNodeID(), 
+            runData.GetVisitedNodeIDs());
+        
+        _player.RestoreRunState(
+            runData.GetPlayerHp(), 
+            runData.GetPlayerMaxHp(), 
+            runData.GetPlayerCorruption());
+        
         _deckManager.RestorePlayerDeck(runData.GetCardSaveDataCollection());
-        _relicManager.RestoreRelicsToRelicCollection(runData.GetCurrentAct(), runData.GetAcquiredRelicIDs());
+        
+        _relicManager.RestoreRelicsToRelicCollection(
+            runData.GetCurrentAct(), 
+            runData.GetAcquiredRelicIDs());
+        
         _rewardManager.RestoreRelicsRewardedThisAct(runData.GetRelicsAwardedThisAct());
+        
         _runManager.FinishRunRestoration();
+        
+        EnableRunSaving();
     }
 
     private RunData LoadRunData()
@@ -177,5 +207,20 @@ public class SaveManager : MonoBehaviour
             acquiredRelicIDs,
             cardSaveDataCollection,
             mapNodeSaveDataCollection);
+    }
+    
+    public void EnableRunSaving()
+    {
+        _canSaveRun = true;
+    }
+
+    public void DisableRunSaving()
+    {
+        _canSaveRun = false;
+    }
+
+    public bool CanSaveRun()
+    {
+        return _canSaveRun;
     }
 }

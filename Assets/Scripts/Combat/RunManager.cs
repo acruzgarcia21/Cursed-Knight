@@ -23,6 +23,7 @@ public class RunManager : MonoBehaviour
     private RestManager   _restManager;
     private RelicManager  _relicManager;
     private RewardManager _rewardManager;
+    private SaveManager _saveManager;
 
     private Player _player;
     
@@ -42,6 +43,7 @@ public class RunManager : MonoBehaviour
         _restManager   = FindAnyObjectByType<RestManager>();
         _relicManager  = FindAnyObjectByType<RelicManager>();
         _rewardManager = FindAnyObjectByType<RewardManager>();
+        _saveManager   = FindAnyObjectByType<SaveManager>();
         
         _player = FindAnyObjectByType<Player>();
     }
@@ -125,6 +127,8 @@ public class RunManager : MonoBehaviour
 
     private void EnterCurrentNode()
     {
+        _saveManager.DisableRunSaving();
+        
         var finalStageNum = currentMap.GetTotalStageCount();
         var isFinalStage = (_currentNode.GetStageNumber() - 1) == finalStageNum;
         
@@ -146,6 +150,8 @@ public class RunManager : MonoBehaviour
 
     public void StartNewRun()
     {
+        _saveManager.DisableRunSaving();
+        
         _currentAct = CurrentAct.ActOne;
         
         _deckManager.InitializeRunDeck();
@@ -229,6 +235,8 @@ public class RunManager : MonoBehaviour
     {
         restScreenDisplay.HideRestScreen();
         mapDisplay.OpenSelectMode();
+        
+        _saveManager.SaveCheckpoint();
     }
 
     private void OnRewardSelectionCompleted()
@@ -242,6 +250,7 @@ public class RunManager : MonoBehaviour
         else
         {
             mapDisplay.OpenSelectMode();
+            _saveManager.SaveCheckpoint();
         }
     }
 
