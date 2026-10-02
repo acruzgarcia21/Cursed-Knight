@@ -7,8 +7,11 @@ public class RelicManager : MonoBehaviour
     [SerializeField] private RelicPoolData actTwoRelicPool;
     [SerializeField] private RelicPoolData actThreeRelicPool;
     
+    [SerializeField] private RelicDatabase relicDatabase;
+    
     private readonly List<RelicData> _relicCollection  = new();
     private readonly List<RelicData> _currentRelicPool = new();
+
 
     public void RunSetup(RunManager.CurrentAct currentAct)
     {
@@ -147,5 +150,13 @@ public class RelicManager : MonoBehaviour
                 relic.ResolveEffect(player, enemyManager);
             }
         }
+    }
+
+    public void RestoreRelicsToRelicCollection(string relicID)
+    {
+        var relic = relicDatabase.GetRelicByID(relicID);
+        if (relic == null) return;
+        
+        AddRelicToCollection(relic);
     }
 }

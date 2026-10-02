@@ -13,7 +13,7 @@ public class DeckManager : MonoBehaviour
 
     [SerializeField] private TMP_Text deckCount;
     
-    private List<RuntimeCard> playerDeck = new();
+    private readonly List<RuntimeCard> _playerDeck = new();
     
     private HandManager     _handManager;
     private DrawPileManager _drawPileManager;
@@ -37,20 +37,20 @@ public class DeckManager : MonoBehaviour
         
         UpdateDeckCount();
 
-        _drawPileManager.MakeDrawPile(playerDeck);
+        _drawPileManager.MakeDrawPile(_playerDeck);
     }
 
     public void InitializeRunDeck()
     {
         if (startingDeck == null) return;
 
-        playerDeck.Clear();
+        _playerDeck.Clear();
 
         foreach (var card in startingDeck.GetPlayerDeck())
         {
             if (card == null) continue;
 
-            playerDeck.Add(new RuntimeCard(card));
+            _playerDeck.Add(new RuntimeCard(card));
         }
         
         UpdateDeckCount();
@@ -80,7 +80,7 @@ public class DeckManager : MonoBehaviour
     {
         if (cardToAdd == null) return;
         
-        playerDeck.Add(new RuntimeCard(cardToAdd));
+        _playerDeck.Add(new RuntimeCard(cardToAdd));
         
         UpdateDeckCount();
     }
@@ -89,14 +89,14 @@ public class DeckManager : MonoBehaviour
     {
         if (cardToRemove == null) return;
 
-        playerDeck.Remove(cardToRemove);
+        _playerDeck.Remove(cardToRemove);
         
         UpdateDeckCount();
     }
 
     public List<RuntimeCard> GetPlayerDeck()
     {
-        return playerDeck;
+        return _playerDeck;
     }
 
     public void RestoreCardsToPlayerDeck(string cardID, bool isUpgraded)
@@ -109,11 +109,11 @@ public class DeckManager : MonoBehaviour
             isUpgraded = isUpgraded
         };
 
-        playerDeck.Add(runtimeCardToRestore);
+        _playerDeck.Add(runtimeCardToRestore);
     }
 
     private void UpdateDeckCount()
     {
-        deckCount.text = playerDeck.Count.ToString();
+        deckCount.text = _playerDeck.Count.ToString();
     }
 }
