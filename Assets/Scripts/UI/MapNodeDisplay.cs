@@ -52,7 +52,7 @@ public class MapNodeDisplay : MonoBehaviour, IPointerClickHandler
         currentNodeImage.color = _currentNodeImageOriginalColor;
     }
 
-    private void UpdateNodeSprite()
+    public void UpdateNodeSprite()
     {
         currentNodeImage.sprite = currentNode.nodeType switch
         {

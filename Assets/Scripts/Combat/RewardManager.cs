@@ -33,6 +33,11 @@ public class RewardManager : MonoBehaviour
         _relicsAwardedThisAct = 0;
     }
 
+    public int GetRelicsAwardedThisAct()
+    {
+        return _relicsAwardedThisAct;
+    }
+
     public void StartRewards(Map.MapNodeType currentNode, bool isFinalStage)
     {
         _rewardCardHasBeenCollected = false;
@@ -95,6 +100,11 @@ public class RewardManager : MonoBehaviour
         _rewardCardHasBeenCollected = true;
         
         battleRewardDisplay.CompleteCardRewardSelection();
+    }
+
+    public void RestoreRelicsRewardedThisAct(int relicsRewardedThisAct)
+    {
+        _relicsAwardedThisAct = relicsRewardedThisAct;
     }
 
     private bool RollRelicSelection()

@@ -7,6 +7,7 @@ namespace CursedKnight
         [Header("General")] 
         public string cardName;
         public string cardDescription;
+        [SerializeField] private string cardID;
         
         [Space(10)] 
         [Header("Card Info")]
@@ -83,6 +84,39 @@ namespace CursedKnight
             RandomEnemy,
             Self
         }
+
+        public string GetCardID()
+        {
+            return cardID;
+        }
+        
+        #if UNITY_EDITOR
+        private void OnValidate()
+        {
+            if (!string.IsNullOrEmpty(cardID)) return;
+
+            cardID = GenerateId(name);
+        }
+
+        private string GenerateId(string assetName)
+        {
+            if (string.IsNullOrWhiteSpace(assetName)) return string.Empty;
+
+            var id = assetName.Trim().ToLowerInvariant();
+
+            id = id.Replace("'", "");
+            id = id.Replace("’", "");
+            id = id.Replace("-", "_");
+            id = id.Replace(" ", "_");
+
+            while (id.Contains("__"))
+            {
+                id = id.Replace("__", "_");
+            }
+
+            return id;
+        }
+        #endif
 
         [Space(10)]
         [Header("UPGRADE ATTRIBUTES")]
@@ -168,5 +202,11 @@ namespace CursedKnight
         {
             return isUpgraded ? upgradedEnergyToReduce : energyToReduce;
         }
+        
+        
     }
+    
+    
 }
+
+

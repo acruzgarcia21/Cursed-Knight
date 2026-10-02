@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Microsoft.Extensions.Logging.Abstractions;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -22,8 +23,8 @@ public class Map : MonoBehaviour
     [SerializeField] private List<EncounterData> battleEncounterPool;
     [SerializeField] private List<EncounterData> eliteEncounterPool;
     [SerializeField] private List<EncounterData> bossEncounterPool;
-
-
+    
+    private readonly Dictionary<string, MapNode> _mapNodeDictionary = new();
 
     public enum MapNodeType
     {
@@ -32,6 +33,52 @@ public class Map : MonoBehaviour
         Elite,
         Boss,
         None
+    }
+    
+    private void Awake()
+    {
+        BuildMapNodeDictionary();
+    }
+
+    private void BuildMapNodeDictionary()
+    {
+        Debug.Log($"MAP DICTIONARY BUILD START | Map: {gameObject.name} | Nodes: {allMapNodes.Count}");
+
+        _mapNodeDictionary.Clear();
+
+        foreach (var node in allMapNodes)
+        {
+            if (node == null || string.IsNullOrEmpty(node.GetMapNodeID()))
+            {
+                Debug.LogError("Map Node is not valid!");
+                continue;
+            }
+
+            if (_mapNodeDictionary.ContainsKey(node.GetMapNodeID()))
+            {
+                Debug.LogError($"Dictionary already contains Map Node ID: {node.GetMapNodeID()}");
+                continue;
+            }
+
+            _mapNodeDictionary.Add(node.GetMapNodeID(), node);
+
+            Debug.Log($"MAP NODE ADDED | ID: {node.GetMapNodeID()} | Node: {node.name}");
+        }
+
+        Debug.Log($"MAP DICTIONARY BUILD COMPLETE | Map: {gameObject.name} | Dictionary Count: {_mapNodeDictionary.Count}");
+    }
+
+    public MapNode GetMapNodeByID(string mapNodeID)
+    {
+        Debug.Log($"MAP LOOKUP | Map: {gameObject.name} | Looking for: {mapNodeID} | Dictionary Count: {_mapNodeDictionary.Count}");
+
+        if (_mapNodeDictionary.TryGetValue(mapNodeID, out var mapNode))
+        {
+            return mapNode;
+        }
+
+        Debug.LogError($"Dictionary does not contain the Map Node associated with ID: {mapNodeID}");
+        return null;
     }
 
     public IReadOnlyList<MapNode> GetAllMapNodes()
@@ -184,6 +231,29 @@ public class Map : MonoBehaviour
         }
 
         return totalStageNum + 1;
+    }
+
+    public void RestoreMapNodeTypes(IReadOnlyList<MapNodeSaveData> savedMapNodesData)
+    {
+        foreach (var mapNodeSaveData in savedMapNodesData)
+        {
+            if (mapNodeSaveData == null)
+            {
+                Debug.LogError("Map: Unable to determine map node saved data!");
+                continue;
+            }
+            
+            var mapNodeID = mapNodeSaveData.GetNodeID();
+            var mapNode = GetMapNodeByID(mapNodeID);
+
+            if (mapNode == null)
+            {
+                Debug.LogError("Map: Unable to determine map node! Cannot continue restoration");
+                continue;
+            }
+
+            mapNode.nodeType = mapNodeSaveData.GetNodeType();
+        }
     }
 
     private List<MapNode> DetermineNodesLeadingToGivenNode(MapNode givenNode)

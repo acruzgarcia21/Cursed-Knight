@@ -9,9 +9,11 @@ public class DeckManager : MonoBehaviour
 
     [SerializeField] private DeckData startingDeck;
 
+    [SerializeField] private CardDatabase cardDatabase;
+
     [SerializeField] private TMP_Text deckCount;
     
-    private List<RuntimeCard> playerDeck = new();
+    private readonly List<RuntimeCard> _playerDeck = new();
     
     private HandManager     _handManager;
     private DrawPileManager _drawPileManager;
@@ -35,20 +37,20 @@ public class DeckManager : MonoBehaviour
         
         UpdateDeckCount();
 
-        _drawPileManager.MakeDrawPile(playerDeck);
+        _drawPileManager.MakeDrawPile(_playerDeck);
     }
 
     public void InitializeRunDeck()
     {
         if (startingDeck == null) return;
 
-        playerDeck.Clear();
+        _playerDeck.Clear();
 
         foreach (var card in startingDeck.GetPlayerDeck())
         {
             if (card == null) continue;
 
-            playerDeck.Add(new RuntimeCard(card));
+            _playerDeck.Add(new RuntimeCard(card));
         }
         
         UpdateDeckCount();
@@ -78,7 +80,7 @@ public class DeckManager : MonoBehaviour
     {
         if (cardToAdd == null) return;
         
-        playerDeck.Add(new RuntimeCard(cardToAdd));
+        _playerDeck.Add(new RuntimeCard(cardToAdd));
         
         UpdateDeckCount();
     }
@@ -87,18 +89,49 @@ public class DeckManager : MonoBehaviour
     {
         if (cardToRemove == null) return;
 
-        playerDeck.Remove(cardToRemove);
+        _playerDeck.Remove(cardToRemove);
         
         UpdateDeckCount();
     }
 
     public List<RuntimeCard> GetPlayerDeck()
     {
-        return playerDeck;
+        return _playerDeck;
+    }
+
+    public void RestorePlayerDeck(IReadOnlyList<CardSaveData> savedCards)
+    {
+        _playerDeck.Clear();
+
+        foreach (var savedCard in savedCards)
+        {
+            if (savedCard == null)
+            {
+                Debug.LogError("DeckManager: Saved card is null!");
+                continue;
+            }
+
+            var card = cardDatabase.GetCardByID(savedCard.GetCardID());
+
+            if (card == null)
+            {
+                Debug.LogError($"DeckManager: Could not restore card with ID: {savedCard.GetCardID()}");
+                continue;
+            }
+
+            var runtimeCard = new RuntimeCard(card)
+            {
+                isUpgraded = savedCard.GetIsUpgraded()
+            };
+
+            _playerDeck.Add(runtimeCard);
+        }
+
+        UpdateDeckCount();
     }
 
     private void UpdateDeckCount()
     {
-        deckCount.text = playerDeck.Count.ToString();
+        deckCount.text = _playerDeck.Count.ToString();
     }
 }

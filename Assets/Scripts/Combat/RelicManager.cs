@@ -7,8 +7,11 @@ public class RelicManager : MonoBehaviour
     [SerializeField] private RelicPoolData actTwoRelicPool;
     [SerializeField] private RelicPoolData actThreeRelicPool;
     
+    [SerializeField] private RelicDatabase relicDatabase;
+    
     private readonly List<RelicData> _relicCollection  = new();
     private readonly List<RelicData> _currentRelicPool = new();
+
 
     public void RunSetup(RunManager.CurrentAct currentAct)
     {
@@ -146,6 +149,30 @@ public class RelicManager : MonoBehaviour
             {
                 relic.ResolveEffect(player, enemyManager);
             }
+        }
+    }
+
+    public void RestoreRelicsToRelicCollection(RunManager.CurrentAct currentAct, IReadOnlyList<string> savedRelicIDs)
+    {
+        RunSetup(currentAct);
+
+        foreach (var savedRelicID in savedRelicIDs)
+        {
+            if (string.IsNullOrEmpty(savedRelicID))
+            {
+                Debug.LogError("RelicManager: Saved relic ID is invalid!");
+                continue;
+            }
+
+            var relic = relicDatabase.GetRelicByID(savedRelicID);
+
+            if (relic == null)
+            {
+                Debug.LogError($"RelicManager: Could not restore relic with ID: {savedRelicID}");
+                continue;
+            }
+
+            AddRelicToCollection(relic);
         }
     }
 }

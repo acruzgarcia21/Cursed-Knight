@@ -6,15 +6,14 @@ using TMPro;
 public class OptionsManager : MonoBehaviour
 {
     private AudioManager _audioManager;
-    
-    public bool mutingAudio = false;
+
+    [SerializeField] private bool mutingAudio = false;
 
     public List<TMP_FontAsset> fontList;
     public static event Action FontUpdated;
 
-    private void Start()
+    private void Awake()
     {
-        // Set up a reference to find the audio manager
         _audioManager = GameManager.Instance.AudioManager;
     }
 
@@ -34,5 +33,21 @@ public class OptionsManager : MonoBehaviour
     public void UpdateFont()
     {
         FontUpdated?.Invoke();
+    }
+
+    public void SetMutingAudio(bool isMuted)
+    {
+        mutingAudio = isMuted;
+        _audioManager.SetMuted(mutingAudio);
+    }
+
+    public bool GetMutingAudio()
+    {
+        return mutingAudio;
+    }
+
+    public void RestoreSettings(SettingsData settingsData)
+    {
+        SetMutingAudio(settingsData.GetMutingAudio());
     }
 }

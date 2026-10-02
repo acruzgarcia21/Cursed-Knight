@@ -23,6 +23,7 @@ public class RunManager : MonoBehaviour
     private RestManager   _restManager;
     private RelicManager  _relicManager;
     private RewardManager _rewardManager;
+    private SaveManager _saveManager;
 
     private Player _player;
     
@@ -42,14 +43,71 @@ public class RunManager : MonoBehaviour
         _restManager   = FindAnyObjectByType<RestManager>();
         _relicManager  = FindAnyObjectByType<RelicManager>();
         _rewardManager = FindAnyObjectByType<RewardManager>();
+        _saveManager   = FindAnyObjectByType<SaveManager>();
         
         _player = FindAnyObjectByType<Player>();
     }
 
     private void Start()
     {
-        StartRun();
+        // StartRun();
         SubscribeToNodeClicks();
+    }
+    
+    public void FinishRunRestoration()
+    {
+        mapDisplay.OpenSelectMode();
+    }
+
+    public void RestoreRun(CurrentAct currentAct, string currentNodeID, IReadOnlyList<string> visitedNodeIDs)
+    {
+        _currentAct = currentAct;
+
+        var currentNode = currentMap.GetMapNodeByID(currentNodeID);
+
+        if (currentNode == null)
+        {
+            Debug.LogError($"RunManager: {currentNode} is null, cannot finish restoring run!");
+            return;
+        }
+
+        _currentNode = currentNode;
+        
+        _visitedNodes.Clear();
+
+        foreach (var visitedNodeID in visitedNodeIDs)
+        {
+            if (string.IsNullOrEmpty(visitedNodeID))
+            {
+                Debug.LogError($"Run Manager: {visitedNodeID} is null or empty!");
+                continue;
+            }
+
+            var visitedNode = currentMap.GetMapNodeByID(visitedNodeID);
+            
+            if (visitedNode == null)
+            {
+                Debug.LogError($"RunManager: {visitedNode} is null, cannot finish restoring run!");
+                continue;
+            }
+            
+            _visitedNodes.Add(visitedNode);
+        }
+    }
+
+    public CurrentAct GetCurrentAct()
+    {
+        return _currentAct;
+    }
+
+    public Map GetCurrentMap()
+    {
+        return currentMap;
+    }
+
+    public string GetCurrentNodeID()
+    {
+        return _currentNode.GetMapNodeID();
     }
 
     public bool IsCurrentNode(MapNode node)
@@ -62,8 +120,15 @@ public class RunManager : MonoBehaviour
         return _visitedNodes.Contains(node);
     }
 
+    public HashSet<MapNode> GetVisitedNodes()
+    {
+        return _visitedNodes;
+    }
+
     private void EnterCurrentNode()
     {
+        _saveManager.DisableRunSaving();
+        
         var finalStageNum = currentMap.GetTotalStageCount();
         var isFinalStage = (_currentNode.GetStageNumber() - 1) == finalStageNum;
         
@@ -83,8 +148,10 @@ public class RunManager : MonoBehaviour
         }
     }
 
-    private void StartRun()
+    public void StartNewRun()
     {
+        _saveManager.DeleteRunSave();
+        
         _currentAct = CurrentAct.ActOne;
         
         _deckManager.InitializeRunDeck();
@@ -168,6 +235,8 @@ public class RunManager : MonoBehaviour
     {
         restScreenDisplay.HideRestScreen();
         mapDisplay.OpenSelectMode();
+        
+        _saveManager.SaveCheckpoint();
     }
 
     private void OnRewardSelectionCompleted()
@@ -181,6 +250,7 @@ public class RunManager : MonoBehaviour
         else
         {
             mapDisplay.OpenSelectMode();
+            _saveManager.SaveCheckpoint();
         }
     }
 

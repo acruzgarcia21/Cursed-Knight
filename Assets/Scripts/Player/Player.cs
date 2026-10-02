@@ -126,6 +126,11 @@ public class Player : MonoBehaviour
     // HEALTH
     // =========================================================
 
+    public int GetPlayerCurrentHealth()
+    {
+        return playerHealth;
+    }
+    
     public void TakeDamage(int damage)
     {
         var initialHp = playerHealth;
@@ -279,6 +284,11 @@ public class Player : MonoBehaviour
     // CORRUPTION
     // =========================================================
 
+    public int GetCorruption()
+    {
+        return playerCorruption;
+    }
+    
     public void GainCorruption(int corruption)
     {
         playerCorruption += corruption;
@@ -567,6 +577,18 @@ public class Player : MonoBehaviour
     {
         storedDamageToUse = 0;
     }
+    
+    public int GetStoredRelicDamage()
+    {
+        return storedDamageToUse;
+    }
+
+    public void RestoreRunState(int savedHealth, int savedMaxHealth, int savedCorruption)
+    {
+        playerHealth     = savedHealth;
+        playerMaxHealth  = savedMaxHealth;
+        playerCorruption = savedCorruption;
+    }
 
     private void ProcessMaxCorruptionTriggeredEffects()
     {
@@ -607,10 +629,5 @@ public class Player : MonoBehaviour
     private void TriggerAttackThresholdHitEffect()
     {
         _relicManager.TriggerAttackThresholdHitEffect(this, _enemyManager);
-    }
-
-    public int GetStoredRelicDamage()
-    {
-        return storedDamageToUse;
     }
 }
