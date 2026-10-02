@@ -48,8 +48,49 @@ public class RunManager : MonoBehaviour
 
     private void Start()
     {
-        StartRun();
+        // StartRun();
         SubscribeToNodeClicks();
+    }
+    
+    public void FinishRunRestoration()
+    {
+        mapDisplay.OpenSelectMode();
+    }
+
+    public void RestoreRun(CurrentAct currentAct, string currentNodeID, IReadOnlyList<string> visitedNodeIDs)
+    {
+        _currentAct = currentAct;
+
+        var currentNode = currentMap.GetMapNodeByID(currentNodeID);
+
+        if (currentNode == null)
+        {
+            Debug.LogError($"RunManager: {currentNode} is null, cannot finish restoring run!");
+            return;
+        }
+
+        _currentNode = currentNode;
+        
+        _visitedNodes.Clear();
+
+        foreach (var visitedNodeID in visitedNodeIDs)
+        {
+            if (string.IsNullOrEmpty(visitedNodeID))
+            {
+                Debug.LogError($"Run Manager: {visitedNodeID} is null or empty!");
+                continue;
+            }
+
+            var visitedNode = currentMap.GetMapNodeByID(visitedNodeID);
+            
+            if (visitedNode == null)
+            {
+                Debug.LogError($"RunManager: {visitedNode} is null, cannot finish restoring run!");
+                continue;
+            }
+            
+            _visitedNodes.Add(visitedNode);
+        }
     }
 
     public CurrentAct GetCurrentAct()
@@ -103,7 +144,7 @@ public class RunManager : MonoBehaviour
         }
     }
 
-    private void StartRun()
+    public void StartNewRun()
     {
         _currentAct = CurrentAct.ActOne;
         

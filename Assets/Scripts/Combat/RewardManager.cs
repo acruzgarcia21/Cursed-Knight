@@ -102,6 +102,11 @@ public class RewardManager : MonoBehaviour
         battleRewardDisplay.CompleteCardRewardSelection();
     }
 
+    public void RestoreRelicsRewardedThisAct(int relicsRewardedThisAct)
+    {
+        _relicsAwardedThisAct = relicsRewardedThisAct;
+    }
+
     private bool RollRelicSelection()
     {
         if (_relicsAwardedThisAct >= MaxPossibleRelicsThisAct) return false;

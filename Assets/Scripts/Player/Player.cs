@@ -577,6 +577,18 @@ public class Player : MonoBehaviour
     {
         storedDamageToUse = 0;
     }
+    
+    public int GetStoredRelicDamage()
+    {
+        return storedDamageToUse;
+    }
+
+    public void RestoreRunState(int savedHealth, int savedMaxHealth, int savedCorruption)
+    {
+        playerHealth     = savedHealth;
+        playerMaxHealth  = savedMaxHealth;
+        playerCorruption = savedCorruption;
+    }
 
     private void ProcessMaxCorruptionTriggeredEffects()
     {
@@ -617,10 +629,5 @@ public class Player : MonoBehaviour
     private void TriggerAttackThresholdHitEffect()
     {
         _relicManager.TriggerAttackThresholdHitEffect(this, _enemyManager);
-    }
-
-    public int GetStoredRelicDamage()
-    {
-        return storedDamageToUse;
     }
 }

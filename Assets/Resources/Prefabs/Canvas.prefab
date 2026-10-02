@@ -1534,7 +1534,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9de3626f8edd7d547817970d562d22b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MapDisplay
-  map: {fileID: 8832627009760292150}
+  map: {fileID: 0}
   connectionsContainer: {fileID: 1349135500800031019}
   connectionLinePrefab: {fileID: 631151238804585212, guid: 4e91eff7098b6d345b613fe043b3c8ce, type: 3}
   mapScreen: {fileID: 1371636342419328862}
@@ -6056,7 +6056,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 13.5, y: -0.0005166685}
+  m_AnchoredPosition: {x: 13.5, y: -0.0010172066}
   m_SizeDelta: {x: -83, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &8576565343887209046
@@ -7655,7 +7655,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9162933566373899001}
-  - component: {fileID: 8832627009760292150}
   m_Layer: 5
   m_Name: MapContainer
   m_TagString: Untagged
@@ -7709,68 +7708,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0.0009765625, y: -42}
   m_SizeDelta: {x: 3840, y: 1080}
   m_Pivot: {x: 0, y: 0.5}
---- !u!114 &8832627009760292150
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6668702587368714320}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 101076364ebec9f47813ac1c34f3114f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Map
-  allMapNodes:
-  - {fileID: 6015184663956008060}
-  - {fileID: 189542745798904044}
-  - {fileID: 5216922217200509667}
-  - {fileID: 2621041835773997678}
-  - {fileID: 5618408239116253093}
-  - {fileID: 7591257175883095364}
-  - {fileID: 2755707036279502495}
-  - {fileID: 4584891350170275748}
-  - {fileID: 8626961335450948173}
-  - {fileID: 648960984528577032}
-  - {fileID: 6177139482380355499}
-  - {fileID: 7818841145454590990}
-  - {fileID: 2952763069722268654}
-  - {fileID: 4114002514106274413}
-  - {fileID: 5900067619629696899}
-  - {fileID: 7135611333172051396}
-  - {fileID: 8359623226629533237}
-  - {fileID: 7871590369993668218}
-  - {fileID: 9006822390336244233}
-  - {fileID: 4399390020537409889}
-  - {fileID: 4591131821041683570}
-  - {fileID: 4262675707675177154}
-  - {fileID: 745345781612467229}
-  - {fileID: 7031484167548597189}
-  - {fileID: 5705182146746422610}
-  - {fileID: 7224244495893357822}
-  startingMapNode: {fileID: 6015184663956008060}
-  randomNodeTypes:
-  - nodeType: 0
-    selectionWeight: 50
-  - nodeType: 1
-    selectionWeight: 50
-  - nodeType: 2
-    selectionWeight: 50
-  maxEliteNodeCount: 5
-  battleEncounterPool:
-  - {fileID: 11400000, guid: 6afe5519d08207a4daa77cafc64cc007, type: 2}
-  - {fileID: 11400000, guid: 246dcdbb49c94784da13a44882b373cc, type: 2}
-  - {fileID: 11400000, guid: 351aafb11bfcd5149a32d886df9868ac, type: 2}
-  - {fileID: 11400000, guid: 9dfc0c932c3ba64448227115cdd83e35, type: 2}
-  - {fileID: 11400000, guid: 89604d70cc7999a4e8757fe88158e694, type: 2}
-  - {fileID: 11400000, guid: 88842e1dcc641ed4cbfdf1a5ae2a1488, type: 2}
-  eliteEncounterPool:
-  - {fileID: 11400000, guid: 2462b304df76ab54c95561152294123a, type: 2}
-  - {fileID: 11400000, guid: 2338a6a545b733e4aa3e528c3c38f2c0, type: 2}
-  - {fileID: 11400000, guid: b2cfa8b7fc50df14091d930e1a2f1eb8, type: 2}
-  - {fileID: 11400000, guid: 4a36bd26775b7c144a3324fc2d6d21da, type: 2}
-  bossEncounterPool:
-  - {fileID: 11400000, guid: 0ae2dbb346812a24e98fbba1dd1d442a, type: 2}
 --- !u!1 &6827726023912416775
 GameObject:
   m_ObjectHideFlags: 0
@@ -9173,7 +9110,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 250, y: 0}
+  m_AnchoredPosition: {x: 300, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &7631267322180234491
@@ -9482,7 +9419,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -250, y: 0}
+  m_AnchoredPosition: {x: -300, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &7964377225957792921
@@ -14471,7 +14408,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: mapNodeID
-      value: act1_node_25
+      value: act1_node_24
       objectReference: {fileID: 0}
     - target: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
       propertyPath: stageNumber
@@ -16158,17 +16095,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3593928556260088352, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
   m_PrefabInstance: {fileID: 8840886857739292523}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6015184663956008060 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3011528626802909975, guid: 831c1b6b214025b4badb6fc310bd2cec, type: 3}
-  m_PrefabInstance: {fileID: 8840886857739292523}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5963630b67e3c114bbc6a6daaae6c36f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MapNode
 --- !u!1001 &8967373797108982972
 PrefabInstance:
   m_ObjectHideFlags: 0

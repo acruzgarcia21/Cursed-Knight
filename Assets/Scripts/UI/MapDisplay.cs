@@ -72,7 +72,9 @@ public class MapDisplay : MonoBehaviour
         foreach (var node in map.GetAllMapNodes())
         {
             var nodeDisplay = node.GetComponent<MapNodeDisplay>();
-            
+
+            nodeDisplay.UpdateNodeSprite();
+
             if (_runManager.IsCurrentNode(node))
             {
                 nodeDisplay.ApplyCurrentNodeEffects();

@@ -24,6 +24,24 @@ public class SaveManager : MonoBehaviour
 
         _runSavePath = Path.Combine(Application.persistentDataPath, "run_save.json");
     }
+    
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            _runManager.StartNewRun();
+        }
+
+        if (Input.GetKeyDown(KeyCode.F5))
+        {
+            SaveRun();
+        }
+
+        if (Input.GetKeyDown(KeyCode.F9))
+        {
+            LoadRun();
+        }
+    }
 
     public void SaveRun()
     {
@@ -34,6 +52,33 @@ public class SaveManager : MonoBehaviour
         File.WriteAllText(_runSavePath, json);
 
         Debug.Log($"Run saved to: {_runSavePath}");
+    }
+
+    public void LoadRun()
+    {
+        var runData = LoadRunData();
+
+        if (runData == null)
+        {
+            Debug.LogError("SaveManager: Run data is null! Unable to load run");
+            return;
+        }
+
+        var currentMap = _runManager.GetCurrentMap();
+
+        if (currentMap == null)
+        {
+            Debug.LogError("SaveManager: Current map is null! Unable to load run");
+            return;
+        }
+        
+        currentMap.RestoreMapNodeTypes(runData.GetMapNodeSaveDataCollection());
+        _runManager.RestoreRun(runData.GetCurrentAct(), runData.GetCurrentNodeID(), runData.GetVisitedNodeIDs());
+        _player.RestoreRunState(runData.GetPlayerHp(), runData.GetPlayerMaxHp(), runData.GetPlayerCorruption());
+        _deckManager.RestorePlayerDeck(runData.GetCardSaveDataCollection());
+        _relicManager.RestoreRelicsToRelicCollection(runData.GetCurrentAct(), runData.GetAcquiredRelicIDs());
+        _rewardManager.RestoreRelicsRewardedThisAct(runData.GetRelicsAwardedThisAct());
+        _runManager.FinishRunRestoration();
     }
 
     private RunData LoadRunData()
@@ -50,7 +95,7 @@ public class SaveManager : MonoBehaviour
         return runData;
     }
 
-private RunData CreateRunData()
+    private RunData CreateRunData()
     {
         var visitedNodeIDs   = new List<string>();
         var acquiredRelicIDs = new List<string>();

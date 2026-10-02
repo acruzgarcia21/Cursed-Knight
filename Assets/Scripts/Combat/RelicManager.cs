@@ -152,11 +152,27 @@ public class RelicManager : MonoBehaviour
         }
     }
 
-    public void RestoreRelicsToRelicCollection(string relicID)
+    public void RestoreRelicsToRelicCollection(RunManager.CurrentAct currentAct, IReadOnlyList<string> savedRelicIDs)
     {
-        var relic = relicDatabase.GetRelicByID(relicID);
-        if (relic == null) return;
-        
-        AddRelicToCollection(relic);
+        RunSetup(currentAct);
+
+        foreach (var savedRelicID in savedRelicIDs)
+        {
+            if (string.IsNullOrEmpty(savedRelicID))
+            {
+                Debug.LogError("RelicManager: Saved relic ID is invalid!");
+                continue;
+            }
+
+            var relic = relicDatabase.GetRelicByID(savedRelicID);
+
+            if (relic == null)
+            {
+                Debug.LogError($"RelicManager: Could not restore relic with ID: {savedRelicID}");
+                continue;
+            }
+
+            AddRelicToCollection(relic);
+        }
     }
 }

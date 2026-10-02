@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Microsoft.Extensions.Logging.Abstractions;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -41,6 +42,8 @@ public class Map : MonoBehaviour
 
     private void BuildMapNodeDictionary()
     {
+        Debug.Log($"MAP DICTIONARY BUILD START | Map: {gameObject.name} | Nodes: {allMapNodes.Count}");
+
         _mapNodeDictionary.Clear();
 
         foreach (var node in allMapNodes)
@@ -58,11 +61,17 @@ public class Map : MonoBehaviour
             }
 
             _mapNodeDictionary.Add(node.GetMapNodeID(), node);
+
+            Debug.Log($"MAP NODE ADDED | ID: {node.GetMapNodeID()} | Node: {node.name}");
         }
+
+        Debug.Log($"MAP DICTIONARY BUILD COMPLETE | Map: {gameObject.name} | Dictionary Count: {_mapNodeDictionary.Count}");
     }
 
     public MapNode GetMapNodeByID(string mapNodeID)
     {
+        Debug.Log($"MAP LOOKUP | Map: {gameObject.name} | Looking for: {mapNodeID} | Dictionary Count: {_mapNodeDictionary.Count}");
+
         if (_mapNodeDictionary.TryGetValue(mapNodeID, out var mapNode))
         {
             return mapNode;
@@ -222,6 +231,29 @@ public class Map : MonoBehaviour
         }
 
         return totalStageNum + 1;
+    }
+
+    public void RestoreMapNodeTypes(IReadOnlyList<MapNodeSaveData> savedMapNodesData)
+    {
+        foreach (var mapNodeSaveData in savedMapNodesData)
+        {
+            if (mapNodeSaveData == null)
+            {
+                Debug.LogError("Map: Unable to determine map node saved data!");
+                continue;
+            }
+            
+            var mapNodeID = mapNodeSaveData.GetNodeID();
+            var mapNode = GetMapNodeByID(mapNodeID);
+
+            if (mapNode == null)
+            {
+                Debug.LogError("Map: Unable to determine map node! Cannot continue restoration");
+                continue;
+            }
+
+            mapNode.nodeType = mapNodeSaveData.GetNodeType();
+        }
     }
 
     private List<MapNode> DetermineNodesLeadingToGivenNode(MapNode givenNode)

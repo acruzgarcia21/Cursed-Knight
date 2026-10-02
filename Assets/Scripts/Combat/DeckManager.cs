@@ -99,17 +99,35 @@ public class DeckManager : MonoBehaviour
         return _playerDeck;
     }
 
-    public void RestoreCardsToPlayerDeck(string cardID, bool isUpgraded)
+    public void RestorePlayerDeck(IReadOnlyList<CardSaveData> savedCards)
     {
-        var card = cardDatabase.GetCardByID(cardID);
-        if (card == null) return;
+        _playerDeck.Clear();
 
-        var runtimeCardToRestore = new RuntimeCard(card)
+        foreach (var savedCard in savedCards)
         {
-            isUpgraded = isUpgraded
-        };
+            if (savedCard == null)
+            {
+                Debug.LogError("DeckManager: Saved card is null!");
+                continue;
+            }
 
-        _playerDeck.Add(runtimeCardToRestore);
+            var card = cardDatabase.GetCardByID(savedCard.GetCardID());
+
+            if (card == null)
+            {
+                Debug.LogError($"DeckManager: Could not restore card with ID: {savedCard.GetCardID()}");
+                continue;
+            }
+
+            var runtimeCard = new RuntimeCard(card)
+            {
+                isUpgraded = savedCard.GetIsUpgraded()
+            };
+
+            _playerDeck.Add(runtimeCard);
+        }
+
+        UpdateDeckCount();
     }
 
     private void UpdateDeckCount()
