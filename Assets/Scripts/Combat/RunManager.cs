@@ -52,6 +52,21 @@ public class RunManager : MonoBehaviour
         SubscribeToNodeClicks();
     }
 
+    public CurrentAct GetCurrentAct()
+    {
+        return _currentAct;
+    }
+
+    public Map GetCurrentMap()
+    {
+        return currentMap;
+    }
+
+    public string GetCurrentNodeID()
+    {
+        return _currentNode.GetMapNodeID();
+    }
+
     public bool IsCurrentNode(MapNode node)
     {
         return node == _currentNode;
@@ -60,6 +75,11 @@ public class RunManager : MonoBehaviour
     public bool HasVisitedNode(MapNode node)
     {
         return _visitedNodes.Contains(node);
+    }
+
+    public HashSet<MapNode> GetVisitedNodes()
+    {
+        return _visitedNodes;
     }
 
     private void EnterCurrentNode()

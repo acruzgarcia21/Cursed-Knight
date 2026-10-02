@@ -126,6 +126,11 @@ public class Player : MonoBehaviour
     // HEALTH
     // =========================================================
 
+    public int GetPlayerCurrentHealth()
+    {
+        return playerHealth;
+    }
+    
     public void TakeDamage(int damage)
     {
         var initialHp = playerHealth;
@@ -279,6 +284,11 @@ public class Player : MonoBehaviour
     // CORRUPTION
     // =========================================================
 
+    public int GetCorruption()
+    {
+        return playerCorruption;
+    }
+    
     public void GainCorruption(int corruption)
     {
         playerCorruption += corruption;

@@ -33,6 +33,11 @@ public class RewardManager : MonoBehaviour
         _relicsAwardedThisAct = 0;
     }
 
+    public int GetRelicsAwardedThisAct()
+    {
+        return _relicsAwardedThisAct;
+    }
+
     public void StartRewards(Map.MapNodeType currentNode, bool isFinalStage)
     {
         _rewardCardHasBeenCollected = false;
