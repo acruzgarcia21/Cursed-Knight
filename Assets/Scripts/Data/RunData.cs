@@ -47,4 +47,54 @@ public class RunData
         this.cardSaveDataCollection    = cardSaveDataCollection;
         this.mapNodeSaveDataCollection = mapNodeSaveDataCollection;
     }
+    
+    public RunManager.CurrentAct GetCurrentAct()
+    {
+        return currentAct;
+    }
+
+    public string GetCurrentNodeID()
+    {
+        return currentNodeID;
+    }
+
+    public int GetPlayerHp()
+    {
+        return playerHp;
+    }
+
+    public int GetPlayerMaxHp()
+    {
+        return playerMaxHp;
+    }
+
+    public int GetPlayerCorruption()
+    {
+        return playerCorruption;
+    }
+
+    public int GetRelicsAwardedThisAct()
+    {
+        return relicsAwardedThisAct;
+    }
+
+    public IReadOnlyList<string> GetVisitedNodeIDs()
+    {
+        return visitedNodeIDs;
+    }
+
+    public IReadOnlyList<string> GetAcquiredRelicIDs()
+    {
+        return acquiredRelicIDs;
+    }
+
+    public IReadOnlyList<CardSaveData> GetCardSaveDataCollection()
+    {
+        return cardSaveDataCollection;
+    }
+
+    public IReadOnlyList<MapNodeSaveData> GetMapNodeSaveDataCollection()
+    {
+        return mapNodeSaveDataCollection;
+    }
 }

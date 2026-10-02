@@ -4,22 +4,22 @@ using UnityEngine;
 
 public class SaveManager : MonoBehaviour
 {
-    private RunManager    _runManager;
-    private DeckManager   _deckManager;
-    private RelicManager  _relicManager;
+    private RunManager _runManager;
+    private DeckManager _deckManager;
+    private RelicManager _relicManager;
     private RewardManager _rewardManager;
 
     private Player _player;
 
     private string _runSavePath;
-    
+
     private void Awake()
     {
         _runManager = FindAnyObjectByType<RunManager>();
         _deckManager = FindAnyObjectByType<DeckManager>();
         _relicManager = FindAnyObjectByType<RelicManager>();
         _rewardManager = FindAnyObjectByType<RewardManager>();
-        
+
         _player = FindAnyObjectByType<Player>();
 
         _runSavePath = Path.Combine(Application.persistentDataPath, "run_save.json");
@@ -30,14 +30,27 @@ public class SaveManager : MonoBehaviour
         var runData = CreateRunData();
 
         var json = JsonUtility.ToJson(runData, true);
-        
+
         File.WriteAllText(_runSavePath, json);
-        
+
         Debug.Log($"Run saved to: {_runSavePath}");
     }
-    
 
-    private RunData CreateRunData()
+    private RunData LoadRunData()
+    {
+        if (!File.Exists(_runSavePath))
+        {
+            Debug.LogError("_runSavePath does not exist!");
+            return null;
+        }
+
+        var json = File.ReadAllText(_runSavePath);
+        var runData = JsonUtility.FromJson<RunData>(json);
+
+        return runData;
+    }
+
+private RunData CreateRunData()
     {
         var visitedNodeIDs   = new List<string>();
         var acquiredRelicIDs = new List<string>();

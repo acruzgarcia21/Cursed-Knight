@@ -12,4 +12,14 @@ public class MapNodeSaveData
         this.nodeID   = nodeID;
         this.nodeType = nodeType;
     }
+    
+    public string GetNodeID()
+    {
+        return nodeID;
+    }
+
+    public Map.MapNodeType GetNodeType()
+    {
+        return nodeType;
+    }
 }

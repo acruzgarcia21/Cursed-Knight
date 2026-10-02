@@ -12,4 +12,14 @@ public class CardSaveData
         this.cardID     = cardID;
         this.isUpgraded = isUpgraded;
     }
+    
+    public string GetCardID()
+    {
+        return cardID;
+    }
+
+    public bool GetIsUpgraded()
+    {
+        return isUpgraded;
+    }
 }
