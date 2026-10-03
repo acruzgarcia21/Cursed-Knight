@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class TurnManager : MonoBehaviour
@@ -13,6 +14,8 @@ public class TurnManager : MonoBehaviour
     private HandManager _handManager;
     private AudioManager _audioManager;
 
+    private bool _isResolvingTurn;
+
     private void Awake()
     {
         _player       = FindAnyObjectByType<Player>();
@@ -23,12 +26,11 @@ public class TurnManager : MonoBehaviour
 
     public void EndTurn()
     {
-        if (currentState != TurnState.Player) return;
-        
+        if (currentState != TurnState.Player || _isResolvingTurn) return;
+
+        _isResolvingTurn = true;
         _audioManager.PlayEndTurnSound();
-        PlayerEndTurn();
-        EnemyTurn();
-        StartPlayerTurn();
+        StartCoroutine(ResolveTurn());
     }
 
     public void StartCombat()
@@ -62,10 +64,19 @@ public class TurnManager : MonoBehaviour
         currentState = TurnState.Enemy;
         Debug.Log("Player turn ended, now enemy turn");
     }
-
-    private void EnemyTurn()
+    
+    private IEnumerator ResolveTurn()
     {
-        _enemyManager.ProcessEnemyTurn(_player);
+        PlayerEndTurn();
+        yield return EnemyTurn();
+        StartPlayerTurn();
+
+        _isResolvingTurn = false;
+    }
+
+    private IEnumerator EnemyTurn()
+    {
+        yield return _enemyManager.ProcessEnemyTurn(_player);
     }
 
 }

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -108,15 +109,18 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    public void ProcessEnemyTurn(Player player)
+    public IEnumerator ProcessEnemyTurn(Player player)
     {
         var currentEnemies = GetLivingEnemies();
+        var seconds = 1.5f;
         
         foreach (var enemy in currentEnemies)
         {
             if (enemy == null) continue;
 
             enemy.TakeTurn(player);
+
+            yield return new WaitForSeconds(seconds);
         }
 
         foreach (var enemy in currentEnemies)
