@@ -12,6 +12,7 @@ public class CardPlayManager : MonoBehaviour
     private EnemyManager _enemyManager;
     private ExhaustManager _exhaustManager;
     private DeckManager _deckManager;
+    private AudioManager _audioManager;
 
     private int attacksPlayed;
 
@@ -31,6 +32,7 @@ public class CardPlayManager : MonoBehaviour
         _enemyManager   = FindAnyObjectByType<EnemyManager>();
         _exhaustManager = FindAnyObjectByType<ExhaustManager>();
         _deckManager    = FindAnyObjectByType<DeckManager>();
+        _audioManager   = FindAnyObjectByType<AudioManager>();
     }
 
     public bool TryPlayCard(Player player, RuntimeCard runtimeCard, GameObject cardObject, Enemy targetEnemy)
@@ -336,6 +338,7 @@ public class CardPlayManager : MonoBehaviour
 
     private void BeginCardPlay(Player player, RuntimeCard runtimeCard, int cardEnergyCost)
     {
+        _audioManager.PlayCardPlaySound(runtimeCard.cardData.cardType);
         ApplyCardCorruption(player, runtimeCard);
         SpendCardEnergy(player, cardEnergyCost);
     }

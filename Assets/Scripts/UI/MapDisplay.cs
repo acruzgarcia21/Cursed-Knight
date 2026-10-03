@@ -15,6 +15,7 @@ public class MapDisplay : MonoBehaviour
     private MapMode _mapMode;
 
     private RunManager _runManager;
+    private AudioManager _audioManager;
 
     public enum MapMode
     {
@@ -25,6 +26,7 @@ public class MapDisplay : MonoBehaviour
     private void Awake()
     {
         _runManager = FindAnyObjectByType<RunManager>();
+        _audioManager = FindAnyObjectByType<AudioManager>();
         _runManager.OnNodeChanged += HandleNodeChanged;
         
         mapScreen.SetActive(false);
@@ -38,6 +40,7 @@ public class MapDisplay : MonoBehaviour
 
     public void HandlePostSelectNode()
     {
+        if (mapScreen.activeSelf) _audioManager.PlayMapCloseSound();
         mapScreen.SetActive(false);
         closeButton.SetActive(false);
     }
@@ -45,6 +48,7 @@ public class MapDisplay : MonoBehaviour
     public void OpenViewMode()
     {
         _mapMode = MapMode.View;
+        if (!mapScreen.activeSelf) _audioManager.PlayMapOpenSound();
         mapScreen.SetActive(true);
         closeButton.SetActive(true);
         RefreshNodeVisuals();
@@ -52,6 +56,7 @@ public class MapDisplay : MonoBehaviour
 
     public void OnCloseButton()
     {
+        if (mapScreen.activeSelf) _audioManager.PlayMapCloseSound();
         mapScreen.SetActive(false);
         closeButton.SetActive(false);
     }
@@ -59,6 +64,7 @@ public class MapDisplay : MonoBehaviour
     public void OpenSelectMode()
     {
         _mapMode = MapMode.Select;
+        if (!mapScreen.activeSelf) _audioManager.PlayMapOpenSound();
         mapScreen.SetActive(true);
         RefreshNodeVisuals();
     }

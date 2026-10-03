@@ -11,18 +11,21 @@ public class TurnManager : MonoBehaviour
     private Player _player;
     private EnemyManager _enemyManager;
     private HandManager _handManager;
+    private AudioManager _audioManager;
 
     private void Awake()
     {
         _player       = FindAnyObjectByType<Player>();
         _enemyManager = FindAnyObjectByType<EnemyManager>();
         _handManager  = FindAnyObjectByType<HandManager>();
+        _audioManager = FindAnyObjectByType<AudioManager>();
     }
 
     public void EndTurn()
     {
         if (currentState != TurnState.Player) return;
         
+        _audioManager.PlayEndTurnSound();
         PlayerEndTurn();
         EnemyTurn();
         StartPlayerTurn();
@@ -33,6 +36,7 @@ public class TurnManager : MonoBehaviour
         currentState = TurnState.Player;
         _player.StartCombat();
         _handManager.PrepareHandForTurn(targetHandSize);
+        _audioManager.PlayStartTurnSound();
         Debug.Log("Start of Combat, player's turn");
     }
 
@@ -45,6 +49,7 @@ public class TurnManager : MonoBehaviour
         currentState = TurnState.Player;
         _player.StartTurn();
         _handManager.PrepareHandForTurn(targetHandSize);
+        _audioManager.PlayStartTurnSound();
         Debug.Log("Now player turn");
     }
 
