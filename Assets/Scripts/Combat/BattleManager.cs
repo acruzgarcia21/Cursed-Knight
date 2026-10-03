@@ -8,6 +8,8 @@ public class BattleManager : MonoBehaviour
     private TurnManager _turnManager;
     private DeckManager _deckManager;
     private RewardManager _rewardManager;
+    private AudioManager _audioManager;
+    private RunManager _runManager;
     
     private Player _player;
 
@@ -28,6 +30,8 @@ public class BattleManager : MonoBehaviour
         _turnManager   = FindAnyObjectByType<TurnManager>();
         _deckManager   = FindAnyObjectByType<DeckManager>();
         _rewardManager = FindAnyObjectByType<RewardManager>();
+        _audioManager  = FindAnyObjectByType<AudioManager>();
+        _runManager    = FindAnyObjectByType<RunManager>();
         _player        = FindAnyObjectByType<Player>();
     }
 
@@ -39,6 +43,13 @@ public class BattleManager : MonoBehaviour
 
         isFinalStage = stageComparison;
         
+        _audioManager.StopBattleMusic();
+        if (_runManager.GetCurrentAct() == RunManager.CurrentAct.ActOne)
+        {
+            if (_currentNodeType == Map.MapNodeType.Boss) _audioManager.PlayBossBattleMusic();
+            else _audioManager.PlayActOneBattleMusic();
+        }
+
         _player.BattleSetup();
         
         _deckManager.BattleSetup();
@@ -48,6 +59,7 @@ public class BattleManager : MonoBehaviour
 
     public void WinBattle()
     {
+        _audioManager.PlayVictoryMusic();
         Debug.Log("Battle won");
         _turnManager.EndCombat();
         _rewardManager.StartRewards(_currentNodeType, isFinalStage);
@@ -55,6 +67,7 @@ public class BattleManager : MonoBehaviour
 
     public void LoseBattle()
     {
+        _audioManager.StopBattleMusic();
         Debug.Log("Battle lost");
     }
 }

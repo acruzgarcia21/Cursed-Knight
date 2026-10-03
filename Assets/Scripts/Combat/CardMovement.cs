@@ -63,6 +63,7 @@ public class CardMovement : MonoBehaviour,
     private CardPlayManager _cardPlayManager;
     private HandManager     _handManager;
     private RewardManager   _rewardManager;
+    private AudioManager    _audioManager;
     
     private CardVisualEffects _cardVisualEffects;
 
@@ -99,9 +100,12 @@ public class CardMovement : MonoBehaviour,
         _originalRotation = _rectTransform.localRotation;
 
         _player          = FindAnyObjectByType<Player>();
+        
         _cardPlayManager = FindAnyObjectByType<CardPlayManager>();
         _handManager     = FindAnyObjectByType<HandManager>();
         _rewardManager   = FindAnyObjectByType<RewardManager>();
+        _audioManager    = FindAnyObjectByType<AudioManager>();
+        
         _handDisplay     = FindAnyObjectByType<HandDisplay>();
         
         var playPoint = FindAnyObjectByType<CardPlayPoint>();
@@ -234,12 +238,14 @@ public class CardMovement : MonoBehaviour,
         if (_cardMode == CardMode.Reward)
         {
             _currentState = CardState.Hovering;
+            _audioManager.PlayCardHoverSound();
             return;
         }
 
         if (_cardMode == CardMode.CardView)
         {
             _currentState = CardState.Hovering;
+            _audioManager.PlayCardHoverSound();
             return;
         }
         
@@ -261,6 +267,8 @@ public class CardMovement : MonoBehaviour,
         
         BringCardToFront();
         _currentState = CardState.Hovering;
+        
+        _audioManager.PlayCardHoverSound();
     }
 
     public void OnPointerExit(PointerEventData eventData)

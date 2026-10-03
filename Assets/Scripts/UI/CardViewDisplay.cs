@@ -37,6 +37,7 @@ public class CardViewDisplay : MonoBehaviour
     private ExhaustManager     _exhaustManager;
     private CardRemovalManager _cardRemovalManager;
     private CardUpgradeManager _cardUpgradeManager;
+    private AudioManager _audioManager;
 
     private CurrentViewer _currentViewer;
 
@@ -61,6 +62,7 @@ public class CardViewDisplay : MonoBehaviour
         _exhaustManager     = FindAnyObjectByType<ExhaustManager>();
         _cardRemovalManager = FindAnyObjectByType<CardRemovalManager>();
         _cardUpgradeManager = FindAnyObjectByType<CardUpgradeManager>();
+        _audioManager       = FindAnyObjectByType<AudioManager>();
 
         cardViewScreen.SetActive(false);
         cardPreviewPopup.SetActive(false);
@@ -95,6 +97,7 @@ public class CardViewDisplay : MonoBehaviour
             cardDisplay.runtimeCard = card;
         }
 
+        if (!cardViewScreen.activeSelf) _audioManager.PlayCardViewOpenSound();
         cardViewScreen.SetActive(true);
     }
 
@@ -113,6 +116,7 @@ public class CardViewDisplay : MonoBehaviour
 
     public void OnExitButton()
     {
+        if (cardViewScreen.activeSelf) _audioManager.PlayCardViewCloseSound();
         cardViewScreen.SetActive(false);
     }
 
@@ -226,6 +230,7 @@ public class CardViewDisplay : MonoBehaviour
     
     private void HandleDrawPileChanged()
     {
+        if (!cardViewScreen.activeSelf) return;
         if (_currentViewer != CurrentViewer.DrawPile) return;
 
         DisplayCards(_drawPileManager.GetDrawPile());
@@ -233,6 +238,7 @@ public class CardViewDisplay : MonoBehaviour
 
     private void HandleDiscardPileChanged()
     {
+        if (!cardViewScreen.activeSelf) return;
         if (_currentViewer != CurrentViewer.DiscardPile) return;
 
         DisplayCards(_discardManager.GetDiscardPile());
@@ -240,6 +246,7 @@ public class CardViewDisplay : MonoBehaviour
     
     private void HandleExhaustPileChanged()
     {
+        if (!cardViewScreen.activeSelf) return;
         if (_currentViewer != CurrentViewer.ExhaustPile) return;
 
         DisplayCards(_exhaustManager.GetExhaustPile());
@@ -300,6 +307,7 @@ public class CardViewDisplay : MonoBehaviour
         ClearUpgradePreview();
 
         cardManipulationPopup.SetActive(false);
+        if (cardViewScreen.activeSelf) _audioManager.PlayCardViewCloseSound();
         cardViewScreen.SetActive(false);
         backgroundDim.SetActive(false);
 
