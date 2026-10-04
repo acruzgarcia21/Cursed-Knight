@@ -99,6 +99,7 @@ public class Enemy : MonoBehaviour
             for (var i = 0; i < hitCount; i++)
             {
                 if (player.playerHealth <= 0) return;
+                _enemyVisualEffects.ApplyMove();
                 player.TakeDamage(modifiedDamage);
             }
             

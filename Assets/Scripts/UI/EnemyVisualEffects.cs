@@ -3,17 +3,37 @@ using UnityEngine;
 public class EnemyVisualEffects : MonoBehaviour
 {
     private Vector3 _originalPosition;
+    private Vector3 _originalObjectPosition;
 
     private float _shakeTimer;
+    private float _moveTimer;
+    
+    private bool _isReturning;
+    
+    [Header("General")]
+    [SerializeField] private RectTransform enemySpritePosition;
 
+    [SerializeField] private RectTransform enemyObjectPosition;
+
+    [Space(10)] [Header("Take Damage Animation")]
     [SerializeField] private float shakeDuration = 0.15f;
     [SerializeField] private float shakeStrength = 10f;
 
-    [SerializeField] private RectTransform enemySpritePosition; 
+    [Space(10)] [Header("Deal Damage Animation")]
+    [SerializeField] private float moveDuration = 0.15f;
+
+    [SerializeField] private float moveDistance = 50f;
+
+    private Vector3 _targetPosition;
+
+    private float _elapsedTime;
+    private float _progress;
+
 
     private void Awake()
     {
         _originalPosition = enemySpritePosition.transform.localPosition;
+        _targetPosition = _originalPosition + Vector3.left * moveDistance;
     }
 
     private void Update()
@@ -31,11 +51,68 @@ public class EnemyVisualEffects : MonoBehaviour
             return;
         }
 
+        if (_moveTimer > 0)
+        {
+            _moveTimer -= Time.deltaTime;
+            UpdateAnimationProgress();
+
+            if (_isReturning)
+            {
+                MoveEnemySpriteBackToOriginalPosition(_targetPosition);
+            }
+            else
+            {
+                MoveEnemySprite();
+            }
+
+            if (!(_progress >= 1f)) return;
+            if (_isReturning) return;
+            
+            _isReturning = true;
+            _elapsedTime = 0f;
+            _progress = 0f;
+            _moveTimer = moveDuration;
+
+            return;
+        }
+
         enemySpritePosition.localPosition = _originalPosition;
     }
 
     public void ApplyShake()
     {
         _shakeTimer = shakeDuration;
+    }
+
+    public void ApplyMove()
+    {
+        _elapsedTime = 0f;
+        _progress = 0f;
+        _isReturning = false;
+        _moveTimer = moveDuration;
+    }
+
+    private void MoveEnemySprite()
+    {
+        enemySpritePosition.transform.localPosition = Vector3.Lerp(
+            _originalPosition,
+            _targetPosition,
+            _progress
+        );
+    }
+
+    private void MoveEnemySpriteBackToOriginalPosition(Vector3 startingPosition)
+    {
+        enemySpritePosition.transform.localPosition = Vector3.Lerp(
+            startingPosition,
+            _originalPosition,
+            _progress
+        );
+    }
+
+    private void UpdateAnimationProgress()
+    {
+        _elapsedTime += Time.deltaTime;
+        _progress = moveDuration > 0f ? Mathf.Clamp01(_elapsedTime / moveDuration) : 1f;
     }
 }
