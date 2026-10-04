@@ -7,14 +7,14 @@ public class OptionsManager : MonoBehaviour
 {
     private AudioManager _audioManager;
 
-    [SerializeField] private bool mutingAudio = false;
+    private bool _mutingAudio;
 
     public List<TMP_FontAsset> fontList;
     public static event Action FontUpdated;
 
     private void Awake()
     {
-        _audioManager = GameManager.Instance.AudioManager;
+        _audioManager = FindAnyObjectByType<AudioManager>();
     }
 
     public TMP_FontAsset GetFontClass(string classID)
@@ -37,13 +37,13 @@ public class OptionsManager : MonoBehaviour
 
     public void SetMutingAudio(bool isMuted)
     {
-        mutingAudio = isMuted;
-        _audioManager.SetMuted(mutingAudio);
+        _mutingAudio = isMuted;
+        _audioManager.SetMuted(_mutingAudio);
     }
 
     public bool GetMutingAudio()
     {
-        return mutingAudio;
+        return _mutingAudio;
     }
 
     public void RestoreSettings(SettingsData settingsData)

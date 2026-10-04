@@ -7,7 +7,7 @@ public class TurnManager : MonoBehaviour
     public int targetHandSize = 6;
     
     public enum TurnState { Player, Enemy }
-    public TurnState currentState;
+    private TurnState _currentState;
     
     private Player _player;
     private EnemyManager _enemyManager;
@@ -26,7 +26,7 @@ public class TurnManager : MonoBehaviour
 
     public void EndTurn()
     {
-        if (currentState != TurnState.Player || _isResolvingTurn) return;
+        if (_currentState != TurnState.Player || _isResolvingTurn) return;
 
         _isResolvingTurn = true;
         _audioManager.PlayEndTurnSound();
@@ -35,7 +35,7 @@ public class TurnManager : MonoBehaviour
 
     public void StartCombat()
     {
-        currentState = TurnState.Player;
+        _currentState = TurnState.Player;
         _player.StartCombat();
         _handManager.PrepareHandForTurn(targetHandSize);
         _audioManager.PlayStartTurnSound();
@@ -46,9 +46,19 @@ public class TurnManager : MonoBehaviour
     {
         _player.EndCombat();
     }
+
+    public bool IsResolvingTurn()
+    {
+        return _isResolvingTurn;
+    }
+
+    public TurnState GetTurnState()
+    {
+        return _currentState;
+    }
     private void StartPlayerTurn()
     {
-        currentState = TurnState.Player;
+        _currentState = TurnState.Player;
         _player.StartTurn();
         _handManager.PrepareHandForTurn(targetHandSize);
         _audioManager.PlayStartTurnSound();
@@ -57,11 +67,11 @@ public class TurnManager : MonoBehaviour
 
     private void PlayerEndTurn()
     {
-        if (currentState != TurnState.Player) return;
+        if (_currentState != TurnState.Player) return;
         
         _player.EndTurn();
         _handManager.DiscardHand();
-        currentState = TurnState.Enemy;
+        _currentState = TurnState.Enemy;
         Debug.Log("Player turn ended, now enemy turn");
     }
     

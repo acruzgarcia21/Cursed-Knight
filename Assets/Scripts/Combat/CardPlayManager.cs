@@ -13,6 +13,7 @@ public class CardPlayManager : MonoBehaviour
     private ExhaustManager _exhaustManager;
     private DeckManager _deckManager;
     private AudioManager _audioManager;
+    private TurnManager _turnManager;
 
     private int attacksPlayed;
 
@@ -33,10 +34,16 @@ public class CardPlayManager : MonoBehaviour
         _exhaustManager = FindAnyObjectByType<ExhaustManager>();
         _deckManager    = FindAnyObjectByType<DeckManager>();
         _audioManager   = FindAnyObjectByType<AudioManager>();
+        _turnManager    = FindAnyObjectByType<TurnManager>();
     }
 
     public bool TryPlayCard(Player player, RuntimeCard runtimeCard, GameObject cardObject, Enemy targetEnemy)
     {
+        if (_turnManager.GetTurnState() != TurnManager.TurnState.Player || _turnManager.IsResolvingTurn())
+        {
+            return false;
+        }
+        
         if (player == null || runtimeCard == null || runtimeCard.cardData == null)
         {
             return false;
