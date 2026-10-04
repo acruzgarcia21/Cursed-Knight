@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,7 +23,7 @@ public class Enemy : MonoBehaviour
     private EnemyManager          _enemyManager;
     private CombatFeedbackManager _combatFeedbackManager;
     
-    private EnemyVisualEffects    _enemyVisualEffects;
+    private EnemyVisualEffects _enemyVisualEffects;
 
     private EnemyActionData _currentAction;
     private List<EnemyActionData> _availableActions;
@@ -66,14 +67,14 @@ public class Enemy : MonoBehaviour
         _enemyDisplay.UpdateEnemyDisplay();
     }
 
-    public void TakeTurn(Player player)
+    public IEnumerator TakeTurn(Player player)
     {
         counterAttackActive = false;
         actionCounterAttackDamage = 0;
         
         if (player == null || _currentAction == null || player.playerHealth <= 0)
         {
-            return;
+            yield break;
         }
 
         
@@ -84,7 +85,7 @@ public class Enemy : MonoBehaviour
                 $"{_currentAction.actionName}."
             );
 
-            return;
+            yield break;
         }
 
         currentEnemyBlock = 0;
@@ -98,9 +99,14 @@ public class Enemy : MonoBehaviour
 
             for (var i = 0; i < hitCount; i++)
             {
-                if (player.playerHealth <= 0) return;
+                if (player.playerHealth <= 0) yield break;
                 _enemyVisualEffects.ApplyMove();
+
+                yield return new WaitUntil(() => _enemyVisualEffects.HasReachedImpact());
+                
                 player.TakeDamage(modifiedDamage);
+                
+                yield return new WaitUntil(() => !_enemyVisualEffects.IsMoving());
             }
             
             _nextAttackBonusDamage = 0;
@@ -176,10 +182,10 @@ public class Enemy : MonoBehaviour
         ApplyCurrentActionStatus(player);
 
         ProcessOnActionStatuses(player);
-        if (EnemyIsDead()) return;
+        if (EnemyIsDead()) yield break;
 
         ProcessEndTurnStatuses();
-        if (EnemyIsDead()) return;
+        if (EnemyIsDead()) yield break;
 
         Debug.Log($"{enemyData.enemyName} ({GetEntityId()}) BEFORE Tick");
         _statusManager.DebugPrintStatuses();

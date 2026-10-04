@@ -15,6 +15,7 @@ public class EnemyManager : MonoBehaviour
     private BattleManager _battleManager;
 
     private int enemiesKilled;
+    private int pendingEnemyDeaths;
     
     private void Awake()
     {
@@ -118,7 +119,7 @@ public class EnemyManager : MonoBehaviour
         {
             if (enemy == null) continue;
 
-            enemy.TakeTurn(player);
+            yield return enemy.TakeTurn(player);
 
             yield return new WaitForSeconds(seconds);
         }
@@ -133,15 +134,31 @@ public class EnemyManager : MonoBehaviour
 
     public void RemoveEnemy(Enemy enemyToRemove)
     {
-        _currentEnemies.Remove(enemyToRemove);
-        Destroy(enemyToRemove.gameObject);
-
-        RefreshEnemyIntents();
+        if (!_currentEnemies.Remove(enemyToRemove)) return;
 
         enemiesKilled++;
+        pendingEnemyDeaths++;
+        
+        StartCoroutine(ResolveEnemyDeath(enemyToRemove));
+        
+        RefreshEnemyIntents();
+    }
 
+    private IEnumerator ResolveEnemyDeath(Enemy enemy)
+    {
+        var enemyDisplay = enemy.GetComponent<EnemyVisualEffects>();
+
+        if (enemyDisplay != null)
+        {
+            yield return enemyDisplay.FadeEnemy();   
+        }
+        
+        Destroy(enemy.gameObject);
+        
+        pendingEnemyDeaths--;
+        
         // Okay for now, will change later
-        if (AllEnemiesDead())
+        if (AllEnemiesDead() && pendingEnemyDeaths == 0)
         {
             BattleManager.Instance.WinBattle();
         }

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class EnemyVisualEffects : MonoBehaviour
@@ -24,9 +25,16 @@ public class EnemyVisualEffects : MonoBehaviour
 
     [SerializeField] private float moveDistance = 50f;
 
+    [Space(10)] [Header("Enemy Death Animation")] 
+    [SerializeField] private CanvasGroup canvasGroup;
+
+    [SerializeField] private float fadeDuration = 0.15f;
+
     private Vector3 _targetPosition;
 
     private float _elapsedTime;
+    private float _fadeElapsedTime;
+    private float _fadeProgress;
     private float _progress;
 
 
@@ -78,6 +86,16 @@ public class EnemyVisualEffects : MonoBehaviour
 
         enemySpritePosition.localPosition = _originalPosition;
     }
+    
+    public bool HasReachedImpact()
+    {
+        return _isReturning;
+    }
+
+    public bool IsMoving()
+    {
+        return _moveTimer > 0;
+    }
 
     public void ApplyShake()
     {
@@ -90,6 +108,23 @@ public class EnemyVisualEffects : MonoBehaviour
         _progress = 0f;
         _isReturning = false;
         _moveTimer = moveDuration;
+    }
+
+    public IEnumerator FadeEnemy()
+    {
+        _shakeTimer      = 0f;
+        _moveTimer       = 0f;
+        _fadeElapsedTime = 0f;
+
+        while (_fadeElapsedTime < fadeDuration)
+        {
+            UpdateDeathAnimationProgress();
+
+            canvasGroup.alpha = 1 - _fadeProgress;
+            yield return null;
+        }
+
+        canvasGroup.alpha = 0;
     }
 
     private void MoveEnemySprite()
@@ -114,5 +149,11 @@ public class EnemyVisualEffects : MonoBehaviour
     {
         _elapsedTime += Time.deltaTime;
         _progress = moveDuration > 0f ? Mathf.Clamp01(_elapsedTime / moveDuration) : 1f;
+    }
+
+    private void UpdateDeathAnimationProgress()
+    {
+        _fadeElapsedTime += Time.deltaTime;
+        _fadeProgress = fadeDuration > 0f ? Mathf.Clamp01(_fadeElapsedTime / fadeDuration) : 1f;
     }
 }

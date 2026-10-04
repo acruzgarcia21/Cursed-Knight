@@ -1314,6 +1314,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4966045648953411803, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
   m_PrefabInstance: {fileID: 255966898}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &931351073 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 908305894885990058, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+  m_PrefabInstance: {fileID: 255966898}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &973524101 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8359623226629533237, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
@@ -2133,6 +2138,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BattleManager
       objectReference: {fileID: 0}
+    - target: {fileID: 6596704768219388403, guid: 32da3d5058a3e9c4c9de9370bae55014, type: 3}
+      propertyPath: endTurnButton
+      value: 
+      objectReference: {fileID: 931351073}
     - target: {fileID: 7315752335906968240, guid: 32da3d5058a3e9c4c9de9370bae55014, type: 3}
       propertyPath: battleRewardDisplay
       value: 

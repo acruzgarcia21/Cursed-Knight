@@ -105,6 +105,7 @@ GameObject:
   - component: {fileID: -7276984443892743945}
   - component: {fileID: 5843339634897976796}
   - component: {fileID: 7699032556255035868}
+  - component: {fileID: 6974527468551482944}
   m_Layer: 0
   m_Name: EnemyPrefab
   m_TagString: Untagged
@@ -247,8 +248,22 @@ MonoBehaviour:
   enemyObjectPosition: {fileID: 6073514364064266937}
   shakeDuration: 0.2
   shakeStrength: 0.05
-  moveDuration: 0.25
+  moveDuration: 0.15
   moveDistance: 0.5
+  canvasGroup: {fileID: 6974527468551482944}
+  fadeDuration: 0.25
+--- !u!225 &6974527468551482944
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 478064832413887238}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &600054750811521350
 GameObject:
   m_ObjectHideFlags: 0

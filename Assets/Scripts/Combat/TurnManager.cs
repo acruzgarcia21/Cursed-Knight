@@ -5,6 +5,8 @@ using UnityEngine;
 public class TurnManager : MonoBehaviour
 {
     public int targetHandSize = 6;
+
+    [SerializeField] private GameObject endTurnButton;
     
     public enum TurnState { Player, Enemy }
     private TurnState _currentState;
@@ -35,6 +37,8 @@ public class TurnManager : MonoBehaviour
 
     public void StartCombat()
     {
+        endTurnButton.SetActive(true);
+        
         _currentState = TurnState.Player;
         _player.StartCombat();
         _handManager.PrepareHandForTurn(targetHandSize);
@@ -59,6 +63,7 @@ public class TurnManager : MonoBehaviour
     private void StartPlayerTurn()
     {
         _currentState = TurnState.Player;
+        endTurnButton.SetActive(true);
         _player.StartTurn();
         _handManager.PrepareHandForTurn(targetHandSize);
         _audioManager.PlayStartTurnSound();
@@ -72,6 +77,7 @@ public class TurnManager : MonoBehaviour
         _player.EndTurn();
         _handManager.DiscardHand();
         _currentState = TurnState.Enemy;
+        endTurnButton.SetActive(false);
         Debug.Log("Player turn ended, now enemy turn");
     }
     
