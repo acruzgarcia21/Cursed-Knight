@@ -17,6 +17,8 @@ public class Enemy : MonoBehaviour
     
     public EnemyData enemyData;
 
+    [SerializeField] private float statusFeedbackPause = 0.25f;
+
     private EnemyDisplay _enemyDisplay;
     
     private StatusManager         _statusManager;
@@ -115,6 +117,14 @@ public class Enemy : MonoBehaviour
             Debug.Log($"{enemyData.enemyName} ({GetEntityId()}) uses {_currentAction.actionName} for {modifiedDamage} damage x{hitCount}.");
         }
 
+        var isNonAttackAction = _currentAction.damage <= 0;
+        if (isNonAttackAction)
+        {
+            _enemyVisualEffects.ApplyActionMove();
+            yield return new WaitUntil(() => _enemyVisualEffects.HasReachedImpact());
+            if (player.IsDead()) yield break;
+        }
+
         if (_currentAction.blockAmount > 0)
         {
             GainBlock(_currentAction.blockAmount);
@@ -181,11 +191,23 @@ public class Enemy : MonoBehaviour
 
         ApplyCurrentActionStatus(player);
 
-        ProcessOnActionStatuses(player);
-        if (EnemyIsDead()) yield break;
+        if (isNonAttackAction) yield return new WaitUntil(() => !_enemyVisualEffects.IsMoving());
 
-        ProcessEndTurnStatuses();
+        var hasBleed = _statusManager.HasStatus(StatusEffect.StatusType.Bleed);
+        
+        ProcessOnActionStatuses(player);
+        
         if (EnemyIsDead()) yield break;
+        
+        if (hasBleed) yield return new WaitForSeconds(statusFeedbackPause);
+
+        var hasPoison = _statusManager.HasStatus(StatusEffect.StatusType.Poison);
+        
+        ProcessEndTurnStatuses();
+        
+        if (EnemyIsDead()) yield break;
+        
+        if (hasPoison) yield return new WaitForSeconds(statusFeedbackPause);
 
         Debug.Log($"{enemyData.enemyName} ({GetEntityId()}) BEFORE Tick");
         _statusManager.DebugPrintStatuses();

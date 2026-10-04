@@ -13,6 +13,7 @@ public class EnemyManager : MonoBehaviour
     private readonly List<Enemy> _currentEnemies = new();
     
     private BattleManager _battleManager;
+    private TurnManager _turnManager;
 
     private int enemiesKilled;
     private int pendingEnemyDeaths;
@@ -23,6 +24,8 @@ public class EnemyManager : MonoBehaviour
         {
             _battleManager = FindAnyObjectByType<BattleManager>();
         }
+
+        _turnManager = FindAnyObjectByType<TurnManager>();
     }
 
     public void BattleSetup(EncounterData encounter)
@@ -35,6 +38,11 @@ public class EnemyManager : MonoBehaviour
         {
             enemy.InitializeIntent();
         }
+    }
+
+    public bool HasPendingDeaths()
+    {
+        return pendingEnemyDeaths > 0;
     }
 
     private void SpawnEncounter(EncounterData encounter)
@@ -118,12 +126,27 @@ public class EnemyManager : MonoBehaviour
         foreach (var enemy in currentEnemies)
         {
             if (enemy == null) continue;
+            
+            yield return new WaitUntil(() => !HasPendingDeaths());
+            
+            if (!_turnManager.IsCombatActive() || player.IsDead()) yield break;
+            
+            if (enemy == null) continue;
+            if (!_currentEnemies.Contains(enemy)) continue;
 
             yield return enemy.TakeTurn(player);
+            
+            yield return new WaitUntil(() => !HasPendingDeaths());
+
+            if (!_turnManager.IsCombatActive() || player.IsDead()) yield break;
 
             yield return new WaitForSeconds(seconds);
         }
 
+        yield return new WaitUntil(() => !HasPendingDeaths());
+        
+        if (!_turnManager.IsCombatActive() || player.IsDead()) yield break;
+        
         foreach (var enemy in currentEnemies)
         {
             if (!_currentEnemies.Contains(enemy)) continue;

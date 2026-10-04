@@ -102,8 +102,15 @@ public class EnemyVisualEffects : MonoBehaviour
         _shakeTimer = shakeDuration;
     }
 
+    public void ApplyActionMove()
+    {
+        ApplyMove();
+        _targetPosition = _originalPosition + Vector3.up * (moveDistance * 0.25f);
+    }
+
     public void ApplyMove()
     {
+        _targetPosition = _originalPosition + Vector3.left * moveDistance;
         _elapsedTime = 0f;
         _progress = 0f;
         _isReturning = false;

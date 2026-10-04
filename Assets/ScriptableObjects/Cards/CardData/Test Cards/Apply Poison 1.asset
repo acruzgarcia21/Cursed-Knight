@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ff015732792c77e4eb49056e964b05b4, type: 3}
-  m_Name: Apply Bleed
+  m_Name: Apply Poison 1
   m_EditorClassIdentifier: Assembly-CSharp::UtilityCard
-  cardName: Apply Bleed
-  cardDescription: Test Bleed
-  cardID: apply_bleed
+  cardName: Apply Poison
+  cardDescription: Apply Poison
+  cardID: apply_poison_1
   cardType: 2
   targetType: 0
   cardSprite: {fileID: 0}
@@ -27,9 +27,9 @@ MonoBehaviour:
   cardHealthLoss: 0
   cardEnergyGain: 0
   appliesStatus: 1
-  statusTargetType: 1
-  statusType: 4
-  statusAmount: 5
+  statusTargetType: 0
+  statusType: 3
+  statusAmount: 12
   statusDuration: 2
   retain: 0
   exhaust: 0

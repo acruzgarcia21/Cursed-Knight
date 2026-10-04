@@ -15,8 +15,10 @@ public class TurnManager : MonoBehaviour
     private EnemyManager _enemyManager;
     private HandManager _handManager;
     private AudioManager _audioManager;
+    private CardPlayManager _cardPlayManager;
 
     private bool _isResolvingTurn;
+    private bool _combatActive;
 
     private void Awake()
     {
@@ -24,10 +26,12 @@ public class TurnManager : MonoBehaviour
         _enemyManager = FindAnyObjectByType<EnemyManager>();
         _handManager  = FindAnyObjectByType<HandManager>();
         _audioManager = FindAnyObjectByType<AudioManager>();
+        _cardPlayManager = FindAnyObjectByType<CardPlayManager>();
     }
 
     public void EndTurn()
     {
+        if (!_combatActive || _cardPlayManager.IsResolvingCard()) return;
         if (_currentState != TurnState.Player || _isResolvingTurn) return;
 
         _isResolvingTurn = true;
@@ -38,22 +42,36 @@ public class TurnManager : MonoBehaviour
     public void StartCombat()
     {
         endTurnButton.SetActive(true);
+
+        _combatActive = true;
+        _isResolvingTurn = false;
         
         _currentState = TurnState.Player;
+        
         _player.StartCombat();
+        
         _handManager.PrepareHandForTurn(targetHandSize);
+        
         _audioManager.PlayStartTurnSound();
+        
         Debug.Log("Start of Combat, player's turn");
     }
 
     public void EndCombat()
     {
+        _combatActive = false;
+        
         _player.EndCombat();
     }
 
     public bool IsResolvingTurn()
     {
         return _isResolvingTurn;
+    }
+
+    public bool IsCombatActive()
+    {
+        return _combatActive;
     }
 
     public TurnState GetTurnState()
@@ -63,28 +81,51 @@ public class TurnManager : MonoBehaviour
     private void StartPlayerTurn()
     {
         _currentState = TurnState.Player;
+        
         endTurnButton.SetActive(true);
+        
         _player.StartTurn();
+        
         _handManager.PrepareHandForTurn(targetHandSize);
+        
         _audioManager.PlayStartTurnSound();
+        
         Debug.Log("Now player turn");
     }
 
-    private void PlayerEndTurn()
+    private IEnumerator PlayerEndTurn()
     {
-        if (_currentState != TurnState.Player) return;
+        if (_currentState != TurnState.Player) yield break;
         
-        _player.EndTurn();
+        yield return _player.EndTurn();
+        
         _handManager.DiscardHand();
+        
         _currentState = TurnState.Enemy;
+        
         endTurnButton.SetActive(false);
+        
         Debug.Log("Player turn ended, now enemy turn");
     }
     
     private IEnumerator ResolveTurn()
     {
-        PlayerEndTurn();
+        yield return PlayerEndTurn();
+
+        if (!IsCombatActive() || _player.IsDead())
+        {
+            _isResolvingTurn = false;
+            yield break;
+        }
+
         yield return EnemyTurn();
+
+        if (!IsCombatActive() || _player.IsDead())
+        {
+            _isResolvingTurn = false;
+            yield break;
+        }
+        
         StartPlayerTurn();
 
         _isResolvingTurn = false;

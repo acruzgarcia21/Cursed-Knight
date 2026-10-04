@@ -181,6 +181,7 @@ MonoBehaviour:
   actionCounterAttackDamage: 0
   spawnPoint: {fileID: 0}
   enemyData: {fileID: 0}
+  statusFeedbackPause: 0.5
 --- !u!114 &-8450013649451895071
 MonoBehaviour:
   m_ObjectHideFlags: 0
