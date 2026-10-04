@@ -832,6 +832,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 6857952596027499283, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -20
+      objectReference: {fileID: 0}
     - target: {fileID: 6892807619614968781, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -928,6 +932,14 @@ PrefabInstance:
       propertyPath: cardViewDisplay
       value: 
       objectReference: {fileID: 507571991}
+    - target: {fileID: 8974469660824182684, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+      propertyPath: revealDuration
+      value: 0.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 8974469660824182684, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+      propertyPath: startingHeight
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

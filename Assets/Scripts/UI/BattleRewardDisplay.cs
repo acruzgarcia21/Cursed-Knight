@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using CursedKnight;
 using UnityEngine;
@@ -20,6 +21,11 @@ public class BattleRewardDisplay : MonoBehaviour
     [SerializeField] private GameObject cardPrefab;
 
     private readonly List<GameObject> _rewardCardObjects = new();
+    
+    [Space(10)] [Header("Card Reward Spawn Animation")]
+    [SerializeField] private float revealDuration = 0.25f;
+
+    [SerializeField] private float startingHeight = 60f;
 
     [Space(10)] [Header("Relic Reward Attributes")] 
     [SerializeField] private GameObject relicRewardsButton;
@@ -60,6 +66,18 @@ public class BattleRewardDisplay : MonoBehaviour
                 rewardCardPoints[i].position, 
                 Quaternion.identity, 
                 rewardCardPoints[i]);
+
+            var rectTransform = newCard.GetComponent<RectTransform>();
+            
+            var canvasGroup = newCard.GetComponent<CanvasGroup>();
+            
+            var finalPosition = newCard.transform.localPosition;
+            
+            var startingPosition = new Vector3(finalPosition.x, finalPosition.y + startingHeight, finalPosition.z);
+
+            newCard.transform.localPosition = startingPosition;
+            
+            canvasGroup.alpha = 0;
             
             _rewardCardObjects.Add(newCard);
             
@@ -78,7 +96,38 @@ public class BattleRewardDisplay : MonoBehaviour
             var runtimeCard = new RuntimeCard(cardPool[i]);
 
             cardDisplay.runtimeCard = runtimeCard;
+            
+            StartCoroutine(
+                RevealRewardCardAnimation(rectTransform, canvasGroup, finalPosition, i * 0.08f)
+            );
         }
+    }
+
+    public IEnumerator RevealRewardCardAnimation(
+        RectTransform rectTransform,
+        CanvasGroup canvasGroup,
+        Vector3 finalPosition,
+        float delay
+    )
+    {
+        yield return new WaitForSeconds(delay);
+
+        var startingPosition = rectTransform.localPosition;
+        var elapsedTime = 0f;
+
+        while (elapsedTime < revealDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            var progress = Mathf.Clamp01(elapsedTime / revealDuration);
+
+            rectTransform.localPosition = Vector3.Lerp(startingPosition, finalPosition, progress);
+            canvasGroup.alpha = progress;
+
+            yield return null;
+        }
+
+        rectTransform.localPosition = finalPosition;
+        canvasGroup.alpha = 1f;
     }
 
     public void CompleteCardRewardSelection()

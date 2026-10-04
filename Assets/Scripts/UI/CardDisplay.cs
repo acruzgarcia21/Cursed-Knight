@@ -7,12 +7,17 @@ public class CardDisplay : MonoBehaviour
 {
     [System.NonSerialized] public RuntimeCard runtimeCard;
 
+    [SerializeField] private CanvasGroup canvasGroup;
+
+    [Header("Text Attributes")]
     [SerializeField] private TMP_Text cardName;
     [SerializeField] private TMP_Text cardEnergyCost;
     [SerializeField] private TMP_Text cardDescription;
     [SerializeField] private TMP_Text cardCorruptionGain;
     [SerializeField] private TMP_Text cardType;
 
+    [Space(10)] [Header("Frame Attributes")]
+    
     [SerializeField] private Image cardFrame;
 
     [SerializeField] private Sprite attackCardFrame;
@@ -31,6 +36,11 @@ public class CardDisplay : MonoBehaviour
     private void Start()
     {
         UpdateCardDisplay();
+    }
+
+    public CanvasGroup GetCanvasGroup()
+    {
+        return canvasGroup;
     }
 
     public void SetToUpgradePreview()

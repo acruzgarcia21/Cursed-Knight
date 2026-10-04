@@ -906,6 +906,7 @@ GameObject:
   - component: {fileID: 1831136174208554609}
   - component: {fileID: 2652880791080674668}
   - component: {fileID: -1304797705736605461}
+  - component: {fileID: 2929148745356595349}
   m_Layer: 0
   m_Name: CardPrefab
   m_TagString: Untagged
@@ -945,6 +946,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04e38710fe2f6854d97af48bb6b76b3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardDisplay
+  canvasGroup: {fileID: 2929148745356595349}
   cardName: {fileID: 8730886251862115523}
   cardEnergyCost: {fileID: 7062302301614616358}
   cardDescription: {fileID: 6966163884086727236}
@@ -1036,6 +1038,18 @@ MonoBehaviour:
   hoverBottomPadding: 12
   glowEffect: {fileID: 3775796030281368749}
   playArrow: {fileID: 4465909117950649025}
+--- !u!225 &2929148745356595349
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6768943529909351548}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &7276147722454097858
 GameObject:
   m_ObjectHideFlags: 0
