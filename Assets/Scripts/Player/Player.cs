@@ -126,6 +126,8 @@ public class Player : MonoBehaviour
     public void EndCombat()
     {
         _relicManager.TriggerEndOfCombatEffects(this, _enemyManager);
+        _statusManager.ClearStatuses();
+        _corruptionVisualEffects.SetPlayerIsNotCorrupted();
     }
     
     // =========================================================
