@@ -10,6 +10,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip attackCardPlaySound;
     [SerializeField] private AudioClip blockCardPlaySound;
     [SerializeField] private AudioClip powerCardPlaySound;
+    [SerializeField] private AudioClip rewardCardRevealSound;
 
     [Space(10)] [Header("UI Effects")] 
     [Header("Button Sounds")]
@@ -24,6 +25,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip cardViewCloseSound;
     [SerializeField] private AudioClip mapOpenSound;
     [SerializeField] private AudioClip mapCloseSound;
+    [SerializeField] private AudioClip mapNodeSelectSound;
 
     [Header("Battle Music")]
     [SerializeField] private AudioClip actOneBattleMusic;
@@ -52,6 +54,12 @@ public class AudioManager : MonoBehaviour
     public void PlayCardHoverSound()
     {
         sfxSource.PlayOneShot(cardHoverSound);
+    }
+
+    public void PlayRewardCardRevealSound()
+    {
+        if (rewardCardRevealSound == null) return;
+        sfxSource.PlayOneShot(rewardCardRevealSound);
     }
 
     public void PlayCardPlaySound(Card.CardType cardType)
@@ -104,6 +112,12 @@ public class AudioManager : MonoBehaviour
     public void PlayMapCloseSound()
     {
         sfxSource.PlayOneShot(mapCloseSound);
+    }
+
+    public void PlayMapNodeSelectSound()
+    {
+        if (mapNodeSelectSound == null) return;
+        sfxSource.PlayOneShot(mapNodeSelectSound);
     }
 
     public void PlayActOneBattleMusic()

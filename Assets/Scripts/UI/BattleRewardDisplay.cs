@@ -21,6 +21,8 @@ public class BattleRewardDisplay : MonoBehaviour
     [SerializeField] private GameObject cardPrefab;
 
     private readonly List<GameObject> _rewardCardObjects = new();
+    private AudioManager _audioManager;
+    private int _pendingCardReveals;
     
     [Space(10)] [Header("Card Reward Spawn Animation")]
     [SerializeField] private float revealDuration = 0.25f;
@@ -34,6 +36,7 @@ public class BattleRewardDisplay : MonoBehaviour
     
     private void Awake()
     {
+        _audioManager = FindAnyObjectByType<AudioManager>();
         victoryScreen.SetActive(false);
     }
 
@@ -57,7 +60,9 @@ public class BattleRewardDisplay : MonoBehaviour
 
     public void DisplayRewardCard(List<Card> cardPool)
     {
-        if (cardPrefab == null) return;
+        if (cardPrefab == null || IsRevealingCards()) return;
+
+        _pendingCardReveals = cardPool.Count;
         
         for (var i = 0; i < cardPool.Count; i++)
         {
@@ -78,6 +83,8 @@ public class BattleRewardDisplay : MonoBehaviour
             newCard.transform.localPosition = startingPosition;
             
             canvasGroup.alpha = 0;
+            canvasGroup.interactable = false;
+            canvasGroup.blocksRaycasts = false;
             
             _rewardCardObjects.Add(newCard);
             
@@ -111,6 +118,7 @@ public class BattleRewardDisplay : MonoBehaviour
     )
     {
         yield return new WaitForSeconds(delay);
+        _audioManager.PlayRewardCardRevealSound();
 
         var startingPosition = rectTransform.localPosition;
         var elapsedTime = 0f;
@@ -128,6 +136,21 @@ public class BattleRewardDisplay : MonoBehaviour
 
         rectTransform.localPosition = finalPosition;
         canvasGroup.alpha = 1f;
+        _pendingCardReveals--;
+
+        if (IsRevealingCards()) yield break;
+
+        foreach (var card in _rewardCardObjects)
+        {
+            var cardCanvasGroup = card.GetComponent<CanvasGroup>();
+            cardCanvasGroup.interactable = true;
+            cardCanvasGroup.blocksRaycasts = true;
+        }
+    }
+
+    public bool IsRevealingCards()
+    {
+        return _pendingCardReveals > 0;
     }
 
     public void CompleteCardRewardSelection()
@@ -143,11 +166,15 @@ public class BattleRewardDisplay : MonoBehaviour
 
     public void OnSkipRewardCardSelection()
     {
+        if (IsRevealingCards()) return;
+
         CompleteCardRewardSelection();
     }
 
     public void ContinueAfterRewards()
     {
+        if (IsRevealingCards()) return;
+
         HideVictoryScreen();
         
         OnRewardSelectionCompleted?.Invoke();

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -19,6 +20,10 @@ public class MapNodeDisplay : MonoBehaviour, IPointerClickHandler
     [SerializeField] private Sprite eliteNodeSprite;
     [SerializeField] private Sprite bossNodeSprite;
 
+    [Header("Selection Feedback")]
+    [SerializeField] private float selectionPulseDuration = 0.25f;
+    [SerializeField] private float selectionPulseScale = 1.2f;
+
     private Color _currentNodeImageOriginalColor;
 
     private void Awake()
@@ -32,6 +37,24 @@ public class MapNodeDisplay : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         OnNodeClicked?.Invoke(currentNode);
+    }
+
+    public IEnumerator PlaySelectionPulse()
+    {
+        var originalScale = currentNodeImage.transform.localScale;
+        var elapsedTime = 0f;
+
+        while (elapsedTime < selectionPulseDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            var progress = Mathf.Clamp01(elapsedTime / selectionPulseDuration);
+            var pulse = Mathf.Sin(progress * Mathf.PI);
+
+            currentNodeImage.transform.localScale = originalScale * Mathf.Lerp(1f, selectionPulseScale, pulse);
+            yield return null;
+        }
+
+        currentNodeImage.transform.localScale = originalScale;
     }
 
     public void ApplyVisitedNodeEffects()

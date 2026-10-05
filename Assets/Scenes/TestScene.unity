@@ -1130,6 +1130,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8300000, guid: 83335ab2e9bf8824b955e12da55a3419, type: 3}
     - target: {fileID: 9051517934279581627, guid: 51af12a75ceee60468f78138d76bd8a1, type: 3}
+      propertyPath: battleMusicVolume
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9051517934279581627, guid: 51af12a75ceee60468f78138d76bd8a1, type: 3}
       propertyPath: cardViewOpenSound
       value: 
       objectReference: {fileID: 8300000, guid: e8f97d2556ca4724c81a0632536871b2, type: 3}
@@ -1141,6 +1145,10 @@ PrefabInstance:
       propertyPath: cardViewCloseSound
       value: 
       objectReference: {fileID: 8300000, guid: b76994fdf7f174f4e849596128f4ba7b, type: 3}
+    - target: {fileID: 9051517934279581627, guid: 51af12a75ceee60468f78138d76bd8a1, type: 3}
+      propertyPath: mapNodeSelectSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 1e4a8a2bccefabb48a24171f77f22488, type: 3}
     - target: {fileID: 9051517934279581627, guid: 51af12a75ceee60468f78138d76bd8a1, type: 3}
       propertyPath: powerCardPlaySound
       value: 
@@ -1157,6 +1165,10 @@ PrefabInstance:
       propertyPath: finalBossBattleMusic
       value: 
       objectReference: {fileID: 8300000, guid: a98c27174ffaa7246b7ff354b5ef6efc, type: 3}
+    - target: {fileID: 9051517934279581627, guid: 51af12a75ceee60468f78138d76bd8a1, type: 3}
+      propertyPath: rewardCardRevealSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 10c9043143254d94998686e490218f8e, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
