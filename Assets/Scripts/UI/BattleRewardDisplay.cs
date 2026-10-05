@@ -175,11 +175,9 @@ public class BattleRewardDisplay : MonoBehaviour
     {
         if (IsRevealingCards()) return;
 
-        HideVictoryScreen();
-        
         OnRewardSelectionCompleted?.Invoke();
     }
-    private void HideVictoryScreen()
+    public void HideVictoryScreen()
     {
         victoryScreen.SetActive(false);
     }

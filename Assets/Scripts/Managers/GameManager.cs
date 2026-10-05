@@ -5,8 +5,6 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     public OptionsManager OptionsManager { get; private set; }
     public AudioManager AudioManager { get; private set; }
-    private DeckManager DeckManager { get; set; }
-    private UIManager UIManager { get; set; }
 
     private void Awake()
     {
@@ -26,7 +24,6 @@ public class GameManager : MonoBehaviour
     {
         OptionsManager = GetComponentInChildren<OptionsManager>();
         AudioManager   = GetComponentInChildren<AudioManager>();
-        DeckManager    = GetComponentInChildren<DeckManager>();
 
         if (OptionsManager == null)
         {
@@ -53,34 +50,6 @@ public class GameManager : MonoBehaviour
             {
                 Instantiate(prefab, transform.position, Quaternion.identity, transform);
                 AudioManager = GetComponentInChildren<AudioManager>();
-            }
-        }
-
-        if (DeckManager == null) 
-        {
-            var prefab = Resources.Load<GameObject>("Prefabs/DeckManager");
-            if (prefab == null)
-            {
-                Debug.Log($"DeckManager prefab not found");
-            }
-            else
-            {
-                Instantiate(prefab, transform.position, Quaternion.identity, transform);
-                DeckManager = GetComponentInChildren<DeckManager>();
-            }
-        }
-        
-        if (UIManager == null) 
-        {
-            var prefab = Resources.Load<GameObject>("Prefabs/UIManager");
-            if (prefab == null)
-            {
-                Debug.Log($"UI Manager prefab not found");
-            }
-            else
-            {
-                Instantiate(prefab, transform.position, Quaternion.identity, transform);
-                UIManager = GetComponentInChildren<UIManager>();
             }
         }
     }

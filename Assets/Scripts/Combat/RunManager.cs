@@ -8,10 +8,16 @@ public class RunManager : MonoBehaviour
     
     [Header("Displays")]
     [SerializeField] private Map currentMap;
+    
     [SerializeField] private MapDisplay mapDisplay;
+    
     [SerializeField] private RestScreenDisplay restScreenDisplay;
+    
     [SerializeField] private BattleRewardDisplay battleRewardDisplay;
+    
     [SerializeField] private RunCompleteScreenDisplay runCompleteScreenDisplay;
+
+    [SerializeField] private ScreenTransitionDisplay screenTransitionDisplay;
 
     private MapNode _currentNode;
     
@@ -26,6 +32,7 @@ public class RunManager : MonoBehaviour
     private RewardManager _rewardManager;
     private SaveManager _saveManager;
     private AudioManager _audioManager;
+    
     private bool _isMovingToNode;
 
     private Player _player;
@@ -202,13 +209,19 @@ public class RunManager : MonoBehaviour
         _isMovingToNode = true;
         StartCoroutine(ResolveNodeSelection(clickedNode));
     }
+    
     private IEnumerator ResolveNodeSelection(MapNode clickedNode)
     {
         try
         {
             _audioManager.PlayMapNodeSelectSound();
             yield return clickedNode.GetComponent<MapNodeDisplay>().PlaySelectionPulse();
+
+            yield return screenTransitionDisplay.FadeToBlack();
+            
             MoveToNode(clickedNode);
+            
+            yield return screenTransitionDisplay.FadeToInvisible();
         }
         finally
         {
@@ -252,24 +265,53 @@ public class RunManager : MonoBehaviour
 
     private void OnRestCompleted()
     {
-        restScreenDisplay.HideRestScreen();
-        mapDisplay.OpenSelectMode();
-        
-        _saveManager.SaveCheckpoint();
+        if (_isMovingToNode) return;
+
+        _isMovingToNode = true;
+        StartCoroutine(ResolveReturnToMap(true));
     }
 
     private void OnRewardSelectionCompleted()
     {
-        Debug.Log(_currentNode.nodeType);
-        
-        if (_currentNode.nodeType == Map.MapNodeType.Boss)
+        if (_isMovingToNode) return;
+
+        _isMovingToNode = true;
+        StartCoroutine(ResolveReturnToMap(false));
+    }
+
+    private IEnumerator ResolveReturnToMap(bool fromRest)
+    {
+        try
         {
-            MoveToNextAct();
+            yield return screenTransitionDisplay.FadeToBlack();
+
+            if (fromRest)
+            {
+                restScreenDisplay.HideRestScreen();
+                mapDisplay.OpenSelectMode();
+                _saveManager.SaveCheckpoint();
+            }
+            else
+            {
+                battleRewardDisplay.HideVictoryScreen();
+                Debug.Log(_currentNode.nodeType);
+
+                if (_currentNode.nodeType == Map.MapNodeType.Boss)
+                {
+                    MoveToNextAct();
+                }
+                else
+                {
+                    mapDisplay.OpenSelectMode();
+                    _saveManager.SaveCheckpoint();
+                }
+            }
+
+            yield return screenTransitionDisplay.FadeToInvisible();
         }
-        else
+        finally
         {
-            mapDisplay.OpenSelectMode();
-            _saveManager.SaveCheckpoint();
+            _isMovingToNode = false;
         }
     }
 
