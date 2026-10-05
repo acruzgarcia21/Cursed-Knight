@@ -14,7 +14,6 @@ public class SaveManager : MonoBehaviour
     private Player _player;
 
     private string _runSavePath;
-    private string _settingsSavePath;
 
     private bool _canSaveRun;
 
@@ -29,13 +28,8 @@ public class SaveManager : MonoBehaviour
         _player = FindAnyObjectByType<Player>();
 
         _runSavePath      = Path.Combine(Application.persistentDataPath, "run_save.json");
-        _settingsSavePath = Path.Combine(Application.persistentDataPath, "settings.json");
     }
 
-    private void Start()
-    {
-        LoadSettings();
-    }
 
     private void Update()
     {
@@ -47,7 +41,7 @@ public class SaveManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F2))
         {
             _optionsManager.SetMutingAudio(!_optionsManager.GetMutingAudio());
-            SaveSettings();
+            _optionsManager.SaveSettings();
         }
 
         if (Input.GetKeyDown(KeyCode.F5))
@@ -67,9 +61,10 @@ public class SaveManager : MonoBehaviour
         SaveRun();
     }
     
-    public bool HasRunSave()
+    public static bool HasRunSave()
     {
-        return File.Exists(_runSavePath);
+        var runSavePath = Path.Combine(Application.persistentDataPath, "run_save.json");
+        return File.Exists(runSavePath);
     }
 
     public void DeleteRunSave()
@@ -165,36 +160,6 @@ public class SaveManager : MonoBehaviour
         EnableRunSaving();
     }
     
-    public void SaveSettings()
-    {
-        var settingsData = new SettingsData(_optionsManager.GetMutingAudio());
-
-        var json = JsonUtility.ToJson(settingsData, true);
-
-        File.WriteAllText(_settingsSavePath, json);
-
-        Debug.Log($"Settings saved to: {_settingsSavePath}");
-    }
-
-    public void LoadSettings()
-    {
-        if (!File.Exists(_settingsSavePath))
-        {
-            return;
-        }
-
-        var json = File.ReadAllText(_settingsSavePath);
-
-        var settingsData = JsonUtility.FromJson<SettingsData>(json);
-
-        if (settingsData == null)
-        {
-            Debug.LogWarning("SaveManager: Failed to load settings.");
-            return;
-        }
-
-        _optionsManager.RestoreSettings(settingsData);
-    }
 
     private RunData LoadRunData()
     {

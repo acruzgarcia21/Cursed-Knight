@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using TMPro;
 
@@ -8,6 +9,8 @@ public class OptionsManager : MonoBehaviour
     private AudioManager _audioManager;
 
     private bool _mutingAudio;
+    
+    private string _settingsSavePath;
 
     public List<TMP_FontAsset> fontList;
     public static event Action FontUpdated;
@@ -15,7 +18,15 @@ public class OptionsManager : MonoBehaviour
     private void Awake()
     {
         _audioManager = FindAnyObjectByType<AudioManager>();
+        
+        _settingsSavePath = Path.Combine(Application.persistentDataPath, "settings.json");
     }
+
+    private void Start()
+    {
+        LoadSettings();
+    }
+    
 
     public TMP_FontAsset GetFontClass(string classID)
     {
@@ -49,5 +60,36 @@ public class OptionsManager : MonoBehaviour
     public void RestoreSettings(SettingsData settingsData)
     {
         SetMutingAudio(settingsData.GetMutingAudio());
+    }
+    
+    public void SaveSettings()
+    {
+        var settingsData = new SettingsData(GetMutingAudio());
+
+        var json = JsonUtility.ToJson(settingsData, true);
+
+        File.WriteAllText(_settingsSavePath, json);
+
+        Debug.Log($"Settings saved to: {_settingsSavePath}");
+    }
+
+    public void LoadSettings()
+    {
+        if (!File.Exists(_settingsSavePath))
+        {
+            return;
+        }
+
+        var json = File.ReadAllText(_settingsSavePath);
+
+        var settingsData = JsonUtility.FromJson<SettingsData>(json);
+
+        if (settingsData == null)
+        {
+            Debug.LogWarning("OptionsManager: Failed to load settings.");
+            return;
+        }
+
+        RestoreSettings(settingsData);
     }
 }
