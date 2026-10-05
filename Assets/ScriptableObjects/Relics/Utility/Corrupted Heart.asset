@@ -14,15 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UtilityRelic
   relicName: Corrupted Heart
   relicDescription: Whenever you cross a Corruption threshold, gain 1 Energy.
+  relicID: corrupted_heart
   relicSprite: {fileID: 0}
   triggerTime: 2
   relicType: 2
   targetType: 3
+  corruptionCost: 0
   appliesStatus: 0
   statusTargetType: 0
   statusType: 0
   statusAmount: 0
   statusDuration: 0
-  corruptionCost: 0
+  conditionalHeal: 0
   hpToGain: 0
+  conditionalEnergy: 0
   energyToGain: 1
+  corruptionRequiredForEnergy: 0

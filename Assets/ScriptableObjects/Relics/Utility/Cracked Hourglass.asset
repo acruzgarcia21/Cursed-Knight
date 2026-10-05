@@ -14,16 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UtilityRelic
   relicName: Cracked Hourglass
   relicDescription: At the start of every turn, if you have 5+ Corruption, gain 1 Energy.
+  relicID: cracked_hourglass
   relicSprite: {fileID: 0}
   triggerTime: 1
   relicType: 2
   targetType: 3
+  corruptionCost: 0
   appliesStatus: 0
   statusTargetType: 0
   statusType: 0
   statusAmount: 0
   statusDuration: 0
-  corruptionCost: 0
+  conditionalHeal: 0
   hpToGain: 0
   conditionalEnergy: 1
   energyToGain: 1

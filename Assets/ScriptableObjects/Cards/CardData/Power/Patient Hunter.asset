@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Power
   cardName: Patient Hunter
   cardDescription: Retain. Attacks apply  Vulnerable to the target for {statusDuration} turns.
+  cardID: patient_hunter
   cardType: 0
   targetType: 0
   cardSprite: {fileID: 0}

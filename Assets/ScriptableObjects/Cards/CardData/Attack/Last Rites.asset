@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Attack
   cardName: Last Rites
   cardDescription: Deal {damage} damage. Exhaust.
+  cardID: last_rites
   cardType: 0
   targetType: 0
   cardSprite: {fileID: 0}

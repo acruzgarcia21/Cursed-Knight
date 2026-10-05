@@ -61,7 +61,6 @@ public class Player : MonoBehaviour
         
         _corruptionVisualEffects = FindAnyObjectByType<CorruptionVisualEffects>();
 
-        _playerDisplay.UpdatePlayerDisplay();
     }
 
     // =========================================================

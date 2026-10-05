@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Defense
   cardName: Guardian's Vigil
   cardDescription: Gain {block} Block. Retain.
+  cardID: guardians_vigil
   cardType: 1
   targetType: 3
   cardSprite: {fileID: 0}

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Defense
   cardName: Hold the Line
   cardDescription: Gain {block} Block. Apply {statusAmount} Weak to all enemies.
+  cardID: hold_the_line
   cardType: 1
   targetType: 3
   cardSprite: {fileID: 0}

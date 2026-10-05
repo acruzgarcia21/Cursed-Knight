@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Attack
   cardName: Blood Rend
   cardDescription: Deal {hitCount} x {damage} Damage. Gain {corruption} Corruption.
+  cardID: blood_rend
   cardType: 0
   targetType: 0
   cardSprite: {fileID: 0}

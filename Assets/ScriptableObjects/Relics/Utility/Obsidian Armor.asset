@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DefenseRelic
   relicName: Obsidian Armor
   relicDescription: On corruption overflow, Gain 10 Block.
+  relicID: obsidian_armor
   relicSprite: {fileID: 0}
   triggerTime: 3
   relicType: 2

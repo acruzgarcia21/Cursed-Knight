@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DefenseRelic
   relicName: Iron Maiden
   relicDescription: At the start of combat, Gain 12 Block and 2 Corruption.
+  relicID: iron_maiden
   relicSprite: {fileID: 0}
   triggerTime: 0
   relicType: 1

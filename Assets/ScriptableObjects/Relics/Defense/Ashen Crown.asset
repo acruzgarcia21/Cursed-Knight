@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DefenseRelic
   relicName: Ashen Crown
   relicDescription: At the start of every turn, Gain 3 Block
+  relicID: ashen_crown
   relicSprite: {fileID: 0}
   triggerTime: 1
   relicType: 1
   targetType: 3
+  corruptionCost: 0
   relicBlock: 3

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Power
   cardName: Blood Curse
   cardDescription: Whenever you apply Bleed to an enemy, deal {powerStatusAmount} damage to them.
+  cardID: blood_curse
   cardType: 3
   targetType: 3
   cardSprite: {fileID: 0}

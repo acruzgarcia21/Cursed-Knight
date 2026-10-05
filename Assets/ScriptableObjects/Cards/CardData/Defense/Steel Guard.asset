@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Defense
   cardName: Steel Guard
   cardDescription: Gain {block} Block.
+  cardID: steel_guard
   cardType: 1
   targetType: 3
   cardSprite: {fileID: 0}

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Defense
   cardName: Blood Guard
   cardDescription: Gain {block} Block. If any enemy has Bleed, gain {bonusBlock} additional Block.
+  cardID: blood_guard
   cardType: 1
   targetType: 3
   cardSprite: {fileID: 0}

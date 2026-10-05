@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Attack
   cardName: Ravenous Assault
   cardDescription: Deal {damage} damage to a random enemy. Gain {corruption} Corruption.
+  cardID: ravenous_assault
   cardType: 0
   targetType: 2
   cardSprite: {fileID: 0}

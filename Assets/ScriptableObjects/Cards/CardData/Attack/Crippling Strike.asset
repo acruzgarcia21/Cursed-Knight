@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Attack
   cardName: Crippling Strike
   cardDescription: Deal {damage} damage. Apply {statusAmount} Vulnerable for {statusDuration} turns.
+  cardID: crippling_strike
   cardType: 0
   targetType: 0
   cardSprite: {fileID: 0}

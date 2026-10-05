@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Attack
   cardName: Soul Reaver
   cardDescription: Deal {damage} damage. Increase this damage by {corruptionDamage} for each Corruption you have.
+  cardID: soul_reaver
   cardType: 0
   targetType: 0
   cardSprite: {fileID: 0}

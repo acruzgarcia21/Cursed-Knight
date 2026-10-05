@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Defense
   cardName: Defend the Fallen
   cardDescription: Gain {block} Block. Draw {draw} card.
+  cardID: defend_the_fallen
   cardType: 1
   targetType: 3
   cardSprite: {fileID: 0}

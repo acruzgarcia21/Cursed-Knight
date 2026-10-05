@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Defense
   cardName: Broken Shield
   cardDescription: Gain {block} Block
+  cardID: broken_shield
   cardType: 1
   targetType: 3
   cardSprite: {fileID: 0}

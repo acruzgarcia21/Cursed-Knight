@@ -1,10 +1,20 @@
 using UnityEngine;
 
+[DefaultExecutionOrder(-100)]
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
     public OptionsManager OptionsManager { get; private set; }
     public AudioManager AudioManager { get; private set; }
+
+    public enum RunStartRequest
+    {
+        None,
+        NewRun,
+        Continue
+    }
+
+    private RunStartRequest _runStartRequest = RunStartRequest.None;
 
     private void Awake()
     {
@@ -16,8 +26,22 @@ public class GameManager : MonoBehaviour
         }
         else if (Instance != this)
         {
+            gameObject.SetActive(false);
             Destroy(gameObject);
         }
+    }
+
+    public void SetRunStartRequest(RunStartRequest runStartRequest)
+    {
+        _runStartRequest = runStartRequest;
+    }
+
+    public RunStartRequest ConsumeRunStartRequest()
+    {
+        var currentRequest = _runStartRequest;
+        _runStartRequest = RunStartRequest.None;
+
+        return currentRequest;
     }
 
     private void InitializeMangers()

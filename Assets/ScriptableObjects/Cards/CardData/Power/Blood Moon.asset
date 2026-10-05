@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Power
   cardName: Blood Moon
   cardDescription: Bleed deals 50% more damage.
+  cardID: blood_moon
   cardType: 3
   targetType: 3
   cardSprite: {fileID: 0}
