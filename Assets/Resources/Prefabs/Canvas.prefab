@@ -1414,6 +1414,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PauseMenuDisplay
   pauseMenuPrefab: {fileID: 1258803404440478592}
+  abandonRunConfirmationScreen: {fileID: 0}
 --- !u!1 &1261767569243705673
 GameObject:
   m_ObjectHideFlags: 0
@@ -6740,6 +6741,7 @@ RectTransform:
   - {fileID: 677660471919864552}
   - {fileID: 4721530126768469424}
   - {fileID: 7838958112905718282}
+  - {fileID: 3774832949155296596}
   - {fileID: 4168917700958173338}
   - {fileID: 4660389113173127680}
   - {fileID: 2203602397176847198}
@@ -6747,7 +6749,6 @@ RectTransform:
   - {fileID: 8501045798407183356}
   - {fileID: 4400116986909803153}
   - {fileID: 4351536058942150924}
-  - {fileID: 3774832949155296596}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}

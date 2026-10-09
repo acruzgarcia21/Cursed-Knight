@@ -32,6 +32,13 @@ public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         }
     }
 
+    private void OnDisable()
+    {
+        if (tooltipDisplay == null) return;
+
+        tooltipDisplay.HideTooltip();
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (_tooltipProvider != null)

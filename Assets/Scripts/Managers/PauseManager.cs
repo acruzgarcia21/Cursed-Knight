@@ -5,7 +5,14 @@ public class PauseManager : MonoBehaviour
 {
     [SerializeField] private PauseMenuDisplay pauseMenuDisplay;
 
+    private SaveManager _saveManager;
+
     private bool _isGamePaused;
+
+    private void Awake()
+    {
+        _saveManager = FindAnyObjectByType<SaveManager>();
+    }
 
     private void Update()
     {
@@ -19,6 +26,29 @@ public class PauseManager : MonoBehaviour
     private void Start()
     {
         ResumeGame();
+    }
+
+    public void AbandonRun()
+    {
+        _saveManager.DisableRunSaving();
+        _saveManager.DeleteRunSave();
+
+        _isGamePaused = false;
+
+        Time.timeScale = 1;
+        
+        Loader.Load(Loader.Scene.MainMenuScene);
+    }
+
+    public void SaveAndQuit()
+    {
+        _saveManager.SaveRun();
+        
+        _isGamePaused = false;
+
+        Time.timeScale = 1;
+        
+        Loader.Load(Loader.Scene.MainMenuScene);
     }
 
     public bool GetIsGamePaused()
