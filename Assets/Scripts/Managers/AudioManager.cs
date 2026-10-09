@@ -42,13 +42,32 @@ public class AudioManager : MonoBehaviour
 
     private AudioSource _musicSource;
 
+    private float _musicVolume = 1f;
+
     private void Awake()
     {
         _musicSource = gameObject.AddComponent<AudioSource>();
         _musicSource.playOnAwake = false;
         _musicSource.loop = true;
         _musicSource.spatialBlend = 0f;
-        _musicSource.volume = battleMusicVolume;
+        _musicSource.volume = battleMusicVolume * _musicVolume;
+    }
+
+    public void SetMasterVolume(float volume)
+    {
+        AudioListener.volume = Mathf.Clamp01(volume);
+    }
+
+    public void SetSoundEffectsVolume(float volume)
+    {
+        sfxSource.volume = Mathf.Clamp01(volume);
+    }
+
+    public void SetMusicVolume(float volume)
+    {
+        _musicVolume = Mathf.Clamp01(volume);
+
+        _musicSource.volume = battleMusicVolume * _musicVolume;
     }
 
     public void PlayCardHoverSound()
@@ -167,7 +186,7 @@ public class AudioManager : MonoBehaviour
 
         _musicSource.clip = music;
         _musicSource.loop = loop;
-        _musicSource.volume = battleMusicVolume;
+        _musicSource.volume = battleMusicVolume * _musicVolume;
         _musicSource.Play();
     }
 
