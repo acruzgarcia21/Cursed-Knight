@@ -54,6 +54,15 @@ public class AudioSettingsDisplay : MonoBehaviour
         RefreshDisplay();
     }
 
+    public void ResetToDefaults()
+    {
+        _optionsManager.SetMasterVolume(1f);
+        _optionsManager.SetMusicVolume(1f);
+        _optionsManager.SetSoundEffectsVolume(1f);
+        _optionsManager.SetMutingAudio(false);
+        RefreshDisplay();
+    }
+
     public void RefreshDisplay()
     {
         var masterVolume       = _optionsManager.GetMasterVolume();

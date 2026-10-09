@@ -1,9 +1,9 @@
-using System;
 using UnityEngine;
 
 public class PauseManager : MonoBehaviour
 {
     [SerializeField] private PauseMenuDisplay pauseMenuDisplay;
+    [SerializeField] private SettingsDisplay settingsDisplay;
 
     private SaveManager _saveManager;
 
@@ -18,6 +18,12 @@ public class PauseManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            if (settingsDisplay.IsSettingsScreenOpen())
+            {
+                settingsDisplay.HideSettingsScreen();
+                return;
+            }
+            
             if (_isGamePaused) ResumeGame();
             else PauseGame();
         }
