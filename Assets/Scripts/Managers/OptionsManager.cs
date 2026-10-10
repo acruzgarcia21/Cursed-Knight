@@ -26,6 +26,9 @@ public class OptionsManager : MonoBehaviour
     private int _windowWidth = 1280;
     private int _windowHeight = 720;
     
+    private bool _reduceMotion;
+    private bool _confirmEndTurn;
+
     // Font Settings Attributes
     public List<TMP_FontAsset> fontList;
     public static event Action FontUpdated;
@@ -167,11 +170,13 @@ public class OptionsManager : MonoBehaviour
         SetFullScreen(settingsData.GetFullScreen());
         SetVSync(settingsData.GetVSync());
         SetFPSLimit(settingsData.GetFPSLimit());
+        SetReduceMotion(settingsData.GetReduceMotion());
+        SetConfirmEndTurn(settingsData.GetConfirmEndTurn());
     }
     
     public void SaveSettings()
     {
-        var settingsData = new SettingsData(GetMutingAudio(), GetMasterVolume(), GetMusicVolume(), GetSoundEffectsVolume(), GetFullScreen(), GetVSync(), GetFPSLimit(), GetWindowedWidth(), GetWindowedHeight());
+        var settingsData = new SettingsData(GetMutingAudio(), GetMasterVolume(), GetMusicVolume(), GetSoundEffectsVolume(), GetFullScreen(), GetVSync(), GetFPSLimit(), GetWindowedWidth(), GetWindowedHeight(), GetReduceMotion(), GetConfirmEndTurn());
 
         var json = JsonUtility.ToJson(settingsData, true);
 
@@ -225,5 +230,25 @@ public class OptionsManager : MonoBehaviour
     public void UpdateFont()
     {
         FontUpdated?.Invoke();
+    }
+
+    public void SetReduceMotion(bool isEnabled)
+    {
+        _reduceMotion = isEnabled;
+    }
+
+    public bool GetReduceMotion()
+    {
+        return _reduceMotion;
+    }
+
+    public void SetConfirmEndTurn(bool isEnabled)
+    {
+        _confirmEndTurn = isEnabled;
+    }
+
+    public bool GetConfirmEndTurn()
+    {
+        return _confirmEndTurn;
     }
 }

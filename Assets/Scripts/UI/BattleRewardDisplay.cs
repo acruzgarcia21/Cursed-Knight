@@ -22,6 +22,7 @@ public class BattleRewardDisplay : MonoBehaviour
 
     private readonly List<GameObject> _rewardCardObjects = new();
     private AudioManager _audioManager;
+    private OptionsManager _optionsManager;
     private int _pendingCardReveals;
     
     [Space(10)] [Header("Card Reward Spawn Animation")]
@@ -37,6 +38,7 @@ public class BattleRewardDisplay : MonoBehaviour
     private void Awake()
     {
         _audioManager = FindAnyObjectByType<AudioManager>();
+        _optionsManager = FindAnyObjectByType<OptionsManager>();
         victoryScreen.SetActive(false);
     }
 
@@ -119,6 +121,8 @@ public class BattleRewardDisplay : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         _audioManager.PlayRewardCardRevealSound();
+
+        if (_optionsManager.GetReduceMotion()) rectTransform.localPosition = finalPosition;
 
         var startingPosition = rectTransform.localPosition;
         var elapsedTime = 0f;

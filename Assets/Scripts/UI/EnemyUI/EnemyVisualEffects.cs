@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class EnemyVisualEffects : MonoBehaviour
 {
+    private OptionsManager _optionsManager;
     private Vector3 _originalPosition;
     private Vector3 _originalObjectPosition;
 
@@ -40,12 +41,22 @@ public class EnemyVisualEffects : MonoBehaviour
 
     private void Awake()
     {
+        _optionsManager = FindAnyObjectByType<OptionsManager>();
         _originalPosition = enemySpritePosition.transform.localPosition;
         _targetPosition = _originalPosition + Vector3.left * moveDistance;
     }
 
     private void Update()
     {
+        if (_optionsManager.GetReduceMotion())
+        {
+            _shakeTimer = 0f;
+            _moveTimer = 0f;
+            _isReturning = true;
+            enemySpritePosition.localPosition = _originalPosition;
+            return;
+        }
+
         if (_shakeTimer > 0)
         {
             var randomX = Random.Range(-shakeStrength, shakeStrength);
@@ -99,6 +110,7 @@ public class EnemyVisualEffects : MonoBehaviour
 
     public void ApplyShake()
     {
+        if (_optionsManager.GetReduceMotion()) return;
         _shakeTimer = shakeDuration;
     }
 

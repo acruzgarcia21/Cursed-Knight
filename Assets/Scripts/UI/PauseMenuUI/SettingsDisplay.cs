@@ -4,6 +4,7 @@ public class SettingsDisplay : MonoBehaviour
 {
     [SerializeField] private AudioSettingsDisplay audioSettingsDisplay;
     [SerializeField] private GraphicsSettingsDisplay graphicsSettingsDisplay;
+    [SerializeField] private AccessibilitySettingsDisplay accessibilitySettingsDisplay;
     [SerializeField] private RectTransform backButton;
 
     [SerializeField] private float backButtonOffsetWithReset = 230f;
@@ -66,6 +67,8 @@ public class SettingsDisplay : MonoBehaviour
     {
         HideAllPanels();
         accessibilityPanel.SetActive(true);
+        accessibilitySettingsDisplay.RefreshDisplay();
+        backButton.anchoredPosition = new Vector2(backButtonOffsetWithReset, backButton.anchoredPosition.y);
     }
 
     private void HideAllPanels()

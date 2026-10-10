@@ -18,8 +18,11 @@ public class SettingsData
     [SerializeField] private int windowedWidth;
     [SerializeField] private int windowedHeight;
     
+    [SerializeField] private bool reduceMotion;
+    [SerializeField] private bool confirmEndTurn;
+
     public SettingsData(bool mutingAudio, float masterVolume, float musicVolume, float soundEffectsVolume, 
-        bool fullscreen, bool vSync, int fpsLimit, int windowedWidth, int windowedHeight)
+        bool fullscreen, bool vSync, int fpsLimit, int windowedWidth, int windowedHeight, bool reduceMotion = false, bool confirmEndTurn = false)
     {
         this.mutingAudio = mutingAudio;
         this.masterVolume = masterVolume;
@@ -30,6 +33,8 @@ public class SettingsData
         this.fpsLimit = fpsLimit;
         this.windowedWidth = windowedWidth;
         this.windowedHeight = windowedHeight;
+        this.reduceMotion = reduceMotion;
+        this.confirmEndTurn = confirmEndTurn;
     }
 
     public bool GetMutingAudio()
@@ -75,5 +80,15 @@ public class SettingsData
     public int GetWindowedHeight()
     {
         return windowedHeight;
+    }
+
+    public bool GetReduceMotion()
+    {
+        return reduceMotion;
+    }
+
+    public bool GetConfirmEndTurn()
+    {
+        return confirmEndTurn;
     }
 }

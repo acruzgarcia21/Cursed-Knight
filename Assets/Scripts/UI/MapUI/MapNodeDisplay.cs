@@ -24,10 +24,12 @@ public class MapNodeDisplay : MonoBehaviour, IPointerClickHandler
     [SerializeField] private float selectionPulseDuration = 0.25f;
     [SerializeField] private float selectionPulseScale = 1.2f;
 
+    private OptionsManager _optionsManager;
     private Color _currentNodeImageOriginalColor;
 
     private void Awake()
     {
+        _optionsManager = FindAnyObjectByType<OptionsManager>();
         UpdateNodeSprite();
         currentNodeHighlight.SetActive(false);
 
@@ -41,6 +43,8 @@ public class MapNodeDisplay : MonoBehaviour, IPointerClickHandler
 
     public IEnumerator PlaySelectionPulse()
     {
+        if (_optionsManager.GetReduceMotion()) yield break;
+
         var originalScale = currentNodeImage.transform.localScale;
         var elapsedTime = 0f;
 
