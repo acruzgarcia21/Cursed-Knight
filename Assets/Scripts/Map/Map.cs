@@ -21,6 +21,7 @@ public class Map : MonoBehaviour
 
     [Space(10)] [Header("Pool Data")]
     [SerializeField] private List<EncounterData> battleEncounterPool;
+    [SerializeField] private List<EncounterData> secondHalfBattleEncounterPool;
     [SerializeField] private List<EncounterData> eliteEncounterPool;
     [SerializeField] private List<EncounterData> bossEncounterPool;
     
@@ -194,10 +195,19 @@ public class Map : MonoBehaviour
         switch (currentNode.nodeType)
         {
             case MapNodeType.Battle:
-                if (battleEncounterPool == null || battleEncounterPool.Count == 0) return null;
+                var secondHalfStartingStage = Mathf.CeilToInt(GetTotalStageCount() * 0.5f);
+                var currentBattlePool = battleEncounterPool;
 
-                randomNum = Random.Range(0, battleEncounterPool.Count);
-                randomEncounter = battleEncounterPool[randomNum];
+                if (currentNode.GetStageNumber() >= secondHalfStartingStage
+                    && secondHalfBattleEncounterPool != null && secondHalfBattleEncounterPool.Count > 0)
+                {
+                    currentBattlePool = secondHalfBattleEncounterPool;
+                }
+
+                if (currentBattlePool == null || currentBattlePool.Count == 0) return null;
+
+                randomNum = Random.Range(0, currentBattlePool.Count);
+                randomEncounter = currentBattlePool[randomNum];
                 break;
 
             case MapNodeType.Elite:

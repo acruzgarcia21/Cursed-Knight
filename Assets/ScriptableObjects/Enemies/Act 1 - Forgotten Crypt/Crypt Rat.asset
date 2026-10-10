@@ -19,10 +19,13 @@ MonoBehaviour:
   enemyMaxHealth: 25
   enemyActions:
   - actionName: Bite
-    damage: 6
+    damage: 4
     hitCount: 1
     blockAmount: 0
     healingAmount: 0
+    healingTarget: 0
+    enemyToSummon: {fileID: 0}
+    enemiesToSummon: 0
     appliesStatus: 0
     statusType: 0
     statusAmount: 0
@@ -30,3 +33,8 @@ MonoBehaviour:
     statusTarget: 0
     selectionWeight: 0
     maximumConsecutiveUses: 0
+    nextAttackBonusDamage: 0
+    hidesEnemy: 0
+    appliesCounterAttack: 0
+    counterAttackDamage: 0
+  healthPhases: []

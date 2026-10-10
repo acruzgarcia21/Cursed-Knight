@@ -19,11 +19,13 @@ MonoBehaviour:
   enemyMaxHealth: 35
   enemyActions:
   - actionName: Slash
-    damage: 8
+    damage: 6
     hitCount: 1
     blockAmount: 0
     healingAmount: 0
     healingTarget: 0
+    enemyToSummon: {fileID: 0}
+    enemiesToSummon: 0
     appliesStatus: 0
     statusType: 0
     statusAmount: 0
@@ -33,12 +35,16 @@ MonoBehaviour:
     maximumConsecutiveUses: 3
     nextAttackBonusDamage: 0
     hidesEnemy: 0
+    appliesCounterAttack: 0
+    counterAttackDamage: 0
   - actionName: Shield
     damage: 0
     hitCount: 0
     blockAmount: 6
     healingAmount: 0
     healingTarget: 0
+    enemyToSummon: {fileID: 0}
+    enemiesToSummon: 0
     appliesStatus: 0
     statusType: 0
     statusAmount: 0
@@ -48,4 +54,6 @@ MonoBehaviour:
     maximumConsecutiveUses: 2
     nextAttackBonusDamage: 0
     hidesEnemy: 0
+    appliesCounterAttack: 0
+    counterAttackDamage: 0
   healthPhases: []
