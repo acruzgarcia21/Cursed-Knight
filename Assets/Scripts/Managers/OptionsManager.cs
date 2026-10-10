@@ -13,9 +13,12 @@ public class OptionsManager : MonoBehaviour
 
     private bool _mutingAudio;
     
+    private bool _isFullscreen = true;
+    
     private string _settingsSavePath;
 
-    [Header("Volume Settings")] 
+    // Volume Settings
+    
     private float _masterVolume       = 1f;
     private float _musicVolume        = 1f;
     private float _soundEffectsVolume = 1f;
@@ -30,6 +33,18 @@ public class OptionsManager : MonoBehaviour
     private void Start()
     {
         LoadSettings();
+    }
+    
+    public void SetFullScreen(bool isFullscreen)
+    {
+        _isFullscreen = isFullscreen;
+
+        Screen.fullScreenMode = _isFullscreen ? FullScreenMode.FullScreenWindow : FullScreenMode.Windowed;
+    }
+
+    public bool GetFullScreen()
+    {
+        return _isFullscreen;
     }
 
     public void SetMasterVolume(float volume)
