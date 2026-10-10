@@ -4,6 +4,9 @@ public class SettingsDisplay : MonoBehaviour
 {
     [SerializeField] private AudioSettingsDisplay audioSettingsDisplay;
     [SerializeField] private GraphicsSettingsDisplay graphicsSettingsDisplay;
+    [SerializeField] private RectTransform backButton;
+
+    [SerializeField] private float backButtonOffsetWithReset = 230f;
 
     [Header("Panel Tabs")] 
     [SerializeField] private GameObject audioPanel;
@@ -40,6 +43,7 @@ public class SettingsDisplay : MonoBehaviour
     {
         HideAllPanels();
         audioPanel.SetActive(true);
+        backButton.anchoredPosition = new Vector2(backButtonOffsetWithReset, backButton.anchoredPosition.y);
         audioSettingsDisplay.RefreshDisplay();
     }
 
@@ -47,6 +51,7 @@ public class SettingsDisplay : MonoBehaviour
     {
         HideAllPanels();
         graphicsPanel.SetActive(true);
+        backButton.anchoredPosition = new Vector2(backButtonOffsetWithReset, backButton.anchoredPosition.y);
         graphicsSettingsDisplay.RefreshDisplay();
     }
 
@@ -54,6 +59,7 @@ public class SettingsDisplay : MonoBehaviour
     {
         HideAllPanels();
         controlsPanel.SetActive(true);
+        backButton.anchoredPosition = new Vector2(0f, backButton.anchoredPosition.y);
     }
 
     public void ShowAccessibilityPanel()
