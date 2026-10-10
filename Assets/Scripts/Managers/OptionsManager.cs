@@ -6,22 +6,24 @@ using TMPro;
 
 public class OptionsManager : MonoBehaviour
 {
-    public List<TMP_FontAsset> fontList;
-    public static event Action FontUpdated;
-    
     private AudioManager _audioManager;
-
-    private bool _mutingAudio;
-    
-    private bool _isFullscreen = true;
     
     private string _settingsSavePath;
 
-    // Volume Settings
+    // Volume Settings Attributes
+    private bool _mutingAudio;
     
     private float _masterVolume       = 1f;
     private float _musicVolume        = 1f;
     private float _soundEffectsVolume = 1f;
+    
+    // Graphics Settings Attributes
+    private bool _isFullscreen = true;
+    private bool _vSync = true;
+    
+    // Font Settings Attributes
+    public List<TMP_FontAsset> fontList;
+    public static event Action FontUpdated;
 
     private void Awake()
     {
@@ -35,6 +37,10 @@ public class OptionsManager : MonoBehaviour
         LoadSettings();
     }
     
+    // =========================================================
+    // Graphics Settings
+    // =========================================================
+    
     public void SetFullScreen(bool isFullscreen)
     {
         _isFullscreen = isFullscreen;
@@ -42,10 +48,26 @@ public class OptionsManager : MonoBehaviour
         Screen.fullScreenMode = _isFullscreen ? FullScreenMode.FullScreenWindow : FullScreenMode.Windowed;
     }
 
+    public void SetVSync(bool isEnabled)
+    {
+        _vSync = isEnabled;
+
+        QualitySettings.vSyncCount = _vSync ? 1 : 0;
+    }
+
+    public bool GetVSync()
+    {
+        return _vSync;
+    }
+
     public bool GetFullScreen()
     {
         return _isFullscreen;
     }
+    
+    // =========================================================
+    // Volume Settings
+    // =========================================================
 
     public void SetMasterVolume(float volume)
     {
@@ -79,25 +101,7 @@ public class OptionsManager : MonoBehaviour
     {
         return _soundEffectsVolume;
     }
-
-    public TMP_FontAsset GetFontClass(string classID)
-    {
-        return classID switch
-        {
-            "MenuText" => fontList[0],
-            "CardTitle" => fontList[1],
-            "CardBody" => fontList[2],
-            "CardBodyBold" => fontList[3],
-            "MenuTextBold" => fontList[4],
-            _ => fontList[0]
-        };
-    }
-
-    public void UpdateFont()
-    {
-        FontUpdated?.Invoke();
-    }
-
+    
     public void SetMutingAudio(bool isMuted)
     {
         _mutingAudio = isMuted;
@@ -108,6 +112,10 @@ public class OptionsManager : MonoBehaviour
     {
         return _mutingAudio;
     }
+    
+    // =========================================================
+    // Settings Persistence
+    // =========================================================
 
     public void RestoreSettings(SettingsData settingsData)
     {
@@ -148,5 +156,27 @@ public class OptionsManager : MonoBehaviour
         JsonUtility.FromJsonOverwrite(json, settingsData);
 
         RestoreSettings(settingsData);
+    }
+    
+    // =========================================================
+    // Font Settings
+    // =========================================================
+
+    public TMP_FontAsset GetFontClass(string classID)
+    {
+        return classID switch
+        {
+            "MenuText" => fontList[0],
+            "CardTitle" => fontList[1],
+            "CardBody" => fontList[2],
+            "CardBodyBold" => fontList[3],
+            "MenuTextBold" => fontList[4],
+            _ => fontList[0]
+        };
+    }
+
+    public void UpdateFont()
+    {
+        FontUpdated?.Invoke();
     }
 }

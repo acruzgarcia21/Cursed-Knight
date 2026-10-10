@@ -16,6 +16,12 @@ public class GraphicsSettingsDisplay : MonoBehaviour
         _optionsManager = FindAnyObjectByType<OptionsManager>();
     }
 
+    public void OnVSyncChanged(bool isEnabled)
+    {
+        _optionsManager.SetVSync(isEnabled);
+        RefreshDisplay();
+    }
+
     public void OnFullscreenChanged(bool isFullscreen)
     {
         _optionsManager.SetFullScreen(isFullscreen);
@@ -28,5 +34,10 @@ public class GraphicsSettingsDisplay : MonoBehaviour
 
         fullscreenToggle.SetIsOnWithoutNotify(isFullscreen);
         windowedResolutionDropdown.interactable = !isFullscreen;
+
+        var vSync = _optionsManager.GetVSync();
+        
+        vSyncToggle.SetIsOnWithoutNotify(vSync);
+        fpsLimitDropdown.interactable = !vSync;
     }
 }
