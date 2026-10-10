@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,11 +14,34 @@ public class GraphicsSettingsDisplay : MonoBehaviour
 
     private readonly int[] _fpsLimits = {30, 60, 120, -1};
 
+    private readonly Vector2Int[] _windowedResolutions =
+    {
+        new(1280, 720),
+        new (1600, 900),
+        new (1920, 1080),
+        new (2560, 1440),
+        new (3840, 2160)
+    };
+
+    private readonly List<Vector2Int> _availableWindowedResolutions = new();
+    
+
     private void Awake()
     {
         _optionsManager = FindAnyObjectByType<OptionsManager>();
+        
+        PopulateResolutionDropdown();
     }
+    
+    public void OnWindowedResolutionChanged(int index)
+    {
+        if (index < 0 || index >= _availableWindowedResolutions.Count) return;
 
+        var resolution = _availableWindowedResolutions[index];
+        
+        _optionsManager.SetWindowedResolution(resolution.x, resolution.y);
+        RefreshDisplay();
+    }
     public void OnFPSLimitChanged(int index)
     {
         _optionsManager.SetFPSLimit(_fpsLimits[index]);
@@ -52,5 +76,30 @@ public class GraphicsSettingsDisplay : MonoBehaviour
         var fpsLimitIndex = System.Array.IndexOf(_fpsLimits, fpsLimit);
         
         fpsLimitDropdown.SetValueWithoutNotify(fpsLimitIndex);
+
+        var windowedResolution = new Vector2Int(_optionsManager.GetWindowedWidth(), _optionsManager.GetWindowedHeight());
+        var resolutionIndex = _availableWindowedResolutions.IndexOf(windowedResolution);
+
+        windowedResolutionDropdown.SetValueWithoutNotify(resolutionIndex);
+        windowedResolutionDropdown.RefreshShownValue();
+    }
+    
+    private void PopulateResolutionDropdown()
+    {
+        _availableWindowedResolutions.Clear();
+
+        var options = new List<string>();
+        var displayResolution = Screen.currentResolution;
+
+        foreach (var resolution in _windowedResolutions)
+        {
+            if (resolution.x > displayResolution.width || resolution.y > displayResolution.height) continue;
+
+            _availableWindowedResolutions.Add(resolution);
+            options.Add($"{resolution.x} x {resolution.y}");
+        }
+
+        windowedResolutionDropdown.ClearOptions();
+        windowedResolutionDropdown.AddOptions(options);
     }
 }

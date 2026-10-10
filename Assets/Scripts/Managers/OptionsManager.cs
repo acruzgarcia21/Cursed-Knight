@@ -22,6 +22,9 @@ public class OptionsManager : MonoBehaviour
     private bool _vSync = true;
 
     private int _fpsLimit = 60;
+
+    private int _windowWidth = 1280;
+    private int _windowHeight = 720;
     
     // Font Settings Attributes
     public List<TMP_FontAsset> fontList;
@@ -54,12 +57,34 @@ public class OptionsManager : MonoBehaviour
     {
         return _fpsLimit;
     }
+
+    public void SetWindowedResolution(int width, int height)
+    {
+        _windowWidth  = width;
+        _windowHeight = height;
+
+        if (_isFullscreen) return;
+        
+        Screen.SetResolution(_windowWidth, _windowHeight, FullScreenMode.Windowed);
+    }
+
+    public int GetWindowedWidth()
+    {
+        return _windowWidth;
+    }
+
+    public int GetWindowedHeight()
+    {
+        return _windowHeight;
+    }
     
     public void SetFullScreen(bool isFullscreen)
     {
         _isFullscreen = isFullscreen;
 
         Screen.fullScreenMode = _isFullscreen ? FullScreenMode.FullScreenWindow : FullScreenMode.Windowed;
+        
+        if (!isFullscreen) SetWindowedResolution(_windowWidth, _windowHeight);
     }
 
     public void SetVSync(bool isEnabled)
