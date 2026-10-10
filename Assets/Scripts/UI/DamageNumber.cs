@@ -20,7 +20,6 @@ public class DamageNumber : MonoBehaviour
         MoveDamageNumber();
         FadeDamageNumber();
         CheckLifetime();
-        
     }
 
     public void Start()

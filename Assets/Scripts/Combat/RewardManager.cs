@@ -93,6 +93,7 @@ public class RewardManager : MonoBehaviour
 
     public void AddSelectedRewardCardToDeck(Card card)
     {
+        if (battleRewardDisplay.IsRevealingCards()) return;
         if (_rewardCardHasBeenCollected) return;
         
         _deckManager.AddCardToDeck(card);

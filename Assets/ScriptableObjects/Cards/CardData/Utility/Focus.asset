@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UtilityCard
   cardName: Focus
   cardDescription: Gain {energyGain} Energy. Gain {corruption} Corruption.
+  cardID: focus
   cardType: 2
   targetType: 3
   cardSprite: {fileID: 0}

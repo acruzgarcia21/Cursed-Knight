@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff015732792c77e4eb49056e964b05b4, type: 3}
+  m_Name: Apply Poison 1
+  m_EditorClassIdentifier: Assembly-CSharp::UtilityCard
+  cardName: Apply Poison
+  cardDescription: Apply Poison
+  cardID: apply_poison_1
+  cardType: 2
+  targetType: 0
+  cardSprite: {fileID: 0}
+  cardEnergyCost: 0
+  cardCorruptionGain: 0
+  cardsToDraw: 0
+  cardsToDiscardRandomly: 0
+  cardsToDrawFromDiscard: 0
+  cardHealthGain: 0
+  cardHealthLoss: 0
+  cardEnergyGain: 0
+  appliesStatus: 1
+  statusTargetType: 0
+  statusType: 3
+  statusAmount: 12
+  statusDuration: 2
+  retain: 0
+  exhaust: 0
+  spectral: 0
+  createsCards: 0
+  cardToCreate: {fileID: 0}
+  cardsToCreate: 0
+  createdCardDestination: 0
+  reducesNextAttackEnergy: 0
+  energyToReduce: 0
+  upgradedEnergyCost: 0
+  upgradedCorruptionGain: 0
+  upgradedCardsToDraw: 0
+  upgradedCardsToDiscardRandomly: 0
+  upgradedCardsToDrawFromDiscard: 0
+  upgradedCardHealthGain: 0
+  upgradedCardHealthLoss: 0
+  upgradedCardEnergyGain: 0
+  upgradedStatusAmount: 0
+  upgradedStatusDuration: 0
+  upgradedCardsToCreate: 0
+  upgradedEnergyToReduce: 0

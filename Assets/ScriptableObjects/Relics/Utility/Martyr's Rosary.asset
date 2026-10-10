@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UtilityRelic
   relicName: Martyr's Rosary
   relicDescription: The first time each combat your HP falls below 30%, heal 10 HP.
+  relicID: martyrs_rosary
   relicSprite: {fileID: 0}
   triggerTime: 4
   relicType: 2

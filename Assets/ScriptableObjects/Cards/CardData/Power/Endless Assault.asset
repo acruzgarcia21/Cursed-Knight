@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Power
   cardName: Endless Assault
   cardDescription: The first time each turn you play a multi-hit Attack, gain 1 Energy.
+  cardID: endless_assault
   cardType: 3
   targetType: 3
   cardSprite: {fileID: 0}

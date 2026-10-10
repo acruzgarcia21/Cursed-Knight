@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UtilityCard
   cardName: Reclaim
   cardDescription: Return {drawFromDiscard} random card from your discard pile to your hand.
+  cardID: reclaim
   cardType: 2
   targetType: 3
   cardSprite: {fileID: 0}

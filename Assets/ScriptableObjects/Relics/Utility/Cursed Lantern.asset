@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UtilityRelic
   relicName: Cursed Lantern
   relicDescription: Whenever Corruption overflows, gain 1 Strength.
+  relicID: cursed_lantern
   relicSprite: {fileID: 0}
   triggerTime: 3
   relicType: 2

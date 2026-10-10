@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using CursedKnight;
 using UnityEngine;
 
@@ -7,6 +8,8 @@ public class Player : MonoBehaviour
     // =========================================================
     // PLAYER STATS
     // =========================================================
+
+    [SerializeField] private float statusFeedbackPause = 0.25f;
 
     public int playerHealth;
     public int playerMaxHealth = 100;
@@ -58,7 +61,6 @@ public class Player : MonoBehaviour
         
         _corruptionVisualEffects = FindAnyObjectByType<CorruptionVisualEffects>();
 
-        _playerDisplay.UpdatePlayerDisplay();
     }
 
     // =========================================================
@@ -104,9 +106,12 @@ public class Player : MonoBehaviour
         _uiDisplay.UpdatePlayerCorruptionText(this);
     }
 
-    public void EndTurn()
+    public IEnumerator EndTurn()
     {
+        var hasPoison = HasStatus(StatusEffect.StatusType.Poison);
         ProcessEndTurnStatuses();
+        if (IsDead()) yield break;
+        if (hasPoison) yield return new WaitForSeconds(statusFeedbackPause);
         _statusManager.TickDurations();
 
         if (!HasStatus(StatusEffect.StatusType.Corruption))
@@ -120,6 +125,8 @@ public class Player : MonoBehaviour
     public void EndCombat()
     {
         _relicManager.TriggerEndOfCombatEffects(this, _enemyManager);
+        _statusManager.ClearStatuses();
+        _corruptionVisualEffects.SetPlayerIsNotCorrupted();
     }
     
     // =========================================================
@@ -489,7 +496,7 @@ public class Player : MonoBehaviour
         _playerDisplay.UpdatePlayerDisplay();
     }
 
-    public void ProcessOnActionStatuses()
+    public IEnumerator ProcessOnActionStatuses()
     {
         if (_statusManager.HasStatus(StatusEffect.StatusType.Bleed))
         {
@@ -502,6 +509,15 @@ public class Player : MonoBehaviour
 
             var healthLost = healthBefore - playerHealth;
             _combatFeedbackManager.ShowDamageNumber(healthLost);
+            _playerDisplay.UpdatePlayerDisplay();
+
+            if (PlayerIsDead())
+            {
+                BattleManager.Instance.LoseBattle();
+                yield break;
+            }
+
+            if (healthLost > 0) yield return new WaitForSeconds(statusFeedbackPause);
         }
 
         if (_statusManager.HasStatus(StatusEffect.StatusType.Corruption))
@@ -515,6 +531,15 @@ public class Player : MonoBehaviour
 
             var healthLost = healthBefore - playerHealth;
             _combatFeedbackManager.ShowDamageNumber(healthLost);
+            _playerDisplay.UpdatePlayerDisplay();
+
+            if (PlayerIsDead())
+            {
+                BattleManager.Instance.LoseBattle();
+                yield break;
+            }
+
+            if (healthLost > 0) yield return new WaitForSeconds(statusFeedbackPause);
         }
 
         if (PlayerIsDead())
@@ -588,6 +613,11 @@ public class Player : MonoBehaviour
         playerHealth     = savedHealth;
         playerMaxHealth  = savedMaxHealth;
         playerCorruption = savedCorruption;
+    }
+
+    public bool IsDead()
+    {
+        return playerHealth <= 0;
     }
 
     private void ProcessMaxCorruptionTriggeredEffects()

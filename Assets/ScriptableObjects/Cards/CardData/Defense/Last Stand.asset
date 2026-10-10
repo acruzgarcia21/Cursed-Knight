@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Defense
   cardName: Last Stand
   cardDescription: Gain {block} Block. Exhaust.
+  cardID: last_stand
   cardType: 1
   targetType: 3
   cardSprite: {fileID: 0}

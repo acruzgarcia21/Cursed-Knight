@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,8 +13,10 @@ public class EnemyManager : MonoBehaviour
     private readonly List<Enemy> _currentEnemies = new();
     
     private BattleManager _battleManager;
+    private TurnManager _turnManager;
 
     private int enemiesKilled;
+    private int pendingEnemyDeaths;
     
     private void Awake()
     {
@@ -21,6 +24,8 @@ public class EnemyManager : MonoBehaviour
         {
             _battleManager = FindAnyObjectByType<BattleManager>();
         }
+
+        _turnManager = FindAnyObjectByType<TurnManager>();
     }
 
     public void BattleSetup(EncounterData encounter)
@@ -33,6 +38,11 @@ public class EnemyManager : MonoBehaviour
         {
             enemy.InitializeIntent();
         }
+    }
+
+    public bool HasPendingDeaths()
+    {
+        return pendingEnemyDeaths > 0;
     }
 
     private void SpawnEncounter(EncounterData encounter)
@@ -108,17 +118,35 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    public void ProcessEnemyTurn(Player player)
+    public IEnumerator ProcessEnemyTurn(Player player)
     {
         var currentEnemies = GetLivingEnemies();
+        var seconds = 1.5f;
         
         foreach (var enemy in currentEnemies)
         {
             if (enemy == null) continue;
+            
+            yield return new WaitUntil(() => !HasPendingDeaths());
+            
+            if (!_turnManager.IsCombatActive() || player.IsDead()) yield break;
+            
+            if (enemy == null) continue;
+            if (!_currentEnemies.Contains(enemy)) continue;
 
-            enemy.TakeTurn(player);
+            yield return enemy.TakeTurn(player);
+            
+            yield return new WaitUntil(() => !HasPendingDeaths());
+
+            if (!_turnManager.IsCombatActive() || player.IsDead()) yield break;
+
+            yield return new WaitForSeconds(seconds);
         }
 
+        yield return new WaitUntil(() => !HasPendingDeaths());
+        
+        if (!_turnManager.IsCombatActive() || player.IsDead()) yield break;
+        
         foreach (var enemy in currentEnemies)
         {
             if (!_currentEnemies.Contains(enemy)) continue;
@@ -129,15 +157,31 @@ public class EnemyManager : MonoBehaviour
 
     public void RemoveEnemy(Enemy enemyToRemove)
     {
-        _currentEnemies.Remove(enemyToRemove);
-        Destroy(enemyToRemove.gameObject);
-
-        RefreshEnemyIntents();
+        if (!_currentEnemies.Remove(enemyToRemove)) return;
 
         enemiesKilled++;
+        pendingEnemyDeaths++;
+        
+        StartCoroutine(ResolveEnemyDeath(enemyToRemove));
+        
+        RefreshEnemyIntents();
+    }
 
+    private IEnumerator ResolveEnemyDeath(Enemy enemy)
+    {
+        var enemyDisplay = enemy.GetComponent<EnemyVisualEffects>();
+
+        if (enemyDisplay != null)
+        {
+            yield return enemyDisplay.FadeEnemy();   
+        }
+        
+        Destroy(enemy.gameObject);
+        
+        pendingEnemyDeaths--;
+        
         // Okay for now, will change later
-        if (AllEnemiesDead())
+        if (AllEnemiesDead() && pendingEnemyDeaths == 0)
         {
             BattleManager.Instance.WinBattle();
         }

@@ -20,6 +20,13 @@ public class HandDisplay : MonoBehaviour
     [SerializeField] private float hoveredCardExtraWidth = 250f;
     [SerializeField] private float edgeHoveredExtraWidth = 250f;
 
+    private OptionsManager _optionsManager;
+
+    private void Awake()
+    {
+        _optionsManager = FindAnyObjectByType<OptionsManager>();
+    }
+
     public void Update()
     {
         foreach (var (card, targetPosition) in _cardTargetPositions)
@@ -36,7 +43,7 @@ public class HandDisplay : MonoBehaviour
                 card.transform.localPosition = Vector3.Lerp(
                     currentPosition,
                     hoveredTargetPosition,
-                    handLerpFactor * Time.deltaTime);
+                    _optionsManager.GetReduceMotion() ? 1f : handLerpFactor * Time.deltaTime);
 
                 continue;
             }
@@ -44,7 +51,7 @@ public class HandDisplay : MonoBehaviour
             card.transform.localPosition = Vector3.Lerp(
                 card.transform.localPosition,
                 targetPosition,
-                handLerpFactor * Time.deltaTime);
+                _optionsManager.GetReduceMotion() ? 1f : handLerpFactor * Time.deltaTime);
         }
 
         foreach (var (card, targetRotation) in _cardTargetRotations)
@@ -55,7 +62,7 @@ public class HandDisplay : MonoBehaviour
             card.transform.localRotation = Quaternion.Lerp(
                 card.transform.localRotation,
                 targetRotation,
-                handLerpFactor * Time.deltaTime);
+                _optionsManager.GetReduceMotion() ? 1f : handLerpFactor * Time.deltaTime);
         }
     }
 

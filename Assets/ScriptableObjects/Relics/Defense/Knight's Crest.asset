@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DefenseRelic
   relicName: Knight's Crest
   relicDescription: Start each combat with 8 Block.
+  relicID: knights_crest
   relicSprite: {fileID: 7482667652216324306, guid: 00b840e865529c149ac89f89ae44216a, type: 3}
   triggerTime: 0
   relicType: 1
   targetType: 3
+  corruptionCost: 0
   relicBlock: 8

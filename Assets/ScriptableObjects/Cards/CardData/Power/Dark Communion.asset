@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Power
   cardName: Dark Communion
   cardDescription: The first time each combat you reach maximum Corruption, gain {powerStatusAmount} Strength.
+  cardID: dark_communion
   cardType: 3
   targetType: 3
   cardSprite: {fileID: 0}

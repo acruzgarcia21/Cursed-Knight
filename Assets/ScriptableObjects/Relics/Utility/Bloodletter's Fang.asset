@@ -14,15 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UtilityRelic
   relicName: Bloodletter's Fang
   relicDescription: At the start of combat, Apply 2 Bleed to all enemies.
+  relicID: bloodletters_fang
   relicSprite: {fileID: 0}
   triggerTime: 0
   relicType: 2
   targetType: 1
+  corruptionCost: 0
   appliesStatus: 1
   statusTargetType: 1
   statusType: 4
   statusAmount: 2
   statusDuration: 2
-  corruptionCost: 0
+  conditionalHeal: 0
   hpToGain: 0
+  conditionalEnergy: 0
   energyToGain: 0
+  corruptionRequiredForEnergy: 0

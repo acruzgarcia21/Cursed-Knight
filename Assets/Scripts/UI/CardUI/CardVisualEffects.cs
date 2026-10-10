@@ -10,6 +10,13 @@ public class CardVisualEffects : MonoBehaviour
     [SerializeField] private GameObject playArrow;
     
     
+    private OptionsManager _optionsManager;
+
+    private void Awake()
+    {
+        _optionsManager = FindAnyObjectByType<OptionsManager>();
+    }
+
     public void HandleHoverState(RectTransform rectTransform, Vector3 originalScale, float lerpFactor)
     {
         glowEffect.SetActive(true);
@@ -17,7 +24,7 @@ public class CardVisualEffects : MonoBehaviour
         rectTransform.localScale = Vector3.Lerp(
             rectTransform.localScale, 
             originalScale * selectScale, 
-            lerpFactor * Time.deltaTime);
+            _optionsManager.GetReduceMotion() ? 1f : lerpFactor * Time.deltaTime);
     }
 
     public void HandleHoverPosition(RectTransform rectTransform, RectTransform canvasRectTransform, float lerpFactor)
@@ -55,7 +62,7 @@ public class CardVisualEffects : MonoBehaviour
         rectTransform.localPosition = Vector3.Lerp(
             rectTransform.localPosition,
             localTargetPosition,
-            lerpFactor * Time.deltaTime
+            _optionsManager.GetReduceMotion() ? 1f : lerpFactor * Time.deltaTime
         );
     }
 
@@ -64,7 +71,7 @@ public class CardVisualEffects : MonoBehaviour
         rectTransform.localScale = Vector3.Lerp(
             rectTransform.localScale, 
             originalScale, 
-            lerpFactor * Time.deltaTime);
+            _optionsManager.GetReduceMotion() ? 1f : lerpFactor * Time.deltaTime);
     }
 
     public void HandleRotationToUpright(RectTransform rectTransform, float lerpFactor)
@@ -74,7 +81,7 @@ public class CardVisualEffects : MonoBehaviour
         rectTransform.localRotation =  Quaternion.Lerp(
             currentRotation,
             Quaternion.identity, 
-            lerpFactor * Time.deltaTime);
+            _optionsManager.GetReduceMotion() ? 1f : lerpFactor * Time.deltaTime);
     }
 
     public void HandleGlowEffect(bool isGlowEffectActive)

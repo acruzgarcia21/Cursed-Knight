@@ -34,6 +34,12 @@ public class StatusManager : MonoBehaviour
         OnStatusesChanged?.Invoke();
     }
 
+    public void ClearStatuses()
+    {
+        _activeStatuses.Clear();
+        OnStatusesChanged?.Invoke();
+    }
+
     public void RemoveStatus(StatusEffect.StatusType statusType)
     {
         StatusEffect statusToRemove = null;

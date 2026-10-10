@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using CursedKnight;
 using UnityEngine;
@@ -13,10 +14,17 @@ public class CardPlayManager : MonoBehaviour
     private ExhaustManager _exhaustManager;
     private DeckManager _deckManager;
     private AudioManager _audioManager;
+    private TurnManager _turnManager;
 
     private int attacksPlayed;
 
     private bool consumesRelicDamage;
+    private bool _isResolvingCard;
+
+    public bool IsResolvingCard()
+    {
+        return _isResolvingCard;
+    }
 
     private enum PostPlayDestination
     {
@@ -33,10 +41,18 @@ public class CardPlayManager : MonoBehaviour
         _exhaustManager = FindAnyObjectByType<ExhaustManager>();
         _deckManager    = FindAnyObjectByType<DeckManager>();
         _audioManager   = FindAnyObjectByType<AudioManager>();
+        _turnManager    = FindAnyObjectByType<TurnManager>();
     }
 
     public bool TryPlayCard(Player player, RuntimeCard runtimeCard, GameObject cardObject, Enemy targetEnemy)
     {
+        if (!_turnManager.IsCombatActive() || _isResolvingCard) return false;
+        
+        if (_turnManager.GetTurnState() != TurnManager.TurnState.Player || _turnManager.IsResolvingTurn())
+        {
+            return false;
+        }
+        
         if (player == null || runtimeCard == null || runtimeCard.cardData == null)
         {
             return false;
@@ -152,7 +168,7 @@ public class CardPlayManager : MonoBehaviour
         player.ProcessCardTypeTriggeredEffects(attackCard.cardType);
         ApplyCardStatus(player, runtimeCard, targetEnemy);
         ApplyCardAdditionalStatus(player, targetEnemy, attackCard);
-        CompleteCardPlay(runtimeCard, cardObject, player);
+        StartCoroutine(CompleteCardPlay(runtimeCard, cardObject, player));
 
         return true;
     }
@@ -170,7 +186,7 @@ public class CardPlayManager : MonoBehaviour
 
         player.GainBlock(finalBlockToGain);
 
-        CompleteCardPlay(runtimeCard, cardObject, player);
+        StartCoroutine(CompleteCardPlay(runtimeCard, cardObject, player));
 
         return true;
     }
@@ -197,7 +213,7 @@ public class CardPlayManager : MonoBehaviour
             player.Heal(cardHealthGain);
         }
 
-        CompleteCardPlay(runtimeCard, cardObject, player);
+        StartCoroutine(CompleteCardPlay(runtimeCard, cardObject, player));
 
         return true;
     }
@@ -209,53 +225,62 @@ public class CardPlayManager : MonoBehaviour
 
         BeginCardPlay(player, runtimeCard, cardEnergyCost);
         ApplyCardStatus(player, runtimeCard, null);
-        CompleteCardPlay(runtimeCard, cardObject, player);
+        StartCoroutine(CompleteCardPlay(runtimeCard, cardObject, player));
 
         return true;
     }
 
-    private void CompleteCardPlay(RuntimeCard runtimeCard, GameObject cardObject, Player player)
+    private IEnumerator CompleteCardPlay(RuntimeCard runtimeCard, GameObject cardObject, Player player)
     {
-        var cardData = runtimeCard.cardData;
-
-        const int attackThreshold = 3;
-    
-        if (cardData.cardType == Card.CardType.Attack && !consumesRelicDamage) attacksPlayed++;
-    
-        if (attacksPlayed == attackThreshold)
+        _isResolvingCard = true;
+        try
         {
-            OnAttackThresholdHit?.Invoke();
-            attacksPlayed = 0;
+            var cardData = runtimeCard.cardData;
+
+            const int attackThreshold = 3;
+        
+            if (cardData.cardType == Card.CardType.Attack && !consumesRelicDamage) attacksPlayed++;
+        
+            if (attacksPlayed == attackThreshold)
+            {
+                OnAttackThresholdHit?.Invoke();
+                attacksPlayed = 0;
+            }
+
+            consumesRelicDamage = false;
+
+            ApplyCardHealthLoss(player, runtimeCard);
+            DrawCardsFromCard(runtimeCard);
+            ApplyRandomCardDiscard(runtimeCard);
+            DrawRandomCardFromDiscard(runtimeCard);
+            ApplyCardBonusEnergy(player, runtimeCard);
+
+            yield return player.ProcessOnActionStatuses();
+
+            var destination = DeterminePostPlayDestination(runtimeCard);
+
+            switch (destination)
+            {
+                case PostPlayDestination.Discard:
+                    SendCardToDiscard(runtimeCard, cardObject);
+                    break;
+
+                case PostPlayDestination.OutOfCombat:
+                    RemoveCardFromCombat(cardObject);
+                    break;
+
+                case PostPlayDestination.Exhaust:
+                    ExhaustCard(runtimeCard, cardObject, player);
+                    break;
+            }
+        
+            ResolveCardCreation(runtimeCard);
+            yield return new WaitUntil(() => !_enemyManager.HasPendingDeaths());
         }
-
-        consumesRelicDamage = false;
-
-        ApplyCardHealthLoss(player, runtimeCard);
-        DrawCardsFromCard(runtimeCard);
-        ApplyRandomCardDiscard(runtimeCard);
-        DrawRandomCardFromDiscard(runtimeCard);
-        ApplyCardBonusEnergy(player, runtimeCard);
-
-        player.ProcessOnActionStatuses();
-
-        var destination = DeterminePostPlayDestination(runtimeCard);
-
-        switch (destination)
+        finally
         {
-            case PostPlayDestination.Discard:
-                SendCardToDiscard(runtimeCard, cardObject);
-                break;
-
-            case PostPlayDestination.OutOfCombat:
-                RemoveCardFromCombat(cardObject);
-                break;
-
-            case PostPlayDestination.Exhaust:
-                ExhaustCard(runtimeCard, cardObject, player);
-                break;
+            _isResolvingCard = false;
         }
-    
-        ResolveCardCreation(runtimeCard);
     }
 
     private PostPlayDestination DeterminePostPlayDestination(RuntimeCard runtimeCard)

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UtilityCard
   cardName: Battle Trance
   cardDescription: Draw {draw} card. Gain {energyGain} Energy. Exhaust.
+  cardID: battle_trance
   cardType: 2
   targetType: 3
   cardSprite: {fileID: 0}

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Attack
   cardName: Relentless Onslaught
   cardDescription: Deal {damage} damage to all enemies {hitCount} times. Gain {corruption} Corruption.
+  cardID: relentless_onslaught
   cardType: 0
   targetType: 1
   cardSprite: {fileID: 0}

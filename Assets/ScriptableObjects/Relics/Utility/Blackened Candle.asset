@@ -14,13 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UtilityRelic
   relicName: Blackened Candle
   relicDescription: At the start of combat, Gain 2 Corruption and 1 Strength.
+  relicID: blackened_candle
   relicSprite: {fileID: 0}
   triggerTime: 0
   relicType: 2
   targetType: 3
+  corruptionCost: 2
   appliesStatus: 1
   statusTargetType: 3
   statusType: 0
   statusAmount: 1
   statusDuration: -1
-  corruptionCost: 2
+  conditionalHeal: 0
+  hpToGain: 0
+  conditionalEnergy: 0
+  energyToGain: 0
+  corruptionRequiredForEnergy: 0

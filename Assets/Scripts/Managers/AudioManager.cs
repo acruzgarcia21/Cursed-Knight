@@ -10,6 +10,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip attackCardPlaySound;
     [SerializeField] private AudioClip blockCardPlaySound;
     [SerializeField] private AudioClip powerCardPlaySound;
+    [SerializeField] private AudioClip rewardCardRevealSound;
 
     [Space(10)] [Header("UI Effects")] 
     [Header("Button Sounds")]
@@ -24,6 +25,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip cardViewCloseSound;
     [SerializeField] private AudioClip mapOpenSound;
     [SerializeField] private AudioClip mapCloseSound;
+    [SerializeField] private AudioClip mapNodeSelectSound;
 
     [Header("Battle Music")]
     [SerializeField] private AudioClip actOneBattleMusic;
@@ -40,18 +42,43 @@ public class AudioManager : MonoBehaviour
 
     private AudioSource _musicSource;
 
+    private float _musicVolume = 1f;
+
     private void Awake()
     {
         _musicSource = gameObject.AddComponent<AudioSource>();
         _musicSource.playOnAwake = false;
         _musicSource.loop = true;
         _musicSource.spatialBlend = 0f;
-        _musicSource.volume = battleMusicVolume;
+        _musicSource.volume = battleMusicVolume * _musicVolume;
+    }
+
+    public void SetMasterVolume(float volume)
+    {
+        AudioListener.volume = Mathf.Clamp01(volume);
+    }
+
+    public void SetSoundEffectsVolume(float volume)
+    {
+        sfxSource.volume = Mathf.Clamp01(volume);
+    }
+
+    public void SetMusicVolume(float volume)
+    {
+        _musicVolume = Mathf.Clamp01(volume);
+
+        _musicSource.volume = battleMusicVolume * _musicVolume;
     }
 
     public void PlayCardHoverSound()
     {
         sfxSource.PlayOneShot(cardHoverSound);
+    }
+
+    public void PlayRewardCardRevealSound()
+    {
+        if (rewardCardRevealSound == null) return;
+        sfxSource.PlayOneShot(rewardCardRevealSound);
     }
 
     public void PlayCardPlaySound(Card.CardType cardType)
@@ -106,6 +133,12 @@ public class AudioManager : MonoBehaviour
         sfxSource.PlayOneShot(mapCloseSound);
     }
 
+    public void PlayMapNodeSelectSound()
+    {
+        if (mapNodeSelectSound == null) return;
+        sfxSource.PlayOneShot(mapNodeSelectSound);
+    }
+
     public void PlayActOneBattleMusic()
     {
         PlayMusic(actOneBattleMusic, true);
@@ -153,7 +186,7 @@ public class AudioManager : MonoBehaviour
 
         _musicSource.clip = music;
         _musicSource.loop = loop;
-        _musicSource.volume = battleMusicVolume;
+        _musicSource.volume = battleMusicVolume * _musicVolume;
         _musicSource.Play();
     }
 

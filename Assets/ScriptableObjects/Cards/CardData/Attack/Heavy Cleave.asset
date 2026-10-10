@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Attack
   cardName: Heavy Cleave
   cardDescription: Deal {damage} damage.
+  cardID: heavy_cleave
   cardType: 0
   targetType: 0
   cardSprite: {fileID: 0}

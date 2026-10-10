@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UtilityCard
   cardName: Blood Offering
   cardDescription: Lose {healthLoss} HP. Draw {draw} cards. Gain {energyGain} Energy. Exhaust.
+  cardID: blood_offering
   cardType: 2
   targetType: 3
   cardSprite: {fileID: 0}

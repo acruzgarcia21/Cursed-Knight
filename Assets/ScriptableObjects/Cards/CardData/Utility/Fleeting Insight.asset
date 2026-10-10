@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UtilityCard
   cardName: Fleeting Insight
   cardDescription: Draw {draw} cards. Reduce the cost of your next Attack by {energyReduction}. Spectral.
+  cardID: fleeting_insight
   cardType: 2
   targetType: 3
   cardSprite: {fileID: 0}

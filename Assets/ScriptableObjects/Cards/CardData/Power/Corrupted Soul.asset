@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Power
   cardName: Corrupted Soul
   cardDescription: Your Attack cards deal {powerStatusAmount} additional damage for each Corruption you have.
+  cardID: corrupted_soul
   cardType: 3
   targetType: 3
   cardSprite: {fileID: 0}

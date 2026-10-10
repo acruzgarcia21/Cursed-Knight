@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UtilityCard
   cardName: Crippling Blow
   cardDescription: Apply {statusAmount} Weak for {statusDuration} turns.
+  cardID: crippling_blow
   cardType: 2
   targetType: 0
   cardSprite: {fileID: 0}

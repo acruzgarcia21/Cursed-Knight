@@ -60,14 +60,20 @@ public class BattleManager : MonoBehaviour
     public void WinBattle()
     {
         _audioManager.PlayVictoryMusic();
+        
         Debug.Log("Battle won");
+        
         _turnManager.EndCombat();
+        
         _rewardManager.StartRewards(_currentNodeType, isFinalStage);
     }
 
     public void LoseBattle()
     {
         _audioManager.StopBattleMusic();
+        
+        _turnManager.EndCombat();
+        
         Debug.Log("Battle lost");
     }
 }

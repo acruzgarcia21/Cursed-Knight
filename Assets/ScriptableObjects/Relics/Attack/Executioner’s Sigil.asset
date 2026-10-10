@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AttackRelic
   relicName: "Executioner\u2019s Sigil"
   relicDescription: After playing 3 Attacks in a turn, your next Attack deals 5 additional damage.
+  relicID: executioners_sigil
   relicSprite: {fileID: 0}
   triggerTime: 2
   relicType: 0
   targetType: 0
+  corruptionCost: 0
   attackDamage: 5
-  hitCount: 1

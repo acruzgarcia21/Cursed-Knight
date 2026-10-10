@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UtilityRelic
   relicName: Vampiric Seal
   relicDescription: At the end of combat, Heal 3 HP for each enemy killed during that combat.
+  relicID: vampiric_seal
   relicSprite: {fileID: 0}
   triggerTime: 2
   relicType: 2

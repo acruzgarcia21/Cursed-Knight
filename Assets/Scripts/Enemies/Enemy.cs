@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,13 +17,15 @@ public class Enemy : MonoBehaviour
     
     public EnemyData enemyData;
 
+    [SerializeField] private float statusFeedbackPause = 0.25f;
+
     private EnemyDisplay _enemyDisplay;
     
     private StatusManager         _statusManager;
     private EnemyManager          _enemyManager;
     private CombatFeedbackManager _combatFeedbackManager;
     
-    private EnemyVisualEffects    _enemyVisualEffects;
+    private EnemyVisualEffects _enemyVisualEffects;
 
     private EnemyActionData _currentAction;
     private List<EnemyActionData> _availableActions;
@@ -66,14 +69,14 @@ public class Enemy : MonoBehaviour
         _enemyDisplay.UpdateEnemyDisplay();
     }
 
-    public void TakeTurn(Player player)
+    public IEnumerator TakeTurn(Player player)
     {
         counterAttackActive = false;
         actionCounterAttackDamage = 0;
         
         if (player == null || _currentAction == null || player.playerHealth <= 0)
         {
-            return;
+            yield break;
         }
 
         
@@ -84,7 +87,7 @@ public class Enemy : MonoBehaviour
                 $"{_currentAction.actionName}."
             );
 
-            return;
+            yield break;
         }
 
         currentEnemyBlock = 0;
@@ -98,14 +101,28 @@ public class Enemy : MonoBehaviour
 
             for (var i = 0; i < hitCount; i++)
             {
-                if (player.playerHealth <= 0) return;
+                if (player.playerHealth <= 0) yield break;
+                _enemyVisualEffects.ApplyMove();
+
+                yield return new WaitUntil(() => _enemyVisualEffects.HasReachedImpact());
+                
                 player.TakeDamage(modifiedDamage);
+                
+                yield return new WaitUntil(() => !_enemyVisualEffects.IsMoving());
             }
             
             _nextAttackBonusDamage = 0;
             
             
             Debug.Log($"{enemyData.enemyName} ({GetEntityId()}) uses {_currentAction.actionName} for {modifiedDamage} damage x{hitCount}.");
+        }
+
+        var isNonAttackAction = _currentAction.damage <= 0;
+        if (isNonAttackAction)
+        {
+            _enemyVisualEffects.ApplyActionMove();
+            yield return new WaitUntil(() => _enemyVisualEffects.HasReachedImpact());
+            if (player.IsDead()) yield break;
         }
 
         if (_currentAction.blockAmount > 0)
@@ -174,11 +191,23 @@ public class Enemy : MonoBehaviour
 
         ApplyCurrentActionStatus(player);
 
-        ProcessOnActionStatuses(player);
-        if (EnemyIsDead()) return;
+        if (isNonAttackAction) yield return new WaitUntil(() => !_enemyVisualEffects.IsMoving());
 
+        var hasBleed = _statusManager.HasStatus(StatusEffect.StatusType.Bleed);
+        
+        ProcessOnActionStatuses(player);
+        
+        if (EnemyIsDead()) yield break;
+        
+        if (hasBleed) yield return new WaitForSeconds(statusFeedbackPause);
+
+        var hasPoison = _statusManager.HasStatus(StatusEffect.StatusType.Poison);
+        
         ProcessEndTurnStatuses();
-        if (EnemyIsDead()) return;
+        
+        if (EnemyIsDead()) yield break;
+        
+        if (hasPoison) yield return new WaitForSeconds(statusFeedbackPause);
 
         Debug.Log($"{enemyData.enemyName} ({GetEntityId()}) BEFORE Tick");
         _statusManager.DebugPrintStatuses();

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Attack
   cardName: Patient Strike
   cardDescription: Deal {damage} damage. Retain.
+  cardID: patient_strike
   cardType: 0
   targetType: 0
   cardSprite: {fileID: 0}
