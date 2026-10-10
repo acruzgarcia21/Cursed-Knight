@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   enemyName: Hollow Brute
   enemySprite: {fileID: -7169170255583999232, guid: 0dca5bfcca6af5e4bbccd082136ff20d, type: 3}
-  enemyType: 0
+  enemyType: 1
   actionSelectionType: 0
   enemyMaxHealth: 50
   enemyActions:
@@ -23,6 +23,9 @@ MonoBehaviour:
     hitCount: 1
     blockAmount: 0
     healingAmount: 0
+    healingTarget: 0
+    enemyToSummon: {fileID: 0}
+    enemiesToSummon: 0
     appliesStatus: 0
     statusType: 0
     statusAmount: 0
@@ -31,11 +34,17 @@ MonoBehaviour:
     selectionWeight: 0
     maximumConsecutiveUses: 0
     nextAttackBonusDamage: 0
+    hidesEnemy: 0
+    appliesCounterAttack: 0
+    counterAttackDamage: 0
   - actionName: Charge
     damage: 0
     hitCount: 0
     blockAmount: 0
     healingAmount: 0
+    healingTarget: 0
+    enemyToSummon: {fileID: 0}
+    enemiesToSummon: 0
     appliesStatus: 0
     statusType: 0
     statusAmount: 0
@@ -44,11 +53,17 @@ MonoBehaviour:
     selectionWeight: 0
     maximumConsecutiveUses: 0
     nextAttackBonusDamage: 8
+    hidesEnemy: 0
+    appliesCounterAttack: 0
+    counterAttackDamage: 0
   - actionName: Numbing Strike
     damage: 6
     hitCount: 1
     blockAmount: 0
     healingAmount: 0
+    healingTarget: 0
+    enemyToSummon: {fileID: 0}
+    enemiesToSummon: 0
     appliesStatus: 1
     statusType: 2
     statusAmount: 0
@@ -57,11 +72,17 @@ MonoBehaviour:
     selectionWeight: 0
     maximumConsecutiveUses: 0
     nextAttackBonusDamage: 0
+    hidesEnemy: 0
+    appliesCounterAttack: 0
+    counterAttackDamage: 0
   - actionName: War Cry
     damage: 0
     hitCount: 0
     blockAmount: 0
     healingAmount: 0
+    healingTarget: 0
+    enemyToSummon: {fileID: 0}
+    enemiesToSummon: 0
     appliesStatus: 1
     statusType: 0
     statusAmount: 2
@@ -70,3 +91,7 @@ MonoBehaviour:
     selectionWeight: 0
     maximumConsecutiveUses: 0
     nextAttackBonusDamage: 0
+    hidesEnemy: 0
+    appliesCounterAttack: 0
+    counterAttackDamage: 0
+  healthPhases: []

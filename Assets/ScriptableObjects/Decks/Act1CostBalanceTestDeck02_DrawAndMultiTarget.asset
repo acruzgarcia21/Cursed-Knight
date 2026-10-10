@@ -10,16 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ca2478b00e507ad4c8b612f0a36cdbb9, type: 3}
-  m_Name: StartingDeck
+  m_Name: Act1CostBalanceTestDeck02_DrawAndMultiTarget
   m_EditorClassIdentifier: Assembly-CSharp::DeckData
   deckCards:
   - {fileID: 11400000, guid: e4d9d7752e645d34f9c6f758d97ecfa2, type: 2}
   - {fileID: 11400000, guid: e4d9d7752e645d34f9c6f758d97ecfa2, type: 2}
   - {fileID: 11400000, guid: e4d9d7752e645d34f9c6f758d97ecfa2, type: 2}
-  - {fileID: 11400000, guid: e4d9d7752e645d34f9c6f758d97ecfa2, type: 2}
-  - {fileID: 11400000, guid: e4d9d7752e645d34f9c6f758d97ecfa2, type: 2}
-  - {fileID: 11400000, guid: 9b2078e8ba9aa754b9f8511b4e8163ce, type: 2}
-  - {fileID: 11400000, guid: 9b2078e8ba9aa754b9f8511b4e8163ce, type: 2}
   - {fileID: 11400000, guid: 9b2078e8ba9aa754b9f8511b4e8163ce, type: 2}
   - {fileID: 11400000, guid: 9b2078e8ba9aa754b9f8511b4e8163ce, type: 2}
   - {fileID: 11400000, guid: 0f2ee41f3e71f0b4fb09dc802fa4606a, type: 2}
+  - {fileID: 11400000, guid: dee85a52058bce349902ee734f5a0b00, type: 2}
+  - {fileID: 11400000, guid: 84b1208b0e7be55488fdfb671f8919e4, type: 2}
+  - {fileID: 11400000, guid: 42e571dd7ffa6b64c84ad7accd330919, type: 2}

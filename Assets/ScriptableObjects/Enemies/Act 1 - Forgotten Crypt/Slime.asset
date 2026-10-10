@@ -16,7 +16,7 @@ MonoBehaviour:
   enemySprite: {fileID: -7039809797687964217, guid: f6f4f15924bb9a84e9768bbdb4bfcc33, type: 3}
   enemyType: 0
   actionSelectionType: 0
-  enemyMaxHealth: 40
+  enemyMaxHealth: 30
   enemyActions:
   - actionName: Acid Spit
     damage: 4

@@ -53,7 +53,7 @@ MonoBehaviour:
   upgradedCardsToCreate: 0
   upgradedEnergyToReduce: 0
   cardBlock: 6
-  bonusBlockIfEnemyHasBleed: 0
+  bonusBlockIfEnemyHasBleed: 2
   appliesStatusToAllEnemies: 0
   upgradedCardBlock: 9
   upgradedBonusBlockIfEnemyHasBleed: 5

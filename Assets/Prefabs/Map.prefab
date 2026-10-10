@@ -81,16 +81,21 @@ MonoBehaviour:
     selectionWeight: 50
   maxEliteNodeCount: 5
   battleEncounterPool:
-  - {fileID: 11400000, guid: 6afe5519d08207a4daa77cafc64cc007, type: 2}
-  - {fileID: 11400000, guid: 246dcdbb49c94784da13a44882b373cc, type: 2}
-  - {fileID: 11400000, guid: 351aafb11bfcd5149a32d886df9868ac, type: 2}
-  - {fileID: 11400000, guid: 9dfc0c932c3ba64448227115cdd83e35, type: 2}
+  - {fileID: 11400000, guid: 616433243c31e7d43923679ca683ba6a, type: 2}
+  - {fileID: 11400000, guid: 238496dba240f414aa30a156ea6f0d82, type: 2}
+  - {fileID: 11400000, guid: 963382c1980387f478e1d0e3690ed597, type: 2}
+  - {fileID: 11400000, guid: e0f9c7e16eaab1247b21ee6544eea36e, type: 2}
+  - {fileID: 11400000, guid: b696bb59f4f28304a9ee053a334cca00, type: 2}
+  secondHalfBattleEncounterPool:
   - {fileID: 11400000, guid: 89604d70cc7999a4e8757fe88158e694, type: 2}
-  - {fileID: 11400000, guid: 88842e1dcc641ed4cbfdf1a5ae2a1488, type: 2}
+  - {fileID: 11400000, guid: 9062dc1595b55d249a8f356cc689d621, type: 2}
+  - {fileID: 11400000, guid: 1f4ea012fd997654f989eecfea2a19e6, type: 2}
+  - {fileID: 11400000, guid: 351aafb11bfcd5149a32d886df9868ac, type: 2}
+  - {fileID: 11400000, guid: 6afe5519d08207a4daa77cafc64cc007, type: 2}
   eliteEncounterPool:
-  - {fileID: 11400000, guid: 2462b304df76ab54c95561152294123a, type: 2}
+  - {fileID: 11400000, guid: 9dfc0c932c3ba64448227115cdd83e35, type: 2}
+  - {fileID: 11400000, guid: 88842e1dcc641ed4cbfdf1a5ae2a1488, type: 2}
   - {fileID: 11400000, guid: 2338a6a545b733e4aa3e528c3c38f2c0, type: 2}
-  - {fileID: 11400000, guid: b2cfa8b7fc50df14091d930e1a2f1eb8, type: 2}
-  - {fileID: 11400000, guid: 4a36bd26775b7c144a3324fc2d6d21da, type: 2}
+  - {fileID: 11400000, guid: 246dcdbb49c94784da13a44882b373cc, type: 2}
   bossEncounterPool:
   - {fileID: 11400000, guid: 0ae2dbb346812a24e98fbba1dd1d442a, type: 2}
