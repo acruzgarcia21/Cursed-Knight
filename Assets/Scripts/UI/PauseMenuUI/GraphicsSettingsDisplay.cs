@@ -11,9 +11,17 @@ public class GraphicsSettingsDisplay : MonoBehaviour
 
     private OptionsManager _optionsManager;
 
+    private readonly int[] _fpsLimits = {30, 60, 120, -1};
+
     private void Awake()
     {
         _optionsManager = FindAnyObjectByType<OptionsManager>();
+    }
+
+    public void OnFPSLimitChanged(int index)
+    {
+        _optionsManager.SetFPSLimit(_fpsLimits[index]);
+        RefreshDisplay();
     }
 
     public void OnVSyncChanged(bool isEnabled)
@@ -39,5 +47,10 @@ public class GraphicsSettingsDisplay : MonoBehaviour
         
         vSyncToggle.SetIsOnWithoutNotify(vSync);
         fpsLimitDropdown.interactable = !vSync;
+
+        var fpsLimit = _optionsManager.GetFPSLimit();
+        var fpsLimitIndex = System.Array.IndexOf(_fpsLimits, fpsLimit);
+        
+        fpsLimitDropdown.SetValueWithoutNotify(fpsLimitIndex);
     }
 }

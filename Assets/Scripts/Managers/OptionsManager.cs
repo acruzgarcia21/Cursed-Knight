@@ -20,6 +20,8 @@ public class OptionsManager : MonoBehaviour
     // Graphics Settings Attributes
     private bool _isFullscreen = true;
     private bool _vSync = true;
+
+    private int _fpsLimit = 60;
     
     // Font Settings Attributes
     public List<TMP_FontAsset> fontList;
@@ -40,6 +42,18 @@ public class OptionsManager : MonoBehaviour
     // =========================================================
     // Graphics Settings
     // =========================================================
+
+    public void SetFPSLimit(int fpsLimit)
+    {
+        _fpsLimit = fpsLimit;
+
+        Application.targetFrameRate = _fpsLimit;
+    }
+
+    public int GetFPSLimit()
+    {
+        return _fpsLimit;
+    }
     
     public void SetFullScreen(bool isFullscreen)
     {
