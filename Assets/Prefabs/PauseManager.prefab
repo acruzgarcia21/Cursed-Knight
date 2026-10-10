@@ -45,3 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PauseManager
   pauseMenuDisplay: {fileID: 0}
+  settingsDisplay: {fileID: 0}

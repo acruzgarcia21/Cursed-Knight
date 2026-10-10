@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4234ed4b275b83a42b9655f41cb1b314, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DeckManager
-  allCards: []
-  startingHandSize: 6
-  maxHandSize: 0
-  currentHandSize: 0
+  maxHandSize: 10
+  startingDeck: {fileID: 11400000, guid: afe2c0b5cb8397448879f7c975532e02, type: 2}
+  cardDatabase: {fileID: 11400000, guid: f69b715bc95d0a845a5c7a7919e38e07, type: 2}
+  deckCount: {fileID: 0}

@@ -162,11 +162,16 @@ public class OptionsManager : MonoBehaviour
         SetMusicVolume(settingsData.GetMusicVolume());
         SetSoundEffectsVolume(settingsData.GetSoundEffectsVolume());
         SetMutingAudio(settingsData.GetMutingAudio());
+
+        SetWindowedResolution(settingsData.GetWindowedWidth(), settingsData.GetWindowedHeight());
+        SetFullScreen(settingsData.GetFullScreen());
+        SetVSync(settingsData.GetVSync());
+        SetFPSLimit(settingsData.GetFPSLimit());
     }
     
     public void SaveSettings()
     {
-        var settingsData = new SettingsData(GetMutingAudio(), GetMasterVolume(), GetMusicVolume(), GetSoundEffectsVolume());
+        var settingsData = new SettingsData(GetMutingAudio(), GetMasterVolume(), GetMusicVolume(), GetSoundEffectsVolume(), GetFullScreen(), GetVSync(), GetFPSLimit(), GetWindowedWidth(), GetWindowedHeight());
 
         var json = JsonUtility.ToJson(settingsData, true);
 
@@ -177,8 +182,12 @@ public class OptionsManager : MonoBehaviour
 
     public void LoadSettings()
     {
+        var settingsData = new SettingsData(false, 1f, 1f, 
+            1f, true, true, 60, 1280, 720);
+
         if (!File.Exists(_settingsSavePath))
         {
+            RestoreSettings(settingsData);
             return;
         }
 
@@ -190,8 +199,7 @@ public class OptionsManager : MonoBehaviour
             return;
         }
 
-        // Older settings files only contain mute, so missing volumes keep their defaults.
-        var settingsData = new SettingsData(false, 1f, 1f, 1f);
+        // Missing fields in older settings files keep their defaults.
         JsonUtility.FromJsonOverwrite(json, settingsData);
 
         RestoreSettings(settingsData);

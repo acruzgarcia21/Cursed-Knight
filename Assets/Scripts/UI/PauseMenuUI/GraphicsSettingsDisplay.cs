@@ -60,6 +60,14 @@ public class GraphicsSettingsDisplay : MonoBehaviour
         RefreshDisplay();
     }
 
+    public void OnResetToDefaults()
+    {
+        _optionsManager.SetFullScreen(true);
+        _optionsManager.SetWindowedResolution(1280, 720);
+        _optionsManager.SetVSync(true);
+        _optionsManager.SetFPSLimit(60);
+        RefreshDisplay();
+    }
     public void RefreshDisplay()
     {
         var isFullscreen = _optionsManager.GetFullScreen();
