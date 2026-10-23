@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Slime
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   enemyName: Slime
-  enemySprite: {fileID: -7039809797687964217, guid: f6f4f15924bb9a84e9768bbdb4bfcc33, type: 3}
+  enemySprite: {fileID: 21300000, guid: 04bcbade8b7bb2b4386011fc075e5c07, type: 3}
   enemyType: 0
   actionSelectionType: 0
   enemyMaxHealth: 30

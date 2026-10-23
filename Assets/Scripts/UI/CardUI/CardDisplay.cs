@@ -16,10 +16,10 @@ public class CardDisplay : MonoBehaviour
     [SerializeField] private TMP_Text cardCorruptionGain;
     [SerializeField] private TMP_Text cardType;
 
-    [Space(10)] [Header("Frame Attributes")]
-    
+    [Space(10)] [Header("Frame Attributes")] 
     [SerializeField] private Image cardFrame;
 
+    [SerializeField] private Image cardArt;
     [SerializeField] private Sprite attackCardFrame;
     [SerializeField] private Sprite defenseCardFrame;
     [SerializeField] private Sprite utilityCardFrame;
@@ -79,6 +79,8 @@ public class CardDisplay : MonoBehaviour
                 _ => cardFrame.sprite
             };
         }
+
+        cardArt.sprite = cardData.cardSprite;
     }
 
     private string GetCardDescription(Card cardData, bool isUpgraded)

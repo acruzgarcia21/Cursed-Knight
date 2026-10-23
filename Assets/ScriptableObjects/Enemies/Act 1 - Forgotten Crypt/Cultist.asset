@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Cultist
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   enemyName: Cultist
-  enemySprite: {fileID: 0}
+  enemySprite: {fileID: 21300000, guid: 35f44e96a2a57314dafc439e74a87b26, type: 3}
   enemyType: 0
   actionSelectionType: 1
   enemyMaxHealth: 35

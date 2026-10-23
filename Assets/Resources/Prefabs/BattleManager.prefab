@@ -58,6 +58,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1340954379826553622}
     m_Modifications:
+    - target: {fileID: 861742447168454545, guid: 858f93fb0146ea54fb11a2d819280844, type: 3}
+      propertyPath: randomNodeTypes.Array.data[1].selectionWeight
+      value: 70
+      objectReference: {fileID: 0}
     - target: {fileID: 6740004705764080027, guid: 858f93fb0146ea54fb11a2d819280844, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

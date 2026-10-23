@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Bone Soldier
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   enemyName: Bone Soldier
-  enemySprite: {fileID: 1744754171572165974, guid: bc349c08a661cca4695650d48752038b, type: 3}
+  enemySprite: {fileID: 21300000, guid: 55db3116412b0ab41bd2d616e053b871, type: 3}
   enemyType: 0
   actionSelectionType: 0
   enemyMaxHealth: 35

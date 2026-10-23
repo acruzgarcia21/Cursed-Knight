@@ -1,8 +1,12 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class RelicManager : MonoBehaviour
 {
+    public event Action OnRelicsChanged;
+    
     [SerializeField] private RelicPoolData actOneRelicPool;
     [SerializeField] private RelicPoolData actTwoRelicPool;
     [SerializeField] private RelicPoolData actThreeRelicPool;
@@ -67,6 +71,7 @@ public class RelicManager : MonoBehaviour
         if (!_currentRelicPool.Contains(relic)) return;
         
         _currentRelicPool.Remove(relic);
+        OnRelicsChanged?.Invoke();
     }
 
     public IReadOnlyList<RelicData> GetRelicCollection()
@@ -174,5 +179,6 @@ public class RelicManager : MonoBehaviour
 
             AddRelicToCollection(relic);
         }
+        OnRelicsChanged?.Invoke();
     }
 }

@@ -51,3 +51,6 @@ MonoBehaviour:
   cardPreviewPopup: {fileID: 0}
   previewCardPoint: {fileID: 0}
   cardManipulationPopup: {fileID: 0}
+  backgroundDim: {fileID: 0}
+  currentCardPoint: {fileID: 0}
+  upgradedCardPoint: {fileID: 0}

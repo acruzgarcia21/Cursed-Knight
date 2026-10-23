@@ -45,3 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RunManager
   currentMap: {fileID: 0}
+  mapDisplay: {fileID: 0}
+  restScreenDisplay: {fileID: 0}
+  battleRewardDisplay: {fileID: 0}
+  runCompleteScreenDisplay: {fileID: 0}
+  screenTransitionDisplay: {fileID: 0}

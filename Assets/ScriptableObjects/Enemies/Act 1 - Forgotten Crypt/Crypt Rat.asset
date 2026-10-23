@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Crypt Rat
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   enemyName: Crypt Rat
-  enemySprite: {fileID: 2486017705933433476, guid: 23e93e110419a6745ad1272b0501457e, type: 3}
+  enemySprite: {fileID: 21300000, guid: aaf45a6f26bab3e41bf223d1e79b8649, type: 3}
   enemyType: 0
   actionSelectionType: 0
   enemyMaxHealth: 25

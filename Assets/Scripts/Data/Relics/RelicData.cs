@@ -84,6 +84,11 @@ public abstract class RelicData : ScriptableObject
         return relicType;
     }
 
+    public Sprite GetRelicSprite()
+    {
+        return relicSprite;
+    }
+
     public TriggerTime GetTriggerTime()
     {
         return triggerTime;

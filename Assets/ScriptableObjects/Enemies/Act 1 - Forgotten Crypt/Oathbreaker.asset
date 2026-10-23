@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Oathbreaker
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   enemyName: Oathbreaker
-  enemySprite: {fileID: 0}
+  enemySprite: {fileID: 21300000, guid: 4723ae38a14ab6049935325455c53909, type: 3}
   enemyType: 1
   actionSelectionType: 1
   enemyMaxHealth: 70
@@ -23,6 +23,9 @@ MonoBehaviour:
     hitCount: 1
     blockAmount: 0
     healingAmount: 0
+    healingTarget: 0
+    enemyToSummon: {fileID: 0}
+    enemiesToSummon: 0
     appliesStatus: 0
     statusType: 0
     statusAmount: 0
@@ -30,11 +33,18 @@ MonoBehaviour:
     statusTarget: 0
     selectionWeight: 10
     maximumConsecutiveUses: 2
+    nextAttackBonusDamage: 0
+    hidesEnemy: 0
+    appliesCounterAttack: 0
+    counterAttackDamage: 0
   - actionName: Heavy Attack
     damage: 16
     hitCount: 0
     blockAmount: 0
     healingAmount: 0
+    healingTarget: 0
+    enemyToSummon: {fileID: 0}
+    enemiesToSummon: 0
     appliesStatus: 0
     statusType: 0
     statusAmount: 0
@@ -42,11 +52,18 @@ MonoBehaviour:
     statusTarget: 0
     selectionWeight: 2
     maximumConsecutiveUses: 2
+    nextAttackBonusDamage: 0
+    hidesEnemy: 0
+    appliesCounterAttack: 0
+    counterAttackDamage: 0
   - actionName: Gain Block
     damage: 0
     hitCount: 0
     blockAmount: 20
     healingAmount: 0
+    healingTarget: 0
+    enemyToSummon: {fileID: 0}
+    enemiesToSummon: 0
     appliesStatus: 0
     statusType: 0
     statusAmount: 0
@@ -54,11 +71,18 @@ MonoBehaviour:
     statusTarget: 0
     selectionWeight: 3
     maximumConsecutiveUses: 1
+    nextAttackBonusDamage: 0
+    hidesEnemy: 0
+    appliesCounterAttack: 0
+    counterAttackDamage: 0
   - actionName: Strength buff
     damage: 0
     hitCount: 0
     blockAmount: 0
     healingAmount: 0
+    healingTarget: 0
+    enemyToSummon: {fileID: 0}
+    enemiesToSummon: 0
     appliesStatus: 1
     statusType: 0
     statusAmount: 6
@@ -66,3 +90,8 @@ MonoBehaviour:
     statusTarget: 0
     selectionWeight: 1
     maximumConsecutiveUses: 1
+    nextAttackBonusDamage: 0
+    hidesEnemy: 0
+    appliesCounterAttack: 0
+    counterAttackDamage: 0
+  healthPhases: []

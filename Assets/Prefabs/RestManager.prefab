@@ -44,3 +44,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f89f1ca7aa3ca734aa2c7124c80a6b62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RestManager
+  restScreenDisplay: {fileID: 0}
