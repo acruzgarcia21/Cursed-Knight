@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Wolf
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   enemyName: Wolf
-  enemySprite: {fileID: 0}
+  enemySprite: {fileID: 21300000, guid: 5969774951ca3ee4caa8790d5b31a893, type: 3}
   enemyType: 0
   actionSelectionType: 0
   enemyMaxHealth: 45
@@ -23,6 +23,9 @@ MonoBehaviour:
     hitCount: 1
     blockAmount: 0
     healingAmount: 0
+    healingTarget: 0
+    enemyToSummon: {fileID: 0}
+    enemiesToSummon: 0
     appliesStatus: 0
     statusType: 0
     statusAmount: 0
@@ -30,11 +33,18 @@ MonoBehaviour:
     statusTarget: 0
     selectionWeight: 0
     maximumConsecutiveUses: 0
+    nextAttackBonusDamage: 0
+    hidesEnemy: 0
+    appliesCounterAttack: 0
+    counterAttackDamage: 0
   - actionName: Multi wound
     damage: 3
     hitCount: 4
     blockAmount: 0
     healingAmount: 0
+    healingTarget: 0
+    enemyToSummon: {fileID: 0}
+    enemiesToSummon: 0
     appliesStatus: 1
     statusType: 4
     statusAmount: 2
@@ -42,11 +52,18 @@ MonoBehaviour:
     statusTarget: 1
     selectionWeight: 0
     maximumConsecutiveUses: 0
+    nextAttackBonusDamage: 0
+    hidesEnemy: 0
+    appliesCounterAttack: 0
+    counterAttackDamage: 0
   - actionName: Attack
     damage: 6
     hitCount: 1
     blockAmount: 0
     healingAmount: 0
+    healingTarget: 0
+    enemyToSummon: {fileID: 0}
+    enemiesToSummon: 0
     appliesStatus: 0
     statusType: 0
     statusAmount: 0
@@ -54,11 +71,18 @@ MonoBehaviour:
     statusTarget: 0
     selectionWeight: 0
     maximumConsecutiveUses: 0
+    nextAttackBonusDamage: 0
+    hidesEnemy: 0
+    appliesCounterAttack: 0
+    counterAttackDamage: 0
   - actionName: Heavy
     damage: 8
     hitCount: 1
     blockAmount: 0
     healingAmount: 0
+    healingTarget: 0
+    enemyToSummon: {fileID: 0}
+    enemiesToSummon: 0
     appliesStatus: 0
     statusType: 0
     statusAmount: 0
@@ -66,3 +90,8 @@ MonoBehaviour:
     statusTarget: 0
     selectionWeight: 0
     maximumConsecutiveUses: 0
+    nextAttackBonusDamage: 0
+    hidesEnemy: 0
+    appliesCounterAttack: 0
+    counterAttackDamage: 0
+  healthPhases: []

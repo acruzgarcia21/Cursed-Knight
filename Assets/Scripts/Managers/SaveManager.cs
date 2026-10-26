@@ -127,6 +127,7 @@ public class SaveManager : MonoBehaviour
             return;
         }
 
+        _runManager.SelectActMap(runData.GetCurrentAct());
         var currentMap = _runManager.GetCurrentMap();
 
         if (currentMap == null)

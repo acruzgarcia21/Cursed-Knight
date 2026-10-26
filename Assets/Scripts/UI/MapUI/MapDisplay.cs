@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MapDisplay : MonoBehaviour
@@ -17,6 +18,8 @@ public class MapDisplay : MonoBehaviour
     private RunManager _runManager;
     private AudioManager _audioManager;
 
+    private readonly List<GameObject> _connectionLines = new();
+
     public enum MapMode
     {
         View,
@@ -33,8 +36,14 @@ public class MapDisplay : MonoBehaviour
         closeButton.SetActive(false);
     }
 
-    private void Start()
+    public void SetMap(Map newMap)
     {
+        if (newMap == null) return;
+        
+        ClearConnectionLines();
+
+        map = newMap;
+        
         CreateNodeConnectionLines();
     }
 
@@ -129,6 +138,9 @@ public class MapDisplay : MonoBehaviour
         var endPosition = endRect.anchoredPosition;
 
         var connectionLine = Instantiate(connectionLinePrefab, connectionsContainer);
+        
+        _connectionLines.Add(connectionLine);
+        
         var connectionRect = connectionLine.GetComponent<RectTransform>();
 
         var midpoint = (startPosition + endPosition) / 2;
@@ -146,5 +158,15 @@ public class MapDisplay : MonoBehaviour
         var angleInDegrees = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         
         connectionRect.localRotation = Quaternion.Euler(0f, 0f, angleInDegrees);
+    }
+
+    private void ClearConnectionLines()
+    {
+        foreach (var connectionLine in _connectionLines)
+        {
+            Destroy(connectionLine);
+        }
+        
+        _connectionLines.Clear();
     }
 }

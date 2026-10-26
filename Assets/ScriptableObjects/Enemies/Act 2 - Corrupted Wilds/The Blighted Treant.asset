@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5eb00f26170b57f4ab8e5c56eafa0512, type: 3}
   m_Name: The Blighted Treant
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
-  enemyName: 
+  enemyName: The Blighted Treant
   enemySprite: {fileID: 0}
   enemyType: 0
   actionSelectionType: 0
-  enemyMaxHealth: 0
+  enemyMaxHealth: 160
   enemyActions:
   - actionName: Attack
     damage: 12
@@ -35,6 +35,8 @@ MonoBehaviour:
     maximumConsecutiveUses: 0
     nextAttackBonusDamage: 0
     hidesEnemy: 0
+    appliesCounterAttack: 0
+    counterAttackDamage: 0
   - actionName: Heavy
     damage: 18
     hitCount: 1
@@ -52,6 +54,8 @@ MonoBehaviour:
     maximumConsecutiveUses: 0
     nextAttackBonusDamage: 0
     hidesEnemy: 0
+    appliesCounterAttack: 0
+    counterAttackDamage: 0
   - actionName: Summon Saplings
     damage: 0
     hitCount: 0
@@ -69,6 +73,8 @@ MonoBehaviour:
     maximumConsecutiveUses: 0
     nextAttackBonusDamage: 0
     hidesEnemy: 0
+    appliesCounterAttack: 0
+    counterAttackDamage: 0
   healthPhases:
   - healthThreshold: 80
     appliesStatus: 0
@@ -94,6 +100,8 @@ MonoBehaviour:
       maximumConsecutiveUses: 0
       nextAttackBonusDamage: 0
       hidesEnemy: 0
+      appliesCounterAttack: 0
+      counterAttackDamage: 0
     - actionName: Multi-Heavy
       damage: 10
       hitCount: 3
@@ -111,3 +119,5 @@ MonoBehaviour:
       maximumConsecutiveUses: 0
       nextAttackBonusDamage: 0
       hidesEnemy: 0
+      appliesCounterAttack: 0
+      counterAttackDamage: 0

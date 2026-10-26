@@ -1,5 +1,99 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &496844166746911196
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2962496265919270964}
+  - component: {fileID: 5001788874248001371}
+  m_Layer: 0
+  m_Name: ActTwoMap
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2962496265919270964
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 496844166746911196}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -406.83826, y: -585.5381, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1340954379826553622}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5001788874248001371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 496844166746911196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 101076364ebec9f47813ac1c34f3114f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Map
+  allMapNodes:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  startingMapNode: {fileID: 0}
+  randomNodeTypes:
+  - nodeType: 0
+    selectionWeight: 65
+  - nodeType: 1
+    selectionWeight: 20
+  - nodeType: 2
+    selectionWeight: 15
+  maxEliteNodeCount: 3
+  battleEncounterPool:
+  - {fileID: 11400000, guid: 352a8cb381966b74aac4e173aa9b95e3, type: 2}
+  - {fileID: 11400000, guid: a3a7caf87c15eba47bdba03e304ca7b8, type: 2}
+  secondHalfBattleEncounterPool:
+  - {fileID: 11400000, guid: a17b3ae35868d7149902a670e6756b2b, type: 2}
+  - {fileID: 11400000, guid: 3ffa0b4cca9cfa44e854ba7a12325f3b, type: 2}
+  - {fileID: 11400000, guid: 482b2dd627eacae44a6a9ab9d9fcfda7, type: 2}
+  - {fileID: 11400000, guid: 1fd431a386108104b90eb716bc27827d, type: 2}
+  eliteEncounterPool:
+  - {fileID: 11400000, guid: d39b11b28bf4f3048b5b36d4112edfcb, type: 2}
+  - {fileID: 11400000, guid: 5223821232f591a41bb0e3308a021425, type: 2}
+  - {fileID: 11400000, guid: 6a65897f2f9626340b9b6f26543fb0ec, type: 2}
+  bossEncounterPool:
+  - {fileID: 11400000, guid: 95e1a5bb4ab72144cb63567bb7776c62, type: 2}
 --- !u!1 &6176082724194215729
 GameObject:
   m_ObjectHideFlags: 0
@@ -36,6 +130,7 @@ Transform:
   - {fileID: 8645037450874138670}
   - {fileID: 6210322874043101974}
   - {fileID: 9031301688893737339}
+  - {fileID: 2962496265919270964}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2741086771855363194
@@ -104,7 +199,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8415866207472476075, guid: 858f93fb0146ea54fb11a2d819280844, type: 3}
       propertyPath: m_Name
-      value: Map
+      value: ActOneMap
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

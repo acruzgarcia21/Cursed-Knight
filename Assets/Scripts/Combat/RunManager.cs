@@ -8,7 +8,13 @@ public class RunManager : MonoBehaviour
     
     [Header("Displays")]
     [SerializeField] private Map currentMap;
+
+    [Space(10)] [Header("Act Maps")] 
+    [SerializeField] private Map actOneMap;
+    [SerializeField] private Map actTwoMap;
+    [SerializeField] private Map actThreeMap;
     
+    [Space(10)] [Header("Run Displays")]
     [SerializeField] private MapDisplay mapDisplay;
     
     [SerializeField] private RestScreenDisplay restScreenDisplay;
@@ -57,12 +63,6 @@ public class RunManager : MonoBehaviour
         _audioManager  = FindAnyObjectByType<AudioManager>();
         
         _player = FindAnyObjectByType<Player>();
-    }
-
-    private void Start()
-    {
-        // StartRun();
-        SubscribeToNodeClicks();
     }
     
     public void FinishRunRestoration()
@@ -136,6 +136,29 @@ public class RunManager : MonoBehaviour
         return _visitedNodes;
     }
 
+    public void SelectActMap(CurrentAct currentAct)
+    {
+        _currentAct = currentAct;
+        
+        currentMap = _currentAct switch
+        {
+            CurrentAct.ActOne => actOneMap,
+            CurrentAct.ActTwo => actTwoMap,
+            CurrentAct.ActThree => actThreeMap,
+            _ => currentMap
+        };
+
+        if (currentMap == null)
+        {
+            Debug.LogError("The map for the current act has not been assigned!");
+            return;
+        }
+        
+        SubscribeToNodeClicks();
+        
+        mapDisplay.SetMap(currentMap);
+    }
+
     private void EnterCurrentNode()
     {
         _saveManager.DisableRunSaving();
@@ -163,7 +186,9 @@ public class RunManager : MonoBehaviour
     {
         _saveManager.DeleteRunSave();
         
-        _currentAct = CurrentAct.ActOne;
+        SelectActMap(CurrentAct.ActOne);
+
+        if (currentMap == null) return;
         
         _deckManager.InitializeRunDeck();
         
@@ -182,6 +207,10 @@ public class RunManager : MonoBehaviour
 
     private void SubscribeToNodeClicks()
     {
+        UnsubscribeFromNodeClicks();
+
+        if (currentMap == null) return;
+        
         foreach (var node in currentMap.GetAllMapNodes())
         {
             var nodeDisplay = node.GetComponent<MapNodeDisplay>();
@@ -189,8 +218,8 @@ public class RunManager : MonoBehaviour
             _nodeDisplays.Add(nodeDisplay);
         }
     }
-    
-    private void OnDestroy()
+
+    private void UnsubscribeFromNodeClicks()
     {
         foreach (var nodeDisplay in _nodeDisplays)
         {
@@ -198,7 +227,14 @@ public class RunManager : MonoBehaviour
             {
                 nodeDisplay.OnNodeClicked -= HandleNodeClicked;
             }
+            
         }
+        _nodeDisplays.Clear();
+    }
+    
+    private void OnDestroy()
+    {
+        UnsubscribeFromNodeClicks();
     }
 
     private void HandleNodeClicked(MapNode clickedNode)

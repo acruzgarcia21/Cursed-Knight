@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Hexcaller
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   enemyName: Hexcaller
-  enemySprite: {fileID: 0}
+  enemySprite: {fileID: 21300000, guid: eebc8c52ec781464c9dee4b38aea3c7e, type: 3}
   enemyType: 0
   actionSelectionType: 1
   enemyMaxHealth: 50
@@ -23,6 +23,9 @@ MonoBehaviour:
     hitCount: 1
     blockAmount: 0
     healingAmount: 0
+    healingTarget: 0
+    enemyToSummon: {fileID: 0}
+    enemiesToSummon: 0
     appliesStatus: 0
     statusType: 0
     statusAmount: 0
@@ -30,11 +33,18 @@ MonoBehaviour:
     statusTarget: 0
     selectionWeight: 6
     maximumConsecutiveUses: 3
+    nextAttackBonusDamage: 0
+    hidesEnemy: 0
+    appliesCounterAttack: 0
+    counterAttackDamage: 0
   - actionName: Hex
     damage: 0
     hitCount: 0
     blockAmount: 0
     healingAmount: 0
+    healingTarget: 0
+    enemyToSummon: {fileID: 0}
+    enemiesToSummon: 0
     appliesStatus: 1
     statusType: 1
     statusAmount: 2
@@ -42,11 +52,18 @@ MonoBehaviour:
     statusTarget: 1
     selectionWeight: 3
     maximumConsecutiveUses: 1
+    nextAttackBonusDamage: 0
+    hidesEnemy: 0
+    appliesCounterAttack: 0
+    counterAttackDamage: 0
   - actionName: Curse
     damage: 0
     hitCount: 0
     blockAmount: 0
     healingAmount: 0
+    healingTarget: 0
+    enemyToSummon: {fileID: 0}
+    enemiesToSummon: 0
     appliesStatus: 1
     statusType: 2
     statusAmount: 2
@@ -54,11 +71,18 @@ MonoBehaviour:
     statusTarget: 1
     selectionWeight: 1
     maximumConsecutiveUses: 1
+    nextAttackBonusDamage: 0
+    hidesEnemy: 0
+    appliesCounterAttack: 0
+    counterAttackDamage: 0
   - actionName: Block
     damage: 0
     hitCount: 0
     blockAmount: 6
     healingAmount: 0
+    healingTarget: 0
+    enemyToSummon: {fileID: 0}
+    enemiesToSummon: 0
     appliesStatus: 0
     statusType: 0
     statusAmount: 0
@@ -66,3 +90,8 @@ MonoBehaviour:
     statusTarget: 0
     selectionWeight: 4
     maximumConsecutiveUses: 2
+    nextAttackBonusDamage: 0
+    hidesEnemy: 0
+    appliesCounterAttack: 0
+    counterAttackDamage: 0
+  healthPhases: []
