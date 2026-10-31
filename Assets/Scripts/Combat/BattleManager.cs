@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class BattleManager : MonoBehaviour
 {
+    [SerializeField] private ActEnvironmentDisplay actEnvironmentDisplay;    
+    
     public static BattleManager Instance  { get; private set; }
     public EnemyManager EnemyManager { get; private set; }
     
@@ -43,11 +45,24 @@ public class BattleManager : MonoBehaviour
 
         isFinalStage = stageComparison;
         
+        actEnvironmentDisplay.UpdateEnvironment(_runManager.GetCurrentAct(), _currentNodeType);
+        
         _audioManager.StopBattleMusic();
-        if (_runManager.GetCurrentAct() == RunManager.CurrentAct.ActOne)
+
+        switch (_runManager.GetCurrentAct())
         {
-            if (_currentNodeType == Map.MapNodeType.Boss) _audioManager.PlayBossBattleMusic();
-            else _audioManager.PlayActOneBattleMusic();
+            case RunManager.CurrentAct.ActOne:
+                if (_currentNodeType == Map.MapNodeType.Boss) _audioManager.PlayBossBattleMusic();
+                else _audioManager.PlayActOneBattleMusic();
+                break;
+            case RunManager.CurrentAct.ActTwo:
+                if (_currentNodeType == Map.MapNodeType.Boss) _audioManager.PlayBossBattleMusic();
+                else _audioManager.PlayActTwoBattleMusic();
+                break;
+            case RunManager.CurrentAct.ActThree:
+                if (_currentNodeType == Map.MapNodeType.Boss) _audioManager.PlayFinalBossBattleMusic();
+                else _audioManager.PlayActThreeBattleMusic();
+                break;
         }
 
         _player.BattleSetup();

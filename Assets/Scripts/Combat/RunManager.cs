@@ -372,9 +372,15 @@ public class RunManager : MonoBehaviour
                 break;
             
             case CurrentAct.ActTwo:
-                _currentAct = CurrentAct.ActThree;
+                SelectActMap(CurrentAct.ActThree);
+
+                if (currentMap == null) return;
+
                 _relicManager.LoadRelicPool(_currentAct);
                 _rewardManager.ActSetup(_currentAct);
+
+                InitializeActMap();
+                EnterCurrentNode();
                 break;
             case CurrentAct.ActThree:
                 runCompleteScreenDisplay.DisplayRunCompleteScreen();

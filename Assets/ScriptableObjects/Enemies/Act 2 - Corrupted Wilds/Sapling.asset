@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Sapling
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   enemyName: Sapling
-  enemySprite: {fileID: 0}
+  enemySprite: {fileID: 21300000, guid: d16dc7471cb0cda4e8c8027d343a69e6, type: 3}
   enemyType: 0
   actionSelectionType: 1
   enemyMaxHealth: 20
@@ -35,6 +35,8 @@ MonoBehaviour:
     maximumConsecutiveUses: 2
     nextAttackBonusDamage: 0
     hidesEnemy: 0
+    appliesCounterAttack: 0
+    counterAttackDamage: 0
   - actionName: Block
     damage: 0
     hitCount: 0
@@ -52,4 +54,6 @@ MonoBehaviour:
     maximumConsecutiveUses: 1
     nextAttackBonusDamage: 0
     hidesEnemy: 0
+    appliesCounterAttack: 0
+    counterAttackDamage: 0
   healthPhases: []
