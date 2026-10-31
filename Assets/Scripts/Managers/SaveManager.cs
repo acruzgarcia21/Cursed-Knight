@@ -154,6 +154,7 @@ public class SaveManager : MonoBehaviour
             runData.GetCurrentAct(), 
             runData.GetAcquiredRelicIDs());
         
+        _rewardManager.ActSetup(runData.GetCurrentAct());
         _rewardManager.RestoreRelicsRewardedThisAct(runData.GetRelicsAwardedThisAct());
         
         _runManager.FinishRunRestoration();

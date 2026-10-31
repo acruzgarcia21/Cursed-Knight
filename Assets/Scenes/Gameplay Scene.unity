@@ -532,7 +532,7 @@ GameObject:
   m_Component:
   - component: {fileID: 110564663}
   m_Layer: 5
-  m_Name: ConnectionsContainer
+  m_Name: ActTwoConnectionsContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1399,6 +1399,14 @@ PrefabInstance:
       propertyPath: actTwoMapContainer
       value: 
       objectReference: {fileID: 260687629}
+    - target: {fileID: 1468775479452160494, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+      propertyPath: actOneConnectionsContainer
+      value: 
+      objectReference: {fileID: 382901365}
+    - target: {fileID: 1468775479452160494, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+      propertyPath: actTwoConnectionsContainer
+      value: 
+      objectReference: {fileID: 110564663}
     - target: {fileID: 1629013279209661094, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1702,6 +1710,10 @@ PrefabInstance:
     - target: {fileID: 6021883503506480204, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6031175838481097281, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+      propertyPath: m_Name
+      value: ActOneConnectionsContainer
       objectReference: {fileID: 0}
     - target: {fileID: 6334787897118765252, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
       propertyPath: cardViewDisplay
@@ -2436,6 +2448,11 @@ MonoBehaviour:
 --- !u!224 &353007379 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4207413169975408394, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
+  m_PrefabInstance: {fileID: 255966898}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &382901365 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1349135500800031019, guid: b1b48aa69722c884fa22cae32bb0996d, type: 3}
   m_PrefabInstance: {fileID: 255966898}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &388706843 stripped
@@ -9148,6 +9165,18 @@ PrefabInstance:
       propertyPath: endTurnButton
       value: 
       objectReference: {fileID: 931351073}
+    - target: {fileID: 7315752335906968240, guid: 32da3d5058a3e9c4c9de9370bae55014, type: 3}
+      propertyPath: actOneRewardPool
+      value: 
+      objectReference: {fileID: 11400000, guid: 43f4156c9779edc428e0acfb5e328703, type: 2}
+    - target: {fileID: 7315752335906968240, guid: 32da3d5058a3e9c4c9de9370bae55014, type: 3}
+      propertyPath: actTwoRewardPool
+      value: 
+      objectReference: {fileID: 11400000, guid: 2aba2e11451433c4788ffde7803477dc, type: 2}
+    - target: {fileID: 7315752335906968240, guid: 32da3d5058a3e9c4c9de9370bae55014, type: 3}
+      propertyPath: actThreeRewardPool
+      value: 
+      objectReference: {fileID: 11400000, guid: 89e3c736d5a535c4296c2ac05426cc3d, type: 2}
     - target: {fileID: 7315752335906968240, guid: 32da3d5058a3e9c4c9de9370bae55014, type: 3}
       propertyPath: battleRewardDisplay
       value: 

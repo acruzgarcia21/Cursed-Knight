@@ -9,6 +9,10 @@ public class RewardManager : MonoBehaviour
 
     [SerializeField] private RewardPoolData rewardPoolData;
 
+    [SerializeField] private RewardPoolData actOneRewardPool;
+    [SerializeField] private RewardPoolData actTwoRewardPool;
+    [SerializeField] private RewardPoolData actThreeRewardPool;
+
     private readonly List<Card> _rewardPool = new();
 
     private DeckManager _deckManager;
@@ -28,9 +32,23 @@ public class RewardManager : MonoBehaviour
         _relicManager = FindAnyObjectByType<RelicManager>();
     }
 
-    public void ActSetup()
+    public void ActSetup(RunManager.CurrentAct currentAct)
     {
         _relicsAwardedThisAct = 0;
+
+        rewardPoolData = currentAct switch
+        {
+            RunManager.CurrentAct.ActOne => actOneRewardPool,
+            RunManager.CurrentAct.ActTwo => actTwoRewardPool,
+            RunManager.CurrentAct.ActThree => actThreeRewardPool,
+            _ => null
+        };
+
+        if (rewardPoolData == null)
+        {
+            Debug.LogError("Reward pool data is null!");
+            return;
+        }
     }
 
     public int GetRelicsAwardedThisAct()

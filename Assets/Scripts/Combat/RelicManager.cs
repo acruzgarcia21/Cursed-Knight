@@ -19,7 +19,6 @@ public class RelicManager : MonoBehaviour
 
     public void RunSetup(RunManager.CurrentAct currentAct)
     {
-        _currentRelicPool.Clear();
         _relicCollection.Clear();
 
         LoadRelicPool(currentAct);
@@ -27,6 +26,8 @@ public class RelicManager : MonoBehaviour
 
     public void LoadRelicPool(RunManager.CurrentAct currentAct)
     {
+        _currentRelicPool.Clear();
+        
         switch (currentAct)
         {
             case RunManager.CurrentAct.ActOne:

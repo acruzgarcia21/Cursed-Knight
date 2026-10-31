@@ -201,7 +201,7 @@ public class RunManager : MonoBehaviour
         
         _relicManager.RunSetup(_currentAct);
         
-        _rewardManager.ActSetup();
+        _rewardManager.ActSetup(_currentAct);
         
         _player.StartRun();
         
@@ -365,7 +365,7 @@ public class RunManager : MonoBehaviour
                 if (currentMap == null) return;
                 
                 _relicManager.LoadRelicPool(_currentAct);
-                _rewardManager.ActSetup();
+                _rewardManager.ActSetup(_currentAct);
                 
                 InitializeActMap();
                 EnterCurrentNode();
@@ -374,7 +374,7 @@ public class RunManager : MonoBehaviour
             case CurrentAct.ActTwo:
                 _currentAct = CurrentAct.ActThree;
                 _relicManager.LoadRelicPool(_currentAct);
-                _rewardManager.ActSetup();
+                _rewardManager.ActSetup(_currentAct);
                 break;
             case CurrentAct.ActThree:
                 runCompleteScreenDisplay.DisplayRunCompleteScreen();
