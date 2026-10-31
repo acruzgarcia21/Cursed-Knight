@@ -1,9 +1,23 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MapDisplay : MonoBehaviour
 {
     [SerializeField] private Map map;
+
+    [Header("Map Containers")] 
+    [SerializeField] private RectTransform actOneMapContainer;
+    [SerializeField] private RectTransform actTwoMapContainer;
+    [SerializeField] private RectTransform actThreeMapContainer;
+
+    [SerializeField] private ScrollRect mapScrollRect;
+    
+    
+    [Header("Connection Containers")]
+    [SerializeField] private RectTransform actOneConnectionsContainer;
+    [SerializeField] private RectTransform actTwoConnectionsContainer;
+    [SerializeField] private RectTransform actThreeConnectionsContainer;
     
     [SerializeField] private RectTransform connectionsContainer;
     
@@ -39,12 +53,54 @@ public class MapDisplay : MonoBehaviour
     public void SetMap(Map newMap)
     {
         if (newMap == null) return;
+
+        RectTransform selectedContainer = _runManager.GetCurrentAct() switch
+        {
+            RunManager.CurrentAct.ActOne => actOneMapContainer,
+            RunManager.CurrentAct.ActTwo => actTwoMapContainer,
+            RunManager.CurrentAct.ActThree => actThreeMapContainer,
+            _ => null
+        };
+
+        if (selectedContainer == null)
+        {
+            Debug.LogError("selected container is null!");
+            return;
+        }
         
+        RectTransform selectedConnectionsContainer = _runManager.GetCurrentAct() switch
+        {
+            RunManager.CurrentAct.ActOne => actOneConnectionsContainer,
+            RunManager.CurrentAct.ActTwo => actTwoConnectionsContainer,
+            RunManager.CurrentAct.ActThree => actThreeConnectionsContainer,
+            _ => null
+        };
+
+        if (selectedConnectionsContainer == null)
+        {
+            Debug.LogError("The current act's connection container is not assigned!");
+            return;
+        }
+
         ClearConnectionLines();
+        
+        if (actOneMapContainer != null) actOneMapContainer.gameObject.SetActive(false);
+        if (actTwoMapContainer != null) actTwoMapContainer.gameObject.SetActive(false);
+        if (actThreeMapContainer != null) actThreeMapContainer.gameObject.SetActive(false);
+        
+        selectedContainer.gameObject.SetActive(true);
+
+        mapScrollRect.content = selectedContainer;
+        mapScrollRect.StopMovement();
 
         map = newMap;
         
+        connectionsContainer = selectedConnectionsContainer;
+        
         CreateNodeConnectionLines();
+        
+        Canvas.ForceUpdateCanvases();
+        mapScrollRect.horizontalNormalizedPosition = 0f;
     }
 
     public void HandlePostSelectNode()
