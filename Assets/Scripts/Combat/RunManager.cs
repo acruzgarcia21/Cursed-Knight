@@ -159,6 +159,13 @@ public class RunManager : MonoBehaviour
         mapDisplay.SetMap(currentMap);
     }
 
+    private void InitializeActMap()
+    {
+        _visitedNodes.Clear();
+        currentMap.InitializeMap();
+        _currentNode = currentMap.GetStartingMapNode();
+    }
+
     private void EnterCurrentNode()
     {
         _saveManager.DisableRunSaving();
@@ -198,10 +205,7 @@ public class RunManager : MonoBehaviour
         
         _player.StartRun();
         
-        currentMap.InitializeMap();
-        
-        _currentNode = currentMap.GetStartingMapNode();
-        
+        InitializeActMap();
         EnterCurrentNode();
     }
 
@@ -356,9 +360,15 @@ public class RunManager : MonoBehaviour
         switch (_currentAct)
         {
             case CurrentAct.ActOne:
-                _currentAct = CurrentAct.ActTwo;
+                SelectActMap(CurrentAct.ActTwo);
+                
+                if (currentMap == null) return;
+                
                 _relicManager.LoadRelicPool(_currentAct);
                 _rewardManager.ActSetup();
+                
+                InitializeActMap();
+                EnterCurrentNode();
                 break;
             
             case CurrentAct.ActTwo:
