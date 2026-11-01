@@ -3,12 +3,9 @@ using UnityEngine;
 public class RunCompleteScreenDisplay : MonoBehaviour
 {
     [SerializeField] private GameObject runCompleteScreen;
-    
-    private void Awake()
-    {
-        runCompleteScreen.SetActive(false);
-    }
 
+    private bool _isLoading;
+    
     public void DisplayRunCompleteScreen()
     {
         runCompleteScreen.SetActive(true);
@@ -17,5 +14,13 @@ public class RunCompleteScreenDisplay : MonoBehaviour
     public void HideRunCompleteScreen()
     {
         runCompleteScreen.SetActive(false);
+    }
+
+    public void OnViewCreditsClicked()
+    {
+        if (_isLoading) return;
+
+        _isLoading = true;
+        Loader.Load(Loader.Scene.CreditsScene);
     }
 }

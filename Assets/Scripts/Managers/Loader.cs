@@ -5,7 +5,8 @@ public static class Loader
     public enum Scene
     {
         MainMenuScene,
-        GameplayScene
+        GameplayScene,
+        CreditsScene
     }
 
     private static Scene _targetScene;
@@ -22,6 +23,7 @@ public static class Loader
         {
             Scene.MainMenuScene => "Main Menu Scene",
             Scene.GameplayScene => "Gameplay Scene",
+            Scene.CreditsScene => "Credits Scene",
             _ => throw new System.ArgumentOutOfRangeException()
         };
 

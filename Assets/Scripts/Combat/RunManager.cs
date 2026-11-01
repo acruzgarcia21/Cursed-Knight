@@ -170,8 +170,8 @@ public class RunManager : MonoBehaviour
     {
         _saveManager.DisableRunSaving();
         
-        var finalStageNum = currentMap.GetTotalStageCount();
-        var isFinalStage = (_currentNode.GetStageNumber() - 1) == finalStageNum;
+        var isFinalStage = _currentNode.nextNodes.Exists(
+            node => node.nodeType == Map.MapNodeType.Boss);
         
         switch (_currentNode.nodeType)
         {
@@ -383,6 +383,8 @@ public class RunManager : MonoBehaviour
                 EnterCurrentNode();
                 break;
             case CurrentAct.ActThree:
+                _saveManager.DisableRunSaving();
+                _saveManager.DeleteRunSave();
                 runCompleteScreenDisplay.DisplayRunCompleteScreen();
                 break;
         }
